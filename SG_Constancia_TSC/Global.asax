@@ -1,0 +1,1 @@
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="SG_Constancia_TSC.Global_asax" Language="C#" %>
