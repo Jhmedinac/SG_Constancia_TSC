@@ -1,7 +1,7 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartup(typeof(SG_Constancia_TSC.Startup))]
+[assembly: OwinStartup(typeof(SG_Constancia_TSC.Startup), "SG_Constancia_TSC")]
 
 // Files related to ASP.NET Identity duplicate the Microsoft ASP.NET Identity file structure and contain initial Microsoft comments.
 

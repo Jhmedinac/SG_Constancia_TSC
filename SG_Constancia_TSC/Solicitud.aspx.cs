@@ -19,6 +19,7 @@ using System.Web.SessionState;
 //using SG_Constancia_TSC.App_Start;
 using SG_Constancia_TSC;
 
+
 namespace SG_Constancia_TSC
 {
     public partial class Solicitud : System.Web.UI.Page
@@ -145,7 +146,7 @@ namespace SG_Constancia_TSC
             string email = e.Parameter;
             string token = GenerateToken();
 
-             Util.SetToken(token, DateTime.Now);
+            SG_Constancia_TSC.App_Start.Util.SetToken(token, DateTime.Now);
 
             SampleUtil.SendToken(email, token);
 
@@ -155,7 +156,7 @@ namespace SG_Constancia_TSC
         protected void ASPxCallback_VerificarToken_Callback(object source, CallbackEventArgs e)
         {
             string inputToken = e.Parameter;
-            var (storedToken, tokenTimestamp) = Util.GetToken();
+            var (storedToken, tokenTimestamp) = SG_Constancia_TSC.App_Start.Util.GetToken();
 
             if (storedToken != null && tokenTimestamp != null)
             {
@@ -164,7 +165,7 @@ namespace SG_Constancia_TSC
 
                 if (elapsedMinutes <= 15)
                 {
-                    Util.SetToken(storedToken, tokenTimestamp.Value);
+                    SG_Constancia_TSC.App_Start.Util.SetToken(storedToken, tokenTimestamp.Value);
 
                     if (inputToken == storedToken)
                     {
@@ -286,7 +287,7 @@ namespace SG_Constancia_TSC
 
         private void ManageReportCreationAndEmailing(SqlCommand cmd)
         {
-            string encryptedId = Util.Encrypt(Session["Id"].ToString());
+            string encryptedId = SG_Constancia_TSC.App_Start.Util.Encrypt(Session["Id"].ToString());
             Reportes.Comprobante report = GenerarReporte(encryptedId);
             AgregarCodigoQRAlReporte(report, encryptedId);
 
@@ -351,7 +352,7 @@ namespace SG_Constancia_TSC
         protected void callbackpane_comprobante_callback(object sender, CallbackEventArgsBase e)
         {
             // generar el identificador encriptado una sola vez y pasarlo a otros métodos
-            string encryptedid = Util.Encrypt(Session["id"].ToString());
+            string encryptedid = SG_Constancia_TSC.App_Start.Util.Encrypt(Session["id"].ToString());
             
             Reportes.Comprobante report = GenerarReporte(encryptedid);
 
@@ -365,7 +366,7 @@ namespace SG_Constancia_TSC
         protected Reportes.Comprobante GenerarReporte(string encryptedId)
         {
             Reportes.Comprobante report = new Reportes.Comprobante();
-            report.Parameters["Id"].Value = Util.Decrypt(encryptedId);
+            report.Parameters["Id"].Value = SG_Constancia_TSC.App_Start.Util.Decrypt(encryptedId);
             return report;
         }
 

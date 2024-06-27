@@ -9,8 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json;
-using WebServicesLayerSG.Util;
-using WebServicesLayerSG;
+//using WebServicesLayerSG.Util;
+//using WebServicesLayerSG;
 
 namespace SG_Constancia_TSC.Utili
 {
@@ -49,12 +49,12 @@ namespace SG_Constancia_TSC.Utili
 
             HttpResponseMessage httpResponse = await httpClient.PostAsync(urlWithQuery, formContent);
             string responseContent = await httpResponse.Content.ReadAsStringAsync();
-            response.typeResult = UtilClass.codigoExitoso;
+            response.typeResult = UtilClass.UtilClass.codigoExitoso;
             response = JsonConvert.DeserializeObject<CustomJsonResult>(responseContent);
         }
         catch (Exception e)
         {
-            response.typeResult = UtilClass.codigoError;
+            response.typeResult = UtilClass.UtilClass.codigoError;
             response.message = $"Error: {e.Message}, Fuente: {e.Source}";
         }
         return response;

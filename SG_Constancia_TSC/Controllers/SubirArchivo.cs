@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using WebServicesLayerSG.Util;
+using SG_Constancia_TSC.UtilClass;
 
 namespace SG_Constancia_TSC.Controllers
 {
@@ -25,7 +25,7 @@ namespace SG_Constancia_TSC.Controllers
 
             var result = await Utili.Utila.SubirArchivo(idFile, file, connectionString, flexFields);
 
-            if (result.typeResult == WebServicesLayerSG.Util.UtilClass.codigoExitoso)
+            if (result.typeResult ==  UtilClass.UtilClass.codigoExitoso )
             {
                 ViewBag.Message = "File uploaded successfully!";
             }
