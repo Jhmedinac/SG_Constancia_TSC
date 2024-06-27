@@ -661,6 +661,20 @@
                             </dx:LayoutItemNestedControlContainer>
                         </LayoutItemNestedControlCollection>
                     </dx:LayoutItem>
+
+                    <dx:LayoutItem Caption="Subir Identidad" ColSpan="1">
+                        <LayoutItemNestedControlCollection>
+                            <dx:LayoutItemNestedControlContainer runat="server">
+                                <h2>Upload File</h2>
+                                <asp:Label ID="lblMessage" runat="server" Text=""></asp:Label>
+                                <div>
+                                    <label for="file">Select file:</label>
+                                    <asp:FileUpload ID="fileUpload" runat="server" />
+                                </div>
+                            </dx:LayoutItemNestedControlContainer>
+                        </LayoutItemNestedControlCollection>
+                    </dx:LayoutItem>
+
 <%--                         <dx:ASPxTextBox ID="tbPassword" ClientInstanceName="Password" Caption="Nueva contraseña" NullText="Nueva contraseña" Password="true" runat="server" CssClass="Texbox"
       Width="350px" Theme="iOS">
     <CaptionSettings Position="Top" />

@@ -5,6 +5,10 @@ using WebServicesLayer.Util;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using WebServicesLayer.Models;
+using Microsoft.AspNetCore.Http;
+
+//using Microsoft.AspNetCore.Http;
+
 
 namespace WebServicesLayer.Services
 {
@@ -60,31 +64,35 @@ namespace WebServicesLayer.Services
         ///<returns>
         /// CustomJsonResult
         /// </returns>
-        public static async Task<CustomJsonResult> SubirArchivo(int idFile, HttpPostedFileBase File ,string flexFields = null)
+        public static async Task<CustomJsonResult> SubirArchivo(int idFile, IFormFile file, string connectionString, string flexFields = null)
         {
             CustomJsonResult response = new CustomJsonResult();
             try
             {
                 HttpClient httpClient = Util.Util.getGoFilesUtlHeaders();
-                var fileContent = new StreamContent(File.InputStream);
+                var fileContent = new StreamContent(file.OpenReadStream());
                 var formContent = new MultipartFormDataContent();
 
                 HttpContent idFileParam = new StringContent(idFile.ToString());
-                HttpContent flexFieldsParam = new StringContent(flexFields);
+                HttpContent flexFieldsParam = new StringContent(flexFields ?? string.Empty);
 
                 formContent.Add(idFileParam, "IdFile");
                 formContent.Add(flexFieldsParam, "Flexfields");
-                var hackedFileName = new string(Encoding.UTF8.GetBytes(File.FileName).Select(b => (char)b).ToArray());
+
+                var hackedFileName = new string(Encoding.UTF8.GetBytes(file.FileName).Select(b => (char)b).ToArray());
 
                 fileContent.Headers.Add("Content-Type", "application/octet-stream");
-                fileContent.Headers.Add("Content-Disposition", "form-data; name=\"File\"; filename=\"" + hackedFileName + "\"");
+                fileContent.Headers.Add("Content-Disposition", $"form-data; name=\"File\"; filename=\"{hackedFileName}\"");
                 formContent.Add(fileContent);
 
-                HttpResponseMessage httpResponse = await httpClient.PostAsync(Util.Util.GetFinalGoFilesUtlUrl(Util.Util.subirAchivos), formContent);
+                // Construir la URL con el parámetro connectionString
+                string baseUrl = Util.Util.GetFinalGoFilesUtlUrl(Util.Util.subirAchivos);
+                string urlWithQuery = $"{baseUrl}?connectionString={Uri.EscapeDataString(connectionString)}";
+
+                HttpResponseMessage httpResponse = await httpClient.PostAsync(urlWithQuery, formContent);
                 string responseContent = await httpResponse.Content.ReadAsStringAsync();
                 response.typeResult = Util.UtilClass.codigoExitoso;
                 response = JsonConvert.DeserializeObject<CustomJsonResult>(responseContent);
-
             }
             catch (Exception e)
             {
@@ -92,10 +100,43 @@ namespace WebServicesLayer.Services
                 response.message = $"Error: {e.Message}, Fuente: {e.Source}";
             }
             return response;
-        }
+    }
+    //public static async Task<CustomJsonResult> SubirArchivo(int idFile, HttpPostedFileBase File ,string flexFields = null)
+    //{
+    //    CustomJsonResult response = new CustomJsonResult();
+    //    try
+    //    {
+    //        HttpClient httpClient = Util.Util.getGoFilesUtlHeaders();
+    //        var fileContent = new StreamContent(File.InputStream);
+    //        var formContent = new MultipartFormDataContent();
+
+    //        HttpContent idFileParam = new StringContent(idFile.ToString());
+    //        HttpContent flexFieldsParam = new StringContent(flexFields);
+
+    //        formContent.Add(idFileParam, "IdFile");
+    //        formContent.Add(flexFieldsParam, "Flexfields");
+    //        var hackedFileName = new string(Encoding.UTF8.GetBytes(File.FileName).Select(b => (char)b).ToArray());
+
+    //        fileContent.Headers.Add("Content-Type", "application/octet-stream");
+    //        fileContent.Headers.Add("Content-Disposition", "form-data; name=\"File\"; filename=\"" + hackedFileName + "\"");
+    //        formContent.Add(fileContent);
+
+    //        HttpResponseMessage httpResponse = await httpClient.PostAsync(Util.Util.GetFinalGoFilesUtlUrl(Util.Util.subirAchivos), formContent);
+    //        string responseContent = await httpResponse.Content.ReadAsStringAsync();
+    //        response.typeResult = Util.UtilClass.codigoExitoso;
+    //        response = JsonConvert.DeserializeObject<CustomJsonResult>(responseContent);
+
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        response.typeResult = Util.UtilClass.codigoError;
+    //        response.message = $"Error: {e.Message}, Fuente: {e.Source}";
+    //    }
+    //    return response;
+    //}
 
 
-        public static async Task<CustomJsonResult> ObtenerArchivo(int idFile)
+    public static async Task<CustomJsonResult> ObtenerArchivo(int idFile)
         {
             CustomJsonResult response = new CustomJsonResult();
             try

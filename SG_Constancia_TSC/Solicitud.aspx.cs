@@ -145,7 +145,7 @@ namespace SG_Constancia_TSC
             string email = e.Parameter;
             string token = GenerateToken();
 
-            Util.SetToken(token, DateTime.Now);
+             Util.SetToken(token, DateTime.Now);
 
             SampleUtil.SendToken(email, token);
 
