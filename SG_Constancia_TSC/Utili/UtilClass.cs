@@ -32,6 +32,7 @@ namespace SG_Constancia_TSC.UtilClass
 
         public static string flexFieldKeyDocumento = "CODIGO_DOCUMENTO";
         public static int fileIdDocumentoSeguimiento = 1;
+        public static int FileId_ident = 2;
 
 
         //public static string GetSiteName()

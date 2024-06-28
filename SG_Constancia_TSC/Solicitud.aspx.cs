@@ -18,6 +18,12 @@ using System.Web.UI;
 using System.Web.SessionState;
 //using SG_Constancia_TSC.App_Start;
 using SG_Constancia_TSC;
+using DevExpress.Xpo.Logger;
+using System.Web.UI.WebControls;
+using SG_Constancia_TSC.Controllers;
+using System.Configuration;
+using DevExpress.DataAccess.Native.Web;
+using System.Threading.Tasks;
 
 
 namespace SG_Constancia_TSC
@@ -391,7 +397,103 @@ namespace SG_Constancia_TSC
             };
             report.Bands["GroupFooter1"].Controls.Add(xrBarCode);
         }
+
+        //protected async Task btnUpload_ClickAsync(object sender, EventArgs e)
+        //{
+
+        //}
+        protected async Task MyUploadFileAsync()
+        {
+             if (fileUpload.HasFile && fileUpload.PostedFile.ContentLength > 0)
+            {
+                int idFile = UtilClass.UtilClass.FileId_ident;
+                    //if (!int.TryParse(UtilClass.UtilClass.fileId_ident, out idFile))
+                    //{
+                    //    lblMessage.Text = "Invalid File ID.";
+                    //    return;
+                    //}
+
+                    SubirArchivo_D subirArchivo = new SubirArchivo_D();
+                    string FlexfieldKey = UtilClass.UtilClass.flexFieldKeyDocumento; // CargaDocumento
+                                                                                     //subirArchivo.FlexfieldValue = modeloDocumento.codigo_ticket.ToString();
+
+                    //var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
+
+                    string flexFieldsValue = "0";//txtFlexFields.Text;
+                    string connectionString = ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString;// txtConnectionString.Text;
+                    HttpPostedFile file = fileUpload.PostedFile;
+                    var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
+
+
+                    //response = await services.CargaDocumento.SubirArchivo(UtilClass.fileIdDocumentoSeguimiento, evidencia, flexFieldString);
+                    //if (string.IsNullOrEmpty(response.result.ToString()) || response.typeResult.Equals(UtilClass.codigoError))
+                    //{
+                    //    response.result = new { };
+                    //    response.message = "Ocurrió un error inesperado al intentar cargar el archivo.";
+                    //    return Content(JsonConvert.SerializeObject(response), "application/json");
+                    //}
+                    //codReferencia = Convert.ToInt32(response.result);
+                    //modeloDocumento.referenciaDocumento = codReferencia;
+
+                    var result = await SubirArchivo.SubirArchivo_t(idFile, file, flexFieldString, connectionString);
+
+                            if (result.typeResult == UtilClass.UtilClass.codigoExitoso)
+                            {
+                                lblMessage.Text = "File uploaded successfully!";
+                            }
+                            else
+                            {
+                                lblMessage.Text = $"File upload failed: {result.message}";
+                            }
+                        }
+                        else
+            {
+                lblMessage.Text = "Please select a file.";
+            }
+        }   
+
+
+
+        protected void btnUpload_Click(object sender, EventArgs e)
+        {
+            _ = MyUploadFileAsync();
+        }
     }
+
+    // 28 junio 2024
+    // carga de archivos
+
+    //protected async void btnUpload_Click(object sender, EventArgs e)
+    //{
+    //    if (fileUpload.HasFile && fileUpload.PostedFile.ContentLength > 0)
+    //    {
+    //        int idFile;
+    //        if (!int.TryParse(txtIdFile.Text, out idFile))
+    //        {
+    //            lblMessage.Text = "Invalid File ID.";
+    //            return;
+    //        }
+
+    //        string flexFields = txtFlexFields.Text;
+    //        string connectionString = txtConnectionString.Text;
+    //        HttpPostedFile file = fileUpload.PostedFile;
+
+    //        var result = await SubirArchivo(idFile, file, connectionString, flexFields);
+
+    //        if (result.typeResult == UtilClass.codigoExitoso)
+    //        {
+    //            lblMessage.Text = "File uploaded successfully!";
+    //        }
+    //        else
+    //        {
+    //            lblMessage.Text = $"File upload failed: {result.message}";
+    //        }
+    //    }
+    //    else
+    //    {
+    //        lblMessage.Text = "Please select a file.";
+    //    }
+    //}
 }
 
 

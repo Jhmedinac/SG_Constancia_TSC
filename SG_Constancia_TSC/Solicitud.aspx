@@ -85,80 +85,80 @@
 
            //    }
            //}
-           function btnEnviarCodigo_Click(s, e) {
-               // Enviar el token al correo
-               var email = tbCorreo.GetText();
-               if (validarFormatoCorreo(email)) {
-                   // Llamar al servidor para enviar el token
-                   ASPxCallback_EnviarToken.PerformCallback(email);
-                   popupToken.Show();
-               } else {
-                   alert('Por favor ingrese un correo electrónico válido.');
-               }
-           }
+           //function btnEnviarCodigo_Click(s, e) {
+           //    // Enviar el token al correo
+           //    var email = tbCorreo.GetText();
+           //    if (validarFormatoCorreo(email)) {
+           //        // Llamar al servidor para enviar el token
+           //        ASPxCallback_EnviarToken.PerformCallback(email);
+           //        popupToken.Show();
+           //    } else {
+           //        alert('Por favor ingrese un correo electrónico válido.');
+           //    }
+           //}
 
-           function btnVerificarToken_Click(s, e) {
-               // Verificar el token ingresado
-               var inputToken = tbToken.GetText();
-               ASPxCallback_VerificarToken.PerformCallback(inputToken);
-           }
-           function TokenVerificationComplete(result) {
-               if (result === "success") {
-                   popupToken.Hide();
-                   ckPolitica.SetVisible(true); // Hacer visible el checkbox después de la verificación exitosa
-                   ckPolitica.SetChecked(false);
-                   btnEnviarCodigo.SetVisible(false); // Ocultar el botón después de la verificación exitosa
-                   tbToken.SetText('');
-               } else if (result === "incorrect") {
-                   alert('Código de verificación incorrecto. Por favor, inténtelo de nuevo.');
-                   tbToken.SetText('');
-                   // No cerramos el popupToken si el código es incorrecto
-               } else if (result === "expired") {
-                   alert('El código de verificación ha expirado. Por favor, solicite un nuevo código.');
-                   popupToken.Hide(); // Cerrar el popupToken si el código ha expirado
-                   tbToken.SetText('');
-               } else {
-                   alert('Error en la verificación del código. Por favor, inténtelo de nuevo.');
-                   popupToken.Hide(); // Cerrar el popupToken en caso de error general
-                   tbToken.SetText('');
-               }
-           }
+           //function btnVerificarToken_Click(s, e) {
+           //    // Verificar el token ingresado
+           //    var inputToken = tbToken.GetText();
+           //    ASPxCallback_VerificarToken.PerformCallback(inputToken);
+           //}
+           //function TokenVerificationComplete(result) {
+           //    if (result === "success") {
+           //        popupToken.Hide();
+           //        ckPolitica.SetVisible(true); // Hacer visible el checkbox después de la verificación exitosa
+           //        ckPolitica.SetChecked(false);
+           //        btnEnviarCodigo.SetVisible(false); // Ocultar el botón después de la verificación exitosa
+           //        tbToken.SetText('');
+           //    } else if (result === "incorrect") {
+           //        alert('Código de verificación incorrecto. Por favor, inténtelo de nuevo.');
+           //        tbToken.SetText('');
+           //        // No cerramos el popupToken si el código es incorrecto
+           //    } else if (result === "expired") {
+           //        alert('El código de verificación ha expirado. Por favor, solicite un nuevo código.');
+           //        popupToken.Hide(); // Cerrar el popupToken si el código ha expirado
+           //        tbToken.SetText('');
+           //    } else {
+           //        alert('Error en la verificación del código. Por favor, inténtelo de nuevo.');
+           //        popupToken.Hide(); // Cerrar el popupToken en caso de error general
+           //        tbToken.SetText('');
+           //    }
+           //}
 
-           function Terminos(s, e) {
-               if (!s.GetChecked()) {
-                   ASPxButton2.SetEnabled(false);
-                   btnEnviarCodigo.SetVisible(false);
-                   return;
-               }
+           //function Terminos(s, e) {
+           //    if (!s.GetChecked()) {
+           //        ASPxButton2.SetEnabled(false);
+           //        btnEnviarCodigo.SetVisible(false);
+           //        return;
+           //    }
 
-               // Verificar los campos del formulario
-               var campos = [
-                   tbNombre.GetText(),
-                   tbApellido.GetText(),
-                   tbCorreo.GetText(),
-                   tbConfirmCorreo.GetText(),
-                   tbDependencia.GetText(),
-                   CmbCountry.GetText(),
-                   CmbTipoDeclaracion.GetText(),
-                   tbIdentidad.GetText(),
-               ];
+           //    // Verificar los campos del formulario
+           //    var campos = [
+           //        tbNombre.GetText(),
+           //        tbApellido.GetText(),
+           //        tbCorreo.GetText(),
+           //        tbConfirmCorreo.GetText(),
+           //        tbDependencia.GetText(),
+           //        CmbCountry.GetText(),
+           //        CmbTipoDeclaracion.GetText(),
+           //        tbIdentidad.GetText(),
+           //    ];
 
-               var camposVacios = campos.some(function (valor) {
-                   return valor === '' || valor === null;
-               });
+           //    var camposVacios = campos.some(function (valor) {
+           //        return valor === '' || valor === null;
+           //    });
 
-               if (camposVacios) {
-                   Swal.fire({
-                       title: "¡Alerta!",
-                       text: "Debe llenar los datos requeridos del formulario para enviar la solicitud del Pre-Registro",
-                       icon: "warning",
-                       confirmButtonColor: "#1F497D",
-                   });
-                   s.SetChecked(false);
-               } else {
-                   btnEnviarCodigo.SetVisible(true);
-               }
-           }
+           //    if (camposVacios) {
+           //        Swal.fire({
+           //            title: "¡Alerta!",
+           //            text: "Debe llenar los datos requeridos del formulario para enviar la solicitud del Pre-Registro",
+           //            icon: "warning",
+           //            confirmButtonColor: "#1F497D",
+           //        });
+           //        s.SetChecked(false);
+           //    } else {
+           //        btnEnviarCodigo.SetVisible(true);
+           //    }
+           //}
 
            //function Guardar_Datos_Complete(s, e) {
            //    var respuestaJSON = e.result;
@@ -211,195 +211,195 @@
            //    }
            //}
 
-           function Guardar_Datos_Complete(s, e) {
-               var respuestaJSON = e.result;
-               var respuesta = JSON.parse(respuestaJSON);
-               var Retorno = respuesta.Retorno;
-               var Mens = respuesta.Mensaje;
+           //function Guardar_Datos_Complete(s, e) {
+           //    var respuestaJSON = e.result;
+           //    var respuesta = JSON.parse(respuestaJSON);
+           //    var Retorno = respuesta.Retorno;
+           //    var Mens = respuesta.Mensaje;
 
-               console.log('Respuesta:', respuesta); // Debug: Imprimir la respuesta en consola
+           //    console.log('Respuesta:', respuesta); // Debug: Imprimir la respuesta en consola
 
-               if (Retorno == 1) {
-                   Enviar.Hide();
-                   Lbl_msg.SetText(Mens);
-                   Relacionado.Show();
-                   ckPolitica.SetVisible(false); // Ocultar el checkbox después de mostrar el comprobante
-                   ckPolitica.SetChecked(false);
-                   btnEnviarCodigo.SetVisible(true); // Hacer visible el botón después de mostrar el comprobante
-                   SetCampos();
-               } else {
-                   ckPolitica.SetChecked(false);
-                   Enviar.Hide();
-                   if (Mens.includes("El correo electrónico ya existe")) {
-                       console.log('Correo electrónico ya existe.'); // Debug: Imprimir mensaje en consola
-                       btnEnviarCodigo.SetVisible(true);
-                       ckPolitica.SetVisible(false);
-                   }
-                   Swal.fire({
-                       title: "¡Alerta!",
-                       text: Mens,
-                       icon: "error",
-                       confirmButtonColor: "#1F497D",
-                   }).then(() => {
-                       // Acción después de cerrar la alerta
-                       if (Mens.includes("El correo electrónico ya existe")) {
-                           btnEnviarCodigo.SetVisible(true);
-                           ckPolitica.SetVisible(false);
-                       }
-                   });
-               }
-           }
+           //    if (Retorno == 1) {
+           //        Enviar.Hide();
+           //        Lbl_msg.SetText(Mens);
+           //        Relacionado.Show();
+           //        ckPolitica.SetVisible(false); // Ocultar el checkbox después de mostrar el comprobante
+           //        ckPolitica.SetChecked(false);
+           //        btnEnviarCodigo.SetVisible(true); // Hacer visible el botón después de mostrar el comprobante
+           //        SetCampos();
+           //    } else {
+           //        ckPolitica.SetChecked(false);
+           //        Enviar.Hide();
+           //        if (Mens.includes("El correo electrónico ya existe")) {
+           //            console.log('Correo electrónico ya existe.'); // Debug: Imprimir mensaje en consola
+           //            btnEnviarCodigo.SetVisible(true);
+           //            ckPolitica.SetVisible(false);
+           //        }
+           //        Swal.fire({
+           //            title: "¡Alerta!",
+           //            text: Mens,
+           //            icon: "error",
+           //            confirmButtonColor: "#1F497D",
+           //        }).then(() => {
+           //            // Acción después de cerrar la alerta
+           //            if (Mens.includes("El correo electrónico ya existe")) {
+           //                btnEnviarCodigo.SetVisible(true);
+           //                ckPolitica.SetVisible(false);
+           //            }
+           //        });
+           //    }
+           //}
 
-           // Añade un event listener para asegurarte de que los elementos se manipulen después de que el DOM esté completamente cargado
-           window.onload = function () {
-               if (btnEnviarCodigo) {
-                   console.log('btnEnviarCodigo is loaded');
-               } else {
-                   console.error('btnEnviarCodigo is not found');
-               }
+           //// Añade un event listener para asegurarte de que los elementos se manipulen después de que el DOM esté completamente cargado
+           //window.onload = function () {
+           //    if (btnEnviarCodigo) {
+           //        console.log('btnEnviarCodigo is loaded');
+           //    } else {
+           //        console.error('btnEnviarCodigo is not found');
+           //    }
 
-               if (ckPolitica) {
-                   console.log('ckPolitica is loaded');
-               } else {
-                   console.error('ckPolitica is not found');
-               }
-           };
+           //    if (ckPolitica) {
+           //        console.log('ckPolitica is loaded');
+           //    } else {
+           //        console.error('ckPolitica is not found');
+           //    }
+           //};
 
-           function ClosePopupRelacionado(s, e) {
-                //Mostrar cuadro de diálogo de confirmación
-               var confirmar = confirm("¿Está seguro de cerrar el comprobante? Asegúrese de haberlo descargado primero.");
+           //function ClosePopupRelacionado(s, e) {
+           //     //Mostrar cuadro de diálogo de confirmación
+           //    var confirmar = confirm("¿Está seguro de cerrar el comprobante? Asegúrese de haberlo descargado primero.");
 
-                //Si el usuario hace clic en "OK", se permite que el evento de cierre continúe en el servidor
-               if (confirmar) {
-                    //Puedes establecer alguna bandera aquí o simplemente permitir que el evento continúe
-                   e.processOnServer = true;
-                   Relacionado.Hide();
-               }
-                //Si el usuario hace clic en "Cancelar", se cancela el evento de cierre
-               else {
-                    //Detener el procesamiento del evento de cierre
-                   e.processOnServer = false;
-                   Relacionado.Show();
-               }
-           }
-
-
+           //     //Si el usuario hace clic en "OK", se permite que el evento de cierre continúe en el servidor
+           //    if (confirmar) {
+           //         //Puedes establecer alguna bandera aquí o simplemente permitir que el evento continúe
+           //        e.processOnServer = true;
+           //        Relacionado.Hide();
+           //    }
+           //     //Si el usuario hace clic en "Cancelar", se cancela el evento de cierre
+           //    else {
+           //         //Detener el procesamiento del evento de cierre
+           //        e.processOnServer = false;
+           //        Relacionado.Show();
+           //    }
+           //}
 
 
-           function SetCampos() {
-                   tbNombre.SetText(''),
-                   tbApellido.SetText(''),
-                   tbCorreo.SetText(''),
-                   tbConfirmCorreo.SetText(''),
-                   tbDependencia.SetText(''),
-                   tbCelular.SetText(''),
-                   CmbCountry.SetText(''),
-                   CmbTipoDeclaracion.SetText(''),
-                   tbIdentidad.SetText(''),
-                   ckPolitica.SetChecked(false);
+
+
+           //function SetCampos() {
+           //        tbNombre.SetText(''),
+           //        tbApellido.SetText(''),
+           //        tbCorreo.SetText(''),
+           //        tbConfirmCorreo.SetText(''),
+           //        tbDependencia.SetText(''),
+           //        tbCelular.SetText(''),
+           //        CmbCountry.SetText(''),
+           //        CmbTipoDeclaracion.SetText(''),
+           //        tbIdentidad.SetText(''),
+           //        ckPolitica.SetChecked(false);
                
-           }
+           //}
 
            
-           function validarFormatoCorreo(correo) {
-               // Expresión regular para validar el formato del correo electrónico
-               //var regex = /\w + ([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
-               var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-               //var regex = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
-               return regex.test(correo);
-           }
+           //function validarFormatoCorreo(correo) {
+           //    // Expresión regular para validar el formato del correo electrónico
+           //    //var regex = /\w + ([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+           //    var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+           //    //var regex = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+           //    return regex.test(correo);
+           //}
 
 
 
-           function validarFormatoIDN(valor) {
-               // Expresión regular para validar el formato del valor
-               var regex = /^\d{13}$/;
-               return regex.test(valor);
-           }
+           //function validarFormatoIDN(valor) {
+           //    // Expresión regular para validar el formato del valor
+           //    var regex = /^\d{13}$/;
+           //    return regex.test(valor);
+           //}
 
 
 
-           function Terminos(s, e) {
-               // Desactivar el botón si el checkbox no está marcado
-               if (!s.GetChecked()) {
-                   ASPxButton2.SetEnabled(false);
-                   return; // Detener la ejecución adicional de la función
-               }
+           //function Terminos(s, e) {
+           //    // Desactivar el botón si el checkbox no está marcado
+           //    if (!s.GetChecked()) {
+           //        ASPxButton2.SetEnabled(false);
+           //        return; // Detener la ejecución adicional de la función
+           //    }
 
-               // Lista de campos a validar
-               var campos = [
-                   tbNombre.GetText(),
-                   tbApellido.GetText(),
-                   tbCorreo.GetText(),
-                   tbDependencia.GetText(),
-                   CmbCountry.GetText(),
-                   CmbTipoDeclaracion.GetText(),
-                   tbIdentidad.GetText(),
-               ];
+           //    // Lista de campos a validar
+           //    var campos = [
+           //        tbNombre.GetText(),
+           //        tbApellido.GetText(),
+           //        tbCorreo.GetText(),
+           //        tbDependencia.GetText(),
+           //        CmbCountry.GetText(),
+           //        CmbTipoDeclaracion.GetText(),
+           //        tbIdentidad.GetText(),
+           //    ];
 
-               // Revisa si alguno de los campos está vacío o es null
-               var camposVacios = campos.some(function (valor) {
-                   return valor === '' || valor === null;
-               });
+           //    // Revisa si alguno de los campos está vacío o es null
+           //    var camposVacios = campos.some(function (valor) {
+           //        return valor === '' || valor === null;
+           //    });
 
-               if (camposVacios) {
-                   Swal.fire({
-                       title: "¡Alerta!",
-                       text: "Debe de llenar los datos requeridos del formulario para enviar la solicitud del Pre-Registro",
-                       icon: "warning",
-                       //showCancelButton: true,
-                       confirmButtonColor: "#1F497D",
-                       /*cancelButtonColor: "#d33",*/
+           //    if (camposVacios) {
+           //        Swal.fire({
+           //            title: "¡Alerta!",
+           //            text: "Debe de llenar los datos requeridos del formulario para enviar la solicitud del Pre-Registro",
+           //            icon: "warning",
+           //            //showCancelButton: true,
+           //            confirmButtonColor: "#1F497D",
+           //            /*cancelButtonColor: "#d33",*/
 
-                   });
-                   ckPolitica.SetChecked(false);
-                   //alert("¡Alerta! Debe de llenar los datos requeridos del formulario para enviar la solicitud del Pre-registro");
-                   console.log(campos); // Esto imprimirá los valores de los campos, podrías quitarlo si no es necesario
-               }
-               else
-               {
+           //        });
+           //        ckPolitica.SetChecked(false);
+           //        //alert("¡Alerta! Debe de llenar los datos requeridos del formulario para enviar la solicitud del Pre-registro");
+           //        console.log(campos); // Esto imprimirá los valores de los campos, podrías quitarlo si no es necesario
+           //    }
+           //    else
+           //    {
 
-                   if (tbIdentidad.GetText() === '') {
-                       tbIdentidad.SetFocus();
-                       ckPolitica.SetChecked(false);
-                       return;
-                   }
+           //        if (tbIdentidad.GetText() === '') {
+           //            tbIdentidad.SetFocus();
+           //            ckPolitica.SetChecked(false);
+           //            return;
+           //        }
                   
-                   var valor = tbIdentidad.GetText(); // Suponiendo que tbIdentidad.GetText() obtiene el valor del campo de entrada de texto
+           //        var valor = tbIdentidad.GetText(); // Suponiendo que tbIdentidad.GetText() obtiene el valor del campo de entrada de texto
 
-                   ////// Validar el formato del valor
-                   if (!validarFormatoIDN(valor)) {
-                       tbIdentidad.SetFocus();
-                       ckPolitica.SetChecked(false);
-                       return;
-                   }
-
-
-                   var correo = tbCorreo.GetText();
-                   if (!validarFormatoCorreo(correo)) {
-                       tbCorreo.SetFocus();// Enfocar el campo de correo electrónico
-                       ckPolitica.SetChecked(false);
-                       return;
-                   }
+           //        ////// Validar el formato del valor
+           //        if (!validarFormatoIDN(valor)) {
+           //            tbIdentidad.SetFocus();
+           //            ckPolitica.SetChecked(false);
+           //            return;
+           //        }
 
 
-                       ShowEnviar(); // Función para mostrar la opción de enviar o algo relacionado
-                       ASPxButton2.SetEnabled(true);
-                       console.log(campos);
-               }
+           //        var correo = tbCorreo.GetText();
+           //        if (!validarFormatoCorreo(correo)) {
+           //            tbCorreo.SetFocus();// Enfocar el campo de correo electrónico
+           //            ckPolitica.SetChecked(false);
+           //            return;
+           //        }
+
+
+           //            ShowEnviar(); // Función para mostrar la opción de enviar o algo relacionado
+           //            ASPxButton2.SetEnabled(true);
+           //            console.log(campos);
+           //    }
                
-           }
+           //}
            
-           function BtnGuardar_Click(s, e) {
+           //function BtnGuardar_Click(s, e) {
 
-                   ASPxCallback_Guardar_Datos.PerformCallback();
+           //        ASPxCallback_Guardar_Datos.PerformCallback();
                
-           }
+           //}
 
 
-           function popup_Shown_comprobante(s, e) {
-               callbackPane_comprobante.PerformCallback();
-           }
+           //function popup_Shown_comprobante(s, e) {
+           //    callbackPane_comprobante.PerformCallback();
+           //}
 
            //function Guardar_Datos_Complete(s, e) {
            //    var respuestaJSON = e.result;
@@ -431,91 +431,91 @@
            //}
 
         //para guardar los docuementos
-        function Click_Add_Dtos(s, e) {
-            ASPxCallback_Guardar_Dctos.PerformCallback();
-            ASPxGridView1.PerformCallback();
+        //function Click_Add_Dtos(s, e) {
+        //    ASPxCallback_Guardar_Dctos.PerformCallback();
+        //    ASPxGridView1.PerformCallback();
 
-           }
+        //   }
 
          
-        function Guardar_Dctos_Complete(s, e) {
-            ASPxGridView1.PerformCallback();
-            /*   alert(e.result);*/
+        //function Guardar_Dctos_Complete(s, e) {
+        //    ASPxGridView1.PerformCallback();
+        //    /*   alert(e.result);*/
 
-            fileNameLabel.SetText(null);
-            deleteFileButton.SetVisible(false);
-            AddFileButton.SetVisible(false);
+        //    fileNameLabel.SetText(null);
+        //    deleteFileButton.SetVisible(false);
+        //    AddFileButton.SetVisible(false);
 
-            return;
-        }
+        //    return;
+        //}
 
-            function onClick(s, e) {
-                callback.PerformCallback(fileNameLabel.GetText());
-            }
-            function onCallbackComplete(s, e) {
-                if (e.result == "OK") {
-                    fileNameLabel.SetText(null);
-                    //deleteFileButton.SetVisible(false);
-                    //AddFileButton.SetVisible(false);
-                }
-            }
+        //    function onClick(s, e) {
+        //        callback.PerformCallback(fileNameLabel.GetText());
+        //    }
+        //    function onCallbackComplete(s, e) {
+        //        if (e.result == "OK") {
+        //            fileNameLabel.SetText(null);
+        //            //deleteFileButton.SetVisible(false);
+        //            //AddFileButton.SetVisible(false);
+        //        }
+        //    }
 
-            function onFileUploadComplete(s, e) {
-                if (e.callbackData) {
-                    // Parsea la información almacenada en el sessionStorage
-                    var fileList = e.callbackData.split("|");
+        //    function onFileUploadComplete(s, e) {
+        //        if (e.callbackData) {
+        //            // Parsea la información almacenada en el sessionStorage
+        //            var fileList = e.callbackData.split("|");
 
-                    // Construye la tabla HTML
-                    var tableHTML = '<table border="1" class="table table-striped" style="width:100%"><tr style="background-color: #156ab3; color: white;"><th>Nombre de archivo</th></tr>';
+        //            // Construye la tabla HTML
+        //            var tableHTML = '<table border="1" class="table table-striped" style="width:100%"><tr style="background-color: #156ab3; color: white;"><th>Nombre de archivo</th></tr>';
 
-                    for (var i = 0; i < fileList.length; i++) {
-                        // Utiliza un atributo de datos para almacenar el fileId en el ícono de eliminar
-                        tableHTML += '<tr><td>' + fileList[i] + '</td></tr>';
-                    }
+        //            for (var i = 0; i < fileList.length; i++) {
+        //                // Utiliza un atributo de datos para almacenar el fileId en el ícono de eliminar
+        //                tableHTML += '<tr><td>' + fileList[i] + '</td></tr>';
+        //            }
 
-                    tableHTML += '</table>';
+        //            tableHTML += '</table>';
 
-                    // Inserta la tabla en un contenedor HTML, por ejemplo, un div con el id "fileListContainer"
-                    document.getElementById("fileListContainer").innerHTML = tableHTML;
+        //            // Inserta la tabla en un contenedor HTML, por ejemplo, un div con el id "fileListContainer"
+        //            document.getElementById("fileListContainer").innerHTML = tableHTML;
 
-                    // Almacena la información en el sessionStorage para que persista durante la sesión actual
-                    sessionStorage.setItem("fileList", e.callbackData);
-                }
-            }
+        //            // Almacena la información en el sessionStorage para que persista durante la sesión actual
+        //            sessionStorage.setItem("fileList", e.callbackData);
+        //        }
+        //    }
 
-            // Recupera la información almacenada al cargar la página
-            window.onload = function () {
-                var storedFileList = sessionStorage.getItem("fileList");
+        //    // Recupera la información almacenada al cargar la página
+        //    window.onload = function () {
+        //        var storedFileList = sessionStorage.getItem("fileList");
 
-                if (storedFileList) {
-                    // Realiza el mismo proceso de construcción de la tabla al cargar la página
-                    onFileUploadComplete(null, { callbackData: storedFileList });
+        //        if (storedFileList) {
+        //            // Realiza el mismo proceso de construcción de la tabla al cargar la página
+        //            onFileUploadComplete(null, { callbackData: storedFileList });
 
-                    // Elimina la información del sessionStorage después de cargar la página
-                    sessionStorage.removeItem("fileList");
-                }
-            }
+        //            // Elimina la información del sessionStorage después de cargar la página
+        //            sessionStorage.removeItem("fileList");
+        //        }
+        //    }
 
 
-            function solonumeros(e) {
+        //    function solonumeros(e) {
 
-                var key;
+        //        var key;
 
-                if (window.event) // IE
-                {
-                    key = e.keyCode;
-                }
-                else if (e.which) // Netscape/Firefox/Opera
-                {
-                    key = e.which;
-                }
+        //        if (window.event) // IE
+        //        {
+        //            key = e.keyCode;
+        //        }
+        //        else if (e.which) // Netscape/Firefox/Opera
+        //        {
+        //            key = e.which;
+        //        }
 
-                if (key < 48 || key > 57) {
-                    return false;
-                }
+        //        if (key < 48 || key > 57) {
+        //            return false;
+        //        }
 
-                return true;
-            }
+        //        return true;
+        //    }
 
        </script>
    </head>
@@ -675,7 +675,19 @@
                         </LayoutItemNestedControlCollection>
                     </dx:LayoutItem>
 
-<%--                         <dx:ASPxTextBox ID="tbPassword" ClientInstanceName="Password" Caption="Nueva contraseña" NullText="Nueva contraseña" Password="true" runat="server" CssClass="Texbox"
+                    <dx:LayoutItem Caption="Subir Identidad" ColSpan="1">
+                        <LayoutItemNestedControlCollection>
+                            <dx:LayoutItemNestedControlContainer runat="server">
+                                <div>
+                                    <dx:ASPxButton ID="btnUpload" runat="server" Text="Subir Id" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" ClientInstanceName="btnUpload" OnClick="btnUpload_Click">
+                                    </dx:ASPxButton>
+                                </div>
+                            </dx:LayoutItemNestedControlContainer>
+                        </LayoutItemNestedControlCollection>
+                    </dx:LayoutItem>
+
+
+<%--<dx:ASPxTextBox ID="tbPassword" ClientInstanceName="Password" Caption="Nueva contraseña" NullText="Nueva contraseña" Password="true" runat="server" CssClass="Texbox"
       Width="350px" Theme="iOS">
     <CaptionSettings Position="Top" />
       <ValidationSettings ValidationGroup="ChangeUserPasswordValidationGroup" Display="Dynamic" ErrorTextPosition="Bottom" ErrorDisplayMode="Text">
