@@ -30,10 +30,13 @@ namespace SG_Constancia_TSC.UtilClass
         public static string tipoSentenciaUpdate = "UPDATE";
         public static string tipoSentenciaDelete = "DELETE";
 
-        public static string flexFieldKeyDocumento = "CODIGO_DOCUMENTO";
-        public static int fileIdDocumentoSeguimiento = 1;
-        public static int FileId_ident = 2;
-
+        public static string flexFieldKeyIDENTIDAD = "CODIGO_IDENTIDAD";
+        public static string flexFieldKeySOLICITUD = "CODIGO_SOLICITUD";
+        public static string flexFieldKeyRECIBO = "CODIGO_RECIBO";
+        
+        public static string FileId_ident = "2"; /*IDENTIDAD*/
+        public static string FileId_solicitud = "3"; /*SOLICITUD*/
+        public static string FileId_recibo = "4";   /*RECIBO*/
 
         //public static string GetSiteName()
         //{

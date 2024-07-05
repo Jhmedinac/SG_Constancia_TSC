@@ -57,7 +57,7 @@ namespace SG_Constancia_TSC.Controllers
             CustomJsonResult response = new CustomJsonResult();
             try
             {
-                HttpClient httpClient = Utili.Utila.getGoFilesUtlHeaders();
+                HttpClient httpClient = Util.Util.getGoFilesUtlHeaders();
                 var fileContent = new StreamContent(File.InputStream);
                 var formContent = new MultipartFormDataContent();
 
@@ -72,9 +72,14 @@ namespace SG_Constancia_TSC.Controllers
                 fileContent.Headers.Add("Content-Disposition", "form-data; name=\"File\"; filename=\"" + hackedFileName + "\"");
                 formContent.Add(fileContent);
 
-                HttpResponseMessage httpResponse = await httpClient.PostAsync(Utili.Utila.GetFinalGoFilesUtlUrl(Util.Util.subirAchivos), formContent);
+                // Construir la URL con el parámetro connectionString
+                string baseUrl = Util.Util.GetFinalGoFilesUtlUrl(Util.Util.subirAchivos);
+                string urlWithQuery = $"{baseUrl}?constring={Uri.EscapeDataString(connectionString)}";
+
+                
+                HttpResponseMessage httpResponse = await httpClient.PostAsync(urlWithQuery, formContent);
+                //HttpResponseMessage httpResponse = await httpClient.PostAsync(Util.Util.GetFinalGoFilesUtlUrl(Util.Util.subirAchivos), formContent);
                 string responseContent = await httpResponse.Content.ReadAsStringAsync();
-                response.typeResult = UtilClass.UtilClass.codigoExitoso;
                 response = JsonConvert.DeserializeObject<CustomJsonResult>(responseContent);
 
             }

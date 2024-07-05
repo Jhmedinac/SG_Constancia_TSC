@@ -406,7 +406,7 @@ namespace SG_Constancia_TSC
         {
              if (fileUpload.HasFile && fileUpload.PostedFile.ContentLength > 0)
             {
-                int idFile = UtilClass.UtilClass.FileId_ident;
+                int idFile = Convert.ToInt32(UtilClass.UtilClass.FileId_ident);
                     //if (!int.TryParse(UtilClass.UtilClass.fileId_ident, out idFile))
                     //{
                     //    lblMessage.Text = "Invalid File ID.";
@@ -414,12 +414,13 @@ namespace SG_Constancia_TSC
                     //}
 
                     SubirArchivo_D subirArchivo = new SubirArchivo_D();
-                    string FlexfieldKey = UtilClass.UtilClass.flexFieldKeyDocumento; // CargaDocumento
+                    string FlexfieldKey = UtilClass.UtilClass.flexFieldKeyIDENTIDAD; // CargaDocumento
                                                                                      //subirArchivo.FlexfieldValue = modeloDocumento.codigo_ticket.ToString();
-
+                    subirArchivo.FlexfieldKey = FlexfieldKey;
+                    subirArchivo.FlexfieldValue = "1";
                     //var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
 
-                    string flexFieldsValue = "0";//txtFlexFields.Text;
+                    //string flexFieldsValue = "0";//txtFlexFields.Text;
                     string connectionString = ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString;// txtConnectionString.Text;
                     HttpPostedFile file = fileUpload.PostedFile;
                     var flexFieldString = JsonConvert.SerializeObject(subirArchivo);

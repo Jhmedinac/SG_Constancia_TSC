@@ -45,7 +45,7 @@ namespace SG_Constancia_TSC.Util
 
         public static string GetFinalGoFilesUtlUrl(string url)
         {
-            return ConfigurationManager.AppSettings["UrlGoFilesUtlSASI"].ToString() + url;
+            return ConfigurationManager.AppSettings["UrlGoFilesUtlTSC"].ToString() + url;
         }
         #endregion
     }

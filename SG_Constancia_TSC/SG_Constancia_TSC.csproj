@@ -285,6 +285,7 @@
     <Content Include="Content\Custom.css" />
     <Content Include="Content\Denuncia.css" />
     <Content Include="Content\Denuncia.js" />
+    <Content Include="Content\favicon.ico" />
     <Content Include="Content\Fontawesome\css\all.css" />
     <Content Include="Content\Fontawesome\css\all.min.css" />
     <Content Include="Content\Fontawesome\css\brands.css" />
@@ -429,8 +430,12 @@
     <Content Include="Content\Layout.css" />
     <Content Include="Content\SeguimientoExterno.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\Stepper.css" />
     <Content Include="Content\TSC\AD.PNG" />
     <Content Include="Content\TSC\Copia de Logo_TSC.jpg" />
+    <Content Include="Content\TSC\fondo.jpg" />
+    <Content Include="Content\TSC\fondo1.jpg" />
+    <Content Include="Content\TSC\fondo2.jpg" />
     <Content Include="Content\TSC\logo tribunal.png" />
     <Content Include="Content\TSC\Logo TSC Transparente.png" />
     <Content Include="Content\TSC\logo_TSC transparente.png" />
@@ -458,6 +463,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Solicitud.aspx" />
+    <Content Include="SolicitudTSC.aspx" />
+    <Content Include="SolicitudTSC1.aspx" />
+    <Content Include="Upload.aspx" />
     <Content Include="Web.config" />
     <Content Include="App_Data\ApplicationMenuDataSource.sitemap" />
     <Content Include="Content\js\.DS_Store" />
@@ -712,7 +720,28 @@
     <Compile Include="Solicitud.aspx.designer.cs">
       <DependentUpon>Solicitud.aspx</DependentUpon>
     </Compile>
+    <Compile Include="SolicitudTSC.aspx.cs">
+      <DependentUpon>SolicitudTSC.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SolicitudTSC.aspx.designer.cs">
+      <DependentUpon>SolicitudTSC.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SolicitudTSC1.aspx.cs">
+      <DependentUpon>SolicitudTSC1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SolicitudTSC1.aspx.designer.cs">
+      <DependentUpon>SolicitudTSC1.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="Upload.aspx.cs">
+      <DependentUpon>Upload.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Upload.aspx.designer.cs">
+      <DependentUpon>Upload.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Utili\Util.cs" />
     <Compile Include="Utili\Utila.cs" />
     <Compile Include="Utili\UtilClass.cs" />

@@ -547,7 +547,7 @@
             </div>
          </header>
    
-       <form id="form1" runat="server" >
+   <form id="form1" runat="server" enctype="multipart/form-data">
     
            <div class="services">
 
@@ -756,7 +756,7 @@
                                 <dx:LayoutItemNestedControlContainer runat="server">
                                     <dx:ASPxButton ID="btnEnviarCodigo" runat="server" Text="Enviar Código" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" ClientInstanceName="btnEnviarCodigo">
                
-                                        <ClientSideEvents Click="btnEnviarCodigo_Click" />
+                                        <%--<ClientSideEvents Click="btnEnviarCodigo_Click" />--%>
                                     </dx:ASPxButton>
                                     <dx:ASPxCallback ID="ASPxCallback_EnviarToken" runat="server" ClientInstanceName="ASPxCallback_EnviarToken" OnCallback="ASPxCallback_EnviarToken_Callback"></dx:ASPxCallback>
                                 </dx:LayoutItemNestedControlContainer>
@@ -767,7 +767,7 @@
                                 <dx:LayoutItemNestedControlContainer runat="server">
                                        <dx:ASPxCheckBox ID="ckPolitica" runat="server" EncodeHtml="false" ClientInstanceName="ckPolitica" ClientVisible="False"
                                              Text="Acepto los términos y politicas del Tribunal Superior de Cuentas" ValidationSettings-CausesValidation="true"> 
-                                            <ClientSideEvents CheckedChanged="Terminos" />
+                                            <%--<ClientSideEvents CheckedChanged="Terminos" />--%>
                                         </dx:ASPxCheckBox>
 
                                 </dx:LayoutItemNestedControlContainer>
@@ -809,7 +809,7 @@
                                         <dx:ASPxTextBox ID="tbToken" runat="server" NullText="Código de Verificación" ClientInstanceName="tbToken" Width="100%" />
                                         <br /><br />
                                         <dx:ASPxButton ID="btnVerificarToken" runat="server" Text="Verificar Código" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" ClientInstanceName="btnVerificarToken">
-                                            <ClientSideEvents Click="btnVerificarToken_Click" />
+                                            <%--<ClientSideEvents Click="btnVerificarToken_Click" />--%>
                                         </dx:ASPxButton>
                                         <dx:ASPxCallback ID="ASPxCallback_VerificarToken" runat="server" ClientInstanceName="ASPxCallback_VerificarToken" OnCallback="ASPxCallback_VerificarToken_Callback">
                     <ClientSideEvents CallbackComplete="function(s, e) { TokenVerificationComplete(e.result); }" />
@@ -851,7 +851,7 @@
                                                        
                             </dx:ASPxButton>
                             <dx:ASPxCallback ID="ASPxCallback_Guardar_Datos" runat="server" OnCallback="ASPxCallback_Guardar_Datos_Callback" ClientInstanceName="ASPxCallback_Guardar_Datos">                                                        
-                                <ClientSideEvents CallbackComplete="Guardar_Datos_Complete" />
+                                <%--<ClientSideEvents CallbackComplete="Guardar_Datos_Complete" />--%>
                             </dx:ASPxCallback>
                          
                         </td>
