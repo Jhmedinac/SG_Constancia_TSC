@@ -1,7 +1,7 @@
 ﻿ol.stepper {
     --default-b: lightgrey;
     --default-c: black;
-    --active-b: purple;
+    --active-b: #4CAF50;
     --active-c: white;
     --circle: 3.5em; /* size of circle */
     --b: 5px; /* line thickness */

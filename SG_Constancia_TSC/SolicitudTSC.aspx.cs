@@ -15,6 +15,7 @@ using SG_Constancia_TSC;
 using DevExpress.DataAccess.Native.Web;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SG_Constancia_TSC.UtilClass;
 
 namespace SG_Constancia_TSC
 {
@@ -44,7 +45,7 @@ namespace SG_Constancia_TSC
                 HttpPostedFile file = fileUpload.PostedFile;
                 var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
 
-                string flexFields = ""; /*txtFlexFields.Text;*/
+                string flexFields = flexFieldString; /*txtFlexFields.Text;*/
                 //string connectionString = txtConnectionString.Text;
 
                 if (string.IsNullOrEmpty(connectionString))
@@ -77,6 +78,130 @@ namespace SG_Constancia_TSC
             {
                 lblMessage.Text = "Please select a file.";
             }
+
+            /*  segunda carga de archivo   */
+
+            lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
+
+            if (fileUpload1.HasFile && fileUpload1.PostedFile.ContentLength > 0)
+            {
+                if (!int.TryParse(UtilClass.UtilClass.FileId_solicitud, out int idFile))
+                {
+                    lblMessage.Text = "Invalid File ID.";
+                    //return "Invalid File ID.";
+                    return;
+                }
+
+                SubirArchivo_D subirArchivo1 = new SubirArchivo_D();
+                string FlexfieldKey = UtilClass.UtilClass.flexFieldKeySOLICITUD; // CargaDocumento
+                                                                                 //subirArchivo.FlexfieldValue = modeloDocumento.codigo_ticket.ToString();
+                subirArchivo1.FlexfieldKey = FlexfieldKey;
+                subirArchivo1.FlexfieldValue = "1"; /* llave registro creado*/
+                //var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
+
+                //string flexFieldsValue = "0";//txtFlexFields.Text;
+                string connectionString = ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString;// txtConnectionString.Text;
+                HttpPostedFile file1 = fileUpload1.PostedFile;
+                var flexFieldString = JsonConvert.SerializeObject(subirArchivo1);
+
+                string flexFields = flexFieldString; /*txtFlexFields.Text;*/
+                //string connectionString = txtConnectionString.Text;
+
+                if (string.IsNullOrEmpty(connectionString))
+                {
+                    lblMessage.Text = "Connection String cannot be empty.";
+                    //return "Connection String cannot be empty.";
+                    return ;
+                }
+
+                //HttpPostedFile file = fileUpload.PostedFile;
+
+                try
+                {
+                    var result = await SubirArchivo.SubirArchivo_t(idFile, file1, flexFields, connectionString);
+
+                    if (result.typeResult == UtilClass.UtilClass.codigoExitoso)
+                    {
+                        lblMessage.Text = "File uploaded successfully!";
+                    }
+                    else
+                    {
+                        lblMessage.Text = $"File upload failed: {result.message}";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    lblMessage.Text = $"An error occurred: {ex.Message}";
+                }
+            }
+            else
+            {
+                lblMessage.Text = "Please select a file.";
+            }
+ 
+            //return "Please select a file.";
+      
+
+        /* tercera carga archivo*/
+
+            lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
+
+            if (fileUpload2.HasFile && fileUpload2.PostedFile.ContentLength > 0)
+            {
+                if (!int.TryParse(UtilClass.UtilClass.FileId_recibo, out int idFile))
+                {
+                    lblMessage.Text = "Invalid File ID.";
+                    return ;
+                }
+
+                SubirArchivo_D subirArchivo2 = new SubirArchivo_D();
+                string FlexfieldKey = UtilClass.UtilClass.flexFieldKeyRECIBO; // CargaDocumento
+                                                                              //subirArchivo.FlexfieldValue = modeloDocumento.codigo_ticket.ToString();
+                subirArchivo2.FlexfieldKey = FlexfieldKey;
+                subirArchivo2.FlexfieldValue = "1";
+                //var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
+
+                //string flexFieldsValue = "0";//txtFlexFields.Text;
+                string connectionString = ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString;// txtConnectionString.Text;
+                HttpPostedFile file2 = fileUpload2.PostedFile;
+                var flexFieldString = JsonConvert.SerializeObject(subirArchivo2);
+
+                string flexFields = flexFieldString; /*txtFlexFields.Text;*/
+                //string connectionString = txtConnectionString.Text;
+
+                if (string.IsNullOrEmpty(connectionString))
+                {
+                    lblMessage.Text = "Connection String cannot be empty.";
+                    return ;
+                }
+                
+
+                //HttpPostedFile file = fileUpload.PostedFile;
+
+                try
+                {
+                    var result = await SubirArchivo.SubirArchivo_t(idFile, file2, flexFields, connectionString);
+
+                    if (result.typeResult == UtilClass.UtilClass.codigoExitoso)
+                    {
+                        lblMessage.Text = "File uploaded successfully!";
+                    }
+                    else
+                    {
+                        lblMessage.Text = $"File upload failed: {result.message}";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    lblMessage.Text = $"An error occurred: {ex.Message}";
+                }
+                            }
+                            else
+                {
+                    lblMessage.Text = "Please select a file.";
+                }
+                return ;
         }
+    
     }
 }

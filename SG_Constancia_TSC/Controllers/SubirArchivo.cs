@@ -30,27 +30,27 @@ namespace SG_Constancia_TSC.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> UploadFile(HttpPostedFileBase file, int idFile, string flexFields, string connectionString)
-        {
-            if (file == null || file.ContentLength == 0)
-            {
-                ViewBag.Message = "Please select a file.";
-                return View("Index");
-            }
+        //public async Task<ActionResult> UploadFile(HttpPostedFileBase file, int idFile, string flexFields, string connectionString)
+        //{
+            //if (file == null || file.ContentLength == 0)
+            //{
+            //    ViewBag.Message = "Please select a file.";
+            //    return View("Index");
+            //}
 
-            var result = await Utili.Utila.SubirArchivo(idFile, file, connectionString, flexFields);
+            //var result = await Utili.Utila.SubirArchivo(idFile, file, connectionString, flexFields);
 
-            if (result.typeResult ==  UtilClass.UtilClass.codigoExitoso )
-            {
-                ViewBag.Message = "File uploaded successfully!";
-            }
-            else
-            {
-                ViewBag.Message = $"File upload failed: {result.message}";
-            }
+            //if (result.typeResult ==  UtilClass.UtilClass.codigoExitoso )
+            //{
+            //    ViewBag.Message = "File uploaded successfully!";
+            //}
+            //else
+            //{
+            //    ViewBag.Message = $"File upload failed: {result.message}";
+            //}
 
-            return View("Index");
-        }
+        //    return View("Index");
+        //}
 
         public static async Task<CustomJsonResult> SubirArchivo_t(int idFile, HttpPostedFile File, string flexFields = null, string connectionString= null)
         {

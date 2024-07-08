@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SolicitudTSC1.aspx.cs" Inherits="SG_Constancia_TSC.SolicitudTSC1" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SolicitudTSC1.aspx.cs" Inherits="SG_Constancia_TSC.SolicitudTSC1" Async="true" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
