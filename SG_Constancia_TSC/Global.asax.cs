@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SG_Constancia_TSC.App_Start;
+using System;
 
 namespace SG_Constancia_TSC {
     public class Global_asax : System.Web.HttpApplication {
@@ -13,10 +14,19 @@ namespace SG_Constancia_TSC {
 
         void Application_End(object sender, EventArgs e) {
             // Code that runs on application shutdown
+            Session.Abandon();
         }
     
         void Application_Error(object sender, EventArgs e) {
             // Code that runs when an unhandled error occurs
+            string ErrorMessage;
+
+            ErrorMessage = "La descripción del error es la siguiente : " + Server.GetLastError();
+            string toemail = "jhmedina@tsc.gob.hn";
+            string StrSubject = "Error en el sitio Consulta Secretaria";
+            string strBody = ErrorMessage;
+
+            SampleUtil.EnviarCorreo1("", StrSubject, toemail, strBody);
         }
     
         void Session_Start(object sender, EventArgs e) {
