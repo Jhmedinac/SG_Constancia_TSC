@@ -9,7 +9,7 @@ using System.Text;
 
 namespace SG_Constancia_TSC.App_Start
 {
-    public class Util
+    public class Util_g
     {
         public static void Bitacora(String Activ, string name_user, string Den, string Etapa, string Estado, string Observaciones)
         {

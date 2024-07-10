@@ -481,7 +481,7 @@ preloader area
    /* background: #1F497D;
     background: -webkit-linear-gradient(to right, #cc5333, #1F497D);
     background: linear-gradient(to right, #cc5333, #1F497D);*/
-    background-image: url('TSC/fondo2.jpg');
+    background-image: url('TSC/b.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -781,8 +781,8 @@ ol.stepper {
     --default-c: black;
     --active-b: purple;
     --active-c: white;
-    --circle: 3.5em; /* size of circle */
-    --b: 5px; /* line thickness */
+    --circle: 1.5em; /* size of circle 3.5em */
+    --b: 2px; /* line thickness 5px */
 
     display: flex;
     list-style: none;
@@ -791,7 +791,7 @@ ol.stepper {
     counter-reset: step;
     margin: 20px;
     padding: 0;
-    font-size: 22px;
+    font-size: 12px; /* tamaño de la fuente reducido */
     font-weight: bold;
     counter-reset: step;
     overflow: hidden;
@@ -800,7 +800,7 @@ ol.stepper {
     ol.stepper li {
         display: grid;
         place-items: center;
-        gap: 5px;
+        gap: 3px; /* espacio reducido entre los elementos */
         font-family: sans-serif;
         position: relative;
     }
@@ -812,7 +812,7 @@ ol.stepper {
             place-content: center;
             aspect-ratio: 1;
             height: var(--circle);
-            border: 5px solid #fff;
+            border: 2px solid #fff; /* grosor del borde del círculo reducido */
             box-sizing: border-box;
             background: var(--active-b);
             color: var(--active-c);
@@ -836,6 +836,29 @@ ol.stepper {
             background: var(--active-b);
         }
 
+.pager .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.pager .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.rounded-button {
+    border-radius: 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px; /* Reducir padding */
+    font-size: 14px; /* Reducir tamaño de fuente */
+    cursor: pointer;
+}
+
+    .rounded-button:hover {
+        background-color: #0056b3;
+    }
 
 @media (max-width: 600px) {
     ol.stepper {

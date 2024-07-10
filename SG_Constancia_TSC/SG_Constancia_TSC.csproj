@@ -268,6 +268,7 @@
     <Content Include="bin\System.Web.WebPages.dll" />
     <Content Include="bin\System.Web.WebPages.Razor.dll" />
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\Consulta.js" />
     <Content Include="Content\Content.css" />
     <Content Include="Content\css\.DS_Store" />
     <Content Include="Content\css\bootstrap-datepicker.min.css" />
@@ -432,6 +433,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\Stepper.css" />
     <Content Include="Content\TSC\AD.PNG" />
+    <Content Include="Content\TSC\b.jpg" />
     <Content Include="Content\TSC\Copia de Logo_TSC.jpg" />
     <Content Include="Content\TSC\fondo.jpg" />
     <Content Include="Content\TSC\fondo1.jpg" />
@@ -656,7 +658,7 @@
     <Compile Include="App_Start\SampleDB.cs" />
     <Compile Include="App_Start\SampleUtil.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="App_Start\Util.cs" />
+    <Compile Include="App_Start\Util_g.cs" />
     <Compile Include="Code\AuthHelper.cs" />
     <Compile Include="ConexionBD.cs" />
     <Compile Include="Controllers\SubirArchivo.cs" />

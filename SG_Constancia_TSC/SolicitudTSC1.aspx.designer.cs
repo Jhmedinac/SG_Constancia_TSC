@@ -42,6 +42,15 @@ namespace SG_Constancia_TSC
         protected global::DevExpress.Web.ASPxFormLayout formDenuncia1;
 
         /// <summary>
+        /// Control tbIdentidad.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxTextBox tbIdentidad;
+
+        /// <summary>
         /// Control tbNombre.
         /// </summary>
         /// <remarks>
@@ -60,13 +69,22 @@ namespace SG_Constancia_TSC
         protected global::DevExpress.Web.ASPxTextBox tbApellido;
 
         /// <summary>
-        /// Control tbEmail.
+        /// Control tbCorreo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox tbEmail;
+        protected global::DevExpress.Web.ASPxTextBox tbCorreo;
+
+        /// <summary>
+        /// Control tbConfirmCorreo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxTextBox tbConfirmCorreo;
 
         /// <summary>
         /// Control formDenuncia2.
@@ -157,6 +175,87 @@ namespace SG_Constancia_TSC
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblUploadStatus2;
+
+        /// <summary>
+        /// Control ASPxFormLayout2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxFormLayout ASPxFormLayout2;
+
+        /// <summary>
+        /// Control btnEnviarCodigo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton btnEnviarCodigo;
+
+        /// <summary>
+        /// Control ASPxCallback_EnviarToken.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallback ASPxCallback_EnviarToken;
+
+        /// <summary>
+        /// Control ckPolitica.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox ckPolitica;
+
+        /// <summary>
+        /// Control popupToken.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl popupToken;
+
+        /// <summary>
+        /// Control lblTokenPrompt.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel lblTokenPrompt;
+
+        /// <summary>
+        /// Control tbToken.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxTextBox tbToken;
+
+        /// <summary>
+        /// Control btnVerificarToken.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton btnVerificarToken;
+
+        /// <summary>
+        /// Control ASPxCallback_VerificarToken.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallback ASPxCallback_VerificarToken;
 
         /// <summary>
         /// Control btnEnviar.
