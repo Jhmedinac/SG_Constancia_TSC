@@ -1,4 +1,8 @@
-﻿function toUpperCase(id) {
+﻿function btnEnviar_ClientClick(s, e) {
+    // Realizar validaciones adicionales si es necesario
+    e.processOnServer = true; // Permitir el postback para ejecutar la lógica del servidor
+}
+function toUpperCase(id) {
     var textbox = document.getElementById(id);
     textbox.value = textbox.value.toUpperCase();
 }
@@ -57,5 +61,27 @@ function btnEnviarCodigo_Click(s, e) {
             });
             //alert('Por favor ingrese un correo electrónico válido.');
         }
+    }
+}
+
+function TokenVerificationComplete(result) {
+    if (result === "success") {
+        popupToken.Hide();
+        ckPolitica.SetVisible(true); // Hacer visible el checkbox después de la verificación exitosa
+        ckPolitica.SetChecked(false);
+        btnEnviarCodigo.SetVisible(false); // Ocultar el botón después de la verificación exitosa
+        tbToken.SetText('');
+    } else if (result === "incorrect") {
+        alert('Código de verificación incorrecto. Por favor, inténtelo de nuevo.');
+        tbToken.SetText('');
+        // No cerramos el popupToken si el código es incorrecto
+    } else if (result === "expired") {
+        alert('El código de verificación ha expirado. Por favor, solicite un nuevo código.');
+        popupToken.Hide(); // Cerrar el popupToken si el código ha expirado
+        tbToken.SetText('');
+    } else {
+        alert('Error en la verificación del código. Por favor, inténtelo de nuevo.');
+        popupToken.Hide(); // Cerrar el popupToken en caso de error general
+        tbToken.SetText('');
     }
 }

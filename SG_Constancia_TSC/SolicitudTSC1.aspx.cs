@@ -20,6 +20,7 @@ using DevExpress.Web.Internal.XmlProcessor;
 
 using System.Data;
 using DevExpress.Web;
+using DevExpress.Export.Xl;
 
 namespace SG_Constancia_TSC
 {
@@ -28,7 +29,7 @@ namespace SG_Constancia_TSC
         readonly ConexionBD conex = new ConexionBD();
 
 
-        protected async Task<string> UploadSolicitudAsync()
+        protected async Task<string> UploadSolicitudAsync(string idString)
         {
             lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
 
@@ -45,7 +46,7 @@ namespace SG_Constancia_TSC
                 string FlexfieldKey = UtilClass.UtilClass.flexFieldKeySOLICITUD; // CargaDocumento
                                                                                  //subirArchivo.FlexfieldValue = modeloDocumento.codigo_ticket.ToString();
                 subirArchivo1.FlexfieldKey = FlexfieldKey;
-                subirArchivo1.FlexfieldValue = (string)Session["Id"]; /* llave registro creado*/
+                subirArchivo1.FlexfieldValue = idString; /* llave registro creado*/
                 //var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
 
                 //string flexFieldsValue = "0";//txtFlexFields.Text;
@@ -90,7 +91,7 @@ namespace SG_Constancia_TSC
             return lblMessage.Text;
         }
 
-        protected async Task<string> UploadReciboAsync()
+        protected async Task<string> UploadReciboAsync(string idString)
         {
             lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
 
@@ -106,7 +107,7 @@ namespace SG_Constancia_TSC
                 string FlexfieldKey = UtilClass.UtilClass.flexFieldKeyRECIBO; // CargaDocumento
                                                                               //subirArchivo.FlexfieldValue = modeloDocumento.codigo_ticket.ToString();
                 subirArchivo2.FlexfieldKey = FlexfieldKey;
-                subirArchivo2.FlexfieldValue = (string)Session["Id"];
+                subirArchivo2.FlexfieldValue = idString;
                 //var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
 
                 //string flexFieldsValue = "0";//txtFlexFields.Text;
@@ -153,7 +154,7 @@ namespace SG_Constancia_TSC
         }
 
 
-        protected async Task<string> UploadIdentidadAsync()
+        protected async Task<string> UploadIdentidadAsync(string idString)
         {
 
             lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
@@ -170,7 +171,7 @@ namespace SG_Constancia_TSC
                 string FlexfieldKey = UtilClass.UtilClass.flexFieldKeyIDENTIDAD; // CargaDocumento
                                                                                  //subirArchivo.FlexfieldValue = modeloDocumento.codigo_ticket.ToString();
                 subirArchivo.FlexfieldKey = FlexfieldKey;
-                subirArchivo.FlexfieldValue = (string)Session["Id"];
+                subirArchivo.FlexfieldValue = idString;
                 //var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
 
                 //string flexFieldsValue = "0";//txtFlexFields.Text;
@@ -224,10 +225,11 @@ namespace SG_Constancia_TSC
                 //int idSolicitud = CrearSolicitud();
 
                 result  = CrearSolicitud();
+                string idString = Session["Id"] != null ? Session["Id"].ToString() : string.Empty;
 
-                result = await UploadIdentidadAsync();
-                result = await UploadSolicitudAsync();
-                result = await UploadReciboAsync();
+                result = await UploadIdentidadAsync(idString);
+                result = await UploadSolicitudAsync(idString);
+                result = await UploadReciboAsync(idString);
                 // Utiliza el resultado como sea necesario
                 lblMessage.Text = "Resultado: " + result;
             }
@@ -272,7 +274,7 @@ namespace SG_Constancia_TSC
             {
                 conex.abrirConexion();
                 cmd.ExecuteNonQuery();
-                string Mens = cmd.Parameters["@MENS"].Value.ToString();
+                string Mens = cmd.Parameters["@MENSAGE"].Value.ToString();
                 int Retorno = Convert.ToInt32(cmd.Parameters["@RETORNO"].Value);
                 Session["Id"] = Convert.ToInt32(cmd.Parameters["@Id"].Value);
             }
@@ -440,6 +442,20 @@ namespace SG_Constancia_TSC
                     return false;
             }
             return true;
+        }
+
+        protected void callbackpane_comprobante_callback(object sender, CallbackEventArgsBase e)
+        {
+            // generar el identificador encriptado una sola vez y pasarlo a otros métodos
+            //string encryptedid = SG_Constancia_TSC.App_Start.Util_g.Encrypt(Session["id"].ToString());
+
+            //Reportes.Comprobante report = GenerarReporte(encryptedid);
+
+            //// agregar el código qr al reporte
+            //AgregarCodigoQRAlReporte(report, encryptedid);
+
+            //// mostrar el reporte en el visor
+            //ASPxWebDocumentViewer1.OpenReport(report);
         }
     }
 }

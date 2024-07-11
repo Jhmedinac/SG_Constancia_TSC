@@ -278,7 +278,7 @@
                 </div>
 
                 <!-- Step 4 -->
-                <div class="tab-pane fade step-content d-flex align-items-center justify-content-center flex-column" id="step4" style="height: 50vh; padding: 1rem;">
+                <%--<div class="tab-pane fade step-content d-flex align-items-center justify-content-center flex-column" id="step4" style="height: 50vh; padding: 1rem;">
                     <h4 class="mb-4">Step 4: Confirmación</h4>
                     <p class="mb-4">Revise los datos ingresados antes de enviar su solicitud.</p>
                     <dx:ASPxFormLayout runat="server" ID="ASPxFormLayout2" CssClass="formLayout mb-4">
@@ -333,7 +333,90 @@
 
                     <dx:ASPxButton ID="btnEnviar" runat="server" OnCallback="Guardar_Datos_Callback" Text="Enviar Solicitud" OnClick="btnEnviar_Click" CssClass="rounded-button mt-4" />
                     <asp:Label ID="lblMessage" runat="server" Text="" class="mt-4"></asp:Label>
+                </div>--%>
+                <div class="tab-pane fade step-content d-flex align-items-center justify-content-center flex-column" id="step4" style="height: 50vh; padding: 1rem;">
+                    <h4 class="mb-4">Step 4: Confirmación</h4>
+                    <p class="mb-4">Revise los datos ingresados antes de enviar su solicitud.</p>
+                    <dx:ASPxFormLayout runat="server" ID="ASPxFormLayout2" CssClass="formLayout mb-4">
+                        <Items>
+                            <dx:LayoutItem ShowCaption="False" ColSpan="1" HorizontalAlign="Center">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+                                        <dx:ASPxButton ID="btnEnviarCodigo" runat="server" Text="Enviar Código" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" ClientInstanceName="btnEnviarCodigo">
+                                            <ClientSideEvents Click="btnEnviarCodigo_Click" />
+                                        </dx:ASPxButton>
+                                        <dx:ASPxCallback ID="ASPxCallback_EnviarToken" runat="server" ClientInstanceName="ASPxCallback_EnviarToken" OnCallback="ASPxCallback_EnviarToken_Callback"></dx:ASPxCallback>
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+                            <dx:LayoutItem ColSpan="1" ShowCaption="False" HorizontalAlign="Center">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+                                        <dx:ASPxCheckBox ID="ckPolitica" runat="server" EncodeHtml="false" ClientInstanceName="ckPolitica" ClientVisible="False"
+                                            Text="Acepto los términos y politicas del Tribunal Superior de Cuentas" ValidationSettings-CausesValidation="true"> 
+                                            <ClientSideEvents CheckedChanged="Terminos" />
+                                        </dx:ASPxCheckBox>
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+                        </Items>
+                    </dx:ASPxFormLayout>
+
+                    <dx:ASPxPopupControl ID="popupToken" runat="server" ClientInstanceName="popupToken" HeaderText="Verificación de Código" CloseAction="CloseButton" CloseOnEscape="true" CssClass="popup"
+                        Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" MinWidth="310px" MinHeight="214px" Width="400px" Height="200px"
+                        AllowDragging="True" EnableViewState="False" AutoUpdatePosition="true" ClientVisible="false"  >
+                        <HeaderStyle CssClass="headerpopup" />
+                        <ContentCollection>
+                            <dx:PopupControlContentControl runat="server">
+                                <table class="dx-justification">
+                                    <tr>
+                                        <td style="text-align:center;">
+                                            <dx:ASPxLabel ID="lblTokenPrompt" runat="server" Text="Ingrese el código enviado a su correo:" />
+                                            <br /><br />
+                                            <dx:ASPxTextBox ID="tbToken" runat="server" NullText="Código de Verificación" ClientInstanceName="tbToken" Width="100%" />
+                                            <br /><br />
+                                            <dx:ASPxButton ID="btnVerificarToken" runat="server" Text="Verificar Código" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" ClientInstanceName="btnVerificarToken">
+                                                <ClientSideEvents Click="btnVerificarToken_Click" />
+                                            </dx:ASPxButton>
+                                            <dx:ASPxCallback ID="ASPxCallback_VerificarToken" runat="server" ClientInstanceName="ASPxCallback_VerificarToken" OnCallback="ASPxCallback_VerificarToken_Callback">
+                                                <ClientSideEvents CallbackComplete="function(s, e) { TokenVerificationComplete(e.result); }" />
+                                            </dx:ASPxCallback>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </dx:PopupControlContentControl>
+                        </ContentCollection>
+                    </dx:ASPxPopupControl>
+                    <dx:ASPxButton ID="btnEnviar" runat="server" Visible ="false"  Text="Enviar Solicitud" CssClass="rounded-button mt-4" ClientInstanceName="btnEnviar" OnClick="btnEnviar_Click">
+                        <ClientSideEvents Click="btnEnviar_ClientClick" />
+                    </dx:ASPxButton>
+<%--                    <dx:ASPxButton ID="btnEnviar" runat="server" Text="Enviar Solicitud" CssClass="rounded-button mt-4" ClientInstanceName="btnEnviar" OnClick="btnEnviar_Click" >
+                        <ClientSideEvents Click="btnEnviar_Click" />
+                    </dx:ASPxButton>--%>
+                    <asp:Label ID="lblMessage" runat="server" Text="" class="mt-4"></asp:Label>
+                    <dx:ASPxPopupControl ID="Relacionado" runat="server" ClientInstanceName="Relacionado" 
+                        AllowDragging="true" HeaderText="Pre-Registro" 
+                        Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" CloseOnEscape="true" 
+                        EnableViewState="False" AutoUpdatePosition="true" MinHeight="750px" SettingsAdaptivity-Mode="OnWindowInnerWidth" CloseAnimationType="None" AllowResize="False" SettingsAdaptivity-VerticalAlign="WindowCenter">
+                        <ClientSideEvents Shown="popup_Shown_comprobante" />
+                            <ContentCollection>
+                                <dx:PopupControlContentControl runat="server">
+                                    <dx:ASPxCallbackPanel runat="server" ID="callbackPane_comprobante" ClientInstanceName="callbackPane_comprobante"
+                                        OnCallback="callbackPane_comprobante_Callback" RenderMode="Table" Width="100%" SettingsCollapsing-Modal="True">
+                                        <PanelCollection> 
+                                            <dx:PanelContent runat="server">
+<%--                                                <dx:ASPxWebDocumentViewer    ID="ASPxWebDocumentViewer1"     runat="server"     ClientInstanceName="ASPxWebDocumentViewer1"     Height="750px" 
+                                                    RightToLeft="True"     DisableHttpHandlerValidation="False">
+                                                </dx:ASPxWebDocumentViewer>--%>
+                                            </dx:PanelContent>
+                                        </PanelCollection>
+                                     </dx:ASPxCallbackPanel>
+                                </dx:PopupControlContentControl>
+                            </ContentCollection>
+                        <ClientSideEvents CloseUp="ClosePopupRelacionado" />
+                    </dx:ASPxPopupControl>
                 </div>
+
             </div>
 
             <div class="pager d-flex justify-content-center my-3">
@@ -496,80 +579,82 @@
             return result;
         }
 
+              
+
+        //function btnEnviar_Click(s, e) {
+        //    popupToken.Show();
+        //}
 
 
-        
 
+        //function TokenVerificationComplete(result) {
+        //    try {
+        //        var resultData = JSON.parse(result);
+        //        var lblNombreUsuario = document.getElementById('lblNombreUsuario');
+        //        var lblEstadoUsuario = document.getElementById('lblEstadoUsuario');
+        //        var lblObs = document.getElementById('lblObs');
+        //        var progressBarFill = document.getElementById('progress-bar-fill');
+        //        var estadoColor = {
+        //            "Pre-Registrado": "gray",
+        //            "Procesado": "#FAC21A",
+        //            "Registrado": "green",
+        //            "Requiere Documentación": "orangered",
+        //            "Rechazado": "red"
+        //        };
+        //        var estadoAvance = {
+        //            "Pre-Registrado": "20%",
+        //            "Requiere Documentación": "40%",
+        //            "Procesado": "60%",
+        //            "Registrado": "100%",
+        //            "Rechazado": "100%"
+        //        };
 
+        //        if (resultData.success) {
+        //            if (lblNombreUsuario) lblNombreUsuario.innerText = resultData.nombreUsuario;
+        //            if (lblEstadoUsuario) {
+        //                lblEstadoUsuario.innerText = resultData.estadoUsuario;
+        //                if (resultData.estadoUsuario === "Requiere Documentación" || resultData.estadoUsuario === "Solicitud Rechazada") {
+        //                    lblObs.style.display = "block";
+        //                    lblObs.innerText = resultData.obs;
+        //                } else if (resultData.estadoUsuario === "Pre-Registrado" || resultData.estadoUsuario === "Procesado" || resultData.estadoUsuario === "Registrado") {
+        //                    lblObs.style.display = "none";
+        //                }
+        //                if (estadoColor[resultData.estadoUsuario]) {
+        //                    progressBarFill.style.backgroundColor = estadoColor[resultData.estadoUsuario];
+        //                    progressBarFill.style.width = estadoAvance[resultData.estadoUsuario];
+        //                    progressBarFill.innerText = estadoAvance[resultData.estadoUsuario];
+        //                }
+        //            }
 
-        function TokenVerificationComplete(result) {
-            try {
-                var resultData = JSON.parse(result);
-                var lblNombreUsuario = document.getElementById('lblNombreUsuario');
-                var lblEstadoUsuario = document.getElementById('lblEstadoUsuario');
-                var lblObs = document.getElementById('lblObs');
-                var progressBarFill = document.getElementById('progress-bar-fill');
-                var estadoColor = {
-                    "Pre-Registrado": "gray",
-                    "Procesado": "#FAC21A",
-                    "Registrado": "green",
-                    "Requiere Documentación": "orangered",
-                    "Rechazado": "red"
-                };
-                var estadoAvance = {
-                    "Pre-Registrado": "20%",
-                    "Requiere Documentación": "40%",
-                    "Procesado": "60%",
-                    "Registrado": "100%",
-                    "Rechazado": "100%"
-                };
-
-                if (resultData.success) {
-                    if (lblNombreUsuario) lblNombreUsuario.innerText = resultData.nombreUsuario;
-                    if (lblEstadoUsuario) {
-                        lblEstadoUsuario.innerText = resultData.estadoUsuario;
-                        if (resultData.estadoUsuario === "Requiere Documentación" || resultData.estadoUsuario === "Solicitud Rechazada") {
-                            lblObs.style.display = "block";
-                            lblObs.innerText = resultData.obs;
-                        } else if (resultData.estadoUsuario === "Pre-Registrado" || resultData.estadoUsuario === "Procesado" || resultData.estadoUsuario === "Registrado") {
-                            lblObs.style.display = "none";
-                        }
-                        if (estadoColor[resultData.estadoUsuario]) {
-                            progressBarFill.style.backgroundColor = estadoColor[resultData.estadoUsuario];
-                            progressBarFill.style.width = estadoAvance[resultData.estadoUsuario];
-                            progressBarFill.innerText = estadoAvance[resultData.estadoUsuario];
-                        }
-                    }
-
-                    tbIdentidad.SetText('');
-                    popupToken.Hide();
-                    popupUserStatus.Show();
-                } else {
-                    Swal.fire({
-                        title: "¡Alerta!",
-                        text: resultData.message,
-                        icon: "error",
-                        confirmButtonColor: "#1F497D"
-                    });
-                    if (resultData.message === "Código de verificación incorrecto.") {
-                        tbToken.SetText('');
-                    } else if (resultData.message === "El código de verificación ha expirado.") {
-                        popupToken.Hide();
-                        tbToken.SetText('');
-                    } else {
-                        popupToken.Hide();
-                        tbToken.SetText('');
-                    }
-                }
-            } catch (e) {
-                Swal.fire({
-                    title: "¡Error!",
-                    text: "Error en la verificación del código. Por favor, inténtelo de nuevo.",
-                    icon: "error",
-                    confirmButtonColor: "#1F497D"
-                });
-            }
-        }
+        //            tbIdentidad.SetText('');
+        //            popupToken.Hide();
+        //            popupUserStatus.Show();
+        //        } else {
+        //            Swal.fire({
+        //                title: "¡Alerta!",
+        //                text: resultData.message,
+        //                icon: "error",
+        //                confirmButtonColor: "#1F497D"
+        //            });
+        //            if (resultData.message === "Código de verificación incorrecto.") {
+        //                tbToken.SetText('');
+        //            } else if (resultData.message === "El código de verificación ha expirado.") {
+        //                popupToken.Hide();
+        //                tbToken.SetText('');
+        //            } else {
+        //                popupToken.Hide();
+        //                tbToken.SetText('');
+        //            }
+        //        }
+        //    } catch (e) {
+        //        Swal.fire({
+        //            title: "¡Error!",
+        //            text: "Error en la verificación del código. Por favor, inténtelo de nuevo.",
+        //            icon: "error",
+        //            confirmButtonColor: "#1F497D"
+        //        });
+        //    }
+        //}
 
         function validarFormatoCorreo(correo) {
             var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
