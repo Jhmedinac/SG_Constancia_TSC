@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Código de Verificación</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #dddddd;
+            border-radius: 10px;
+        }
+
+        .email-header {
+            text-align: center;
+            border-bottom: 1px solid #dddddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+            .email-header img {
+                display: block;
+                margin: 0 auto 10px auto;
+                border: 0;
+                outline: none;
+                text-decoration: none;
+                -ms-interpolation-mode: bicubic;
+                width: 210px;
+                height: 186px;
+            }
+
+            .email-header h1 {
+                font-size: 24px;
+                color: #333333;
+                margin: 0;
+            }
+
+        .email-content {
+            text-align: center;
+        }
+
+            .email-content p {
+                font-size: 16px;
+                color: #555555;
+                line-height: 1.5;
+            }
+
+        .token {
+            display: inline-block;
+            background-color: #007bff;
+            color: #ffffff;
+            font-size: 24px;
+            padding: 10px 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .email-footer {
+            text-align: center;
+            border-top: 1px solid #dddddd;
+            padding-top: 10px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777777;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <img class="adapt-img" src="https://dcioxh.stripocdn.email/content/guids/CABINET_b93ec2a38389d475174431c45f61c597b12b8d21784bda70816c8c0373b4ae6a/images/tscsmall.png" alt="Logo de la Empresa" />
+            <!--<img class="adapt-img" src="Content/Images/TSC-Small.png" /> alt="Logo de la Empresa" />-->
+            <h1>Código de Verificación</h1>
+        </div>
+        <div class="email-content">
+            <p>Estimado(a) Declarante,</p>
+            <p>Para completar su registro, por favor utilice el siguiente código de verificación:</p>
+            <div class="token">{{token}}</div>
+            <p>Este código es válido por 15 minutos.</p>
+            <p>Si no solicitó este código, por favor ignore este mensaje.</p>
+        </div>
+        <div class="email-footer">
+            <p>&copy; 2024 Tribunal Superior de Cuentas. Informática | Todos los derechos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>
