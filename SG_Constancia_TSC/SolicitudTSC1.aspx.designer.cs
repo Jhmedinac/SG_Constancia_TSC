@@ -186,13 +186,13 @@ namespace SG_Constancia_TSC
         protected global::DevExpress.Web.ASPxFormLayout ASPxFormLayout2;
 
         /// <summary>
-        /// Control btnEnviarCodigo.
+        /// Control ASPxButton2.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxButton btnEnviarCodigo;
+        protected global::DevExpress.Web.ASPxButton ASPxButton2;
 
         /// <summary>
         /// Control ASPxCallback_EnviarToken.
@@ -258,13 +258,13 @@ namespace SG_Constancia_TSC
         protected global::DevExpress.Web.ASPxCallback ASPxCallback_VerificarToken;
 
         /// <summary>
-        /// Control btnEnviar.
+        /// Control Enviar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxButton btnEnviar;
+        protected global::DevExpress.Web.ASPxPopupControl Enviar;
 
         /// <summary>
         /// Control lblMessage.
@@ -283,14 +283,5 @@ namespace SG_Constancia_TSC
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::DevExpress.Web.ASPxPopupControl Relacionado;
-
-        /// <summary>
-        /// Control callbackPane_comprobante.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel callbackPane_comprobante;
     }
 }
