@@ -341,12 +341,23 @@
                         <Items>
                             <dx:LayoutItem ShowCaption="False" ColSpan="1" HorizontalAlign="Center">
                                 <LayoutItemNestedControlCollection>
-                                    <dx:LayoutItemNestedControlContainer runat="server">
+<%--                                    <dx:LayoutItemNestedControlContainer runat="server">
                                         <dx:ASPxButton ID="btnEnviarCodigo" runat="server" Text="Enviar Código" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" ClientInstanceName="btnEnviarCodigo">
                                             <ClientSideEvents Click="btnEnviarCodigo_Click" />
                                         </dx:ASPxButton>
                                         <dx:ASPxCallback ID="ASPxCallback_EnviarToken" runat="server" ClientInstanceName="ASPxCallback_EnviarToken" OnCallback="ASPxCallback_EnviarToken_Callback"></dx:ASPxCallback>
-                                    </dx:LayoutItemNestedControlContainer>
+                                    </dx:LayoutItemNestedControlContainer>--%>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+                                        <dx:ASPxButton ID="ASPxButton2" runat="server" Text="Enviar Solicitud" AutoPostBack="False" UseSubmitBehavior="false"   CssClass="btn" HorizontalAlign="Right" Enabled="True"  ClientVisible="True" ClientInstanceName="btnEnviarCodigo" >
+                                            <ClientSideEvents Click="btnEnviarCodigo_Click" />
+                                        </dx:ASPxButton>
+                                        <dx:ASPxCallback ID="ASPxCallback_EnviarToken" runat="server" ClientInstanceName="ASPxCallback_EnviarToken" OnCallback="ASPxCallback_EnviarToken_Callback"></dx:ASPxCallback>
+                                        </dx:LayoutItemNestedControlContainer>
+                                       <%-- <dx:ASPxCallback ID="ASPxCallback_Guardar_Datos" runat="server" OnCallback="btnEnviar_Click" ClientInstanceName="ASPxCallback_Guardar_Datos">
+                                            <ClientSideEvents CallbackComplete="Guardar_Datos_Complete" />
+                                        </dx:ASPxCallback>  --%>                       
+                                   <%-- </dx:LayoutItemNestedControlContainer> --%>     
+
                                 </LayoutItemNestedControlCollection>
                             </dx:LayoutItem>
                             <dx:LayoutItem ColSpan="1" ShowCaption="False" HorizontalAlign="Center">
@@ -387,32 +398,64 @@
                             </dx:PopupControlContentControl>
                         </ContentCollection>
                     </dx:ASPxPopupControl>
-                    <dx:ASPxButton ID="btnEnviar" runat="server" Visible ="false"  Text="Enviar Solicitud" CssClass="rounded-button mt-4" ClientInstanceName="btnEnviar" OnClick="btnEnviar_Click">
-                        <ClientSideEvents Click="btnEnviar_ClientClick" />
-                    </dx:ASPxButton>
-<%--                    <dx:ASPxButton ID="btnEnviar" runat="server" Text="Enviar Solicitud" CssClass="rounded-button mt-4" ClientInstanceName="btnEnviar" OnClick="btnEnviar_Click" >
-                        <ClientSideEvents Click="btnEnviar_Click" />
-                    </dx:ASPxButton>--%>
-                    <asp:Label ID="lblMessage" runat="server" Text="" class="mt-4"></asp:Label>
+                    <dx:ASPxPopupControl ID="Enviar" runat="server" ClientInstanceName="Enviar" HeaderText="Políticas y Términos" CloseAction="CloseButton" CloseOnEscape="true" CssClass="popup"
+                        Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" MinWidth="500px" MinHeight="114px"  AllowDragging="True" EnableViewState="False" AutoUpdatePosition="true" SettingsAdaptivity-Mode="OnWindowInnerWidth" CloseAnimationType="None" AllowResize="False" SettingsAdaptivity-VerticalAlign="WindowCenter"
+                        PopupAnimationType="Fade">
+                        <HeaderStyle CssClass="headerpopup" />
+                        <ContentCollection>
+                            <dx:PopupControlContentControl runat="server">                 
+                                <table class="dx-justification">
+                                    <tr>
+                                        <td class="dx-ac" style="text-align:justify;">
+                                            <br /> 
+                                            “Por medio de la presente solicito la incorporación al Sistema de Declaración Jurada de Ingresos, Activos y Pasivos en Línea, como un requisito obligatorio de conformidad con la Ley Orgánica del TSC y su Reglamento, y Declarando bajo juramento que toda la información utilizada en el Sistema de Declaraciones Juradas en Línea, será completada y aprobada por quien suscribe como responsable de la misma, la que será cierta, correcta y completa.<br /> 
+                                            <br />
+                                            Es mi responsabilidad como servidor público obligado, mantener en estricta confidencialidad y reserva las credenciales de ingreso al Sistema en Línea, no debiendo compartirlas ni dejarlas al acceso de ninguna otra persona.<br /> 
+                                            <br />
+                                            Adicionalmente, por este medio autorizo de forma expresa e irrevocable al Tribunal Superior de Cuentas para confirmar el contenido de las Declaraciones Juradas realizadas mediante el Sistema en Línea, en cualquier tiempo y lugar. Autorizando al mismo tiempo para que investigue las cuentas, depósitos bancarios, bienes, participación en sociedades situados en el país o en el extranjero y en general para que comparezcan ante quien corresponda a realizar la verificación de la Información contenida en las referidas Declaraciones. <br />
+                                            <br />
+                                            La presente solicitud se fundamenta en los artículos 56, 57, 61, 67 y demás aplicables de la Ley Orgánica del Tribunal Superior de Cuentas; 59, 60, 61 y demás aplicables del Reglamento General de la Ley Orgánica del Tribunal Superior de Cuentas. <br />
+                                            <br />
+                                            <strong>Al Honorable Tribunal Superior de Cuentas respetuosamente PIDO:</strong> Admitir el presente escrito, realizar la incorporación correspondiente al Sistema de Declaraciones Juradas en Línea, tener por autorizado al Tribunal para realizar la confirmación de los datos de las Declaraciones de Ingresos, Activos y Pasivos realizadas por medio del sistema y en general, resolver conforme con lo solicitado.”
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br />   
+<%--                                <table class="dx-justification">
+                                    <tr>
+                                        <td class="dx-ac" style="text-align:center;">
+                                            <dx:ASPxButton ID="ASPxButton2" runat="server" Text="Enviar" AutoPostBack="False" UseSubmitBehavior="false" CausesValidation="true"  CssClass="btn" HorizontalAlign="Right" Enabled="True"  ClientVisible="True" ClientInstanceName="ASPxButton2" ClientEnabled="False">
+                                                <ClientSideEvents Click="BtnGuardar_Click" />
+                                            </dx:ASPxButton>
+                                            <dx:ASPxCallback ID="ASPxCallback_Guardar_Datos" runat="server" OnCallback="btnEnviar_Click" ClientInstanceName="ASPxCallback_Guardar_Datos">
+                                                <ClientSideEvents CallbackComplete="Guardar_Datos_Complete" />
+                                            </dx:ASPxCallback>                         
+                                        </td>
+                                    </tr>
+                                </table>--%>
+                            </dx:PopupControlContentControl>
+                        </ContentCollection>
+                    </dx:ASPxPopupControl>
+                    <asp:Label ID="lblMessage" runat="server" Text="" class="mt-4" Visible="false" ></asp:Label>
                     <dx:ASPxPopupControl ID="Relacionado" runat="server" ClientInstanceName="Relacionado" 
                         AllowDragging="true" HeaderText="Pre-Registro" 
                         Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" CloseOnEscape="true" 
                         EnableViewState="False" AutoUpdatePosition="true" MinHeight="750px" SettingsAdaptivity-Mode="OnWindowInnerWidth" CloseAnimationType="None" AllowResize="False" SettingsAdaptivity-VerticalAlign="WindowCenter">
                         <ClientSideEvents Shown="popup_Shown_comprobante" />
-                            <ContentCollection>
+<%--                            <ContentCollection>
                                 <dx:PopupControlContentControl runat="server">
                                     <dx:ASPxCallbackPanel runat="server" ID="callbackPane_comprobante" ClientInstanceName="callbackPane_comprobante"
                                         OnCallback="callbackPane_comprobante_Callback" RenderMode="Table" Width="100%" SettingsCollapsing-Modal="True">
                                         <PanelCollection> 
-                                            <dx:PanelContent runat="server">
+                                            <dx:PanelContent runat="server">--%>
 <%--                                                <dx:ASPxWebDocumentViewer    ID="ASPxWebDocumentViewer1"     runat="server"     ClientInstanceName="ASPxWebDocumentViewer1"     Height="750px" 
                                                     RightToLeft="True"     DisableHttpHandlerValidation="False">
                                                 </dx:ASPxWebDocumentViewer>--%>
-                                            </dx:PanelContent>
+<%--                                            </dx:PanelContent>
                                         </PanelCollection>
                                      </dx:ASPxCallbackPanel>
                                 </dx:PopupControlContentControl>
-                            </ContentCollection>
+                            </ContentCollection>--%>
                         <ClientSideEvents CloseUp="ClosePopupRelacionado" />
                     </dx:ASPxPopupControl>
                 </div>
