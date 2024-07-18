@@ -8,6 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0" />
     <!-- mobile metas -->
+    
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1"/>
     <!-- site metas -->
@@ -101,10 +102,10 @@
             </div>
 
             <ol class="stepper">
-                <li class="active" id="step1-tab">Step 1</li>
-                <li id="step2-tab">Step 2</li>
-                <li id="step3-tab">Step 3</li>
-                <li id="step4-tab">Step 4</li>
+                <li class="active" id="step1-tab">Datos del Solicitante</li>
+                <li id="step2-tab">Información Adicional</li>
+                <li id="step3-tab">Carga de Archivos</li>
+                <li id="step4-tab">Confirmación</li>
             </ol>
 
             <div class="tab-content" id="stepper-content">
@@ -272,68 +273,10 @@
                         </dx:LayoutItem>
                     </Items>
                 </dx:ASPxFormLayout>
-
-<%--     <button type="button" class="btn btn-secondary" data-toggle="pill" href="#pills-step2">Previous</button>
-     <button type="button" class="btn btn-primary" data-toggle="pill" href="#pills-step4">Next</button>--%>
                 </div>
 
                 <!-- Step 4 -->
-                <%--<div class="tab-pane fade step-content d-flex align-items-center justify-content-center flex-column" id="step4" style="height: 50vh; padding: 1rem;">
-                    <h4 class="mb-4">Step 4: Confirmación</h4>
-                    <p class="mb-4">Revise los datos ingresados antes de enviar su solicitud.</p>
-                    <dx:ASPxFormLayout runat="server" ID="ASPxFormLayout2" CssClass="formLayout mb-4">
-                        <Items>
-                            <dx:LayoutItem ShowCaption="False" ColSpan="1" HorizontalAlign="Center">
-                                <LayoutItemNestedControlCollection>
-                                    <dx:LayoutItemNestedControlContainer runat="server">
-                                        <dx:ASPxButton ID="btnEnviarCodigo" runat="server" Text="Enviar Código" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" ClientInstanceName="btnEnviarCodigo">
-                                            <ClientSideEvents Click="btnEnviarCodigo_Click" />
-                                        </dx:ASPxButton>
-                                        <dx:ASPxCallback ID="ASPxCallback_EnviarToken" runat="server" ClientInstanceName="ASPxCallback_EnviarToken" OnCallback="ASPxCallback_EnviarToken_Callback"></dx:ASPxCallback>
-                                    </dx:LayoutItemNestedControlContainer>
-                                </LayoutItemNestedControlCollection>
-                            </dx:LayoutItem>
-                            <dx:LayoutItem ColSpan="1" ShowCaption="False" HorizontalAlign="Center">
-                                <LayoutItemNestedControlCollection>
-                                    <dx:LayoutItemNestedControlContainer runat="server">
-                                        <dx:ASPxCheckBox ID="ckPolitica" runat="server" EncodeHtml="false" ClientInstanceName="ckPolitica" ClientVisible="False"
-                                            Text="Acepto los términos y politicas del Tribunal Superior de Cuentas" ValidationSettings-CausesValidation="true"> 
-                                            <ClientSideEvents CheckedChanged="Terminos" />
-                                        </dx:ASPxCheckBox>
-                                    </dx:LayoutItemNestedControlContainer>
-                                </LayoutItemNestedControlCollection>
-                            </dx:LayoutItem>
-                        </Items>
-                    </dx:ASPxFormLayout>
-                    <dx:ASPxPopupControl ID="popupToken" runat="server" ClientInstanceName="popupToken" HeaderText="Verificación de Código" CloseAction="CloseButton" CloseOnEscape="true" CssClass="popup"
-                        Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" MinWidth="310px" MinHeight="214px" Width="400px" Height="200px"
-                        AllowDragging="True" EnableViewState="False" AutoUpdatePosition="true">
-                        <HeaderStyle CssClass="headerpopup" />
-                        <ContentCollection>
-                            <dx:PopupControlContentControl runat="server">
-                                <table class="dx-justification">
-                                    <tr>
-                                        <td style="text-align:center;">
-                                            <dx:ASPxLabel ID="lblTokenPrompt" runat="server" Text="Ingrese el código enviado a su correo:" />
-                                            <br /><br />
-                                            <dx:ASPxTextBox ID="tbToken" runat="server" NullText="Código de Verificación" ClientInstanceName="tbToken" Width="100%" />
-                                            <br /><br />
-                                            <dx:ASPxButton ID="btnVerificarToken" runat="server" Text="Verificar Código" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" ClientInstanceName="btnVerificarToken">
-                                                <ClientSideEvents Click="btnVerificarToken_Click" />
-                                            </dx:ASPxButton>
-                                            <dx:ASPxCallback ID="ASPxCallback_VerificarToken" runat="server" ClientInstanceName="ASPxCallback_VerificarToken" OnCallback="ASPxCallback_VerificarToken_Callback">
-                                                <ClientSideEvents CallbackComplete="function(s, e) { TokenVerificationComplete(e.result); }" />
-                                            </dx:ASPxCallback>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </dx:PopupControlContentControl>
-                        </ContentCollection>
-                    </dx:ASPxPopupControl>
-
-                    <dx:ASPxButton ID="btnEnviar" runat="server" OnCallback="Guardar_Datos_Callback" Text="Enviar Solicitud" OnClick="btnEnviar_Click" CssClass="rounded-button mt-4" />
-                    <asp:Label ID="lblMessage" runat="server" Text="" class="mt-4"></asp:Label>
-                </div>--%>
+             
                 <div class="tab-pane fade step-content d-flex align-items-center justify-content-center flex-column" id="step4" style="height: 50vh; padding: 1rem;">
                     <h4 class="mb-4">Step 4: Confirmación</h4>
                     <p class="mb-4">Revise los datos ingresados antes de enviar su solicitud.</p>
@@ -341,38 +284,52 @@
                         <Items>
                             <dx:LayoutItem ShowCaption="False" ColSpan="1" HorizontalAlign="Center">
                                 <LayoutItemNestedControlCollection>
-<%--                                    <dx:LayoutItemNestedControlContainer runat="server">
-                                        <dx:ASPxButton ID="btnEnviarCodigo" runat="server" Text="Enviar Código" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" ClientInstanceName="btnEnviarCodigo">
-                                            <ClientSideEvents Click="btnEnviarCodigo_Click" />
-                                        </dx:ASPxButton>
-                                        <dx:ASPxCallback ID="ASPxCallback_EnviarToken" runat="server" ClientInstanceName="ASPxCallback_EnviarToken" OnCallback="ASPxCallback_EnviarToken_Callback"></dx:ASPxCallback>
-                                    </dx:LayoutItemNestedControlContainer>--%>
                                     <dx:LayoutItemNestedControlContainer runat="server">
-                                        <dx:ASPxButton ID="ASPxButton2" runat="server" Text="Enviar Solicitud" AutoPostBack="False" UseSubmitBehavior="false"   CssClass="btn" HorizontalAlign="Right" Enabled="True"  ClientVisible="True" ClientInstanceName="btnEnviarCodigo" >
-                                            <ClientSideEvents Click="btnEnviarCodigo_Click" />
+                                        <dx:ASPxButton ID="ASPxButton2" runat="server" Text="Enviar Solicitud" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" HorizontalAlign="Right" Enabled="true" ClientVisible="True" ClientInstanceName="btnEnviarCodigo">
+                                            <ClientSideEvents Click="mostrarResumen" />
                                         </dx:ASPxButton>
                                         <dx:ASPxCallback ID="ASPxCallback_EnviarToken" runat="server" ClientInstanceName="ASPxCallback_EnviarToken" OnCallback="ASPxCallback_EnviarToken_Callback"></dx:ASPxCallback>
-                                        </dx:LayoutItemNestedControlContainer>
-                                       <%-- <dx:ASPxCallback ID="ASPxCallback_Guardar_Datos" runat="server" OnCallback="btnEnviar_Click" ClientInstanceName="ASPxCallback_Guardar_Datos">
+                                        <dx:ASPxCallback ID="ASPxCallback_Guardar_Datos" runat="server" OnCallback="ASPxCallback_Guardar_Datos_Callback" ClientInstanceName="ASPxCallback_Guardar_Datos">
                                             <ClientSideEvents CallbackComplete="Guardar_Datos_Complete" />
-                                        </dx:ASPxCallback>  --%>                       
-                                   <%-- </dx:LayoutItemNestedControlContainer> --%>     
-
+                                        </dx:ASPxCallback>                         
+                                    </dx:LayoutItemNestedControlContainer>      
                                 </LayoutItemNestedControlCollection>
                             </dx:LayoutItem>
                             <dx:LayoutItem ColSpan="1" ShowCaption="False" HorizontalAlign="Center">
                                 <LayoutItemNestedControlCollection>
                                     <dx:LayoutItemNestedControlContainer runat="server">
-                                        <dx:ASPxCheckBox ID="ckPolitica" runat="server" EncodeHtml="false" ClientInstanceName="ckPolitica" ClientVisible="False"
-                                            Text="Acepto los términos y politicas del Tribunal Superior de Cuentas" ValidationSettings-CausesValidation="true"> 
+                                        <dx:ASPxCheckBox ID="ckPolitica" runat="server" EncodeHtml="false" ClientInstanceName="ckPolitica" ClientVisible="true"
+                                            Text="Acepto los términos y políticas del Tribunal Superior de Cuentas" ValidationSettings-CausesValidation="true">
                                             <ClientSideEvents CheckedChanged="Terminos" />
                                         </dx:ASPxCheckBox>
                                     </dx:LayoutItemNestedControlContainer>
                                 </LayoutItemNestedControlCollection>
                             </dx:LayoutItem>
-                        </Items>
-                    </dx:ASPxFormLayout>
-
+                         </Items>
+                     </dx:ASPxFormLayout>
+                    <!-- Popup de Resumen -->
+                    <dx:ASPxPopupControl ID="popupResumen" runat="server" ClientInstanceName="popupResumen" HeaderText="Resumen de la Solicitud" CloseAction="CloseButton" CloseOnEscape="true" CssClass="popup"
+                        Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" MinWidth="500px" MinHeight="300px" AllowDragging="True" EnableViewState="False" AutoUpdatePosition="true">
+                        <HeaderStyle CssClass="headerpopup" />
+                        <ContentCollection>
+                            <dx:PopupControlContentControl runat="server">
+                                <table class="dx-justification">
+                                    <tr>
+                                        <td id="resumenContent" class="dx-ac" style="text-align:left;">
+                                            <!-- Contenido dinámico del resumen -->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:center;">
+                                            <dx:ASPxButton ID="btnConfirmar" runat="server" Text="Confirmar y Enviar" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" ClientInstanceName="btnConfirmar">
+                                                <ClientSideEvents Click="btnEnviarCodigo_Click" />
+                                            </dx:ASPxButton>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </dx:PopupControlContentControl>
+                        </ContentCollection>
+                    </dx:ASPxPopupControl>
                     <dx:ASPxPopupControl ID="popupToken" runat="server" ClientInstanceName="popupToken" HeaderText="Verificación de Código" CloseAction="CloseButton" CloseOnEscape="true" CssClass="popup"
                         Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" MinWidth="310px" MinHeight="214px" Width="400px" Height="200px"
                         AllowDragging="True" EnableViewState="False" AutoUpdatePosition="true" ClientVisible="false"  >
@@ -399,18 +356,18 @@
                         </ContentCollection>
                     </dx:ASPxPopupControl>
                     <dx:ASPxPopupControl ID="Enviar" runat="server" ClientInstanceName="Enviar" HeaderText="Políticas y Términos" CloseAction="CloseButton" CloseOnEscape="true" CssClass="popup"
-                        Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" MinWidth="500px" MinHeight="114px"  AllowDragging="True" EnableViewState="False" AutoUpdatePosition="true" SettingsAdaptivity-Mode="OnWindowInnerWidth" CloseAnimationType="None" AllowResize="False" SettingsAdaptivity-VerticalAlign="WindowCenter"
+                        Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" MinWidth="500px" MinHeight="114px" AllowDragging="True" EnableViewState="False" AutoUpdatePosition="true" SettingsAdaptivity-Mode="OnWindowInnerWidth" CloseAnimationType="None" AllowResize="False" SettingsAdaptivity-VerticalAlign="WindowCenter"
                         PopupAnimationType="Fade">
                         <HeaderStyle CssClass="headerpopup" />
                         <ContentCollection>
-                            <dx:PopupControlContentControl runat="server">                 
+                            <dx:PopupControlContentControl runat="server">
                                 <table class="dx-justification">
                                     <tr>
                                         <td class="dx-ac" style="text-align:justify;">
-                                            <br /> 
-                                            “Por medio de la presente solicito la incorporación al Sistema de Declaración Jurada de Ingresos, Activos y Pasivos en Línea, como un requisito obligatorio de conformidad con la Ley Orgánica del TSC y su Reglamento, y Declarando bajo juramento que toda la información utilizada en el Sistema de Declaraciones Juradas en Línea, será completada y aprobada por quien suscribe como responsable de la misma, la que será cierta, correcta y completa.<br /> 
                                             <br />
-                                            Es mi responsabilidad como servidor público obligado, mantener en estricta confidencialidad y reserva las credenciales de ingreso al Sistema en Línea, no debiendo compartirlas ni dejarlas al acceso de ninguna otra persona.<br /> 
+                                            “Por medio de la presente solicito la incorporación al Sistema de Declaración Jurada de Ingresos, Activos y Pasivos en Línea, como un requisito obligatorio de conformidad con la Ley Orgánica del TSC y su Reglamento, y Declarando bajo juramento que toda la información utilizada en el Sistema de Declaraciones Juradas en Línea, será completada y aprobada por quien suscribe como responsable de la misma, la que será cierta, correcta y completa.<br />
+                                            <br />
+                                            Es mi responsabilidad como servidor público obligado, mantener en estricta confidencialidad y reserva las credenciales de ingreso al Sistema en Línea, no debiendo compartirlas ni dejarlas al acceso de ninguna otra persona.<br />
                                             <br />
                                             Adicionalmente, por este medio autorizo de forma expresa e irrevocable al Tribunal Superior de Cuentas para confirmar el contenido de las Declaraciones Juradas realizadas mediante el Sistema en Línea, en cualquier tiempo y lugar. Autorizando al mismo tiempo para que investigue las cuentas, depósitos bancarios, bienes, participación en sociedades situados en el país o en el extranjero y en general para que comparezcan ante quien corresponda a realizar la verificación de la Información contenida en las referidas Declaraciones. <br />
                                             <br />
@@ -420,45 +377,34 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <br />   
-<%--                                <table class="dx-justification">
-                                    <tr>
-                                        <td class="dx-ac" style="text-align:center;">
-                                            <dx:ASPxButton ID="ASPxButton2" runat="server" Text="Enviar" AutoPostBack="False" UseSubmitBehavior="false" CausesValidation="true"  CssClass="btn" HorizontalAlign="Right" Enabled="True"  ClientVisible="True" ClientInstanceName="ASPxButton2" ClientEnabled="False">
-                                                <ClientSideEvents Click="BtnGuardar_Click" />
-                                            </dx:ASPxButton>
-                                            <dx:ASPxCallback ID="ASPxCallback_Guardar_Datos" runat="server" OnCallback="btnEnviar_Click" ClientInstanceName="ASPxCallback_Guardar_Datos">
-                                                <ClientSideEvents CallbackComplete="Guardar_Datos_Complete" />
-                                            </dx:ASPxCallback>                         
-                                        </td>
-                                    </tr>
-                                </table>--%>
+                                <br />
                             </dx:PopupControlContentControl>
                         </ContentCollection>
                     </dx:ASPxPopupControl>
-                    <asp:Label ID="lblMessage" runat="server" Text="" class="mt-4" Visible="false" ></asp:Label>
-                    <dx:ASPxPopupControl ID="Relacionado" runat="server" ClientInstanceName="Relacionado" 
-                        AllowDragging="true" HeaderText="Pre-Registro" 
-                        Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" CloseOnEscape="true" 
-                        EnableViewState="False" AutoUpdatePosition="true" MinHeight="750px" SettingsAdaptivity-Mode="OnWindowInnerWidth" CloseAnimationType="None" AllowResize="False" SettingsAdaptivity-VerticalAlign="WindowCenter">
-                        <ClientSideEvents Shown="popup_Shown_comprobante" />
-<%--                            <ContentCollection>
-                                <dx:PopupControlContentControl runat="server">
-                                    <dx:ASPxCallbackPanel runat="server" ID="callbackPane_comprobante" ClientInstanceName="callbackPane_comprobante"
-                                        OnCallback="callbackPane_comprobante_Callback" RenderMode="Table" Width="100%" SettingsCollapsing-Modal="True">
-                                        <PanelCollection> 
-                                            <dx:PanelContent runat="server">--%>
-<%--                                                <dx:ASPxWebDocumentViewer    ID="ASPxWebDocumentViewer1"     runat="server"     ClientInstanceName="ASPxWebDocumentViewer1"     Height="750px" 
-                                                    RightToLeft="True"     DisableHttpHandlerValidation="False">
-                                                </dx:ASPxWebDocumentViewer>--%>
-<%--                                            </dx:PanelContent>
-                                        </PanelCollection>
-                                     </dx:ASPxCallbackPanel>
-                                </dx:PopupControlContentControl>
-                            </ContentCollection>--%>
-                        <ClientSideEvents CloseUp="ClosePopupRelacionado" />
+                    <dx:ASPxPopupControl ID="Relacionado" runat="server" ClientInstanceName="Relacionado" CssClass="popup"
+                        AllowDragging="true" HeaderText="Registro Solicitud"
+                        Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" CloseOnEscape="true"
+                        EnableViewState="False" AutoUpdatePosition="true" SettingsAdaptivity-Mode="OnWindowInnerWidth" CloseAnimationType="None" AllowResize="False"
+                        SettingsAdaptivity-VerticalAlign="WindowCenter" PopupAnimationType="Fade" Width="900px" Height="700px">
+                        <HeaderStyle CssClass="headerpopup" />
+                        <ClientSideEvents Shown="function() { showConfirmationMessage1(); }" CloseUp="ClosePopupRelacionado" />
+                        <ContentCollection>
+                            <dx:PopupControlContentControl runat="server">
+                                <div id="popupContent" style="width: 100%; height: 100%; overflow: auto;"></div>
+                            </dx:PopupControlContentControl>
+                        </ContentCollection>
                     </dx:ASPxPopupControl>
-                </div>
+
+                    <%--<asp:Label ID="lblMessage" runat="server" Text="" class="mt-4" Visible="false" ></asp:Label>--%>
+<%--                    <dx:ASPxPopupControl ID="Relacionado" runat="server" ClientInstanceName="Relacionado"
+                        AllowDragging="true" HeaderText="Registro Solicitud"
+                        Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" CloseOnEscape="true"
+                        EnableViewState="False" AutoUpdatePosition="true" MinHeight="750px" SettingsAdaptivity-Mode="OnWindowInnerWidth" CloseAnimationType="None" AllowResize="False" SettingsAdaptivity-VerticalAlign="WindowCenter">--%>
+                        <%--<ClientSideEvents Shown="popup_Shown_comprobante" />--%>
+<%--                        <ClientSideEvents Shown="showConfirmationMessage" />
+                        <ClientSideEvents CloseUp="ClosePopupRelacionado" />
+                    </dx:ASPxPopupControl>--%>
+            </div>
 
             </div>
 
@@ -521,6 +467,29 @@
             const steps = document.querySelectorAll('.stepper li');
             const contents = document.querySelectorAll('.step-content');
 
+            let currentStep = 0;
+
+            // Función para actualizar la visibilidad de los botones según el paso actual
+            function updateButtonVisibility() {
+                const btnNext = document.querySelector('.pager .next a');
+                const btnPrevious = document.querySelector('.pager .previous a');
+
+                if (currentStep === 0) {
+                    // Primer paso: ocultar botón "Anterior"
+                    btnPrevious.style.display = 'none';
+                } else {
+                    btnPrevious.style.display = 'inline-block';
+                }
+
+                if (currentStep === steps.length - 1) {
+                    // Último paso: ocultar botón "Siguiente"
+                    btnNext.style.display = 'none';
+                } else {
+                    btnNext.style.display = 'inline-block';
+                }
+            }
+
+            // Evento click para los pasos
             steps.forEach((step, index) => {
                 step.addEventListener('click', () => {
                     steps.forEach(s => s.classList.remove('active'));
@@ -532,13 +501,15 @@
                     step.classList.add('active');
                     contents[index].classList.add('active');
                     contents[index].classList.add('show');
+
+                    currentStep = index;
+                    updateButtonVisibility();
                 });
             });
 
             // Configura los botones siguiente y anterior
             const btnNext = document.querySelector('.pager .next a');
             const btnPrevious = document.querySelector('.pager .previous a');
-            let currentStep = 0;
 
             btnNext.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -550,6 +521,8 @@
                     steps[currentStep].classList.add('active');
                     contents[currentStep].classList.add('active');
                     contents[currentStep].classList.add('show');
+
+                    updateButtonVisibility();
                 }
             });
 
@@ -563,9 +536,63 @@
                     steps[currentStep].classList.add('active');
                     contents[currentStep].classList.add('active');
                     contents[currentStep].classList.add('show');
+
+                    updateButtonVisibility();
                 }
             });
+
+            // Configuración inicial de visibilidad
+            updateButtonVisibility();
         });
+        //document.addEventListener('DOMContentLoaded', function () {
+        //    const steps = document.querySelectorAll('.stepper li');
+        //    const contents = document.querySelectorAll('.step-content');
+
+        //    steps.forEach((step, index) => {
+        //        step.addEventListener('click', () => {
+        //            steps.forEach(s => s.classList.remove('active'));
+        //            contents.forEach(c => {
+        //                c.classList.remove('active');
+        //                c.classList.remove('show');
+        //            });
+
+        //            step.classList.add('active');
+        //            contents[index].classList.add('active');
+        //            contents[index].classList.add('show');
+        //        });
+        //    });
+
+        //    // Configura los botones siguiente y anterior
+        //    const btnNext = document.querySelector('.pager .next a');
+        //    const btnPrevious = document.querySelector('.pager .previous a');
+        //    let currentStep = 0;
+
+        //    btnNext.addEventListener('click', (e) => {
+        //        e.preventDefault();
+        //        if (currentStep < steps.length - 1) {
+        //            steps[currentStep].classList.remove('active');
+        //            contents[currentStep].classList.remove('active');
+        //            contents[currentStep].classList.remove('show');
+        //            currentStep++;
+        //            steps[currentStep].classList.add('active');
+        //            contents[currentStep].classList.add('active');
+        //            contents[currentStep].classList.add('show');
+        //        }
+        //    });
+
+        //    btnPrevious.addEventListener('click', (e) => {
+        //        e.preventDefault();
+        //        if (currentStep > 0) {
+        //            steps[currentStep].classList.remove('active');
+        //            contents[currentStep].classList.remove('active');
+        //            contents[currentStep].classList.remove('show');
+        //            currentStep--;
+        //            steps[currentStep].classList.add('active');
+        //            contents[currentStep].classList.add('active');
+        //            contents[currentStep].classList.add('show');
+        //        }
+        //    });
+        //});
 
 
 
@@ -624,80 +651,7 @@
 
               
 
-        //function btnEnviar_Click(s, e) {
-        //    popupToken.Show();
-        //}
 
-
-
-        //function TokenVerificationComplete(result) {
-        //    try {
-        //        var resultData = JSON.parse(result);
-        //        var lblNombreUsuario = document.getElementById('lblNombreUsuario');
-        //        var lblEstadoUsuario = document.getElementById('lblEstadoUsuario');
-        //        var lblObs = document.getElementById('lblObs');
-        //        var progressBarFill = document.getElementById('progress-bar-fill');
-        //        var estadoColor = {
-        //            "Pre-Registrado": "gray",
-        //            "Procesado": "#FAC21A",
-        //            "Registrado": "green",
-        //            "Requiere Documentación": "orangered",
-        //            "Rechazado": "red"
-        //        };
-        //        var estadoAvance = {
-        //            "Pre-Registrado": "20%",
-        //            "Requiere Documentación": "40%",
-        //            "Procesado": "60%",
-        //            "Registrado": "100%",
-        //            "Rechazado": "100%"
-        //        };
-
-        //        if (resultData.success) {
-        //            if (lblNombreUsuario) lblNombreUsuario.innerText = resultData.nombreUsuario;
-        //            if (lblEstadoUsuario) {
-        //                lblEstadoUsuario.innerText = resultData.estadoUsuario;
-        //                if (resultData.estadoUsuario === "Requiere Documentación" || resultData.estadoUsuario === "Solicitud Rechazada") {
-        //                    lblObs.style.display = "block";
-        //                    lblObs.innerText = resultData.obs;
-        //                } else if (resultData.estadoUsuario === "Pre-Registrado" || resultData.estadoUsuario === "Procesado" || resultData.estadoUsuario === "Registrado") {
-        //                    lblObs.style.display = "none";
-        //                }
-        //                if (estadoColor[resultData.estadoUsuario]) {
-        //                    progressBarFill.style.backgroundColor = estadoColor[resultData.estadoUsuario];
-        //                    progressBarFill.style.width = estadoAvance[resultData.estadoUsuario];
-        //                    progressBarFill.innerText = estadoAvance[resultData.estadoUsuario];
-        //                }
-        //            }
-
-        //            tbIdentidad.SetText('');
-        //            popupToken.Hide();
-        //            popupUserStatus.Show();
-        //        } else {
-        //            Swal.fire({
-        //                title: "¡Alerta!",
-        //                text: resultData.message,
-        //                icon: "error",
-        //                confirmButtonColor: "#1F497D"
-        //            });
-        //            if (resultData.message === "Código de verificación incorrecto.") {
-        //                tbToken.SetText('');
-        //            } else if (resultData.message === "El código de verificación ha expirado.") {
-        //                popupToken.Hide();
-        //                tbToken.SetText('');
-        //            } else {
-        //                popupToken.Hide();
-        //                tbToken.SetText('');
-        //            }
-        //        }
-        //    } catch (e) {
-        //        Swal.fire({
-        //            title: "¡Error!",
-        //            text: "Error en la verificación del código. Por favor, inténtelo de nuevo.",
-        //            icon: "error",
-        //            confirmButtonColor: "#1F497D"
-        //        });
-        //    }
-        //}
 
         function validarFormatoCorreo(correo) {
             var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
