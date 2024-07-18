@@ -188,6 +188,12 @@
     <Reference Include="DevExpress.RichEdit.v21.2.Export, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Printing.v21.2.Core, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Web.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="zxing, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.9\lib\net48\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.16.9.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.9\lib\net48\zxing.presentation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account\AddPhoneNumber.aspx" />
@@ -446,6 +452,7 @@
     <Content Include="Content\TSC\Mesa_trabajo.jpg" />
     <Content Include="Content\TSC\Plantilla_Simbolo.jpg" />
     <Content Include="Content\TSC\QRTSC.png" />
+    <Content Include="Content\Seguimiento.js" />
     <Content Include="Content\TSC\TSC-Small - copia.png" />
     <Content Include="Content\TSC\TSC-Small.png" />
     <Content Include="Content\TSC\TSC_Partesuperior.jpg" />
@@ -465,6 +472,7 @@
     <Content Include="Root.master" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Seguimiento.aspx" />
     <Content Include="Solicitud.aspx" />
     <Content Include="SolicitudTSC.aspx" />
     <Content Include="SolicitudTSC1.aspx" />
@@ -714,6 +722,13 @@
     </Compile>
     <Compile Include="Root.master.designer.cs">
       <DependentUpon>Root.master</DependentUpon>
+    </Compile>
+    <Compile Include="Seguimiento.aspx.cs">
+      <DependentUpon>Seguimiento.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Seguimiento.aspx.designer.cs">
+      <DependentUpon>Seguimiento.aspx</DependentUpon>
     </Compile>
     <Compile Include="Servicio\CargaDocumento.cs" />
     <Compile Include="Solicitud.aspx.cs">

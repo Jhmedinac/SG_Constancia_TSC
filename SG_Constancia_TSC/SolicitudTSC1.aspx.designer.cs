@@ -204,6 +204,15 @@ namespace SG_Constancia_TSC
         protected global::DevExpress.Web.ASPxCallback ASPxCallback_EnviarToken;
 
         /// <summary>
+        /// Control ASPxCallback_Guardar_Datos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallback ASPxCallback_Guardar_Datos;
+
+        /// <summary>
         /// Control ckPolitica.
         /// </summary>
         /// <remarks>
@@ -211,6 +220,24 @@ namespace SG_Constancia_TSC
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox ckPolitica;
+
+        /// <summary>
+        /// Control popupResumen.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl popupResumen;
+
+        /// <summary>
+        /// Control btnConfirmar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton btnConfirmar;
 
         /// <summary>
         /// Control popupToken.
@@ -265,15 +292,6 @@ namespace SG_Constancia_TSC
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::DevExpress.Web.ASPxPopupControl Enviar;
-
-        /// <summary>
-        /// Control lblMessage.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMessage;
 
         /// <summary>
         /// Control Relacionado.

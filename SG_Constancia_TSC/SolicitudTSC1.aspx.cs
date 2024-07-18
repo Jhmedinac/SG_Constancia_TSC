@@ -15,12 +15,25 @@ using SG_Constancia_TSC;
 
 using DevExpress.DataAccess.Native.Web;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using DevExpress.Web.Internal.XmlProcessor;
 
 using System.Data;
 using DevExpress.Web;
 using DevExpress.Export.Xl;
+using System.Text;
+using System.Web.Services;
+using DevExpress.XtraPrinting.BarCode;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraReports.UI;
+using System.IO;
+
+using System.Drawing;
+using ZXing;
+using ZXing.Common;
+using ZXing.QrCode;
+
+using System.Drawing.Imaging;
+
 
 namespace SG_Constancia_TSC
 {
@@ -31,15 +44,16 @@ namespace SG_Constancia_TSC
 
         protected async Task<string> UploadSolicitudAsync(string idString)
         {
-            lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
+            //lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
 
             if (fileUpload1.HasFile && fileUpload1.PostedFile.ContentLength > 0)
             {
                 if (!int.TryParse(UtilClass.UtilClass.FileId_solicitud, out int idFile))
                 {
-                    lblMessage.Text = "Invalid File ID.";
+                    //lblMessage.Text = "Invalid File ID.";
                     //return "Invalid File ID.";
-                    return lblMessage.Text;
+                    //return lblMessage.Text;
+                    return "Invalid File ID.";
                 }
 
                 SubirArchivo_D subirArchivo1 = new SubirArchivo_D();
@@ -59,9 +73,10 @@ namespace SG_Constancia_TSC
 
                 if (string.IsNullOrEmpty(connectionString))
                 {
-                    lblMessage.Text = "Connection String cannot be empty.";
+                    //lblMessage.Text = "Connection String cannot be empty.";
                     //return "Connection String cannot be empty.";
-                    return lblMessage.Text;
+                    //return lblMessage.Text;
+                    return "Connection String cannot be empty.";
                 }
 
                 //HttpPostedFile file = fileUpload.PostedFile;
@@ -72,35 +87,42 @@ namespace SG_Constancia_TSC
 
                     if (result.typeResult == UtilClass.UtilClass.codigoExitoso)
                     {
-                        lblMessage.Text = "File uploaded successfully!";
+                        //lblMessage.Text = "File uploaded successfully!";
+                        return "File uploaded successfully!";
                     }
                     else
                     {
-                        lblMessage.Text = $"File upload failed: {result.message}";
+                        //lblMessage.Text = $"File upload failed: {result.message}";
+                        return $"File upload failed: {result.message}";
                     }
                 }
                 catch (Exception ex)
                 {
-                    lblMessage.Text = $"An error occurred: {ex.Message}";
+                    //lblMessage.Text = $"An error occurred: {ex.Message}";
+                    return $"An error occurred: {ex.Message}";
                 }
             }
             else
             {
-                lblMessage.Text = "Please select a file.";
+                //lblMessage.Text = "Please select a file.";
+                return "Please select a file.";
             }
-            return lblMessage.Text;
+            //return lblMessage.Text;
+            return "Please select a file.";
         }
 
         protected async Task<string> UploadReciboAsync(string idString)
         {
-            lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
+            //lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
 
             if (fileUpload2.HasFile && fileUpload2.PostedFile.ContentLength > 0)
             {
                 if (!int.TryParse(UtilClass.UtilClass.FileId_recibo, out int idFile))
                 {
-                    lblMessage.Text = "Invalid File ID.";
-                    return lblMessage.Text;
+                    //lblMessage.Text = "Invalid File ID.";
+
+                    //return lblMessage.Text;
+                    return "Invalid File ID.";
                 }
 
                 SubirArchivo_D subirArchivo2 = new SubirArchivo_D();
@@ -120,8 +142,9 @@ namespace SG_Constancia_TSC
 
                 if (string.IsNullOrEmpty(connectionString))
                 {
-                    lblMessage.Text = "Connection String cannot be empty.";
-                    return lblMessage.Text;
+                    //lblMessage.Text = "Connection String cannot be empty.";
+                    //return lblMessage.Text;
+                    return "Connection String cannot be empty.";
                 }
 
 
@@ -133,37 +156,45 @@ namespace SG_Constancia_TSC
 
                     if (result.typeResult == UtilClass.UtilClass.codigoExitoso)
                     {
-                        lblMessage.Text = "File uploaded successfully!";
+                        //lblMessage.Text = "File uploaded successfully!";
+                        return "File uploaded successfully!";
                     }
                     else
                     {
-                        lblMessage.Text = $"File upload failed: {result.message}";
+                        //lblMessage.Text = $"File upload failed: {result.message}";
+                        return $"File upload failed: {result.message}";
                     }
                 }
                 catch (Exception ex)
                 {
-                    lblMessage.Text = $"An error occurred: {ex.Message}";
+                    //lblMessage.Text = $"An error occurred: {ex.Message}";
+                    return $"An error occurred: {ex.Message}"; ;
                 }
             }
             else
             {
-                lblMessage.Text = "Please select a file.";
+                //lblMessage.Text = "Please select a file.";
+                return "Please select a file.";
+
             }
-            return lblMessage.Text;
-           
+            //return lblMessage.Text;
+            return "Please select a file.";
+
+
         }
 
 
         protected async Task<string> UploadIdentidadAsync(string idString)
         {
 
-            lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
+            //lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
+            return "Please select a file.";
 
             if (fileUpload.HasFile && fileUpload.PostedFile.ContentLength > 0)
             {
                 if (!int.TryParse(UtilClass.UtilClass.FileId_ident, out int idFile))
                 {
-                    lblMessage.Text = "Invalid File ID.";
+                    //lblMessage.Text = "Invalid File ID.";
                     return "Invalid File ID.";
                 }
 
@@ -184,7 +215,7 @@ namespace SG_Constancia_TSC
 
                 if (string.IsNullOrEmpty(connectionString))
                 {
-                    lblMessage.Text = "Connection String cannot be empty.";
+                    //lblMessage.Text = "Connection String cannot be empty.";
                     return "Connection String cannot be empty.";
                 }
 
@@ -196,48 +227,114 @@ namespace SG_Constancia_TSC
 
                     if (result.typeResult == UtilClass.UtilClass.codigoExitoso)
                     {
-                        lblMessage.Text = "File uploaded successfully!";
+                        //lblMessage.Text = "File uploaded successfully!";
+                        return "File uploaded successfully!";
                     }
                     else
                     {
-                        lblMessage.Text = $"File upload failed: {result.message}";
+                        //lblMessage.Text = $"File upload failed: {result.message}";
+                        return $"File upload failed: {result.message}";
                     }
                 }
                 catch (Exception ex)
                 {
-                    lblMessage.Text = $"An error occurred: {ex.Message}";
+                    //lblMessage.Text = $"An error occurred: {ex.Message}";
+                    return $"An error occurred: {ex.Message}";
                 }
             }
             else
             {
-                lblMessage.Text = "Please select a file.";
+                //lblMessage.Text = "Please select a file.";
+                return "Please select a file.";
             }
-            return lblMessage.Text;
+            //return lblMessage.Text;
+            return "Please select a file.";
         }
 
-        protected async void btnEnviar_Click(object sender, EventArgs e)
-        {          
+        protected async void ASPxCallback_Guardar_Datos_Callback(object source, CallbackEventArgs e)
+        {
             try
             {
+                StringBuilder sb = new StringBuilder();
                 string result = "";
-
-                //crear solicitud en base de datos con los datos del formulario y obtener el id de la solicitud
-                //int idSolicitud = CrearSolicitud();
-
-                result  = CrearSolicitud();
+                
+                // Crear solicitud en base de datos y obtener el id de la solicitud
+                
+                result = CrearSolicitud();
                 string idString = Session["Id"] != null ? Session["Id"].ToString() : string.Empty;
 
-                result = await UploadIdentidadAsync(idString);
-                result = await UploadSolicitudAsync(idString);
-                result = await UploadReciboAsync(idString);
-                // Utiliza el resultado como sea necesario
-                lblMessage.Text = "Resultado: " + result;
+                // Subir documentos de manera asíncrona y acumular los resultados en StringBuilder
+                sb.AppendLine(result);
+                sb.AppendLine(await UploadIdentidadAsync(idString));
+                sb.AppendLine(await UploadSolicitudAsync(idString));
+                sb.AppendLine(await UploadReciboAsync(idString));
+
+                // Asignar el resultado acumulado a e.Result
+                //e.Result = sb.ToString();
+                e.Result = result;
+                // Utilizar el resultado como sea necesario
+                //lblMessage.Text = "Resultado: " + sb.ToString();
             }
             catch (Exception ex)
             {
-                // Manejo de excepciones
-                lblMessage.Text = "Error: " + ex.Message;
+                HandleException(e, ex);
             }
+        }
+
+        //[WebMethod]
+        //public static string GetSessionValues()
+        //{
+        //    try
+        //    {
+        //        string constanciaId = HttpContext.Current.Session["Id"] != null ? HttpContext.Current.Session["Id"].ToString() : "0";
+        //        string randPassword = HttpContext.Current.Session["Clave"] != null ? HttpContext.Current.Session["Clave"].ToString() : string.Empty;
+        //        return $"{constanciaId}|{randPassword}";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Registra el error para revisar detalles
+        //        // Puedes usar un log, o escribir el mensaje de error en algún lugar visible para debug
+        //        return $"Error: {ex.Message}";
+        //    }
+        //}
+
+       
+
+        protected async void btnEnviar_Click(object sender, EventArgs e)
+        {          
+            //try
+            //{
+            //    string result = "";
+
+            //    //crear solicitud en base de datos con los datos del formulario y obtener el id de la solicitud
+            //    //int idSolicitud = CrearSolicitud();
+
+            //    result  = CrearSolicitud();
+            //    string idString = Session["Id"] != null ? Session["Id"].ToString() : string.Empty;
+
+            //    string result1 = await UploadIdentidadAsync(idString);
+            //    string result2 = await UploadSolicitudAsync(idString);
+            //    string result3 = await UploadReciboAsync(idString);
+            //    // Utiliza el resultado como sea necesario
+            //    //lblMessage.Text = "Resultado: " + result;
+            //    // Registra un script de inicio en el cliente para mostrar un mensaje de confirmación
+            //    //string script = $"showConfirmationMessage({constanciaId}, '{randPassword}');";
+            //    //Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowConfirmationScript", script, true);
+
+
+            //    string script = $"showConfirmationMessage('{Session["Id"]}', '{Session["Clave"]}');";
+            //    Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowConfirmationScript", script, true);
+
+            //    return;
+                
+            //}
+            //catch (Exception ex)
+            //{
+            //    // Manejo de excepciones
+            //    //lblMessage.Text = "Error: " + ex.Message;
+            //    return ;
+            //    //HandleException(e, ex);
+            //}
 
         }
              
@@ -261,7 +358,7 @@ namespace SG_Constancia_TSC
 
             catch (Exception ex)
             {
-                lblMessage.Text = "Error: " + ex.Message;
+                //lblMessage.Text = "Error: " + ex.Message;
                 return ex.Message;
 
             }          
@@ -276,7 +373,13 @@ namespace SG_Constancia_TSC
                 cmd.ExecuteNonQuery();
                 string Mens = cmd.Parameters["@MENSAGE"].Value.ToString();
                 int Retorno = Convert.ToInt32(cmd.Parameters["@RETORNO"].Value);
-                Session["Id"] = Convert.ToInt32(cmd.Parameters["@Id"].Value);
+                int constanciaId = Convert.ToInt32(cmd.Parameters["@Id"].Value);
+                string randPassword = Convert.ToString(cmd.Parameters["@Clave"].Value);
+
+                Session["Id"] = constanciaId;
+                Session["Clave"] = randPassword;
+
+                
             }
             finally
             {
@@ -321,6 +424,7 @@ namespace SG_Constancia_TSC
             cmd.Parameters.Add("@MENSAGE", SqlDbType.NVarChar, -1).Direction = ParameterDirection.Output;
             cmd.Parameters.Add("@RETORNO", SqlDbType.Int).Direction = ParameterDirection.Output;
             cmd.Parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cmd.Parameters.Add("@Clave", SqlDbType.NVarChar, -1).Direction = ParameterDirection.Output;
 
         }
 
@@ -456,6 +560,68 @@ namespace SG_Constancia_TSC
 
             //// mostrar el reporte en el visor
             //ASPxWebDocumentViewer1.OpenReport(report);
+        }
+
+        private void HandleException(CallbackEventArgs e, Exception ex)
+        {
+            var responseObj = new
+            {
+                Retorno = 0,
+                Mensaje = "Error: " + ex.Message
+            };
+            e.Result = JsonConvert.SerializeObject(responseObj);
+        }
+
+        [WebMethod]
+        public static string GetSessionValues()
+        {
+            // Obtener valores de sesión
+            string constanciaId = HttpContext.Current.Session["Id"] != null ? HttpContext.Current.Session["Id"].ToString() : "0";
+            string randPassword = HttpContext.Current.Session["Clave"] != null ? HttpContext.Current.Session["Clave"].ToString() : string.Empty;
+
+            // Generar código QR
+            string qrCodeImageUrl = GenerateQRCode(constanciaId); // Aquí llamas al método para generar el QR code
+            return $"{constanciaId}|{randPassword}|{qrCodeImageUrl}";
+            //return constanciaId + "|" + randPassword + "|" + qrCodeImageUrl;
+        }
+
+        public static string GenerateQRCode(string encryptedConstanciaId)
+        {
+            var qrWriter = new BarcodeWriterPixelData
+            {
+                Format = BarcodeFormat.QR_CODE,
+                Options = new QrCodeEncodingOptions
+                {
+                    Height = 180,
+                    Width = 180,
+                    Margin = 1
+                }
+            };
+
+            //var pixelData = qrWriter.Write("https://xxxxx/Solicitud.aspx?constanciaid=" + encryptedConstanciaId);
+            var pixelData = qrWriter.Write("http://localhost:59458/Solicitud.aspx?constanciaid=" + encryptedConstanciaId);
+
+            using (var bitmap = new Bitmap(pixelData.Width, pixelData.Height, PixelFormat.Format32bppArgb))
+            using (var ms = new MemoryStream())
+            {
+                var bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                                                 ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+                try
+                {
+                    // Transfer the image data to the bitmap
+                    System.Runtime.InteropServices.Marshal.Copy(pixelData.Pixels, 0, bitmapData.Scan0, pixelData.Pixels.Length);
+                }
+                finally
+                {
+                    bitmap.UnlockBits(bitmapData);
+                }
+
+                // Save to memory stream as PNG
+                bitmap.Save(ms, ImageFormat.Png);
+                byte[] imageBytes = ms.ToArray();
+                string base64String = Convert.ToBase64String(imageBytes);
+                return "data:image/png;base64," + base64String;
+            }
         }
     }
 }
