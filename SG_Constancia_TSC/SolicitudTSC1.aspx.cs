@@ -33,6 +33,7 @@ using ZXing.Common;
 using ZXing.QrCode;
 
 using System.Drawing.Imaging;
+using DevExpress.XtraRichEdit.API.Native;
 
 
 namespace SG_Constancia_TSC
@@ -40,9 +41,9 @@ namespace SG_Constancia_TSC
     public partial class SolicitudTSC1 : System.Web.UI.Page
     {
         readonly ConexionBD conex = new ConexionBD();
+        UploadFilesHandler uploadFilesHandler = new UploadFilesHandler();
 
-
-        protected async Task<string> UploadSolicitudAsync(string idString)
+        protected async Task<string> UploadSolicitudAsync( string idString)
         {
             //lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
 
@@ -111,7 +112,7 @@ namespace SG_Constancia_TSC
             return "Please select a file.";
         }
 
-        protected async Task<string> UploadReciboAsync(string idString)
+        protected async Task<string> UploadReciboAsync( string idString)
         {
             //lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
 
@@ -188,8 +189,7 @@ namespace SG_Constancia_TSC
         {
 
             //lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
-            return "Please select a file.";
-
+            //return "Please select a file.";
             if (fileUpload.HasFile && fileUpload.PostedFile.ContentLength > 0)
             {
                 if (!int.TryParse(UtilClass.UtilClass.FileId_ident, out int idFile))
@@ -250,55 +250,123 @@ namespace SG_Constancia_TSC
             //return lblMessage.Text;
             return "Please select a file.";
         }
-
-        protected async void ASPxCallback_Guardar_Datos_Callback(object source, CallbackEventArgs e)
-        {
-            try
-            {
-                StringBuilder sb = new StringBuilder();
-                string result = "";
-                
-                // Crear solicitud en base de datos y obtener el id de la solicitud
-                
-                result = CrearSolicitud();
-                string idString = Session["Id"] != null ? Session["Id"].ToString() : string.Empty;
-
-                // Subir documentos de manera asíncrona y acumular los resultados en StringBuilder
-                sb.AppendLine(result);
-                sb.AppendLine(await UploadIdentidadAsync(idString));
-                sb.AppendLine(await UploadSolicitudAsync(idString));
-                sb.AppendLine(await UploadReciboAsync(idString));
-
-                // Asignar el resultado acumulado a e.Result
-                //e.Result = sb.ToString();
-                e.Result = result;
-                // Utilizar el resultado como sea necesario
-                //lblMessage.Text = "Resultado: " + sb.ToString();
-            }
-            catch (Exception ex)
-            {
-                HandleException(e, ex);
-            }
-        }
-
-        //[WebMethod]
-        //public static string GetSessionValues()
+        //protected async void ASPxCallback_Guardar_Datos_Callback(object source, CallbackEventArgs e)
         //{
         //    try
         //    {
-        //        string constanciaId = HttpContext.Current.Session["Id"] != null ? HttpContext.Current.Session["Id"].ToString() : "0";
-        //        string randPassword = HttpContext.Current.Session["Clave"] != null ? HttpContext.Current.Session["Clave"].ToString() : string.Empty;
-        //        return $"{constanciaId}|{randPassword}";
+        //        StringBuilder sb = new StringBuilder();
+        //        string result = "";
+
+        //        // Crear solicitud en base de datos y obtener el id de la solicitud
+        //        result = CrearSolicitud();
+        //        string idString = Session["Id"] != null ? Session["Id"].ToString() : string.Empty;
+
+        //        // Procesar archivos subidos
+        //        HttpFileCollection uploadedFiles = HttpContext.Current.Request.Files;
+        //        if (uploadedFiles.Count > 0)
+        //        {
+        //            HttpPostedFile fileUpload = uploadedFiles["fileUpload"];
+        //            HttpPostedFile fileUpload1 = uploadedFiles["fileUpload1"];
+        //            HttpPostedFile fileUpload2 = uploadedFiles["fileUpload2"];
+
+        //            if (fileUpload != null)
+        //            {
+        //                sb.AppendLine(await UploadSolicitudAsync(fileUpload, idString, "Solicitud"));
+        //            }
+        //            if (fileUpload1 != null)
+        //            {
+        //                sb.AppendLine(await UploadIdentidadAsync(fileUpload1, idString, "Identidad"));
+        //            }
+        //            if (fileUpload2 != null)
+        //            {
+        //                sb.AppendLine(await UploadReciboAsync(fileUpload2, idString, "Recibo"));
+        //            }
+        //        }
+
+        //        // Asignar el resultado acumulado a e.Result
+        //        e.Result = sb.ToString();
         //    }
         //    catch (Exception ex)
         //    {
-        //        // Registra el error para revisar detalles
-        //        // Puedes usar un log, o escribir el mensaje de error en algún lugar visible para debug
-        //        return $"Error: {ex.Message}";
+        //        HandleException(e, ex);
         //    }
         //}
+        protected async void ASPxCallback_Guardar_Datos_Callback(object source, CallbackEventArgs e)
+        //protected void ASPxCallback_Guardar_Datos_Callback(object source, DevExpress.Web.CallbackEventArgs e)
+        {
+            string uploadResponse = e.Parameter;
 
-       
+            // Procesa el uploadResponse aquí si es necesario
+
+            // Devuelve el resultado como una cadena JSON
+            e.Result = uploadResponse; // O cualquier procesamiento adicional que desees hacer
+
+        }
+        //protected async void ASPxCallback_Guardar_Datos_Callback(object source, CallbackEventArgs e)
+             
+        //{
+
+
+        //    //    //e.Result = sb.ToString();
+        //    //    e.Result = result;
+
+        //    //try
+        //    //{
+        //    //    StringBuilder sb = new StringBuilder();
+        //    //    string result = "";
+
+        //    //    // Crear solicitud en base de datos y obtener el id de la solicitud
+        //    //    //var fileUpload = document.getElementById('<%= fileUpload.ClientID %>');
+        //    //    if (fileUpload != null)
+        //    //    {
+        //    //        if (fileUpload.HasFile)
+        //    //        {
+        //    //            string fileName = Path.GetFileName(fileUpload.PostedFile.FileName);
+        //    //        }
+        //    //    }
+        //    //    if (fileUpload1 != null)
+        //    //    {
+
+        //    //    }
+        //    //    if (fileUpload2 != null)
+        //    //    {
+
+        //    //    }
+
+        //    //    result = CrearSolicitud();
+        //    //    string idString = Session["Id"] != null ? Session["Id"].ToString() : string.Empty;
+
+        //    //    // Convertir FileUpload a HttpPostedFile
+        //    //    HttpPostedFile file1 = fileUpload.PostedFile;
+        //    //    HttpPostedFile file2 = fileUpload1.PostedFile;
+        //    //    HttpPostedFile file3 = fileUpload2.PostedFile;
+
+        //    //    sb.AppendLine(result);
+        //    //    //sb.AppendLine(await uploadFilesHandler.UploadFileAsync(file1, UtilClass.UtilClass.FileId_ident, UtilClass.UtilClass.flexFieldKeyIDENTIDAD, idString));
+        //    //    //sb.AppendLine(await uploadFilesHandler.UploadFileAsync(file2, UtilClass.UtilClass.FileId_solicitud, UtilClass.UtilClass.flexFieldKeySOLICITUD, idString));
+        //    //    //sb.AppendLine(await uploadFilesHandler.UploadFileAsync(file3, UtilClass.UtilClass.FileId_recibo, UtilClass.UtilClass.flexFieldKeyRECIBO, idString));
+
+        //    //    // Subir documentos de manera asíncrona y acumular los resultados en StringBuilder
+        //    //    //sb.AppendLine(result);
+        //    //    //sb.AppendLine(await UploadIdentidadAsync(idString));
+        //    //    //sb.AppendLine(await UploadSolicitudAsync(idString));
+        //    //    //sb.AppendLine(await UploadReciboAsync(idString));
+
+        //    //    // Asignar el resultado acumulado a e.Result
+        //    //    //e.Result = sb.ToString();
+        //    //    e.Result = result;
+        //    //    // Utilizar el resultado como sea necesario
+        //    //    //lblMessage.Text = "Resultado: " + sb.ToString();
+        //    //}
+        //    //catch (Exception ex)
+        //    //{
+        //    //    HandleException(e, ex);
+        //    //}
+        //}
+
+
+
+
 
         protected async void btnEnviar_Click(object sender, EventArgs e)
         {          
@@ -347,18 +415,15 @@ namespace SG_Constancia_TSC
                 SqlCommand cmd = SetupCommand();
                 PersonParameters(cmd);
                 ExecuteDatabaseCommand(cmd);
-                //PrepareResponse(cmd);
+
                 var result = PrepareResponse(cmd);
-                //if (CheckForSuccess(cmd))
-                //{
-                //    ManageReportCreationAndEmailing(cmd);
-                //}
+
                 return result;
             }
 
             catch (Exception ex)
             {
-                //lblMessage.Text = "Error: " + ex.Message;
+
                 return ex.Message;
 
             }          
@@ -369,7 +434,7 @@ namespace SG_Constancia_TSC
         {
             try
             {
-                conex.abrirConexion();
+                conex.AbrirConexion();
                 cmd.ExecuteNonQuery();
                 string Mens = cmd.Parameters["@MENSAGE"].Value.ToString();
                 int Retorno = Convert.ToInt32(cmd.Parameters["@RETORNO"].Value);
@@ -379,11 +444,12 @@ namespace SG_Constancia_TSC
                 Session["Id"] = constanciaId;
                 Session["Clave"] = randPassword;
 
+
                 
             }
             finally
             {
-                conex.cerrarConexion();
+                conex.CerrarConexion();
             }
         }
 
@@ -463,7 +529,7 @@ namespace SG_Constancia_TSC
             if (storedToken != null && tokenTimestamp != null)
             {
                 double elapsedMinutes = (DateTime.Now - tokenTimestamp.Value).TotalMinutes;
-                System.Diagnostics.Debug.WriteLine($"Token age in minutes: {elapsedMinutes}");
+                //System.Diagnostics.Debug.WriteLine($"Token age in minutes: {elapsedMinutes}");
 
                 if (elapsedMinutes <= 15)
                 {
@@ -472,18 +538,18 @@ namespace SG_Constancia_TSC
                     if (inputToken == storedToken)
                     {
                         e.Result = "success";
-                        System.Diagnostics.Debug.WriteLine("Token verification successful.");
+                        //System.Diagnostics.Debug.WriteLine("Token verification successful.");
                     }
                     else
                     {
                         e.Result = "incorrect";
-                        System.Diagnostics.Debug.WriteLine("Token is incorrect.");
+                        //System.Diagnostics.Debug.WriteLine("Token is incorrect.");
                     }
                 }
                 else
                 {
                     e.Result = "expired";
-                    System.Diagnostics.Debug.WriteLine("Token has expired.");
+                    //System.Diagnostics.Debug.WriteLine("Token has expired.");
                     HttpContext.Current.Session.Remove("VerificationToken");
                     HttpContext.Current.Session.Remove("TokenTimestamp");
                 }
@@ -491,7 +557,7 @@ namespace SG_Constancia_TSC
             else
             {
                 e.Result = "failure";
-                System.Diagnostics.Debug.WriteLine("Token or timestamp missing.");
+                //System.Diagnostics.Debug.WriteLine("Token or timestamp missing.");
             }
         }
 
@@ -573,16 +639,20 @@ namespace SG_Constancia_TSC
         }
 
         [WebMethod]
-        public static string GetSessionValues()
+        public static string GetSessionValues(string email, string constanciaId,string randPassword)
         {
             // Obtener valores de sesión
-            string constanciaId = HttpContext.Current.Session["Id"] != null ? HttpContext.Current.Session["Id"].ToString() : "0";
-            string randPassword = HttpContext.Current.Session["Clave"] != null ? HttpContext.Current.Session["Clave"].ToString() : string.Empty;
+            //string constanciaId = HttpContext.Current.Session["Id"] != null ? HttpContext.Current.Session["Id"].ToString() : "0";
+            //string randPassword = HttpContext.Current.Session["Clave"] != null ? HttpContext.Current.Session["Clave"].ToString() : string.Empty;
 
             // Generar código QR
             string qrCodeImageUrl = GenerateQRCode(constanciaId); // Aquí llamas al método para generar el QR code
-            return $"{constanciaId}|{randPassword}|{qrCodeImageUrl}";
-            //return constanciaId + "|" + randPassword + "|" + qrCodeImageUrl;
+
+            // Enviar el correo electrónico
+            SendEmail(constanciaId, randPassword, qrCodeImageUrl, email);
+
+            //return $"{constanciaId}|{randPassword}|{qrCodeImageUrl}";
+            return $"{qrCodeImageUrl}";
         }
 
         public static string GenerateQRCode(string encryptedConstanciaId)
@@ -622,6 +692,41 @@ namespace SG_Constancia_TSC
                 string base64String = Convert.ToBase64String(imageBytes);
                 return "data:image/png;base64," + base64String;
             }
+        }
+
+        private static void SendEmail(string constanciaId, string randPassword, string qrCodeImageUrl , string adressEmail)
+        {
+            string emailBody = "<table border='0' width='100%'>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2' align='center'><strong><font size='+2'>Solicitud recibida!</font></strong></td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2'></td></tr>" +
+                               "<tr><td colspan='2'>Copia de su solicitud ha sido enviada a su correo electrónico.</td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2'>Si desea más adelante monitorear su solicitud, siga las siguientes instrucciones:</td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2'>1) Guarde el número de su solicitud y la clave que se le indican en esta página.</td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2'>2) Cuando desee monitorear su solicitud de constancia, ingrese al portal <font color='#d62d20'>https://www.tsc.gob.hn/</font>.</td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2'>3) Posteriormente, ingrese a la viñeta de solicitud de constancias.</td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2'>4) Ingrese al enlace Seguimiento de solicitud de constancias e ingrese los datos solicitados.</td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2'>Su número de solicitud es: <font color='#d62d20'>" + constanciaId + "</font>.</td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2'>Su clave para seguimiento de Constancia es: <font color='#d62d20'>" + randPassword + "</font>.</td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2' align='center'><img src='" + qrCodeImageUrl + "' alt='Código QR'></td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2' align='center'><a href='https://www.tsc.gob.hn/' class='Letrapagina'>Salir</a></td></tr>" +
+                               "</table>";
+
+            string subject = "Solicitud de Constancia se Registró Exitosamente";
+            string ccEmail = null;
+
+            // Aquí se llama a la función para enviar el correo electrónico
+            SampleUtil.EnviarCorreo1("",subject, adressEmail, emailBody );
         }
     }
 }

@@ -9,7 +9,8 @@ using System.Configuration;
 
 namespace SG_Constancia_TSC
 {
-    public class ConexionBD
+    //public class ConexionBD
+    public class ConexionBD : IDisposable
     {
         public string error;
         //string cadena = (ConfigurationManager.ConnectionStrings["DB_PARTICIPACIONConnectionString"].ConnectionString);
@@ -20,23 +21,41 @@ namespace SG_Constancia_TSC
         {
             conexion.ConnectionString = cadena;
         }
-        public void abrirConexion()
+        public void AbrirConexion()
         {
             try
             {
-                conexion.Open();
+                if (conexion.State == ConnectionState.Closed)
+                {
+                    conexion.Open();
+                }
             }
             catch (Exception e)
             {
                 error = e.Message;
-
             }
         }
 
-        public void cerrarConexion()
+        public void CerrarConexion()
         {
+            if (conexion.State == ConnectionState.Open)
+            {
+                conexion.Close();
+            }
+        }
 
-            conexion.Close();
+        public SqlConnection ObtenerConexion()
+        {
+            return conexion;
+        }
+
+        public void Dispose()
+        {
+            CerrarConexion();
+            if (conexion != null)
+            {
+                conexion.Dispose();
+            }
         }
     }
 

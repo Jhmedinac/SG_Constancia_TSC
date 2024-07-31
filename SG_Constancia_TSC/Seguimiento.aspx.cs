@@ -36,7 +36,7 @@ namespace SG_Constancia_TSC
             if (isValid)
             {
                 // Mostrar el popup con la información
-                string script = "Relacionado.Show();";
+                string script = "setTimeout(function() { Relacionado1.Show(); }, 500);";
                 ClientScript.RegisterStartupScript(this.GetType(), "ShowPopup", script, true);
             }
             else
@@ -51,7 +51,7 @@ namespace SG_Constancia_TSC
 
             // Aquí va la lógica para validar la constancia y la clave con la base de datos
             string connectionString = ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString;// txtConnectionString.Text;";
-            string query = "SELECT COUNT(*) FROM Constancias WHERE ConstanciaId = @ConstanciaId AND Clave = @Clave";
+            string query = "SELECT COUNT(*) FROM Constancias WHERE solicitudid = @ConstanciaId AND Clave = @Clave";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -70,30 +70,46 @@ namespace SG_Constancia_TSC
         [WebMethod]
         public static string GetSessionValues(string constanciaId)
         {
-            // Obtener valores de la constancia de la base de datos
-            string estado = string.Empty;
-            string fechaCreacion = string.Empty;
-            string otrosDatos = string.Empty;
-
-            string connectionString = ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString;// txtConnectionString.Text;";;
-            string query = "SELECT Estado, FechaCreacion, Observaciones FROM Constancias WHERE ConstanciaId = @ConstanciaId";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ConstanciaId", constanciaId);
+                // Obtener valores de la constancia de la base de datos
+                string estado = string.Empty;
+                string fechaCreacion = string.Empty;
+                string otrosDatos = string.Empty;
 
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
+                string connectionString = ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString;
+                string query = @"
+                        SELECT Constancias.FechaCreacion, 
+                                Constancias.Observaciones, 
+                                Estados.Descripcion_Estado 
+                        FROM Constancias 
+                        INNER JOIN Estados ON Constancias.Estado = Estados.Id_Estado 
+                        WHERE Constancias.SolicitudId = @ConstanciaId";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    estado = reader["Estado"].ToString();
-                    fechaCreacion = reader["FechaCreacion"].ToString();
-                    otrosDatos = reader["Observaciones"].ToString();
-                }
-            }
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@ConstanciaId", constanciaId);
 
-            return $"{constanciaId}|{estado}|{fechaCreacion}|{otrosDatos}";
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        estado = reader["Descripcion_Estado"].ToString();
+                        fechaCreacion = reader["FechaCreacion"].ToString();
+                        otrosDatos = reader["Observaciones"].ToString();
+                    }
+                }
+
+                return $"{constanciaId}|{estado}|{fechaCreacion}|{otrosDatos}";
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (logging mechanism to be implemented as needed)
+                // For simplicity, we are returning the error message as part of the response
+                // In a real application, consider logging the error to a file, database, or monitoring service
+                return $"Error: {ex.Message}";
+            }
         }
     }
 }

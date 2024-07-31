@@ -177,6 +177,33 @@ namespace SG_Constancia_TSC
         protected global::System.Web.UI.WebControls.Label lblUploadStatus2;
 
         /// <summary>
+        /// Control hfFileUpload.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfFileUpload;
+
+        /// <summary>
+        /// Control hfFileUpload1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfFileUpload1;
+
+        /// <summary>
+        /// Control hfFileUpload2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfFileUpload2;
+
+        /// <summary>
         /// Control ASPxFormLayout2.
         /// </summary>
         /// <remarks>

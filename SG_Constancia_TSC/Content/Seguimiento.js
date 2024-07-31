@@ -1,9 +1,9 @@
-﻿function showConfirmationMessage1() {
+﻿function showConfirmationMessage2() {
     var constanciaId = '<%= txtConstanciaId.Text %>';
 
     $.ajax({
         type: "POST",
-        url: "SolicitudTSC1.aspx/GetSessionValues",
+        url: "Seguimiento.aspx/GetSessionValues",
         data: JSON.stringify({ constanciaId: constanciaId }),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -32,4 +32,13 @@
             console.log("Error al obtener valores de la constancia: " + thrownError);
         }
     });
+}
+
+function ClosePopupRelacionado1(s, e) {
+    //var ckPolitica = ASPxClientControl.GetControlCollection().GetByName("ckPolitica");
+    //var btnEnviarCodigo = ASPxClientControl.GetControlCollection().GetByName("btnEnviarCodigo");
+    Relacionado1.Hide();
+    //if (!ckPolitica.GetChecked()) {
+    //    btnEnviarCodigo.SetEnabled(false);
+    //}
 }

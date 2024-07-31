@@ -79,14 +79,73 @@ namespace SG_Constancia_TSC.App_Start
             return dir;
         }
 
+        public static bool EnviarCorreo3(MemoryStream stream, string Subject = "", string ToEmail = "", string Body = "", string cc = "", string attachmentName = "")
+        {
+            try
+            {
+                var from = ConfigurationManager.AppSettings["emailServiceUserName"];
+                SmtpClient Smtp = ConfigureSmtpClient();
+
+                // Create the main mail message
+                MailMessage mainMessage = CreateMailMessage(from, ToEmail, Subject, Body, cc, stream, attachmentName);
+
+                if (!string.IsNullOrEmpty(cc))
+                {
+                    mainMessage.CC.Add(new MailAddress(cc));
+                    mainMessage.Body = "<br/><br/>Por favor vea el adjunto.";
+                }
+                //Send the email
+                Smtp.Send(mainMessage);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception as needed
+                Console.WriteLine(ex.Message);
+                return false; // Indicate that the email was not sent successfully
+            }
+        }
+
+        private static MailMessage CreateMailMessage(string from, string to, string subject, string body, string cc, MemoryStream stream, string attachmentName)
+        {
+            MailMessage message = new MailMessage
+            {
+                From = new MailAddress(from, "Tribunal Superior de Cuentas"),
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true
+            };
+
+            message.To.Add(new MailAddress(to));
+
+            if (!string.IsNullOrEmpty(cc))
+            {
+                string[] ccId = cc.Split(',');
+                foreach (string ccEmail in ccId)
+                {
+                    message.CC.Add(new MailAddress(ccEmail));
+                }
+            }
+
+            if (stream != null)
+            {
+                stream.Seek(0, SeekOrigin.Begin);
+                Attachment attachedDoc = new Attachment(stream, attachmentName, "application/pdf");
+                message.Attachments.Add(attachedDoc);
+            }
+
+            return message;
+        }
+
         public static bool EnviarCorreo(string Desde, string Subject, string ToEmail, string Body)
         {
             _ = new SmtpClient("SMTPNAME", 2525)
             {
-                Credentials = new System.Net.NetworkCredential("sistemadjonline@tsc.gob.hn", "P@SsW0rd"),
+                Credentials = new System.Net.NetworkCredential("sistemastsc@tsc.gob.hn", "515+3m@5TSC1024@"),
                 DeliveryMethod = SmtpDeliveryMethod.Network
             };
-            _ = new MailMessage("sistemadjonline@tsc.gob.hn", ToEmail)
+            _ = new MailMessage("sistemastsc@tsc.gob.hn", ToEmail)
             {
                 Subject = Subject,
                 Body = Body
