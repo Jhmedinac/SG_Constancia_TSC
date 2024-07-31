@@ -38,6 +38,10 @@ namespace SG_Constancia_TSC.UtilClass
         public static string FileId_solicitud = "3"; /*SOLICITUD*/
         public static string FileId_recibo = "4";   /*RECIBO*/
 
+
+        public static int Idconstancia { get;  set; }
+        public static string Clave { get; set; }
+        
         //public static string GetSiteName()
         //{
         //    string SiteName = "";

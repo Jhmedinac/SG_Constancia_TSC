@@ -535,7 +535,9 @@
     <Content Include="Content\Fontawesome\webfonts\fa-v4compatibility.ttf" />
     <Content Include="Content\Fontawesome\webfonts\fa-v4compatibility.woff2" />
     <Content Include="bin\SG_Constancia_TSC.dll.config" />
+    <Content Include="CreateSolicitudHandler.ashx" />
     <None Include="packages.config" />
+    <Content Include="UploadFilesHandler.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -671,6 +673,9 @@
     <Compile Include="Code\AuthHelper.cs" />
     <Compile Include="ConexionBD.cs" />
     <Compile Include="Controllers\SubirArchivo.cs" />
+    <Compile Include="CreateSolicitudHandler.ashx.cs">
+      <DependentUpon>CreateSolicitudHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -760,6 +765,9 @@
     <Compile Include="Upload.aspx.designer.cs">
       <DependentUpon>Upload.aspx</DependentUpon>
     </Compile>
+    <Compile Include="UploadFilesHandler.ashx.cs">
+      <DependentUpon>UploadFilesHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Utili\Util.cs" />
     <Compile Include="Utili\Utila.cs" />
     <Compile Include="Utili\UtilClass.cs" />
@@ -800,7 +808,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>59458</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:59458/</IISUrl>
+          <IISUrl>http://localhost:59459/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

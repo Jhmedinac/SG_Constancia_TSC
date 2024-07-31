@@ -272,7 +272,7 @@ namespace SG_Constancia_TSC
         {
             try
             {
-                conex.abrirConexion();
+                conex.AbrirConexion();
                 cmd.ExecuteNonQuery();
                 string Mens = cmd.Parameters["@MENS"].Value.ToString();
                 int Retorno = Convert.ToInt32(cmd.Parameters["@RETORNO"].Value);
@@ -280,7 +280,7 @@ namespace SG_Constancia_TSC
             }
             finally
             {
-                conex.cerrarConexion();
+                conex.CerrarConexion();
             }
         }
 
@@ -333,9 +333,9 @@ namespace SG_Constancia_TSC
                 cmd.Parameters.Add("@MENS", SqlDbType.NVarChar, -1).Direction = ParameterDirection.Output;
                 cmd.Parameters.Add("@RETORNO", SqlDbType.Int).Direction = ParameterDirection.Output;
 
-                conex.abrirConexion();
+                conex.AbrirConexion();
                 cmd.ExecuteNonQuery();
-                conex.cerrarConexion();
+                conex.CerrarConexion();
 
                 return Convert.ToInt32(cmd.Parameters["@RETORNO"].Value);
             }
@@ -346,8 +346,8 @@ namespace SG_Constancia_TSC
         {
             string emailTemplatePath = Server.MapPath("~/Mensaje_Registro.html");
             string emailBody = File.ReadAllText(emailTemplatePath);
-            string subject = "Pre-Registro Exitosamente";
-            string ccEmail = "lgarcia@tsc.gob.hn";
+            string subject = "Solicitud de Constancia se Registro Exitosamente";
+            string ccEmail = "jhmedina@tsc.gob.hn";
 
             using (var pdfStream = new MemoryStream(pdfDocument))
             {

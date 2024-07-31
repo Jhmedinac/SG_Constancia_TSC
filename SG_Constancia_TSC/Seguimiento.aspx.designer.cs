@@ -78,12 +78,12 @@ namespace SG_Constancia_TSC
         protected global::System.Web.UI.WebControls.Label lblMensaje;
 
         /// <summary>
-        /// Control Relacionado.
+        /// Control Relacionado1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPopupControl Relacionado;
+        protected global::DevExpress.Web.ASPxPopupControl Relacionado1;
     }
 }

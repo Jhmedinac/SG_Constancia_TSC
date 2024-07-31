@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SolicitudTSC1.aspx.cs" Inherits="SG_Constancia_TSC.SolicitudTSC1" Async="true" %>
-
+<%@ Import Namespace="SG_Constancia_TSC.UtilClass" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -47,7 +47,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
     <script src="Content/js/jquery-3.0.0.min.js"></script>
     <script src="Content/js/bootstrap.min.js"></script>
-
+<%--    <script type="text/javascript">
+        // Incrustar valores en el JavaScript
+        
+    </script>--%>
 
 </head>
 
@@ -236,7 +239,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <asp:FileUpload ID="fileUpload" runat="server" AllowMultiple="true" />
+                                                    <asp:FileUpload ID="fileUpload" runat="server" ClientIDMode="Static"     />
                                                     <asp:Label ID="lblUploadStatus" runat="server" Text=""></asp:Label>
                                                 </div>
                                             </td>
@@ -249,7 +252,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <asp:FileUpload ID="fileUpload1" runat="server" AllowMultiple="true" />
+                                                    <asp:FileUpload ID="fileUpload1" runat="server" ClientIDMode="Static"   />
                                                     <asp:Label ID="lblUploadStatus1" runat="server" Text=""></asp:Label>
                                                 </div>
                                             </td>
@@ -262,12 +265,15 @@
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <asp:FileUpload ID="fileUpload2" runat="server" AllowMultiple="true" />
+                                                    <asp:FileUpload ID="fileUpload2" runat="server" ClientIDMode="Static"   />
                                                     <asp:Label ID="lblUploadStatus2" runat="server" Text=""></asp:Label>
                                                 </div>
                                             </td>
                                         </tr>
                                     </table>
+                                    <asp:HiddenField ID="hfFileUpload" runat="server" />
+                                    <asp:HiddenField ID="hfFileUpload1" runat="server" />
+                                    <asp:HiddenField ID="hfFileUpload2" runat="server" />
                                 </dx:LayoutItemNestedControlContainer>
                             </LayoutItemNestedControlCollection>
                         </dx:LayoutItem>
@@ -395,15 +401,7 @@
                         </ContentCollection>
                     </dx:ASPxPopupControl>
 
-                    <%--<asp:Label ID="lblMessage" runat="server" Text="" class="mt-4" Visible="false" ></asp:Label>--%>
-<%--                    <dx:ASPxPopupControl ID="Relacionado" runat="server" ClientInstanceName="Relacionado"
-                        AllowDragging="true" HeaderText="Registro Solicitud"
-                        Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" CloseOnEscape="true"
-                        EnableViewState="False" AutoUpdatePosition="true" MinHeight="750px" SettingsAdaptivity-Mode="OnWindowInnerWidth" CloseAnimationType="None" AllowResize="False" SettingsAdaptivity-VerticalAlign="WindowCenter">--%>
-                        <%--<ClientSideEvents Shown="popup_Shown_comprobante" />--%>
-<%--                        <ClientSideEvents Shown="showConfirmationMessage" />
-                        <ClientSideEvents CloseUp="ClosePopupRelacionado" />
-                    </dx:ASPxPopupControl>--%>
+
             </div>
 
             </div>
@@ -543,56 +541,9 @@
 
             // Configuración inicial de visibilidad
             updateButtonVisibility();
+
         });
-        //document.addEventListener('DOMContentLoaded', function () {
-        //    const steps = document.querySelectorAll('.stepper li');
-        //    const contents = document.querySelectorAll('.step-content');
 
-        //    steps.forEach((step, index) => {
-        //        step.addEventListener('click', () => {
-        //            steps.forEach(s => s.classList.remove('active'));
-        //            contents.forEach(c => {
-        //                c.classList.remove('active');
-        //                c.classList.remove('show');
-        //            });
-
-        //            step.classList.add('active');
-        //            contents[index].classList.add('active');
-        //            contents[index].classList.add('show');
-        //        });
-        //    });
-
-        //    // Configura los botones siguiente y anterior
-        //    const btnNext = document.querySelector('.pager .next a');
-        //    const btnPrevious = document.querySelector('.pager .previous a');
-        //    let currentStep = 0;
-
-        //    btnNext.addEventListener('click', (e) => {
-        //        e.preventDefault();
-        //        if (currentStep < steps.length - 1) {
-        //            steps[currentStep].classList.remove('active');
-        //            contents[currentStep].classList.remove('active');
-        //            contents[currentStep].classList.remove('show');
-        //            currentStep++;
-        //            steps[currentStep].classList.add('active');
-        //            contents[currentStep].classList.add('active');
-        //            contents[currentStep].classList.add('show');
-        //        }
-        //    });
-
-        //    btnPrevious.addEventListener('click', (e) => {
-        //        e.preventDefault();
-        //        if (currentStep > 0) {
-        //            steps[currentStep].classList.remove('active');
-        //            contents[currentStep].classList.remove('active');
-        //            contents[currentStep].classList.remove('show');
-        //            currentStep--;
-        //            steps[currentStep].classList.add('active');
-        //            contents[currentStep].classList.add('active');
-        //            contents[currentStep].classList.add('show');
-        //        }
-        //    });
-        //});
 
 
 
@@ -663,8 +614,9 @@
             return regex.test(valor);
         }
 
-
-
+        var fileIdIdent = <%= UtilClass.FileId_ident %>;
+        var fileIdsolicitud = <%= UtilClass.FileId_solicitud %>;
+        var fileIdrecib = <%= UtilClass.FileId_recibo %>;
 
     </script>
 

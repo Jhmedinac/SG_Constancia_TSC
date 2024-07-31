@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using System.Web;
 using System.Configuration;
+using System.IO;
 
 
 namespace SG_Constancia_TSC.Util
@@ -27,6 +28,7 @@ namespace SG_Constancia_TSC.Util
             _httpClient.DefaultRequestHeaders.Add("Password", ConfigurationManager.AppSettings["GoFilesUtlPassword"].ToString());
             _httpClient.DefaultRequestHeaders.Add("File_Path", ConfigurationManager.AppSettings["TSCFilesUtlPath"].ToString());
             //_httpClient.DefaultRequestHeaders.Add("Path", ConfigurationManager.AppSettings["GoFilesUtlConnString"].ToString());
+            //pathToSave = Path.Combine(Directory.GetCurrentDirectory(), SystemParameters.AppBasePath);
             return _httpClient;
         }
         public static HttpClient getServiceClient(string token)
