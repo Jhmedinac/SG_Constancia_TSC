@@ -25,11 +25,9 @@ function SetCampos() {
         tbApellido.SetText(''),
         tbCorreo.SetText(''),
         tbConfirmCorreo.SetText(''),
-        //tbDependencia.SetText(''),
-            //tbFechaIngreso.SetText(''),
+
         tbTelefono.SetText(''),
-        //CmbCountry.SetText(''),
-        //CmbTipoDeclaracion.SetText(''),
+
         tbIdentidad.SetText(''),
         ckPolitica.SetChecked(false);
 
@@ -47,15 +45,6 @@ function toUpperCase(id) {
 function Terminos(s, e) {
     var ckPolitica = ASPxClientControl.GetControlCollection().GetByName("ckPolitica");
     var btnEnviarCodigo = ASPxClientControl.GetControlCollection().GetByName("btnEnviarCodigo");
-
-    //var lblUploadStatus = document.getElementById('<%= lblUploadStatus.ClientID %>');
-    //var fileUpload = document.getElementById('fileUpload');
-
-    // Debugging to ensure elements are fetched correctly
-   /* console.log(ckPolitica, btnEnviarCodigo, lblUploadStatus, fileUpload);*/
-
-    //var fileUpload1 = document.getElementById('<%= fileUpload1.ClientID %>');
-    //var fileUpload2 = document.getElementById('<%= fileUpload2.ClientID %>');
 
     if (s.GetChecked()) {
         btnEnviarCodigo.SetEnabled(true);
@@ -153,10 +142,7 @@ function btnEnviarCodigo_Click(s, e) {
         tbConfirmCorreo.GetText(),
         tbTelefono.GetText(),
         tbIdentidad.GetText(),
-        //tbDependencia.GetText(),
-        //CmbCountry.GetText(),
-        //CmbTipoDeclaracion.GetText(),
-        /*tbIdentidad.GetText(),*/
+
     ];
 
     var camposVacios = campos.some(function (valor) {
@@ -276,107 +262,6 @@ function TokenVerificationComplete(result) {
                     alert("Error al crear la solicitud.");
                 }
             });
-            //$.ajax({
-            //    type: "POST",
-            //    url: "CreateSolicitudHandler.ashx",
-            //    data: {
-            //        tbIdentidad: tbIdentidad.GetValue(),
-            //        tbNombre: tbNombre.GetValue(),
-            //        tbApellido: tbApellido.GetValue(),
-            //        tbCorreo: tbCorreo.GetValue(),
-            //        tbTelefono: tbTelefono.GetValue(),
-            //        tbDireccion: tbDireccion.GetValue()
-            //    },
-            //    dataType: "json", // Asegúrate de que la respuesta sea manejada como JSON
-            //    success: function (response) {
-            //        try {
-            //            /*var result = JSON.parse(response);*/
-            //            var idConstancia = response.Idconstancia;
-            //            var clave = response.Clave;
-
-            //            // Subir los archivos una vez que se ha creado la solicitud
-            //            var formData = new FormData();
-            //            var formData1 = new FormData();
-            //            var formData2 = new FormData();
-
-            //            var fileUpload = document.getElementById('fileUpload');
-            //            var fileUpload1 = document.getElementById('fileUpload1');
-            //            var fileUpload2 = document.getElementById('fileUpload2');
-
-            //            // Asignar FlexfieldKey y FileIdKey
-            //            //var fileIdIdent = '<%= UtilClass.UtilClass.FileId_ident %>'; // Valor desde el servidor
-            //            //var fileIdsolicitud = '<%= UtilClass.UtilClass.FileId_solicitud %>'; // Valor desde el servidor
-            //            //var fileIdrecib = '<%= UtilClass.UtilClass.FileId_recibo %>'; // Valor desde el servidor
-
-            //            if (fileUpload.files.length > 0) {
-            //                formData.append("file", fileUpload.files[0]);
-            //                formData.append("flexFieldKey", "CODIGO_IDENTIDAD"); // Asigna el FlexfieldKey IDENTIDAD correspondiente
-            //                formData.append("fileIdKey", fileIdIdent); // Asigna el FlexfieldKey IDENTIDAD correspondiente
-            //            }
-            //            if (fileUpload1.files.length > 0) {
-            //                formData1.append("file", fileUpload1.files[0]);
-            //                formData1.append("flexFieldKey", "CODIGO_SOLICITUD"); // Asigna el FlexfieldKey SOLICITUD correspondiente
-            //                formData1.append("fileIdKey", fileIdsolicitud); // Asigna el FlexfieldKey IDENTIDAD correspondiente
-            //            }
-            //            if (fileUpload2.files.length > 0) {
-            //                formData2.append("file", fileUpload2.files[0]);
-            //                formData2.append("flexFieldKey", "CODIGO_RECIBO"); // Otro archivo de tipo RECIBO si es necesario
-            //                formData2.append("fileIdKey", fileIdrecib); // Asigna el FlexfieldKey IDENTIDAD correspondiente
-            //            }
-
-            //            // Incluir el idConstancia en los formData
-            //            formData.append("flexFieldValue", idConstancia);
-            //            formData1.append("flexFieldValue", idConstancia);
-            //            formData2.append("flexFieldValue", idConstancia);
-
-            //            var xhr = new XMLHttpRequest();
-            //            var xhr1 = new XMLHttpRequest();
-            //            var xhr2 = new XMLHttpRequest();
-
-            //            xhr.open("POST", "UploadFilesHandler.ashx", true);
-            //            xhr1.open("POST", "UploadFilesHandler.ashx", true);
-            //            xhr2.open("POST", "UploadFilesHandler.ashx", true);
-
-            //            xhr2.onload = function () {
-            //                if (xhr1.status === 200) {
-            //                    alert("Archivo de tipo RECIBO subido con éxito.");
-            //                } else {
-            //                    alert("Error al subir el archivo de tipo RECIBO.");
-            //                }
-            //            };
-            //            xhr1.onload = function () {
-            //                if (xhr1.status === 200) {
-            //                    alert("Archivo de tipo SOLICITUD subido con éxito.");
-            //                } else {
-            //                    alert("Error al subir el archivo de tipo SOLICITUD.");
-            //                }
-            //            };
-
-            //            xhr.onload = function () {
-            //                if (xhr.status === 200) {
-            //                    alert("Archivo de tipo IDENTIDAD subido con éxito.");
-            //                    ASPxCallback_Guardar_Datos.PerformCallback();
-            //                } else {
-            //                    alert("Error al subir el archivo de tipo IDENTIDAD.");
-            //                }
-            //            };
-
-            //            xhr.send(formData);
-            //            xhr1.send(formData1);
-            //            xhr2.send(formData2);
-            //        } catch (e) {
-            //            console.error("Error parsing JSON response: ", e);
-            //            console.error("Response received: ", response);
-            //            alert("Error en la respuesta del servidor.");
-            //        }
-            //    },
-
-                        
-                
-            //    error: function () {
-            //        alert("Error al crear la solicitud.");
-            //    }
-            //});
         } else {
             alert("Uno o más elementos del formulario no se encontraron.");
         }
@@ -394,146 +279,7 @@ function TokenVerificationComplete(result) {
     }
 }
 
-//function TokenVerificationComplete(result) {
-//    if (result === "success") {
-//        //popupToken.Hide();
-//        //ckPolitica.SetVisible(false); // Hacer visible el checkbox después de la verificación exitosa
-//        ////ckPolitica.SetChecked(false);
-//        //btnEnviarCodigo.SetVisible(false); // Ocultar el botón después de la verificación exitosa
-//        //tbToken.SetText('');
-//        //ASPxCallback_Guardar_Datos.PerformCallback();
-//        popupToken.Hide();
-//        ckPolitica.SetVisible(false);
-//        btnEnviarCodigo.SetVisible(false);
-//        tbToken.SetText('');
 
-//        var tbIdentidad = ASPxClientControl.GetControlCollection().GetByName("tbIdentidad")
-//        var tbNombre = ASPxClientControl.GetControlCollection().GetByName("tbNombre");
-//        var tbApellido = ASPxClientControl.GetControlCollection().GetByName("tbApellido");
-//        var tbCorreo = ASPxClientControl.GetControlCollection().GetByName("tbCorreo");
-//        var tbTelefono = ASPxClientControl.GetControlCollection().GetByName("tbTelefono");
-//        var tbDireccion = ASPxClientControl.GetControlCollection().GetByName("tbDireccion");
-//        //var nombre = document.getElementById('tbNombre');
-//        //var identidad = document.getElementById('tbIdentidad');
-//        //var nombre = document.getElementById('tbNombre');
-//        //var apellido = document.getElementById('tbApellido');
-//        //var correo = document.getElementById('tbCorreo');
-//        //var telefono = document.getElementById('tbTelefono');
-//        //var direccion = document.getElementById('tbDireccion');
-
-//        if (tbIdentidad && tbNombre && tbApellido && tbCorreo && tbTelefono && tbDireccion) {
-//        // Crear la solicitud primero y obtener el idString
-//            $.ajax({
-//                type: "POST",
-//                url: "CreateSolicitudHandler.ashx",
-//                data: {
-//                    tbIdentidad: tbIdentidad.GetValue(),
-//                    tbNombre: tbNombre.GetValue(),
-//                    tbApellido: tbApellido.GetValue(),
-//                    tbCorreo: tbCorreo.GetValue(),
-//                    tbTelefono: tbTelefono.GetValue(),
-//                    tbDireccion: tbDireccion.GetValue()
-//                },
-//                success: function (idString, Idconstancia) {
-//                    // Subir los archivos una vez que se ha creado la solicitud
-//                    var formData = new FormData();
-//                    var formData1 = new FormData();
-//                    var formData2 = new FormData();
-
-//                    var fileUpload = document.getElementById('fileUpload');
-//                    var fileUpload1 = document.getElementById('fileUpload1');
-//                    var fileUpload2 = document.getElementById('fileUpload2');
-
-//                    var Idconstancia = Idconstancia;
-
-//                    // Asignar FlexfieldKey y FileIdKey
-//                    var fileIdIdent = '<%= UtilClass.UtilClass.FileId_ident %>'; // Valor desde el servidor
-//                    var fileIdsolicitud = '<%= UtilClass.UtilClass.FileId_solicitud %>'; // Valor desde el servidor
-//                    var fileIdrecib = '<%= UtilClass.UtilClass.FileId_recibo %>'; // Valor desde el servidor
-
-//                    if (fileUpload.files.length > 0) {
-//                        formData.append("file", fileUpload.files[0]);
-//                        formData.append("flexFieldKey", "IDENTIDAD"); // Asigna el FlexfieldKey IDENTIDAD correspondiente
-//                        formData.append("fileIdKey", fileIdIdent); // Asigna el FlexfieldKey IDENTIDAD correspondiente
-//                    }
-//                    if (fileUpload1.files.length > 0) {
-//                        formData1.append("file", fileUpload1.files[0]);
-//                        formData1.append("flexFieldKey", "SOLICITUD"); // Asigna el FlexfieldKey SOLICITUD correspondiente
-//                        formData1.append("fileIdKey", fileIdsolicitud); // Asigna el FlexfieldKey IDENTIDAD correspondiente
-//                    }
-//                    if (fileUpload2.files.length > 0) {
-//                        formData2.append("file", fileUpload2.files[0]);
-//                        formData2.append("flexFieldKey", "RECIBO"); // Otro archivo de tipo RECIBO si es necesario
-//                        formData2.append("fileIdKey", fileIdrecib); // Asigna el FlexfieldKey IDENTIDAD correspondiente
-//                    }
-
-//                    // Incluir el idString en los formData
-//                    formData.append("flexFieldValue", Idconstancia);
-//                    formData1.append("flexFieldValue", Idconstancia);
-//                    formData2.append("flexFieldValue", Idconstancia);
-
-//                    var xhr = new XMLHttpRequest();
-//                    var xhr1 = new XMLHttpRequest();
-//                    var xhr2 = new XMLHttpRequest();
-
-//                    xhr.open("POST", "UploadFilesHandler.ashx", true);
-//                    xhr1.open("POST", "UploadFilesHandler.ashx", true);
-//                    xhr2.open("POST", "UploadFilesHandler.ashx", true);
-
-//                    xhr2.onload = function () {
-//                        if (xhr1.status === 200) {
-//                            alert("Archivo de tipo RECIBO subido con éxito.");
-//                        } else {
-//                            alert("Error al subir el archivo de tipo RECIBO.");
-//                        }
-//                    };
-//                    xhr1.onload = function () {
-//                        if (xhr1.status === 200) {
-//                            alert("Archivo de tipo SOLICITUD subido con éxito.");
-//                        } else {
-//                            alert("Error al subir el archivo de tipo SOLICITUD.");
-//                        }
-//                    };
-
-
-//                    xhr.onload = function () {
-//                        if (xhr.status === 200) {
-//                            alert("Archivo de tipo IDENTIDAD subido con éxito.");
-//                            ASPxCallback_Guardar_Datos.PerformCallback();
-//                        } else {
-//                            alert("Error al subir el archivo de tipo IDENTIDAD.");
-//                        }
-//                    };
-
-//                    xhr.send(formData);
-//                },
-//                error: function () {
-//                    alert("Error al crear la solicitud.");
-//                }
-//            });
-//        } else {
-//            alert("Uno o más elementos del formulario no se encontraron.");
-//        }
-
-
-//    } else if (result === "incorrect") {
-//        alert('Código de verificación incorrecto. Por favor, inténtelo de nuevo.');
-//        tbToken.SetText('');
-//        // No cerramos el popupToken si el código es incorrecto
-//    } else if (result === "expired") {
-//        alert('El código de verificación ha expirado. Por favor, solicite un nuevo código.');
-//        popupToken.Hide(); // Cerrar el popupToken si el código ha expirado
-//        tbToken.SetText('');
-//    } else {
-//        alert('Error en la verificación del código. Por favor, inténtelo de nuevo.');
-//        popupToken.Hide(); // Cerrar el popupToken en caso de error general
-//        tbToken.SetText('');
-//    }
-
-  
-
-    
-//}
 
 
 function updateFileNames() {
@@ -565,12 +311,7 @@ function mostrarResumen() {
     var tbCorreo = ASPxClientControl.GetControlCollection().GetByName("tbCorreo");
     var tbTelefono = ASPxClientControl.GetControlCollection().GetByName("tbTelefono");
 
-
-    //var fileUpload = document.getElementById('<%= fileUpload.ClientID %>');
-    //var fileUpload1 = document.getElementById('<%= fileUpload1.ClientID %>');
-    //var fileUpload2 = document.getElementById('<%= fileUpload2.ClientID %>');
-
-    // Obtener nombres de archivos desde campos ocultos
+       // Obtener nombres de archivos desde campos ocultos
     var fileUpload = document.getElementById('fileUpload');
     var fileUpload1 = document.getElementById('fileUpload1');
     var fileUpload2 = document.getElementById('fileUpload2');
