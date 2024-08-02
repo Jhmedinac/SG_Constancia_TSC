@@ -134,7 +134,7 @@ namespace SG_Constancia_TSC
                         result.typeResult = UtilClass.UtilClass.codigoExitoso;
                         //response.typeResult = UtilClass.UtilClass.codigoExitoso;
 
-                        return JsonConvert.SerializeObject(result); // Retornar el JSON
+                        //return JsonConvert.SerializeObject(result); // Retornar el JSON
                         response = result;
                     }
                     else

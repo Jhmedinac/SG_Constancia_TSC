@@ -167,7 +167,7 @@ namespace SG_Constancia_TSC
             if (storedToken != null && tokenTimestamp != null)
             {
                 double elapsedMinutes = (DateTime.Now - tokenTimestamp.Value).TotalMinutes;
-                System.Diagnostics.Debug.WriteLine($"Token age in minutes: {elapsedMinutes}");
+                //System.Diagnostics.Debug.WriteLine($"Token age in minutes: {elapsedMinutes}");
 
                 if (elapsedMinutes <= 15)
                 {
@@ -176,18 +176,18 @@ namespace SG_Constancia_TSC
                     if (inputToken == storedToken)
                     {
                         e.Result = "success";
-                        System.Diagnostics.Debug.WriteLine("Token verification successful.");
+                        //System.Diagnostics.Debug.WriteLine("Token verification successful.");
                     }
                     else
                     {
                         e.Result = "incorrect";
-                        System.Diagnostics.Debug.WriteLine("Token is incorrect.");
+                        //System.Diagnostics.Debug.WriteLine("Token is incorrect.");
                     }
                 }
                 else
                 {
                     e.Result = "expired";
-                    System.Diagnostics.Debug.WriteLine("Token has expired.");
+                    //System.Diagnostics.Debug.WriteLine("Token has expired.");
                     HttpContext.Current.Session.Remove("VerificationToken");
                     HttpContext.Current.Session.Remove("TokenTimestamp");
                 }
@@ -195,7 +195,7 @@ namespace SG_Constancia_TSC
             else
             {
                 e.Result = "failure";
-                System.Diagnostics.Debug.WriteLine("Token or timestamp missing.");
+                //System.Diagnostics.Debug.WriteLine("Token or timestamp missing.");
             }
         }
 
