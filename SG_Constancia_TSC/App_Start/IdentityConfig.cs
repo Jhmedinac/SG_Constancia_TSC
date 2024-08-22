@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Configuration;
+using System.Diagnostics;
+using System.Net.Mail;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -12,10 +16,50 @@ namespace SG_Constancia_TSC
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            // Conecte su servicio de correo electrónico aquí para enviar un correo electrónico.
+
+
+            var mensaje = new MailMessage();
+
+            mensaje.To.Add(message.Destination);
+            mensaje.From = new MailAddress(ConfigurationManager.AppSettings["emailServiceUserName"], "SCOL");
+
+            mensaje.Subject = message.Subject;
+            mensaje.Body = message.Body;
+            mensaje.IsBodyHtml = true;
+
+            using (var smtp = new SmtpClient())
+            {
+                var credentials = new NetworkCredential(
+                           ConfigurationManager.AppSettings["emailServiceUserName"],
+                           ConfigurationManager.AppSettings["emailServicePassword"]
+                           );
+
+                // Create a Web transport for sending email.
+                smtp.Credentials = credentials;
+                smtp.Host = ConfigurationManager.AppSettings["SMTPNAME"];
+                smtp.Port = int.Parse(ConfigurationManager.AppSettings["SMTPPORT"]);
+                smtp.EnableSsl = false;
+
+
+                //  await smtp.SendMailAsync(mensaje);
+                if (credentials != null)
+                {
+                    await smtp.SendMailAsync(mensaje);
+                }
+                else
+                {
+                    Trace.TraceError("No se pudo crear el transporte web.");
+                    await Task.FromResult(0);
+                }
+
+
+
+            }
+
+
         }
     }
 
@@ -36,6 +80,7 @@ namespace SG_Constancia_TSC
         {
         }
 
+        
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));

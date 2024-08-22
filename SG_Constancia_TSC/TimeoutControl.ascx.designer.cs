@@ -11,61 +11,43 @@ namespace SG_Constancia_TSC
 {
 
 
-    public partial class MainMaster
+    public partial class TimeoutControl
     {
 
         /// <summary>
-        /// Control Head.
+        /// Control TimeoutPopup.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder Head;
+        protected global::DevExpress.Web.ASPxPopupControl TimeoutPopup;
 
         /// <summary>
-        /// Control LeftPanelContent.
+        /// Control PopupControlContentControl1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder LeftPanelContent;
+        protected global::DevExpress.Web.PopupControlContentControl PopupControlContentControl1;
 
         /// <summary>
-        /// Control nbMain.
+        /// Control GlobalEvents.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxNavBar nbMain;
+        protected global::DevExpress.Web.ASPxGlobalEvents GlobalEvents;
 
         /// <summary>
-        /// Control PageToolbar.
+        /// Control KeepAliveHelper.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder PageToolbar;
-
-        /// <summary>
-        /// Control TimeoutControl1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::SG_Constancia_TSC.TimeoutControl TimeoutControl1;
-
-        /// <summary>
-        /// Control Content.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder Content;
+        protected global::DevExpress.Web.ASPxCallback KeepAliveHelper;
     }
 }

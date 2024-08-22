@@ -3,10 +3,8 @@ File Name: responsive.css
 ---------------------------------------------------------------------*/
 
 @media (min-width: 1343px) and (max-width: 1500px) {
-
   .owl-next {right:  -9%;}
   .owl-prev {left: -9%;}
-
 }
 
 @media (min-width: 1200px) and (max-width: 1342px) {

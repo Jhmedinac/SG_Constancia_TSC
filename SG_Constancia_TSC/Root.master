@@ -33,24 +33,13 @@
                                 <Items>
                                     <dx:MenuItem Text="" Name="ToggleLeftPanel" GroupName="LeftPanel">
                                         <ItemStyle CssClass="toggle-item vertically-aligned" CheckedStyle-CssClass="checked selected" >
-<CheckedStyle CssClass="checked selected"></CheckedStyle>
+                                <CheckedStyle CssClass="checked selected"></CheckedStyle>
                                         </ItemStyle>
                                         <Image Url="~/Content/Images/TSC-Small.png" Height="35px" Width="35px" />
                                       
                                     </dx:MenuItem>
-                                    <%--<dx:MenuItem Text="" Name="Back">
-                                        <ItemStyle CssClass="toggle-item vertically-aligned" />
-                                        <Image Url="~/Content/Images/back.svg" Height="18px" Width="18px" />
-                                    </dx:MenuItem>--%>
-                                   <%-- <dx:MenuItem Text="SG_Constancia_TSC" ItemStyle-CssClass="image-item horizontally-aligned" NavigateUrl="~/">
-                                       <%-- <Image SpriteProperties-CssClass="header-logo" />
-<ItemStyle CssClass="image-item vertically-aligned"></ItemStyle>--%>
-                                   <%-- </dx:MenuItem>--%>
+  
 
- <%--                                                    <dx:MenuItem Text="SG_Constancia_TSC" ItemStyle-CssClass="image-item horizontally-aligned" NavigateUrl="~/">
-                                        <Image SpriteProperties-CssClass="header-logo" />
-<ItemStyle CssClass="image-item vertically-aligned"></ItemStyle>
-                                   </dx:MenuItem>--%>
                                 </Items>
                                 <ClientSideEvents ItemClick="onLeftMenuItemClick" />
                             </dx:ASPxMenu>
@@ -75,7 +64,7 @@
                                     <AnonymousTemplate>
                                        <strong>
                                        <a href="~/Account/Login.aspx" runat="server" id="loginLink" style="color:white; text-decoration: none; text-decoration-color:white">INICIO DE SESIÓN</a> 
-                                        | 
+
                                         <a href="~/Account/Register.aspx" runat="server" id="registerLink" style="color:white; text-decoration:none;">REGISTRARSE</a> 
                                               </strong>
                                     </AnonymousTemplate>
@@ -98,40 +87,16 @@
                                    
                                            
                                         </TextTemplate>
-                                        <%--<Items>
-                                            <dx:MenuItem Name="SignInItem" Text="Inicio Sesión" NavigateUrl="~/Account/Login.aspx"></dx:MenuItem>
-                                            <dx:MenuItem Name="RegisterItem" Text="Registro" NavigateUrl="~/Account/Register.aspx"></dx:MenuItem>
-                                            <dx:MenuItem Name="Exit" Text="Salir" NavigateUrl="~/Account/Login.aspx"></dx:MenuItem>
-                                            <dx:MenuItem Name="MyAccountItem" Text="My account" ItemStyle-CssClass="myaccount-item">--%>
-                                                   <%-- <ItemStyle CssClass="myaccount-item"></ItemStyle>
-                                                <TextTemplate>
-                                               <div class="user-info">
-                                                        <div class="avatar">
-                                                            <img runat="server" id="AvatarUrl" src="Content/Images/user.svg" />
-                                                        </div>
-                                                        
-                                                        <div class="text-container">
-                                                            <dx:ASPxLabel ID="UserNameLabel" runat="server" CssClass="user-name"></dx:ASPxLabel>
-                                                            <dx:ASPxLabel ID="EmailLabel" runat="server" CssClass="email"></dx:ASPxLabel>
-                                                        </div>
-                                                    </div>
-                                                </TextTemplate>
-                                            </dx:MenuItem>
-                                            <dx:MenuItem Name="SignOutItem" Text="Sign out" Image-Url="Content/Images/sign-out.svg" Image-Height="16px">
-                                                <Image Height="16px" Url="Content/Images/sign-out.svg"></Image>--%>
-                                 <%--           </dx:MenuItem>
-                                        </Items>--%>
+                                            <Items>
+                                                <dx:MenuItem Name="RegisterItem" Text="Registro" NavigateUrl="~/Account/Register.aspx"></dx:MenuItem>
+                                            </Items>
+
+                                      
+                                   
                                     </dx:MenuItem>
-                                 <%--   <dx:MenuItem Text="" Name="ToggleRightPanel" GroupName="RightPanel">
-                                        <ItemStyle CssClass="toggle-item vertically-aligned" CheckedStyle-CssClass="checked selected" >
-                                                <CheckedStyle CssClass="checked selected"></CheckedStyle>
-                                        </ItemStyle>
-                                        <Image Height="18px" SpriteProperties-CssClass="image" >
-                                                 <SpriteProperties CssClass="image"></SpriteProperties>
-                                        </Image>
-                                    </dx:MenuItem>--%>
+
                                 </Items>
-                                <%--<ClientSideEvents ItemClick="onRightMenuItemClick" />--%>
+
                             </dx:ASPxMenu>
                         </div>
 
@@ -199,20 +164,10 @@
 
          
         <dx:ASPxSiteMapDataSource runat="server" ID="ApplicationMenuDataSource" SiteMapFileName="~/App_Data/ApplicationMenuDataSource.sitemap" />
-<%--        <dx:ASPxGlobalEvents runat="server">
-            <ClientSideEvents ControlsInitialized="onControlsInitialized" BrowserWindowResized="onBrowserWindowResized" />
-        </dx:ASPxGlobalEvents>--%>
+
              <div class="content" id="pageContent">
                 <asp:ContentPlaceHolder runat="server" ID="PageContent"></asp:ContentPlaceHolder>
-               <%-- <div class="footer-wrapper" id="footerWrapper">
-                    <div class="footer">
-                        <span class="footer-left">Copyright &copy; TSC-TI - <%: DateTime.Now.Year %></span>
-                        <span class="footer-right">
-                            <a class="footer-link" href="#">Privacy Policy</a>
-                            <a class="footer-link" href="#">Terms of Service</a>
-                        </span>
-                    </div>
-                </div>--%>
+
             </div>
         </div>
     </form>

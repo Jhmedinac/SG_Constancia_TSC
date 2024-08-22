@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net.Mail;
 using System.Text;
 using System.Web;
 using System.Web.UI;
@@ -12,9 +11,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using SG_Constancia_TSC.Models;
 
-
-namespace SG_Constancia_TSC {
-    public partial class Register : System.Web.UI.Page {
+namespace SG_Constancia_TSC.Account
+{
+    public partial class Registro1 : System.Web.UI.Page
+    {
         protected void Page_Load(object sender, EventArgs e)
         {
             //Form.Attributes.Add("autocomplete", "off");
@@ -32,37 +32,37 @@ namespace SG_Constancia_TSC {
             //    }
             //}
             Form.Attributes.Add("autocomplete", "off");
-            if (!IsPostBack)
-            {
+            //if (!IsPostBack)
+            //{
 
-                //if (HttpContext.Current.User.IsInRole("SAdmin"))
-                //{
-                Panel_Content.Visible = true;
+            //    if (HttpContext.Current.User.IsInRole("SAdmin"))
+            //    {
+            //        Panel_Content.Visible = true;
 
-                //}
-                //else
-                //{
-                //    Response.Redirect("~/Account/Login.aspx");
-                //    Panel_Content.Visible = false;
+            //    }
+            //    else
+            //    {
+            //        Response.Redirect("~/Account/Login.aspx");
+            //        Panel_Content.Visible = false;
 
-                //}
+            //    }
 
-            }
-            else
-            {
-                if (IsPostBack)
-                {
-                    if (Session["Name_user"] == null)
-                    {
-                        Response.RedirectLocation = "../TimeOutPage.aspx";
-                    }
-                    if (!User.Identity.IsAuthenticated)
-                    {
-                        Response.RedirectLocation = "/Account/Login.aspx";
-                        //Response.Redirect("~/Account/Login.aspx");
-                    }
-                }
-            }
+            //}
+            //else
+            //{
+            //    if (IsPostBack)
+            //    {
+            //        if (Session["Name_user"] == null)
+            //        {
+            //            Response.RedirectLocation = "../TimeOutPage.aspx";
+            //        }
+            //        if (!User.Identity.IsAuthenticated)
+            //        {
+            //            Response.RedirectLocation = "/Account/Login.aspx";
+            //            //Response.Redirect("~/Account/Login.aspx");
+            //        }
+            //    }
+            //}
 
         }
 
@@ -70,18 +70,10 @@ namespace SG_Constancia_TSC {
         {
             // DXCOMMENT: Your Registration logic 
             int año = DateTime.Now.Year;
-            string Password = "SSC" + año + "*tsc";
+            string Password = "Djl" + año + "*";
+           
 
-            //if (HttpContext.Current.GetOwinContext() != null)
-            //{
-            //    // Lógica relacionada con OWIN
-            //    Debug.WriteLine("OWIN disponible");
-            //}
-            //else
-            //{
-            //    Debug.WriteLine("OWIN no disponible");
-            //    // Manejo de la situación cuando OWIN no está disponible
-            //}
+
 
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var signInManager = Context.GetOwinContext().Get<ApplicationSignInManager>();
@@ -104,11 +96,6 @@ namespace SG_Constancia_TSC {
                     plantilla.Replace("$CallbackUrl$", callbackUrl);
 
                     manager.SendEmail(user.Id, "Confirmar Cuenta", plantilla.ToString());
-                }
-                catch (SmtpException smtpEx)
-                {
-                    // Problemas específicos con SMTP
-                    this.ErrorMessage.Text = $"Error SMTP: {smtpEx.Message}";
                 }
                 catch (Exception ex)
                 {
@@ -156,7 +143,6 @@ namespace SG_Constancia_TSC {
             return v_recibecadena;
 
         }
-
-        
     }
+
 }

@@ -1,8 +1,8 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Root.master" CodeBehind="Register.aspx.cs" Inherits="SG_Constancia_TSC.Register" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="../Root.master" AutoEventWireup="true" CodeBehind="Registro.aspx.cs" Inherits="SG_Constancia_TSC.Account.Registro1" %>
+<%--<%@ Page Title="" Language="C#" MasterPageFile="~/menu.master" AutoEventWireup="true" CodeBehind="Registro.aspx.cs" Inherits="PREDJL.Account.Registro1" %>--%>
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
-    <link href="../Content/SignInRegister%20-%20Copia.css" rel="stylesheet" />
-    <%--<link rel="stylesheet" type="text/css" href='<%# ResolveUrl("~/Content/SignInRegister - Copia.css") %>' />--%>
+     <%--<link rel="stylesheet" type="text/css" href='<%# ResolveUrl("~/Content/SignInRegister - Copia.css") %>' />--%>
+    <link href="../Content/SignInRegister - Copia.css" rel="stylesheet" />
     <style>
 
         .formLayout-container {
@@ -19,11 +19,14 @@
             width: 395px;
         }
     </style>
-  <%--  <script type="text/javascript" src='<%# ResolveUrl("~/Content/SignInRegister - Copia.js") %>'></script>--%>
-    <script src="../Content/SignInRegister%20-%20Copia.js"></script>
+    <%--<script type="text/javascript" src='<%# ResolveUrl("~/Content/SignInRegister - Copia.js") %>'></script>--%>
+    <script src="../Content/SignInRegister - Copia.js"></script>
 </asp:Content>
-<asp:Content ID="Content5" ContentPlaceHolderID="PageContent" runat="server">
-    <asp:Panel ID="Panel_Content" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="LeftPanelContent" runat="server">
+</asp:Content>
+
+<asp:Content ID="Content5" ContentPlaceHolderID="Content" runat="server">
+
    <div class="formLayout-verticalAlign">
         <div class="formLayout-container">
             <br />
@@ -87,9 +90,7 @@
                                 </LayoutItemNestedControlCollection>
                             </dx:LayoutItem>
 
-                          
 
-                  
 
                             <dx:LayoutItem Caption="Correo Eléctronico">
                                 <LayoutItemNestedControlCollection>
@@ -104,7 +105,7 @@
                                 </LayoutItemNestedControlCollection>
                             </dx:LayoutItem>
 
-                   
+                        
                         </Items>
                     </dx:LayoutGroup>
                     <dx:LayoutGroup GroupBoxDecoration="HeadingLine" ShowCaption="False">
@@ -144,5 +145,5 @@
             </dx:ASPxFormLayout>
         </div>
     </div>
-        </asp:Panel>
+
 </asp:Content>

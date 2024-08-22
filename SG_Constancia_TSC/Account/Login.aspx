@@ -1,7 +1,8 @@
 <%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Root.master" CodeBehind="Login.aspx.cs" Inherits="SG_Constancia_TSC.SignInModule" Title="Login" %>
 
+
 <asp:Content runat="server" ContentPlaceHolderID="Head">
-    <link rel="stylesheet" href="css/responsive.css"/>
+    <link rel="stylesheet" href="../Content/css/responsive.css"/>
     <link href="../Content/SignInRegister.css" rel="stylesheet" />
     <%--<link rel="stylesheet" type="text/css" href='<%# ResolveUrl("~/Content/SignInRegister.css") %>' />--%>
      <style type="text/css">
@@ -19,12 +20,11 @@
        
     
     <script type = "text/javascript">
-function disableBackButton()
-{
-window.history.forward();
-}
-setTimeout("disableBackButton()", 0);
-        </script>
+        function disableBackButton() {
+            window.history.forward();
+        }
+        setTimeout("disableBackButton()", 0);
+    </script>
 
 </asp:Content>
 
@@ -33,7 +33,7 @@ setTimeout("disableBackButton()", 0);
         <div class="formLayout-container">
             <br />
             <div style="text-align:center" >
-            <dx:ASPxImage ID="ASPxImage1"  runat="server" ShowLoadingImage="true"  ImageUrl="~/Content/TSC/Logo_TSC.jpg" ></dx:ASPxImage>    
+            <dx:ASPxImage ID="ASPxImage1"  runat="server" ShowLoadingImage="true"  ImageUrl="~/Content/TSC/LOGO_TSC_2024V1.png" ></dx:ASPxImage>    
          </div>
             <div style="text-align:center" >
          </div> 
@@ -59,18 +59,19 @@ setTimeout("disableBackButton()", 0);
 </LayoutGroup>
                             </Styles>
                             <Items>
-                                <dx:LayoutItem ShowCaption="False" ColSpan="1" HorizontalAlign="Center"><LayoutItemNestedControlCollection>
-                        <dx:LayoutItemNestedControlContainer runat="server">
-                            <table>
-                             <tr>
-                               <td style="font-size:18px;">
-                                <strong> Sistema de Pre-Registro DJL </strong>
-                               </td>
-                             </tr>
-                            </table>
-                        </dx:LayoutItemNestedControlContainer>
-                    </LayoutItemNestedControlCollection>
-                  </dx:LayoutItem>
+                            <dx:LayoutItem ShowCaption="False" ColSpan="1" HorizontalAlign="Center">
+                              <LayoutItemNestedControlCollection>
+                                <dx:LayoutItemNestedControlContainer runat="server">
+                                  <table style="width: 100%; text-align: center;">
+                                    <tr>
+                                      <td style="font-size:18px;">
+                                        <strong>Sistema de Solicitud de Constancias en Linea</strong>
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </dx:LayoutItemNestedControlContainer>
+                              </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
                                 <dx:LayoutGroup ShowCaption="False" GroupBoxDecoration="None" Paddings-Padding="16">
                                     <Paddings Padding="16px"></Paddings>
                                     <Items>

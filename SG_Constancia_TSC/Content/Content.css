@@ -424,4 +424,11 @@ blockquote footer::before
     {
         display: none !important;
     }
+
+    .logout-link {
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+        /* Agrega más estilos según tus necesidades */
+    }
 }
