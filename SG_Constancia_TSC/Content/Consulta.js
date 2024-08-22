@@ -21,16 +21,32 @@ function Guardar_Datos_Complete(s, e) {
 }
 
 function SetCampos() {
-        tbNombre.SetText(''),
+    tbNombre.SetText(''),
         tbApellido.SetText(''),
         tbCorreo.SetText(''),
         tbConfirmCorreo.SetText(''),
-
+        tbDireccion.SetText(''),
+        fileUpload.value = '';   // Corregido
+        fileUpload1.value = '';  // Corregido
+        fileUpload2.value = '';  // Corregido
         tbTelefono.SetText(''),
-
         tbIdentidad.SetText(''),
         ckPolitica.SetChecked(false);
-
+    // Usando innerHTML para las etiquetas (Labels)
+    
+        lblUploadStatus.innerHTML = '';
+        lblError.innerHTML = '';
+        lblUploadStatus1.innerHTML = '';
+        lblError1.innerHTML = '';
+        lblUploadStatus2.innerHTML = '';
+        lblError2.innerHTML = '';
+        lblSize.innerHTML = '';
+        lblSize1.innerHTML = '';
+        lblSize2.innerHTML = '';
+        lblSelected.innerHTML = '';
+        lblSelected1.innerHTML = '';
+        lblSelected2.innerHTML = '';
+        
 }
        
 function btnEnviar_ClientClick(s, e) {
@@ -125,6 +141,7 @@ function showConfirmationMessage1() {
             console.log("Error al obtener valores de sesión: " + thrownError);
         }
     });
+    SetCampos();
 }
 
 
@@ -174,7 +191,6 @@ function btnEnviarCodigo_Click(s, e) {
         }
     }
 }
-
 function TokenVerificationComplete(result) {
     if (result === "success") {
         popupToken.Hide();
@@ -216,21 +232,40 @@ function TokenVerificationComplete(result) {
                         var fileUpload1 = document.getElementById('fileUpload1');
                         var fileUpload2 = document.getElementById('fileUpload2');
 
-                        // Añadir archivos y sus respectivos metadatos
+                        // Tamaño máximo permitido en bytes (5 MB)
+                        var maxSize = 5 * 1024 * 1024;
+                        //var maxSize = 5 * 1024;
+
+                        // Añadir archivos y sus respectivos metadatos con validación de tamaño
                         if (fileUpload.files.length > 0) {
-                            formData.append("fileIdentidad", fileUpload.files[0]);
-                            formData.append("flexFieldKey", "CODIGO_IDENTIDAD");
-                            formData.append("fileIdKey", fileIdIdent);
+                            if (fileUpload.files[0].size <= maxSize) {
+                                formData.append("fileIdentidad", fileUpload.files[0]);
+                                formData.append("flexFieldKey", "CODIGO_IDENTIDAD");
+                                formData.append("fileIdKey", fileIdIdent);
+                            } else {
+                                alert("El archivo de identidad supera el tamaño máximo permitido de 5 MB.");
+                                return;
+                            }
                         }
                         if (fileUpload1.files.length > 0) {
-                            formData.append("fileSolicitud", fileUpload1.files[0]);
-                            formData.append("flexFieldKey", "CODIGO_SOLICITUD");
-                            formData.append("fileIdKey", fileIdsolicitud);
+                            if (fileUpload1.files[0].size <= maxSize) {
+                                formData.append("fileSolicitud", fileUpload1.files[0]);
+                                formData.append("flexFieldKey", "CODIGO_SOLICITUD");
+                                formData.append("fileIdKey", fileIdsolicitud);
+                            } else {
+                                alert("El archivo de solicitud supera el tamaño máximo permitido de 5 MB.");
+                                return;
+                            }
                         }
                         if (fileUpload2.files.length > 0) {
-                            formData.append("fileRecibo", fileUpload2.files[0]);
-                            formData.append("flexFieldKey", "CODIGO_RECIBO");
-                            formData.append("fileIdKey", fileIdrecib);
+                            if (fileUpload2.files[0].size <= maxSize) {
+                                formData.append("fileRecibo", fileUpload2.files[0]);
+                                formData.append("flexFieldKey", "CODIGO_RECIBO");
+                                formData.append("fileIdKey", fileIdrecib);
+                            } else {
+                                alert("El archivo de recibo supera el tamaño máximo permitido de 5 MB.");
+                                return;
+                            }
                         }
 
                         // Incluir el idConstancia en el formData
@@ -278,6 +313,110 @@ function TokenVerificationComplete(result) {
         tbToken.SetText('');
     }
 }
+
+//function TokenVerificationComplete(result) {
+//    if (result === "success") {
+//        popupToken.Hide();
+//        ckPolitica.SetVisible(false);
+//        btnEnviarCodigo.SetVisible(false);
+//        tbToken.SetText('');
+
+//        var tbIdentidad = ASPxClientControl.GetControlCollection().GetByName("tbIdentidad");
+//        var tbNombre = ASPxClientControl.GetControlCollection().GetByName("tbNombre");
+//        var tbApellido = ASPxClientControl.GetControlCollection().GetByName("tbApellido");
+//        var tbCorreo = ASPxClientControl.GetControlCollection().GetByName("tbCorreo");
+//        var tbTelefono = ASPxClientControl.GetControlCollection().GetByName("tbTelefono");
+//        var tbDireccion = ASPxClientControl.GetControlCollection().GetByName("tbDireccion");
+
+//        if (tbIdentidad && tbNombre && tbApellido && tbCorreo && tbTelefono && tbDireccion) {
+//            $.ajax({
+//                type: "POST",
+//                url: "CreateSolicitudHandler.ashx",
+//                data: {
+//                    tbIdentidad: tbIdentidad.GetValue(),
+//                    tbNombre: tbNombre.GetValue(),
+//                    tbApellido: tbApellido.GetValue(),
+//                    tbCorreo: tbCorreo.GetValue(),
+//                    tbTelefono: tbTelefono.GetValue(),
+//                    tbDireccion: tbDireccion.GetValue()
+//                },
+//                dataType: "json",
+//                success: function (response) {
+//                    try {
+//                        var idConstancia = response.Idconstancia;
+//                        globalIdConstancia = idConstancia;
+//                        var clave = response.Clave;
+//                        globalIdClave = clave;
+
+//                        // Crear un solo objeto FormData para todos los archivos
+//                        var formData = new FormData();
+
+//                        var fileUpload = document.getElementById('fileUpload');
+//                        var fileUpload1 = document.getElementById('fileUpload1');
+//                        var fileUpload2 = document.getElementById('fileUpload2');
+
+//                        // Añadir archivos y sus respectivos metadatos
+//                        if (fileUpload.files.length > 0) {
+//                            formData.append("fileIdentidad", fileUpload.files[0]);
+//                            formData.append("flexFieldKey", "CODIGO_IDENTIDAD");
+//                            formData.append("fileIdKey", fileIdIdent);
+//                        }
+//                        if (fileUpload1.files.length > 0) {
+//                            formData.append("fileSolicitud", fileUpload1.files[0]);
+//                            formData.append("flexFieldKey", "CODIGO_SOLICITUD");
+//                            formData.append("fileIdKey", fileIdsolicitud);
+//                        }
+//                        if (fileUpload2.files.length > 0) {
+//                            formData.append("fileRecibo", fileUpload2.files[0]);
+//                            formData.append("flexFieldKey", "CODIGO_RECIBO");
+//                            formData.append("fileIdKey", fileIdrecib);
+//                        }
+
+//                        // Incluir el idConstancia en el formData
+//                        formData.append("flexFieldValue", idConstancia);
+
+//                        // Realizar la solicitud AJAX para subir los archivos
+//                        $.ajax({
+//                            url: "UploadFilesHandler.ashx",
+//                            type: "POST",
+//                            data: formData,
+//                            processData: false,
+//                            contentType: false,
+//                            success: function (uploadResponse) {
+//                                alert("Archivos subidos con éxito.");
+//                                ASPxCallback_Guardar_Datos.PerformCallback(JSON.stringify(uploadResponse));
+//                            },
+//                            error: function (jqXHR, textStatus, errorThrown) {
+//                                console.error("Error al subir los archivos: ", errorThrown);
+//                                alert("Error al subir los archivos.");
+//                            }
+//                        });
+//                    } catch (e) {
+//                        console.error("Error parsing JSON response: ", e);
+//                        console.error("Response received: ", response);
+//                        alert("Error en la respuesta del servidor.");
+//                    }
+//                },
+//                error: function () {
+//                    alert("Error al crear la solicitud.");
+//                }
+//            });
+//        } else {
+//            alert("Uno o más elementos del formulario no se encontraron.");
+//        }
+//    } else if (result === "incorrect") {
+//        alert('Código de verificación incorrecto. Por favor, inténtelo de nuevo.');
+//        tbToken.SetText('');
+//    } else if (result === "expired") {
+//        alert('El código de verificación ha expirado. Por favor, solicite un nuevo código.');
+//        popupToken.Hide();
+//        tbToken.SetText('');
+//    } else {
+//        alert('Error en la verificación del código. Por favor, inténtelo de nuevo.');
+//        popupToken.Hide();
+//        tbToken.SetText('');
+//    }
+//}
 
 
 
@@ -328,9 +467,9 @@ function mostrarResumen() {
         <p><strong>Teléfono:</strong> ${tbTelefono.GetValue()}</p>
         <p><strong>Archivo(s) Seleccionado(s):</strong></p>
         <ul>
-            <li>Archivo de Solicitud: ${strfileNames}</li>
-            <li>Archivo de Identidad: ${strfileNames1}</li>
-            <li>Archivo de Recibo: ${strfileNames2}</li>
+            <li><strong>Archivo de Solicitud:</strong> ${strfileNames}</li>
+            <li><strong>Archivo de Identidad:</strong> ${strfileNames1}</li>
+            <li><strong>Archivo de Recibo:</strong> ${strfileNames2}</li>
         </ul>
     `;
 

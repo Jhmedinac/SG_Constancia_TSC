@@ -314,14 +314,14 @@ namespace SG_Constancia_TSC
             };
             e.Result = JsonConvert.SerializeObject(responseObj);
         }
-        private byte[] ExportReportToPDF(Reportes.Comprobante report)
-        {
-            using (MemoryStream stream = new MemoryStream())
-            {
-                report.ExportToPdf(stream);
-                return stream.ToArray(); // Convierte el stream a un arreglo byte directamente.
-            }
-        }
+        //private byte[] ExportReportToPDF(Reportes.Comprobante report)
+        //{
+        //    using (MemoryStream stream = new MemoryStream())
+        //    {
+        //        report.ExportToPdf(stream);
+        //        return stream.ToArray(); // Convierte el stream a un arreglo byte directamente.
+        //    }
+        //}
 
         private int SavePDFToDatabase(byte[] pdfDocument)
         {

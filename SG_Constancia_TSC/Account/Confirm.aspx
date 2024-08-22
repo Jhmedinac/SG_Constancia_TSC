@@ -1,6 +1,6 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Light.master" CodeBehind="Confirm.aspx.cs" Inherits="SG_Constancia_TSC.Confirm" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Root.master" CodeBehind="Confirm.aspx.cs" Inherits="SG_Constancia_TSC.Confirm" %>
 
-<asp:content id="ClientArea" contentplaceholderid="MainContent" runat="server">
+<asp:content id="ClientArea" contentplaceholderid="PageContent" runat="server">
      
     <div class="accountHeader">
         <h2>Account Confirmation</h2>

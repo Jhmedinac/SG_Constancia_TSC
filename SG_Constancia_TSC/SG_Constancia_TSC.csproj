@@ -274,6 +274,7 @@
     <Content Include="bin\System.Web.WebPages.Deployment.dll" />
     <Content Include="bin\System.Web.WebPages.dll" />
     <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="CodigoVerificacion.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\Consulta.js" />
     <Content Include="Content\Content.css" />
@@ -473,9 +474,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Seguimiento.aspx" />
-    <Content Include="Solicitud.aspx" />
     <Content Include="SolicitudTSC.aspx" />
-    <Content Include="SolicitudTSC1.aspx" />
+    <Content Include="TimeoutControl.ascx" />
     <Content Include="Upload.aspx" />
     <Content Include="Web.config" />
     <Content Include="App_Data\ApplicationMenuDataSource.sitemap" />
@@ -703,24 +703,6 @@
     <Compile Include="Models\CustomJsonResult.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reportes\Comprobante.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reportes\Comprobante.Designer.cs">
-      <DependentUpon>Comprobante.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Reportes\Report1.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reportes\Report1.Designer.cs">
-      <DependentUpon>Report1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Reportes\XtraReport1.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reportes\XtraReport1.Designer.cs">
-      <DependentUpon>XtraReport1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Root.master.cs">
       <DependentUpon>Root.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -736,13 +718,6 @@
       <DependentUpon>Seguimiento.aspx</DependentUpon>
     </Compile>
     <Compile Include="Servicio\CargaDocumento.cs" />
-    <Compile Include="Solicitud.aspx.cs">
-      <DependentUpon>Solicitud.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Solicitud.aspx.designer.cs">
-      <DependentUpon>Solicitud.aspx</DependentUpon>
-    </Compile>
     <Compile Include="SolicitudTSC.aspx.cs">
       <DependentUpon>SolicitudTSC.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -750,14 +725,14 @@
     <Compile Include="SolicitudTSC.aspx.designer.cs">
       <DependentUpon>SolicitudTSC.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SolicitudTSC1.aspx.cs">
-      <DependentUpon>SolicitudTSC1.aspx</DependentUpon>
+    <Compile Include="Startup.cs" />
+    <Compile Include="TimeoutControl.ascx.cs">
+      <DependentUpon>TimeoutControl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SolicitudTSC1.aspx.designer.cs">
-      <DependentUpon>SolicitudTSC1.aspx</DependentUpon>
+    <Compile Include="TimeoutControl.ascx.designer.cs">
+      <DependentUpon>TimeoutControl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Startup.cs" />
     <Compile Include="Upload.aspx.cs">
       <DependentUpon>Upload.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -774,24 +749,13 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
-    <EmbeddedResource Include="Reportes\Comprobante.resx">
-      <DependentUpon>Comprobante.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reportes\Report1.resx">
-      <DependentUpon>Report1.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reportes\XtraReport1.resx">
-      <DependentUpon>XtraReport1.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\de\" />
     <Folder Include="bin\es\" />
     <Folder Include="bin\ja\" />
     <Folder Include="bin\ru\" />
+    <Folder Include="Reportes\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

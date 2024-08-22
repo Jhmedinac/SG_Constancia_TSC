@@ -8,12 +8,14 @@ using System.Web;
 using Microsoft.AspNet.Identity;
 
 namespace SG_Constancia_TSC {
-    public partial class Root : MasterPage {
+    public partial class Root : MasterPage
+    {
         public bool EnableBackButton { get; set; }
-        protected void Page_Load(object sender, EventArgs e) {
-            if(!string.IsNullOrEmpty(Page.Header.Title))
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(Page.Header.Title))
                 Page.Header.Title += " - ";
-            Page.Header.Title = Page.Header.Title + "Tribunal Superior de Cuentas | SG_Constancia_TSC";
+            Page.Header.Title = Page.Header.Title + "Tribunal Superior de Cuentas | SOLCON";
 
             Page.Header.DataBind();
             UpdateUserMenuItemsVisible();
