@@ -22,10 +22,10 @@
     <%--<script type="text/javascript" src='<%# ResolveUrl("~/Content/SignInRegister - Copia.js") %>'></script>--%>
     <script src="../Content/SignInRegister - Copia.js"></script>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="LeftPanelContent" runat="server">
-</asp:Content>
+<%--<asp:Content ID="Content2" ContentPlaceHolderID="LeftPanelContent" runat="server">
+</asp:Content>--%>
 
-<asp:Content ID="Content5" ContentPlaceHolderID="Content" runat="server">
+<asp:Content ID="Content5" ContentPlaceHolderID="PageContent" runat="server">
 
    <div class="formLayout-verticalAlign">
         <div class="formLayout-container">
