@@ -1,61 +1,5 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/Root.master" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="SG_Constancia_TSC.MainMaster" %>
 
-<%-- DXCOMMENT: Page Main.master is a master page that contains central area layout --%>
-<%--<asp:Content ID="Content2" ContentPlaceHolderID="Content" runat="server">
-    <dx:ASPxSplitter ID="ContentSplitter" runat="server" Width="100%" Height="100%">
-                <ClientSideEvents PaneResized="function(s, e) { 
-            if(window.ASPxGridView1 && e.pane.name == 'ContentCenter')
-                ASPxGridView1.SetHeight(e.pane.GetClientHeight());
-            }" />
-                        <Styles>
-            <Pane>
-                <Paddings Padding="0px" />
-                <Border BorderWidth="0px" />
-            </Pane>
-        </Styles>
-        <Panes>
-            <dx:SplitterPane Name="ContentLeft" ShowCollapseBackwardButton="True" Size="200px" MinSize="150px">
-                <PaneStyle CssClass="leftPane"></PaneStyle>
-                <PaneStyle>
-                    <Paddings Padding="1px" />
-                </PaneStyle>
-                <ContentCollection>
-                    <dx:SplitterContentControl>
-                        <div class="leftPanel">--%>
-                            <%-- DXCOMMENT: Configure the left panel's ASPxNavBar --%>
-<%--<dx:ASPxNavBar ID="ASPxNavBar1" runat="server" AutoCollapse="True" EnableAnimation="True" Width="100%" DataSourceID="XmlDataSourceLeft">
-    <Border BorderWidth="0px" />
-    <Paddings Padding="0px" />
-</dx:ASPxNavBar>
-
-                        </div>
-                    </dx:SplitterContentControl>
-                </ContentCollection>
-            </dx:SplitterPane>
-            <dx:SplitterPane Name="ContentCenter" ScrollBars="Auto">
-                <PaneStyle CssClass="contentPane"></PaneStyle>
-                <Separator Visible="True">
-                    <SeparatorStyle>
-                        <Border BorderWidth="1px" />
-                        <BorderTop BorderWidth="0px" />
-                    </SeparatorStyle>
-                </Separator>
-                <ContentCollection>
-                    <dx:SplitterContentControl>
-                        <asp:ContentPlaceHolder ID="MainContent" runat="server" />
-                    </dx:SplitterContentControl>
-                </ContentCollection>
-            </dx:SplitterPane>
-            
-        </Panes>
-    </dx:ASPxSplitter>
-    --%>
-<%-- DXCOMMENT: Configure a datasource for the left panel's ASPxNavBar --%>
-<%--<asp:XmlDataSource ID="XmlDataSourceLeft" runat="server" DataFile="~/App_Data/SideMenu.xml"
-    XPath="/menu/*"></asp:XmlDataSource>
-
-    
-</asp:Content>--%>
 
 
 
@@ -95,7 +39,7 @@
                 </HeaderImageCollapsed>
 
             </dx:NavBarGroup>
-            <dx:NavBarGroup Text="Auto Enrolamiento DJL" Expanded="False" ItemImagePosition="Left" Name="Pre-Registro" >
+            <dx:NavBarGroup Text="Solicitudes de Constancias" Expanded="False" ItemImagePosition="Left" Name="Pre-Registro" >
                     <CollapseImage IconID="businessobjects_bo_document_svg_16x16">
                     </CollapseImage>
                     <ExpandImage IconID="businessobjects_bo_contract_svg_16x16"></ExpandImage>  
@@ -103,11 +47,11 @@
                    <%-- <dx:NavBarItem Text="Formulario Virtual de Denuncias" Name="DenunciasC" Image-IconID="tasks_newtask_16x16office2013">
                         <Image IconID="businessobjects_bo_report_svg_16x16"></Image>   
                      </dx:NavBarItem>--%>
-                     <dx:NavBarItem NavigateUrl="Clasificacion.aspx" Text="Usuarios en Proceso" Name="Clasificacion" Image-IconID="richedit_pastespecial_16x16">
+                     <dx:NavBarItem NavigateUrl="Solicitudes.aspx" Text="Solicitudes en Proceso" Name="Clasificacion" Image-IconID="richedit_pastespecial_16x16">
                         <Image IconID="businessobjects_bo_task_svg_16x16"></Image>   
                     </dx:NavBarItem>
 
-                    <dx:NavBarItem NavigateUrl="Users_Trasladados.aspx" Text="Usuarios Registrados" Name="Usuarios_Exportados" Image-IconID="richedit_pastespecial_16x16">
+                    <dx:NavBarItem NavigateUrl="Users_Trasladados.aspx" Text="Solucitudes finalizadas" Name="Usuarios_Exportados" Image-IconID="richedit_pastespecial_16x16">
                         <Image IconID="businessobjects_bo_task_svg_16x16"></Image>   
                     </dx:NavBarItem>
                 </Items>
@@ -120,7 +64,10 @@
                     <%--<dx:NavBarItem NavigateUrl="Mantenimiento/Direcciones.aspx" Text="Direcciones" Name="Direcciones" Image-IconID="richedit_pastespecial_16x16">
                          <Image IconID="iconbuilder_travel_hotel_svg_gray_16x16"></Image>     
                     </dx:NavBarItem>--%>
-                    <dx:NavBarItem NavigateUrl="Mantenimiento/Instituciones.aspx" Text="Instituciones" Name="Instituciones" Image-IconID="richedit_pastespecial_16x16" >
+                    <dx:NavBarItem NavigateUrl="Mantenimiento/Constancias.aspx" Text="Constancias" Name="Constancias" Image-IconID="richedit_pastespecial_16x16" >
+                         <Image IconID="iconbuilder_travel_hotel_svg_gray_16x16"></Image>   
+                    </dx:NavBarItem>
+                    <dx:NavBarItem NavigateUrl="Mantenimiento/Solicitudes.aspx" Text="Solicitudes de constancias" Name="Solicitudes" Image-IconID="richedit_pastespecial_16x16" >
                          <Image IconID="iconbuilder_travel_hotel_svg_gray_16x16"></Image>   
                     </dx:NavBarItem>
                     <dx:NavBarItem NavigateUrl="Mantenimiento/Usuarios.aspx" Text="Usuarios" Name="Usuarios" Image-IconID="richedit_pastespecial_16x16" >
@@ -132,12 +79,10 @@
                 </Items>
             </dx:NavBarGroup>
         </Groups>
-        <%--<ClientSideEvents ItemClick="onFiltersNavBarItemClick" />--%>
     </dx:ASPxNavBar>
 
 </asp:Content>
-<%--<asp:Content ID="Content3" ContentPlaceHolderID="RightPanelContent" runat="server">
-</asp:Content>--%>
+
 <asp:Content ID="Content4" ContentPlaceHolderID="PageToolbar" runat="server">
     <asp:ContentPlaceHolder ID="PageToolbar" runat="server" />
 </asp:Content>

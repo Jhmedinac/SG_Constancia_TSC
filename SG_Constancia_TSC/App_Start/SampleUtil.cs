@@ -4,6 +4,9 @@ using System.Configuration;
 using System;
 using System.IO;
 
+
+//using Glimpse.Core.Extensibility;
+
 namespace SG_Constancia_TSC.App_Start
 {
     public class SampleUtil
@@ -273,62 +276,87 @@ namespace SG_Constancia_TSC.App_Start
             }
         }
 
-        //public static bool EnviarCorreo(MemoryStream stream, string Subject = "", string ToEmail = "", string Body = "", string cc = "")
-        //{
-        //    try
-        //    {
-        //        var from = "";
-        //        var tto = "";
-        //        var host = "";
-        //        var username = "";
-        //        var password = "";
-        //        from = System.Configuration.ConfigurationManager.AppSettings["emailServiceUserName"];
-        //        tto = ToEmail;
-        //        host = ConfigurationManager.AppSettings["SMTPNAME"];
-        //        username = ConfigurationManager.AppSettings["emailServiceUserName"];
-        //        password = ConfigurationManager.AppSettings["emailServicePassword"];
-        //        MailMessage Message = new MailMessage();
-        //        stream.Seek(0, System.IO.SeekOrigin.Begin);
-        //        Attachment attachedDoc = new Attachment(stream, "Pre_Registro.pdf", "application/pdf");
+
+        public static void SendEmails(string emailList)
+        {
+            if (string.IsNullOrWhiteSpace(emailList))
+            {
+                ErrorLogger.LogError(new ArgumentException("La lista de correos no debe ser nula o vacía."));
+                return;
+            }
+
+            var emails = emailList.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            int maxRetryAttempts = 3;
+            int delayBetweenRetries = 2000; // 2000 milliseconds (2 seconds)
+
+            foreach (var email in emails)
+            {
+                int retryAttempt = 0;
+                bool isSuccess = false;
+
+                while (retryAttempt < maxRetryAttempts && !isSuccess)
+                {
+                    try
+                    {
+                        if (!SendNotification(email))
+                        {
+                            throw new InvalidOperationException($"Error al enviar el correo a {email}");
+                        }
+                        isSuccess = true; // If SendNotification succeeds, mark as success
+                    }
+                    catch (FormatException formatEx)
+                    {
+                        ErrorLogger.LogError(new Exception($"Formato de correo inválido: {email}", formatEx));
+                        break; // Exit loop on FormatException as it won't succeed on retry
+                    }
+                    catch (SmtpException smtpEx)
+                    {
+                        retryAttempt++;
+                        if (retryAttempt >= maxRetryAttempts)
+                        {
+                            ErrorLogger.LogError(new Exception($"Error SMTP al enviar el correo a {email} después de {maxRetryAttempts} intentos", smtpEx));
+                        }
+                        else
+                        {
+                            ErrorLogger.LogError(new Exception($"Error SMTP al enviar el correo a {email}. Reintentando... ({retryAttempt}/{maxRetryAttempts})", smtpEx));
+                            System.Threading.Thread.Sleep(delayBetweenRetries); // Delay before retrying
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorLogger.LogError(new Exception($"Error desconocido al enviar el correo a {email}", ex));
+                        break; // Exit loop on general exception
+                    }
+                }
+            }
+        }
 
 
-        //        SmtpClient Smtp = new SmtpClient();
-        //        System.Net.NetworkCredential SmtpUser = new System.Net.NetworkCredential();
-        //        Message.From = new MailAddress(from, "Declaración Jurada en Linea");
-        //        string[] CCId = cc.Split(',');
-        //        foreach (string CCEmail in CCId)
-        //        {
-        //            Message.CC.Add(new MailAddress(CCEmail));
-        //        }
-        //        Message.To.Add(new MailAddress(tto));
-        //        Message.IsBodyHtml = true;
-        //        Message.Subject = Subject;
-        //        Message.Body = Body;
-        //        Message.Attachments.Add(attachedDoc);
-        //        SmtpUser.UserName = username;
-        //        SmtpUser.Password = password;
-        //        Smtp.EnableSsl = false;
-        //        // Message.Subject.d
+        public static bool SendNotification(string email)
+        {
+            try
+            {
+                var from = ConfigurationManager.AppSettings["emailServiceUserName"];
+                SmtpClient smtp = ConfigureSmtpClient();
+                string body = GetBody();
 
-        //        Smtp.UseDefaultCredentials = false;
-        //        Smtp.Credentials = SmtpUser;
-        //        Smtp.Host = host;
-        //        Smtp.Port = int.Parse(ConfigurationManager.AppSettings["SMTPPORT"]);
-        //        Smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-        //        Smtp.Send(Message);
-        //        return true;
+                MailMessage message = CreateMailMessage(from, email, "Notificación de Creación Usuario", body, null, null, null);
+                smtp.Send(message);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false; // Indica que el correo no se envió con éxito
+            }
+        }
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return false; // Indica que el correo no se envió con éxito
+        private static string GetBody()
+        {
+            string templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MensajeCorreo.html");
+            string body = File.ReadAllText(templatePath);
+            // Reemplaza cualquier marcador de posición en la plantilla con el mensaje real
 
-
-        //    }
-
-
-
-
-        //}
+            return body;
+        }
     }
 }

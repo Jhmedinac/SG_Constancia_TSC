@@ -209,6 +209,7 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\RegisterExternalLogin.aspx" />
     <Content Include="Account\RegisterSuccess.aspx" />
+    <Content Include="Account\Registro.aspx" />
     <Content Include="Account\ResetPassword.aspx" />
     <Content Include="Account\ResetPasswordConfirmation.aspx" />
     <Content Include="Account\TwoFactorAuthenticationSignIn.aspx" />
@@ -470,10 +471,12 @@
     <Content Include="Main.master" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Mantenimiento\Usuarios.aspx" />
     <Content Include="Root.master" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Seguimiento.aspx" />
+    <Content Include="Solicitudes.aspx" />
     <Content Include="SolicitudTSC.aspx" />
     <Content Include="TimeoutControl.ascx" />
     <Content Include="Upload.aspx" />
@@ -637,6 +640,13 @@
     <Compile Include="Account\RegisterSuccess.aspx.designer.cs">
       <DependentUpon>RegisterSuccess.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Account\Registro.aspx.cs">
+      <DependentUpon>Registro.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\Registro.aspx.designer.cs">
+      <DependentUpon>Registro.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Account\ResetPassword.aspx.cs">
       <DependentUpon>ResetPassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -665,6 +675,7 @@
     <Compile Include="Account\VerifyPhoneNumber.aspx.designer.cs">
       <DependentUpon>VerifyPhoneNumber.aspx</DependentUpon>
     </Compile>
+    <Compile Include="App_Start\ErrorLogger.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\SampleDB.cs" />
     <Compile Include="App_Start\SampleUtil.cs" />
@@ -700,6 +711,13 @@
     <Compile Include="Main.master.designer.cs">
       <DependentUpon>Main.master</DependentUpon>
     </Compile>
+    <Compile Include="Mantenimiento\Usuarios.aspx.cs">
+      <DependentUpon>Usuarios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mantenimiento\Usuarios.aspx.designer.cs">
+      <DependentUpon>Usuarios.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Models\CustomJsonResult.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -718,6 +736,13 @@
       <DependentUpon>Seguimiento.aspx</DependentUpon>
     </Compile>
     <Compile Include="Servicio\CargaDocumento.cs" />
+    <Compile Include="Solicitudes.aspx.cs">
+      <DependentUpon>Solicitudes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Solicitudes.aspx.designer.cs">
+      <DependentUpon>Solicitudes.aspx</DependentUpon>
+    </Compile>
     <Compile Include="SolicitudTSC.aspx.cs">
       <DependentUpon>SolicitudTSC.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
