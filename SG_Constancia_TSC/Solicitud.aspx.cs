@@ -24,6 +24,11 @@ using SG_Constancia_TSC.Controllers;
 using System.Configuration;
 using DevExpress.DataAccess.Native.Web;
 using System.Threading.Tasks;
+using System.Drawing.Imaging;
+using System.Web.Services;
+using ZXing.QrCode;
+using ZXing;
+using System.Diagnostics;
 
 
 namespace SG_Constancia_TSC
@@ -31,138 +36,42 @@ namespace SG_Constancia_TSC
     public partial class Solicitud : System.Web.UI.Page
     {
         readonly ConexionBD conex = new ConexionBD();
-        private const string SessionKey = "UploadedFile";
+        UploadFilesHandler uploadFilesHandler = new UploadFilesHandler();
 
-        public string MyDir { get; private set; }
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void ASPxCallback_Guardar_Datos_Callback(object source, CallbackEventArgs e)
+        
         {
+            string uploadResponse = e.Parameter;
 
-            Form.Attributes.Add("autocomplete", "off");
+            // Procesa el uploadResponse aquí si es necesario
 
-            //phDenunciado.Visible = true;
-
+            // Devuelve el resultado como una cadena JSON
+            e.Result = uploadResponse; // O cualquier procesamiento adicional que desees hacer
 
         }
 
-        protected void FillCityCombo(string country)
-        {
-            if (string.IsNullOrEmpty(country)) return;
-
-        }
-
-        protected void CmbCity2_Callback(object sender, DevExpress.Web.CallbackEventArgsBase e)
-        {
-            FillCityCombo2(e.Parameter);
-        }
-
-        protected void FillCityCombo2(string country)
-        {
-            if (string.IsNullOrEmpty(country)) return;
-
-        }
-
-        protected void CmbCity_Callback(object sender, DevExpress.Web.CallbackEventArgsBase e)
-        {
-            FillCityCombo(e.Parameter);
-        }
-
-        protected void Callback_Callback(object source, CallbackEventArgs e)
-        {
-            Session.Remove(SessionKey);
-            e.Result = "OK";
-        }
-
-        protected static string llama_plantilla(string mi_plantilla)
-        {
-            System.Text.ASCIIEncoding v_codigoAscii = new System.Text.ASCIIEncoding();
-            System.Net.WebClient v_recibeDato = new System.Net.WebClient();
-            byte[] v_recibe;
-            string v_recibecadena;
-
-            try
-            {
-                v_recibe = v_recibeDato.DownloadData(mi_plantilla);
-                v_recibecadena = v_codigoAscii.GetString(v_recibe);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message.ToString() + ex.ToString());
-            }
-
-            return v_recibecadena;
-
-        }
-
-        protected void OK_Click(object sender, EventArgs e)
-        {
-
-            Response.Redirect("http://localhost:63127/AutoenrolamientoDJL.aspx");
-        }
-
-        public class UploadedFile
-        {
-            public string FileId { get; set; }
-            public string FileName { get; set; }
-            public byte[] FileBytes { get; set; }
-            // Puedes agregar más propiedades según sea necesario
-        }
-        protected void UploadControl_FileUploadComplete(object sender, FileUploadCompleteEventArgs e)
-        {
-            int maxAllowedFiles = 5; // Cambia este valor según tus necesidades
-
-            if (e.IsValid)
-            {
-                // Verifica la cantidad de archivos ya cargados
-                List<UploadedFile> uploadedFilesList = (List<UploadedFile>)Session["UploadedFilesList"] ?? new List<UploadedFile>();
-
-                if (uploadedFilesList.Count <= maxAllowedFiles)
-                {
-                    // Aún no se ha alcanzado el límite, por lo que puedes procesar el archivo
-                    UploadedFile uploadedFile = new UploadedFile
-                    {
-                        FileId = Guid.NewGuid().ToString(),
-                        FileName = e.UploadedFile.FileName,
-                        FileBytes = e.UploadedFile.FileBytes
-                        // Puedes agregar más propiedades según sea necesario
-                    };
-
-                    // Agrega el archivo a la lista temporal
-                    uploadedFilesList.Add(uploadedFile);
-                    Session["UploadedFilesList"] = uploadedFilesList;
-
-                    // Construye una cadena con la lista de archivos y asigna al CallbackData
-                    string fileList = string.Join("|", uploadedFilesList.Select(file => file.FileName));
-                    e.CallbackData = fileList;
-
-                }
-                else
-                {
-                    // Se ha alcanzado el límite, así que marca el archivo como inválido
-                    e.ErrorText = "No se permiten más de " + maxAllowedFiles + " archivos simultáneamente.";
-                    e.IsValid = false;
-                }
-
-
-            }
-
-        }
 
         protected void ASPxCallback_EnviarToken_Callback(object source, CallbackEventArgs e)
         {
             string email = e.Parameter;
             string token = GenerateToken();
-
-            SG_Constancia_TSC.App_Start.Util_g.SetToken(token, DateTime.Now);
+            //Debug.WriteLine("previo Token enviado");
+            Util_g.SetToken(token, DateTime.Now);
 
             SampleUtil.SendToken(email, token);
 
             e.Result = "Token enviado";
+            //Debug.WriteLine("Token enviado");
         }
 
+        private string GenerateToken()
+        {
+            return new Random().Next(100000, 999999).ToString();
+        }
         protected void ASPxCallback_VerificarToken_Callback(object source, CallbackEventArgs e)
         {
             string inputToken = e.Parameter;
-            var (storedToken, tokenTimestamp) = SG_Constancia_TSC.App_Start.Util_g.GetToken();
+            var (storedToken, tokenTimestamp) = Util_g.GetToken();
 
             if (storedToken != null && tokenTimestamp != null)
             {
@@ -171,7 +80,7 @@ namespace SG_Constancia_TSC
 
                 if (elapsedMinutes <= 15)
                 {
-                    SG_Constancia_TSC.App_Start.Util_g.SetToken(storedToken, tokenTimestamp.Value);
+                    Util_g.SetToken(storedToken, tokenTimestamp.Value);
 
                     if (inputToken == storedToken)
                     {
@@ -199,112 +108,57 @@ namespace SG_Constancia_TSC
             }
         }
 
-        private string GenerateToken()
-        {
-            return new Random().Next(100000, 999999).ToString();
-        }
+        /*validaciones campos*/
 
-        protected void ASPxCallback_Guardar_Datos_Callback(object source, CallbackEventArgs e)
+        protected void tbDNI_Validation(object sender, DevExpress.Web.ValidationEventArgs e)
         {
-            try
+            string id = e.Value.ToString();
+            if (!IsValidID(id))
             {
-                SqlCommand cmd = SetupCommand();
-                PopulateParameters(cmd);
-                ExecuteDatabaseCommand(cmd);
-                PrepareResponse(e, cmd);
-                if (CheckForSuccess(cmd))
-                {
-                    ManageReportCreationAndEmailing(cmd);
-                }
-            }
-            catch (Exception ex)
-            {
-                HandleException(e, ex);
+                e.IsValid = false;
+                e.ErrorText = "El Número de identificación es incorrecto.";
             }
         }
 
-        private void PrepareResponse(CallbackEventArgs e, SqlCommand cmd)
+        private bool IsValidID(string id)
         {
-            var responseObj = new
+            // Validación para el Documento Nacional de Identificación (DNI)
+            if (id.Length == 13 && IsNumeric(id))
             {
-                Retorno = Convert.ToInt32(cmd.Parameters["@RETORNO"].Value),
-                Mensaje = cmd.Parameters["@MENS"].Value.ToString(),
-            };
-            e.Result = JsonConvert.SerializeObject(responseObj);
-        }
-        private SqlCommand SetupCommand()
-        {
-            var cmd = new SqlCommand
-            {
-                CommandType = CommandType.StoredProcedure,
-                CommandText = "[gral].[sp_gestion_PreRegistro]",
-                Connection = conex.conexion
-            };
-            return cmd;
-        }
-        private void PopulateParameters(SqlCommand cmd)
-        {
-            string email = tbCorreo.Text;
-        //string DNI = tbDNI.Text;
-            string FirstName = tbNombre.Text;
-            string LastName = tbApellido.Text;
-        //string Address = tbDependencia.Text;
-            //string Company = CmbCountry.Text;
-        //string Phone = tbCelular.Text;
-            //string TypeDeclaration = CmbTipoDeclaracion.Text;
-            bool Policy = ckPolitica.Checked;
-            cmd.Parameters.Add("@pcEmail", SqlDbType.NVarChar, 500).Value = email;
-            //cmd.Parameters.Add("@pnDNI", SqlDbType.NVarChar, 500).Value = DNI;
-            cmd.Parameters.Add("@pcFirstName", SqlDbType.NVarChar, 500).Value = FirstName;
-            cmd.Parameters.Add("@pcLastName", SqlDbType.NVarChar, 500).Value = LastName;
-            //cmd.Parameters.Add("@pnAddress", SqlDbType.NVarChar, 500).Value = Address;
-            //cmd.Parameters.Add("@pcCompany", SqlDbType.NVarChar, 500).Value = Company;
-            //cmd.Parameters.Add("@pnPhone", SqlDbType.NVarChar).Value = Phone;
-            //cmd.Parameters.Add("@pcTypeDeclaration", SqlDbType.NVarChar, 500).Value = TypeDeclaration;
-            cmd.Parameters.Add("@pbPolitica", SqlDbType.Bit).Value = Policy;
-            cmd.Parameters.Add("@MENS", SqlDbType.NVarChar, -1).Direction = ParameterDirection.Output;
-            cmd.Parameters.Add("@RETORNO", SqlDbType.Int).Direction = ParameterDirection.Output;
-            cmd.Parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
-
-        }
-
-        private void ExecuteDatabaseCommand(SqlCommand cmd)
-        {
-            try
-            {
-                conex.AbrirConexion();
-                cmd.ExecuteNonQuery();
-                string Mens = cmd.Parameters["@MENS"].Value.ToString();
-                int Retorno = Convert.ToInt32(cmd.Parameters["@RETORNO"].Value);
-                Session["Id"] = Convert.ToInt32(cmd.Parameters["@Id"].Value);
+                return true;
             }
-            finally
+            // Validación para el pasaporte
+            else if (id.Length >= 6 && id.Length <= 9 && IsAlphanumeric(id))
             {
-                conex.CerrarConexion();
+                return true;
             }
-        }
-
-        private bool CheckForSuccess(SqlCommand cmd)
-        {
-            int retorno = Convert.ToInt32(cmd.Parameters["@RETORNO"].Value);
-            return retorno == 1;
-        }
-
-
-        private void ManageReportCreationAndEmailing(SqlCommand cmd)
-        {
-            string encryptedId = SG_Constancia_TSC.App_Start.Util_g.Encrypt(Session["Id"].ToString());
-            Reportes.Comprobante report = GenerarReporte(encryptedId);
-            AgregarCodigoQRAlReporte(report, encryptedId);
-
-            byte[] pdfDocument = ExportReportToPDF(report);
-            if (pdfDocument != null && pdfDocument.Length > 0)
+            // Validación para el carnet de residencia
+            else if (id.Length == 9 && IsAlphanumeric(id))
             {
-                SavePDFToDatabase(pdfDocument);
-                SendEmailWithPDFAttachment(pdfDocument);
+                return true;
             }
+            return false;
         }
 
+        private bool IsNumeric(string value)
+        {
+            foreach (char c in value)
+            {
+                if (!char.IsDigit(c))
+                    return false;
+            }
+            return true;
+        }
+
+        private bool IsAlphanumeric(string value)
+        {
+            foreach (char c in value)
+            {
+                if (!char.IsLetterOrDigit(c))
+                    return false;
+            }
+            return true;
+        }
         private void HandleException(CallbackEventArgs e, Exception ex)
         {
             var responseObj = new
@@ -314,188 +168,97 @@ namespace SG_Constancia_TSC
             };
             e.Result = JsonConvert.SerializeObject(responseObj);
         }
-        //private byte[] ExportReportToPDF(Reportes.Comprobante report)
-        //{
-        //    using (MemoryStream stream = new MemoryStream())
-        //    {
-        //        report.ExportToPdf(stream);
-        //        return stream.ToArray(); // Convierte el stream a un arreglo byte directamente.
-        //    }
-        //}
 
-        private int SavePDFToDatabase(byte[] pdfDocument)
+        [WebMethod]
+        public static string GetSessionValues(string email, string constanciaId, string randPassword)
         {
-            using (SqlCommand cmd = new SqlCommand("[gral].[sp_Guardar_PDF]", conex.conexion))
+            // Obtener valores de sesión
+            //string constanciaId = HttpContext.Current.Session["Id"] != null ? HttpContext.Current.Session["Id"].ToString() : "0";
+            //string randPassword = HttpContext.Current.Session["Clave"] != null ? HttpContext.Current.Session["Clave"].ToString() : string.Empty;
+
+            // Generar código QR
+            string qrCodeImageUrl = GenerateQRCode(constanciaId); // Aquí llamas al método para generar el QR code
+
+            // Enviar el correo electrónico
+            SendEmail(constanciaId, randPassword, qrCodeImageUrl, email);
+
+            //return $"{constanciaId}|{randPassword}|{qrCodeImageUrl}";
+            return $"{qrCodeImageUrl}";
+        }
+
+        public static string GenerateQRCode(string encryptedConstanciaId)
+        {
+            var qrWriter = new BarcodeWriterPixelData
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Session["Id"];
-                cmd.Parameters.Add("@pdfDocument", SqlDbType.VarBinary).Value = pdfDocument;
-                cmd.Parameters.Add("@MENS", SqlDbType.NVarChar, -1).Direction = ParameterDirection.Output;
-                cmd.Parameters.Add("@RETORNO", SqlDbType.Int).Direction = ParameterDirection.Output;
-
-                conex.AbrirConexion();
-                cmd.ExecuteNonQuery();
-                conex.CerrarConexion();
-
-                return Convert.ToInt32(cmd.Parameters["@RETORNO"].Value);
-            }
-        }
-
-
-        private void SendEmailWithPDFAttachment(byte[] pdfDocument)
-        {
-            string emailTemplatePath = Server.MapPath("~/Mensaje_Registro.html");
-            string emailBody = File.ReadAllText(emailTemplatePath);
-            string subject = "Solicitud de Constancia se Registro Exitosamente";
-            string ccEmail = "jhmedina@tsc.gob.hn";
-
-            using (var pdfStream = new MemoryStream(pdfDocument))
-            {
-                SampleUtil.EnviarCorreo(pdfStream, subject, tbCorreo.Text, emailBody, ccEmail);
-            }
-        }
-
-        protected void callbackpane_comprobante_callback(object sender, CallbackEventArgsBase e)
-        {
-            // generar el identificador encriptado una sola vez y pasarlo a otros métodos
-            string encryptedid = SG_Constancia_TSC.App_Start.Util_g.Encrypt(Session["id"].ToString());
-            
-            Reportes.Comprobante report = GenerarReporte(encryptedid);
-
-            // agregar el código qr al reporte
-            AgregarCodigoQRAlReporte(report, encryptedid);
-
-            // mostrar el reporte en el visor
-            ASPxWebDocumentViewer1.OpenReport(report);
-        }
-
-        protected Reportes.Comprobante GenerarReporte(string encryptedId)
-        {
-            Reportes.Comprobante report = new Reportes.Comprobante();
-            report.Parameters["Id"].Value = SG_Constancia_TSC.App_Start.Util_g.Decrypt(encryptedId);
-            return report;
-        }
-
-        protected void AgregarCodigoQRAlReporte(Reportes.Comprobante report, string encryptedId)
-        {
-            XRBarCode xrBarCode = new XRBarCode
-            {
-                Symbology = new QRCodeGenerator
+                Format = BarcodeFormat.QR_CODE,
+                Options = new QrCodeEncodingOptions
                 {
-                    CompactionMode = QRCodeCompactionMode.Byte,
-                    ErrorCorrectionLevel = QRCodeErrorCorrectionLevel.H,
-                    Version = QRCodeVersion.Version4
-                },
-                Text = "https://presdjl.tsc.gob.hn/Doc.aspx?id=" + encryptedId,
-                ShowText = false,
-                AutoModule = true,
-                WidthF = 176.46f,
-                HeightF = 179.58f,
-                LocationF = new PointF(235.42f, 19.79f),
-                Module = 2,
-                Padding = new PaddingInfo(10, 10, 10, 10)
+                    Height = 180,
+                    Width = 180,
+                    Margin = 1
+                }
             };
-            report.Bands["GroupFooter1"].Controls.Add(xrBarCode);
+
+            //var pixelData = qrWriter.Write("https://xxxxx/Solicitud.aspx?constanciaid=" + encryptedConstanciaId);
+            var pixelData = qrWriter.Write("http://localhost:59458/Solicitud.aspx?constanciaid=" + encryptedConstanciaId);
+
+            using (var bitmap = new Bitmap(pixelData.Width, pixelData.Height, PixelFormat.Format32bppArgb))
+            using (var ms = new MemoryStream())
+            {
+                var bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                                                 ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+                try
+                {
+                    // Transfer the image data to the bitmap
+                    System.Runtime.InteropServices.Marshal.Copy(pixelData.Pixels, 0, bitmapData.Scan0, pixelData.Pixels.Length);
+                }
+                finally
+                {
+                    bitmap.UnlockBits(bitmapData);
+                }
+
+                // Save to memory stream as PNG
+                bitmap.Save(ms, ImageFormat.Png);
+                byte[] imageBytes = ms.ToArray();
+                string base64String = Convert.ToBase64String(imageBytes);
+                return "data:image/png;base64," + base64String;
+            }
         }
 
-        //protected async Task btnUpload_ClickAsync(object sender, EventArgs e)
-        //{
-
-        //}
-        protected async Task MyUploadFileAsync()
+        private static void SendEmail(string constanciaId, string randPassword, string qrCodeImageUrl, string adressEmail)
         {
-             if (fileUpload.HasFile && fileUpload.PostedFile.ContentLength > 0)
-            {
-                int idFile = Convert.ToInt32(UtilClass.UtilClass.FileId_ident);
-                    //if (!int.TryParse(UtilClass.UtilClass.fileId_ident, out idFile))
-                    //{
-                    //    lblMessage.Text = "Invalid File ID.";
-                    //    return;
-                    //}
+            string emailBody = "<table border='0' width='100%'>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2' align='center'><strong><font size='+2'>Solicitud recibida!</font></strong></td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2'></td></tr>" +
+                               "<tr><td colspan='2'>Copia de su solicitud ha sido enviada a su correo electrónico.</td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2'>Si desea más adelante monitorear su solicitud, siga las siguientes instrucciones:</td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2'>1) Guarde el número de su solicitud y la clave que se le indican en esta página.</td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2'>2) Cuando desee monitorear su solicitud de constancia, ingrese al portal <font color='#d62d20'>https://www.tsc.gob.hn/</font>.</td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2'>3) Posteriormente, ingrese a la viñeta de solicitud de constancias.</td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2'>4) Ingrese al enlace Seguimiento de solicitud de constancias e ingrese los datos solicitados.</td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2'>Su número de solicitud es: <font color='#d62d20'>" + constanciaId + "</font>.</td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2'>Su clave para seguimiento de Constancia es: <font color='#d62d20'>" + randPassword + "</font>.</td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2' align='center'><img src='" + qrCodeImageUrl + "' alt='Código QR'></td></tr>" +
+                               "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                               "<tr><td colspan='2' align='center'><a href='https://www.tsc.gob.hn/' class='Letrapagina'>Salir</a></td></tr>" +
+                               "</table>";
 
-                    SubirArchivo_D subirArchivo = new SubirArchivo_D();
-                    string FlexfieldKey = UtilClass.UtilClass.flexFieldKeyIDENTIDAD; // CargaDocumento
-                                                                                     //subirArchivo.FlexfieldValue = modeloDocumento.codigo_ticket.ToString();
-                    subirArchivo.FlexfieldKey = FlexfieldKey;
-                    subirArchivo.FlexfieldValue = "1";
-                    //var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
+            string subject = "Solicitud de Constancia se Registró Exitosamente";
+            string ccEmail = null;
 
-                    //string flexFieldsValue = "0";//txtFlexFields.Text;
-                    string connectionString = ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString;// txtConnectionString.Text;
-                    HttpPostedFile file = fileUpload.PostedFile;
-                    var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
+            // Aquí se llama a la función para enviar el correo electrónico
+            SampleUtil.EnviarCorreo1("", subject, adressEmail, emailBody);
 
-
-                    //response = await services.CargaDocumento.SubirArchivo(UtilClass.fileIdDocumentoSeguimiento, evidencia, flexFieldString);
-                    //if (string.IsNullOrEmpty(response.result.ToString()) || response.typeResult.Equals(UtilClass.codigoError))
-                    //{
-                    //    response.result = new { };
-                    //    response.message = "Ocurrió un error inesperado al intentar cargar el archivo.";
-                    //    return Content(JsonConvert.SerializeObject(response), "application/json");
-                    //}
-                    //codReferencia = Convert.ToInt32(response.result);
-                    //modeloDocumento.referenciaDocumento = codReferencia;
-
-                    var result = await SubirArchivo.SubirArchivo_t(idFile, file, flexFieldString, connectionString);
-
-                            if (result.typeResult == UtilClass.UtilClass.codigoExitoso)
-                            {
-                                lblMessage.Text = "File uploaded successfully!";
-                            }
-                            else
-                            {
-                                lblMessage.Text = $"File upload failed: {result.message}";
-                            }
-                        }
-                        else
-            {
-                lblMessage.Text = "Please select a file.";
-            }
-        }   
-
-
-
-        protected void btnUpload_Click(object sender, EventArgs e)
-        {
-            _ = MyUploadFileAsync();
         }
     }
-
-    // 28 junio 2024
-    // carga de archivos
-
-    //protected async void btnUpload_Click(object sender, EventArgs e)
-    //{
-    //    if (fileUpload.HasFile && fileUpload.PostedFile.ContentLength > 0)
-    //    {
-    //        int idFile;
-    //        if (!int.TryParse(txtIdFile.Text, out idFile))
-    //        {
-    //            lblMessage.Text = "Invalid File ID.";
-    //            return;
-    //        }
-
-    //        string flexFields = txtFlexFields.Text;
-    //        string connectionString = txtConnectionString.Text;
-    //        HttpPostedFile file = fileUpload.PostedFile;
-
-    //        var result = await SubirArchivo(idFile, file, connectionString, flexFields);
-
-    //        if (result.typeResult == UtilClass.codigoExitoso)
-    //        {
-    //            lblMessage.Text = "File uploaded successfully!";
-    //        }
-    //        else
-    //        {
-    //            lblMessage.Text = $"File upload failed: {result.message}";
-    //        }
-    //    }
-    //    else
-    //    {
-    //        lblMessage.Text = "Please select a file.";
-    //    }
-    //}
 }
-
-
-

@@ -11,7 +11,7 @@ namespace SG_Constancia_TSC
 {
 
 
-    public partial class Solicitudes
+    public partial class Solicitudes_finalizadas
     {
 
         /// <summary>

@@ -33,22 +33,22 @@ namespace SG_Constancia_TSC
         protected global::System.Web.UI.ScriptManager ScriptManager1;
 
         /// <summary>
-        /// Control phDenunciado.
+        /// Control formDenuncia1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder phDenunciado;
+        protected global::DevExpress.Web.ASPxFormLayout formDenuncia1;
 
         /// <summary>
-        /// Control formDenuncia.
+        /// Control tbIdentidad.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxFormLayout formDenuncia;
+        protected global::DevExpress.Web.ASPxTextBox tbIdentidad;
 
         /// <summary>
         /// Control tbNombre.
@@ -87,13 +87,40 @@ namespace SG_Constancia_TSC
         protected global::DevExpress.Web.ASPxTextBox tbConfirmCorreo;
 
         /// <summary>
-        /// Control lblMessage.
+        /// Control formDenuncia2.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMessage;
+        protected global::DevExpress.Web.ASPxFormLayout formDenuncia2;
+
+        /// <summary>
+        /// Control tbTelefono.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxTextBox tbTelefono;
+
+        /// <summary>
+        /// Control tbDireccion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxTextBox tbDireccion;
+
+        /// <summary>
+        /// Control ASPxFormLayout1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxFormLayout ASPxFormLayout1;
 
         /// <summary>
         /// Control fileUpload.
@@ -105,22 +132,175 @@ namespace SG_Constancia_TSC
         protected global::System.Web.UI.WebControls.FileUpload fileUpload;
 
         /// <summary>
-        /// Control btnUpload.
+        /// Control lblUploadStatus.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxButton btnUpload;
+        protected global::System.Web.UI.WebControls.Label lblUploadStatus;
 
         /// <summary>
-        /// Control btnEnviarCodigo.
+        /// Control lblError.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxButton btnEnviarCodigo;
+        protected global::System.Web.UI.WebControls.Label lblError;
+
+        /// <summary>
+        /// Control lblSelected.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSelected;
+
+        /// <summary>
+        /// Control lblSize.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSize;
+
+        /// <summary>
+        /// Control fileUpload1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fileUpload1;
+
+        /// <summary>
+        /// Control lblUploadStatus1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUploadStatus1;
+
+        /// <summary>
+        /// Control lblError1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblError1;
+
+        /// <summary>
+        /// Control lblSelected1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSelected1;
+
+        /// <summary>
+        /// Control lblSize1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSize1;
+
+        /// <summary>
+        /// Control fileUpload2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fileUpload2;
+
+        /// <summary>
+        /// Control lblUploadStatus2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUploadStatus2;
+
+        /// <summary>
+        /// Control lblError2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblError2;
+
+        /// <summary>
+        /// Control lblSelected2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSelected2;
+
+        /// <summary>
+        /// Control lblSize2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSize2;
+
+        /// <summary>
+        /// Control hfFileUpload.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfFileUpload;
+
+        /// <summary>
+        /// Control hfFileUpload1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfFileUpload1;
+
+        /// <summary>
+        /// Control hfFileUpload2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfFileUpload2;
+
+        /// <summary>
+        /// Control ASPxFormLayout2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxFormLayout ASPxFormLayout2;
+
+        /// <summary>
+        /// Control ASPxButton2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton ASPxButton2;
 
         /// <summary>
         /// Control ASPxCallback_EnviarToken.
@@ -132,6 +312,15 @@ namespace SG_Constancia_TSC
         protected global::DevExpress.Web.ASPxCallback ASPxCallback_EnviarToken;
 
         /// <summary>
+        /// Control ASPxCallback_Guardar_Datos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallback ASPxCallback_Guardar_Datos;
+
+        /// <summary>
         /// Control ckPolitica.
         /// </summary>
         /// <remarks>
@@ -139,6 +328,24 @@ namespace SG_Constancia_TSC
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox ckPolitica;
+
+        /// <summary>
+        /// Control popupResumen.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl popupResumen;
+
+        /// <summary>
+        /// Control btnConfirmar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButton btnConfirmar;
 
         /// <summary>
         /// Control popupToken.
@@ -195,24 +402,6 @@ namespace SG_Constancia_TSC
         protected global::DevExpress.Web.ASPxPopupControl Enviar;
 
         /// <summary>
-        /// Control ASPxButton2.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxButton ASPxButton2;
-
-        /// <summary>
-        /// Control ASPxCallback_Guardar_Datos.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallback ASPxCallback_Guardar_Datos;
-
-        /// <summary>
         /// Control Relacionado.
         /// </summary>
         /// <remarks>
@@ -220,32 +409,5 @@ namespace SG_Constancia_TSC
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::DevExpress.Web.ASPxPopupControl Relacionado;
-
-        /// <summary>
-        /// Control Lbl_msg.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel Lbl_msg;
-
-        /// <summary>
-        /// Control callbackPane_comprobante.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCallbackPanel callbackPane_comprobante;
-
-        /// <summary>
-        /// Control ASPxWebDocumentViewer1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.XtraReports.Web.ASPxWebDocumentViewer ASPxWebDocumentViewer1;
     }
 }

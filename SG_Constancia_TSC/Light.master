@@ -1,8 +1,18 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/Root.master" AutoEventWireup="true" CodeBehind="Light.master.cs" Inherits="SG_Constancia_TSC.LightMaster" %>
 
 <%-- DXCOMMENT: Page Light.master is a master page for Account pages --%>
-<asp:Content ID="Content1" ContentPlaceHolderID="Content" runat="server">
-<div class="content">
+<asp:Content ID="Content" ContentPlaceHolderID="Head" runat="server">
+       
+<asp:ContentPlaceHolder ID="Head" runat="server" />
+</asp:Content>
+<%--<asp:Content ID="Content2" ContentPlaceHolderID="LeftPanelContent" runat="server">
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="RightPanelContent" runat="server">
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="PageToolbar" runat="server">
+</asp:Content>--%>
+<asp:Content ID="Content1" ContentPlaceHolderID="PageContent" runat="server">
+    <div class="content">
 <asp:ContentPlaceHolder ID="MainContent" runat="server" />
 </div>
 </asp:Content>

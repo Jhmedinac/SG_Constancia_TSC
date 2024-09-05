@@ -17,15 +17,14 @@ using DevExpress.Office.Internal;
 using DevExpress.XtraPrinting;
 //using Org.BouncyCastle.Bcpg;
 
-
 namespace SG_Constancia_TSC
 {
-    public partial class Solicitudes : System.Web.UI.Page
+    public partial class Solicitudes_finalizadas : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             Form.Attributes.Add("autocomplete", "off");
-           
+
             if (!IsPostBack)
             {
                 LoadStatuses();
@@ -298,7 +297,7 @@ namespace SG_Constancia_TSC
             GV_PreUsuarios.DataBind();
         }
 
-        
+
 
 
 
