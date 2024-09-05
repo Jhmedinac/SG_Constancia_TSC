@@ -40,213 +40,213 @@ namespace SG_Constancia_TSC
         readonly ConexionBD conex = new ConexionBD();
         UploadFilesHandler uploadFilesHandler = new UploadFilesHandler();
 
-        protected async Task<string> UploadSolicitudAsync( string idString)
-        {
-            //lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
+        //protected async Task<string> UploadSolicitudAsync( string idString)
+        //{
+        //    //lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
 
-            //if (fileUpload1.HasFile && fileUpload1.PostedFile.ContentLength > 0)
-            //{
-            //    if (!int.TryParse(UtilClass.UtilClass.FileId_solicitud, out int idFile))
-            //    {
-            //        //lblMessage.Text = "Invalid File ID.";
-            //        //return "Invalid File ID.";
-            //        //return lblMessage.Text;
-            //        return "Invalid File ID.";
-            //    }
+        //    //if (fileUpload1.HasFile && fileUpload1.PostedFile.ContentLength > 0)
+        //    //{
+        //    //    if (!int.TryParse(UtilClass.UtilClass.FileId_solicitud, out int idFile))
+        //    //    {
+        //    //        //lblMessage.Text = "Invalid File ID.";
+        //    //        //return "Invalid File ID.";
+        //    //        //return lblMessage.Text;
+        //    //        return "Invalid File ID.";
+        //    //    }
 
-            //    SubirArchivo_D subirArchivo1 = new SubirArchivo_D();
-            //    string FlexfieldKey = UtilClass.UtilClass.flexFieldKeySOLICITUD; // CargaDocumento
-            //                                                                     //subirArchivo.FlexfieldValue = modeloDocumento.codigo_ticket.ToString();
-            //    subirArchivo1.FlexfieldKey = FlexfieldKey;
-            //    subirArchivo1.FlexfieldValue = idString; /* llave registro creado*/
-            //    //var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
+        //    //    SubirArchivo_D subirArchivo1 = new SubirArchivo_D();
+        //    //    string FlexfieldKey = UtilClass.UtilClass.flexFieldKeySOLICITUD; // CargaDocumento
+        //    //                                                                     //subirArchivo.FlexfieldValue = modeloDocumento.codigo_ticket.ToString();
+        //    //    subirArchivo1.FlexfieldKey = FlexfieldKey;
+        //    //    subirArchivo1.FlexfieldValue = idString; /* llave registro creado*/
+        //    //    //var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
 
-            //    //string flexFieldsValue = "0";//txtFlexFields.Text;
-            //    string connectionString = ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString;// txtConnectionString.Text;
-            //    HttpPostedFile file1 = fileUpload1.PostedFile;
-            //    var flexFieldString = JsonConvert.SerializeObject(subirArchivo1);
+        //    //    //string flexFieldsValue = "0";//txtFlexFields.Text;
+        //    //    string connectionString = ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString;// txtConnectionString.Text;
+        //    //    HttpPostedFile file1 = fileUpload1.PostedFile;
+        //    //    var flexFieldString = JsonConvert.SerializeObject(subirArchivo1);
 
-            //    string flexFields = flexFieldString; /*txtFlexFields.Text;*/
-            //    //string connectionString = txtConnectionString.Text;
+        //    //    string flexFields = flexFieldString; /*txtFlexFields.Text;*/
+        //    //    //string connectionString = txtConnectionString.Text;
 
-            //    if (string.IsNullOrEmpty(connectionString))
-            //    {
-            //        //lblMessage.Text = "Connection String cannot be empty.";
-            //        //return "Connection String cannot be empty.";
-            //        //return lblMessage.Text;
-            //        return "Connection String cannot be empty.";
-            //    }
+        //    //    if (string.IsNullOrEmpty(connectionString))
+        //    //    {
+        //    //        //lblMessage.Text = "Connection String cannot be empty.";
+        //    //        //return "Connection String cannot be empty.";
+        //    //        //return lblMessage.Text;
+        //    //        return "Connection String cannot be empty.";
+        //    //    }
 
-            //    //HttpPostedFile file = fileUpload.PostedFile;
+        //    //    //HttpPostedFile file = fileUpload.PostedFile;
 
-            //    try
-            //    {
-            //        var result = await SubirArchivo.SubirArchivo_t(idFile, file1, flexFields, connectionString);
+        //    //    try
+        //    //    {
+        //    //        var result = await SubirArchivo.SubirArchivo_t(idFile, file1, flexFields, connectionString);
 
-            //        if (result.typeResult == UtilClass.UtilClass.codigoExitoso)
-            //        {
-            //            //lblMessage.Text = "File uploaded successfully!";
-            //            return "File uploaded successfully!";
-            //        }
-            //        else
-            //        {
-            //            //lblMessage.Text = $"File upload failed: {result.message}";
-            //            return $"File upload failed: {result.message}";
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        //lblMessage.Text = $"An error occurred: {ex.Message}";
-            //        return $"An error occurred: {ex.Message}";
-            //    }
-            //}
-            //else
-            //{
-            //    //lblMessage.Text = "Please select a file.";
-            //    return "Please select a file.";
-            //}
-            //return lblMessage.Text;
-            return "Please select a file.";
-        }
+        //    //        if (result.typeResult == UtilClass.UtilClass.codigoExitoso)
+        //    //        {
+        //    //            //lblMessage.Text = "File uploaded successfully!";
+        //    //            return "File uploaded successfully!";
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            //lblMessage.Text = $"File upload failed: {result.message}";
+        //    //            return $"File upload failed: {result.message}";
+        //    //        }
+        //    //    }
+        //    //    catch (Exception ex)
+        //    //    {
+        //    //        //lblMessage.Text = $"An error occurred: {ex.Message}";
+        //    //        return $"An error occurred: {ex.Message}";
+        //    //    }
+        //    //}
+        //    //else
+        //    //{
+        //    //    //lblMessage.Text = "Please select a file.";
+        //    //    return "Please select a file.";
+        //    //}
+        //    //return lblMessage.Text;
+        //    return "Please select a file.";
+        //}
 
-        protected async Task<string> UploadReciboAsync( string idString)
-        {
-            //lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
+        //protected async Task<string> UploadReciboAsync( string idString)
+        //{
+        //    //lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
 
-            //if (fileUpload2.HasFile && fileUpload2.PostedFile.ContentLength > 0)
-            //{
-            //    if (!int.TryParse(UtilClass.UtilClass.FileId_recibo, out int idFile))
-            //    {
-            //        //lblMessage.Text = "Invalid File ID.";
+        //    //if (fileUpload2.HasFile && fileUpload2.PostedFile.ContentLength > 0)
+        //    //{
+        //    //    if (!int.TryParse(UtilClass.UtilClass.FileId_recibo, out int idFile))
+        //    //    {
+        //    //        //lblMessage.Text = "Invalid File ID.";
 
-            //        //return lblMessage.Text;
-            //        return "Invalid File ID.";
-            //    }
+        //    //        //return lblMessage.Text;
+        //    //        return "Invalid File ID.";
+        //    //    }
 
-            //    SubirArchivo_D subirArchivo2 = new SubirArchivo_D();
-            //    string FlexfieldKey = UtilClass.UtilClass.flexFieldKeyRECIBO; // CargaDocumento
-            //                                                                  //subirArchivo.FlexfieldValue = modeloDocumento.codigo_ticket.ToString();
-            //    subirArchivo2.FlexfieldKey = FlexfieldKey;
-            //    subirArchivo2.FlexfieldValue = idString;
-            //    //var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
+        //    //    SubirArchivo_D subirArchivo2 = new SubirArchivo_D();
+        //    //    string FlexfieldKey = UtilClass.UtilClass.flexFieldKeyRECIBO; // CargaDocumento
+        //    //                                                                  //subirArchivo.FlexfieldValue = modeloDocumento.codigo_ticket.ToString();
+        //    //    subirArchivo2.FlexfieldKey = FlexfieldKey;
+        //    //    subirArchivo2.FlexfieldValue = idString;
+        //    //    //var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
 
-            //    //string flexFieldsValue = "0";//txtFlexFields.Text;
-            //    string connectionString = ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString;// txtConnectionString.Text;
-            //    HttpPostedFile file2 = fileUpload2.PostedFile;
-            //    var flexFieldString = JsonConvert.SerializeObject(subirArchivo2);
+        //    //    //string flexFieldsValue = "0";//txtFlexFields.Text;
+        //    //    string connectionString = ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString;// txtConnectionString.Text;
+        //    //    HttpPostedFile file2 = fileUpload2.PostedFile;
+        //    //    var flexFieldString = JsonConvert.SerializeObject(subirArchivo2);
 
-            //    string flexFields = flexFieldString; /*txtFlexFields.Text;*/
-            //    //string connectionString = txtConnectionString.Text;
+        //    //    string flexFields = flexFieldString; /*txtFlexFields.Text;*/
+        //    //    //string connectionString = txtConnectionString.Text;
 
-            //    if (string.IsNullOrEmpty(connectionString))
-            //    {
-            //        //lblMessage.Text = "Connection String cannot be empty.";
-            //        //return lblMessage.Text;
-            //        return "Connection String cannot be empty.";
-            //    }
-
-
-            //    //HttpPostedFile file = fileUpload.PostedFile;
-
-            //    try
-            //    {
-            //        var result = await SubirArchivo.SubirArchivo_t(idFile, file2, flexFields, connectionString);
-
-            //        if (result.typeResult == UtilClass.UtilClass.codigoExitoso)
-            //        {
-            //            //lblMessage.Text = "File uploaded successfully!";
-            //            return "File uploaded successfully!";
-            //        }
-            //        else
-            //        {
-            //            //lblMessage.Text = $"File upload failed: {result.message}";
-            //            return $"File upload failed: {result.message}";
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        //lblMessage.Text = $"An error occurred: {ex.Message}";
-            //        return $"An error occurred: {ex.Message}"; ;
-            //    }
-            //}
-            //else
-            //{
-            //    //lblMessage.Text = "Please select a file.";
-            //    return "Please select a file.";
-
-            //}
-            //return lblMessage.Text;
-            return "Please select a file.";
+        //    //    if (string.IsNullOrEmpty(connectionString))
+        //    //    {
+        //    //        //lblMessage.Text = "Connection String cannot be empty.";
+        //    //        //return lblMessage.Text;
+        //    //        return "Connection String cannot be empty.";
+        //    //    }
 
 
-        }
+        //    //    //HttpPostedFile file = fileUpload.PostedFile;
+
+        //    //    try
+        //    //    {
+        //    //        var result = await SubirArchivo.SubirArchivo_t(idFile, file2, flexFields, connectionString);
+
+        //    //        if (result.typeResult == UtilClass.UtilClass.codigoExitoso)
+        //    //        {
+        //    //            //lblMessage.Text = "File uploaded successfully!";
+        //    //            return "File uploaded successfully!";
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            //lblMessage.Text = $"File upload failed: {result.message}";
+        //    //            return $"File upload failed: {result.message}";
+        //    //        }
+        //    //    }
+        //    //    catch (Exception ex)
+        //    //    {
+        //    //        //lblMessage.Text = $"An error occurred: {ex.Message}";
+        //    //        return $"An error occurred: {ex.Message}"; ;
+        //    //    }
+        //    //}
+        //    //else
+        //    //{
+        //    //    //lblMessage.Text = "Please select a file.";
+        //    //    return "Please select a file.";
+
+        //    //}
+        //    //return lblMessage.Text;
+        //    return "Please select a file.";
 
 
-        protected async Task<string> UploadIdentidadAsync(string idString)
-        {
+        //}
 
-            //lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
-            //return "Please select a file.";
-            //if (fileUpload.HasFile && fileUpload.PostedFile.ContentLength > 0)
-            //{
-            //    if (!int.TryParse(UtilClass.UtilClass.FileId_ident, out int idFile))
-            //    {
-            //        //lblMessage.Text = "Invalid File ID.";
-            //        return "Invalid File ID.";
-            //    }
 
-            //    SubirArchivo_D subirArchivo = new SubirArchivo_D();
-            //    string FlexfieldKey = UtilClass.UtilClass.flexFieldKeyIDENTIDAD; // CargaDocumento
-            //                                                                     //subirArchivo.FlexfieldValue = modeloDocumento.codigo_ticket.ToString();
-            //    subirArchivo.FlexfieldKey = FlexfieldKey;
-            //    subirArchivo.FlexfieldValue = idString;
-            //    //var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
+        //protected async Task<string> UploadIdentidadAsync(string idString)
+        //{
 
-            //    //string flexFieldsValue = "0";//txtFlexFields.Text;
-            //    string connectionString = ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString;// txtConnectionString.Text;
-            //    HttpPostedFile file = fileUpload.PostedFile;
-            //    var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
+        //    //lblMessage.Text = ""; // Inicializar lblMessage para asegurarse de que no es null
+        //    //return "Please select a file.";
+        //    //if (fileUpload.HasFile && fileUpload.PostedFile.ContentLength > 0)
+        //    //{
+        //    //    if (!int.TryParse(UtilClass.UtilClass.FileId_ident, out int idFile))
+        //    //    {
+        //    //        //lblMessage.Text = "Invalid File ID.";
+        //    //        return "Invalid File ID.";
+        //    //    }
 
-            //    string flexFields = flexFieldString; /*txtFlexFields.Text;*/
-            //    //string connectionString = txtConnectionString.Text;
+        //    //    SubirArchivo_D subirArchivo = new SubirArchivo_D();
+        //    //    string FlexfieldKey = UtilClass.UtilClass.flexFieldKeyIDENTIDAD; // CargaDocumento
+        //    //                                                                     //subirArchivo.FlexfieldValue = modeloDocumento.codigo_ticket.ToString();
+        //    //    subirArchivo.FlexfieldKey = FlexfieldKey;
+        //    //    subirArchivo.FlexfieldValue = idString;
+        //    //    //var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
 
-            //    if (string.IsNullOrEmpty(connectionString))
-            //    {
-            //        //lblMessage.Text = "Connection String cannot be empty.";
-            //        return "Connection String cannot be empty.";
-            //    }
+        //    //    //string flexFieldsValue = "0";//txtFlexFields.Text;
+        //    //    string connectionString = ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString;// txtConnectionString.Text;
+        //    //    HttpPostedFile file = fileUpload.PostedFile;
+        //    //    var flexFieldString = JsonConvert.SerializeObject(subirArchivo);
 
-            //    //HttpPostedFile file = fileUpload.PostedFile;
+        //    //    string flexFields = flexFieldString; /*txtFlexFields.Text;*/
+        //    //    //string connectionString = txtConnectionString.Text;
 
-            //    try
-            //    {
-            //        var result = await SubirArchivo.SubirArchivo_t(idFile, file, flexFields, connectionString);
+        //    //    if (string.IsNullOrEmpty(connectionString))
+        //    //    {
+        //    //        //lblMessage.Text = "Connection String cannot be empty.";
+        //    //        return "Connection String cannot be empty.";
+        //    //    }
 
-            //        if (result.typeResult == UtilClass.UtilClass.codigoExitoso)
-            //        {
-            //            //lblMessage.Text = "File uploaded successfully!";
-            //            return "File uploaded successfully!";
-            //        }
-            //        else
-            //        {
-            //            //lblMessage.Text = $"File upload failed: {result.message}";
-            //            return $"File upload failed: {result.message}";
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        //lblMessage.Text = $"An error occurred: {ex.Message}";
-            //        return $"An error occurred: {ex.Message}";
-            //    }
-            //}
-            //else
-            //{
-            //    //lblMessage.Text = "Please select a file.";
-            //    return "Please select a file.";
-            //}
-            //return lblMessage.Text;
-            return "Please select a file.";
-        }
+        //    //    //HttpPostedFile file = fileUpload.PostedFile;
+
+        //    //    try
+        //    //    {
+        //    //        var result = await SubirArchivo.SubirArchivo_t(idFile, file, flexFields, connectionString);
+
+        //    //        if (result.typeResult == UtilClass.UtilClass.codigoExitoso)
+        //    //        {
+        //    //            //lblMessage.Text = "File uploaded successfully!";
+        //    //            return "File uploaded successfully!";
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            //lblMessage.Text = $"File upload failed: {result.message}";
+        //    //            return $"File upload failed: {result.message}";
+        //    //        }
+        //    //    }
+        //    //    catch (Exception ex)
+        //    //    {
+        //    //        //lblMessage.Text = $"An error occurred: {ex.Message}";
+        //    //        return $"An error occurred: {ex.Message}";
+        //    //    }
+        //    //}
+        //    //else
+        //    //{
+        //    //    //lblMessage.Text = "Please select a file.";
+        //    //    return "Please select a file.";
+        //    //}
+        //    //return lblMessage.Text;
+        //    return "Please select a file.";
+        //}
      
         protected async void ASPxCallback_Guardar_Datos_Callback(object source, CallbackEventArgs e)
         //protected void ASPxCallback_Guardar_Datos_Callback(object source, DevExpress.Web.CallbackEventArgs e)
@@ -298,103 +298,103 @@ namespace SG_Constancia_TSC
 
         }
              
-        private string CrearSolicitud()
-        {
-            // Crear solicitud en base de datos
-            // Devolver el ID de la solicitud creada
-            try
-            {
-                SqlCommand cmd = SetupCommand();
-                PersonParameters(cmd);
-                ExecuteDatabaseCommand(cmd);
+        //private string CrearSolicitud()
+        //{
+        //    // Crear solicitud en base de datos
+        //    // Devolver el ID de la solicitud creada
+        //    try
+        //    {
+        //        SqlCommand cmd = SetupCommand();
+        //        PersonParameters(cmd);
+        //        ExecuteDatabaseCommand(cmd);
 
-                var result = PrepareResponse(cmd);
+        //        var result = PrepareResponse(cmd);
 
-                return result;
-            }
+        //        return result;
+        //    }
 
-            catch (Exception ex)
-            {
+        //    catch (Exception ex)
+        //    {
 
-                return ex.Message;
+        //        return ex.Message;
 
-            }          
+        //    }          
 
-        }
+        //}
 
-        private void ExecuteDatabaseCommand(SqlCommand cmd)
-        {
-            try
-            {
-                conex.AbrirConexion();
-                cmd.ExecuteNonQuery();
-                string Mens = cmd.Parameters["@MENSAGE"].Value.ToString();
-                int Retorno = Convert.ToInt32(cmd.Parameters["@RETORNO"].Value);
-                int constanciaId = Convert.ToInt32(cmd.Parameters["@Id"].Value);
-                string randPassword = Convert.ToString(cmd.Parameters["@Clave"].Value);
+        //private void ExecuteDatabaseCommand(SqlCommand cmd)
+        //{
+        //    try
+        //    {
+        //        conex.AbrirConexion();
+        //        cmd.ExecuteNonQuery();
+        //        string Mens = cmd.Parameters["@MENSAGE"].Value.ToString();
+        //        int Retorno = Convert.ToInt32(cmd.Parameters["@RETORNO"].Value);
+        //        int constanciaId = Convert.ToInt32(cmd.Parameters["@Id"].Value);
+        //        string randPassword = Convert.ToString(cmd.Parameters["@Clave"].Value);
 
-                Session["Id"] = constanciaId;
-                Session["Clave"] = randPassword;
+        //        Session["Id"] = constanciaId;
+        //        Session["Clave"] = randPassword;
 
 
                 
-            }
-            finally
-            {
-                conex.CerrarConexion();
-            }
-        }
+        //    }
+        //    finally
+        //    {
+        //        conex.CerrarConexion();
+        //    }
+        //}
 
-        private SqlCommand SetupCommand()
-        {
-            var cmd = new SqlCommand
-            {
-                CommandType = CommandType.StoredProcedure,
-                CommandText = "[gral].[sp_Registro_Solicitud]",
-                Connection = conex.conexion
-            };
-            return cmd;
-        }
+        //private SqlCommand SetupCommand()
+        //{
+        //    var cmd = new SqlCommand
+        //    {
+        //        CommandType = CommandType.StoredProcedure,
+        //        CommandText = "[gral].[sp_Registro_Solicitud]",
+        //        Connection = conex.conexion
+        //    };
+        //    return cmd;
+        //}
 
-        private void PersonParameters(SqlCommand cmd)
-        {
-            string DNI = tbIdentidad.Text;
-            string FirstName = tbNombre.Text;
-            string LastName = tbApellido.Text;
-            string email = tbCorreo.Text;
-            string Phone = tbTelefono.Text;
-            string Address = tbDireccion.Text;
+        //private void PersonParameters(SqlCommand cmd)
+        //{
+        //    string DNI = tbIdentidad.Text;
+        //    string FirstName = tbNombre.Text;
+        //    string LastName = tbApellido.Text;
+        //    string email = tbCorreo.Text;
+        //    string Phone = tbTelefono.Text;
+        //    string Address = tbDireccion.Text;
 
 
-            //string Company = CmbCountry.Text;
-            //string TypeDeclaration = CmbTipoDeclaracion.Text;
-            //bool Policy = ckPolitica.Checked;
+        //    //string Company = CmbCountry.Text;
+        //    //string TypeDeclaration = CmbTipoDeclaracion.Text;
+        //    //bool Policy = ckPolitica.Checked;
 
-            cmd.Parameters.Add("@pcEmail", SqlDbType.NVarChar, 500).Value = email;
-            cmd.Parameters.Add("@pnDNI", SqlDbType.NVarChar, 500).Value = DNI;
-            cmd.Parameters.Add("@pcFirstName", SqlDbType.NVarChar, 500).Value = FirstName;
-            cmd.Parameters.Add("@pcLastName", SqlDbType.NVarChar, 500).Value = LastName;
-            cmd.Parameters.Add("@pnAddress", SqlDbType.NVarChar, 500).Value = Address;
-            //cmd.Parameters.Add("@pcCompany", SqlDbType.NVarChar, 500).Value = Company;
-            cmd.Parameters.Add("@pnPhone", SqlDbType.NVarChar).Value = Phone;
-            //cmd.Parameters.Add("@pcTypeDeclaration", SqlDbType.NVarChar, 500).Value = TypeDeclaration;
-            //cmd.Parameters.Add("@pbPolitica", SqlDbType.Bit).Value = Policy;
-            cmd.Parameters.Add("@MENSAGE", SqlDbType.NVarChar, -1).Direction = ParameterDirection.Output;
-            cmd.Parameters.Add("@RETORNO", SqlDbType.Int).Direction = ParameterDirection.Output;
-            cmd.Parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
-            cmd.Parameters.Add("@Clave", SqlDbType.NVarChar, -1).Direction = ParameterDirection.Output;
+        //    cmd.Parameters.Add("@pcEmail", SqlDbType.NVarChar, 500).Value = email;
+        //    cmd.Parameters.Add("@pnDNI", SqlDbType.NVarChar, 500).Value = DNI;
+        //    cmd.Parameters.Add("@pcFirstName", SqlDbType.NVarChar, 500).Value = FirstName;
+        //    cmd.Parameters.Add("@pcLastName", SqlDbType.NVarChar, 500).Value = LastName;
+        //    cmd.Parameters.Add("@pnAddress", SqlDbType.NVarChar, 500).Value = Address;
+        //    //cmd.Parameters.Add("@pcCompany", SqlDbType.NVarChar, 500).Value = Company;
+        //    cmd.Parameters.Add("@pnPhone", SqlDbType.NVarChar).Value = Phone;
+        //    //cmd.Parameters.Add("@pcTypeDeclaration", SqlDbType.NVarChar, 500).Value = TypeDeclaration;
+        //    //cmd.Parameters.Add("@pbPolitica", SqlDbType.Bit).Value = Policy;
+        //    cmd.Parameters.Add("@MENSAGE", SqlDbType.NVarChar, -1).Direction = ParameterDirection.Output;
+        //    cmd.Parameters.Add("@RETORNO", SqlDbType.Int).Direction = ParameterDirection.Output;
+        //    cmd.Parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+        //    cmd.Parameters.Add("@Clave", SqlDbType.NVarChar, -1).Direction = ParameterDirection.Output;
 
-        }
+        //}
 
-        private string PrepareResponse( SqlCommand cmd)
-        {
-            var responseObj = new
-            {
-                Retorno = Convert.ToInt32(cmd.Parameters["@RETORNO"].Value),
-                Mensaje = cmd.Parameters["@MENSAGE"].Value.ToString(),
-            };
-            return JsonConvert.SerializeObject(responseObj);
-        }
+        //private string PrepareResponse( SqlCommand cmd)
+        //{
+        //    var responseObj = new
+        //    {
+        //        Retorno = Convert.ToInt32(cmd.Parameters["@RETORNO"].Value),
+        //        Mensaje = cmd.Parameters["@MENSAGE"].Value.ToString(),
+        //    };
+        //    return JsonConvert.SerializeObject(responseObj);
+        //}
         /* referente al token */
 
         protected void ASPxCallback_EnviarToken_Callback(object source, CallbackEventArgs e)
@@ -422,7 +422,7 @@ namespace SG_Constancia_TSC
             {
                 double elapsedMinutes = (DateTime.Now - tokenTimestamp.Value).TotalMinutes;
                 //System.Diagnostics.Debug.WriteLine($"Token age in minutes: {elapsedMinutes}");
-
+                
                 if (elapsedMinutes <= 15)
                 {
                     Util_g.SetToken(storedToken, tokenTimestamp.Value);
@@ -619,6 +619,7 @@ namespace SG_Constancia_TSC
 
             // Aquí se llama a la función para enviar el correo electrónico
             SampleUtil.EnviarCorreo1("",subject, adressEmail, emailBody );
+
         }
     }
 }

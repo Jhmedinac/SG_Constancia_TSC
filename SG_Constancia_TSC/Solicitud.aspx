@@ -1,895 +1,446 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Solicitud.aspx.cs" Inherits="SG_Constancia_TSC.Solicitud" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Solicitud.aspx.cs" Inherits="SG_Constancia_TSC.Solicitud"  Async="true" %>
 
-<%@ Register Assembly="DevExpress.XtraReports.v21.2.Web.WebForms, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.XtraReports.Web" TagPrefix="dx" %>
-
+<%@ Import Namespace="SG_Constancia_TSC.UtilClass" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-   <head>
-      <!-- basic -->
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-       <meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0" />
-      <!-- mobile metas -->
-      <meta name="viewport" content="width=device-width, initial-scale=1"/>
-      <meta name="viewport" content="initial-scale=1, maximum-scale=1"/>
-      <!-- site metas -->
-      <title>Solicitud de Constancias TSC</title>
-      <meta name="keywords" content=""/>
-      <meta name="description" content=""/>
-      <meta name="author" content=""/>
-      <!-- bootstrap css -->
-      <link rel="icon" href="favicon.ico" type="image/x-icon"/>
-      <link href="Content/css/bootstrap.min.css" rel="stylesheet" />
-       <link href="Content/Form.css" rel="stylesheet" />
-       <link href="Content/Denuncia.css" rel="stylesheet" />
-       <link href="Content/css/responsive.css" rel="stylesheet" />
-       <link href="Content/css/owl.carousel.min.css" rel="stylesheet" />
-       <link href="Content/Fontawesome/css/all.css" rel="stylesheet" />
-       <link href="Content/Fontawesome/css/fontawesome.css" rel="stylesheet" />
-       <link href="Content/css/bootstrap.css" rel="stylesheet" />
-       <link href="Content/css/bootstrap.min.css" rel="stylesheet" />
-       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
-       <script src="Content/Denuncia.js"></script>
-       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<%--       <script src="Content/js/bootstrap.js"></script>
-       <script src="Content/js/bootstrap.min.js"></script>--%>
-       <%--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js">--%>
+<head runat="server">
 
-         <style>
+    <!-- basic -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0" />
+    <!-- mobile metas -->
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1"/>
+    <!-- site metas -->
+    
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>Solicitud de Constancias TSC</title>
+    <link rel="icon" href="Content/favicon.ico" type="image/x-icon" />
+    <link href="Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/Form.css" rel="stylesheet" />
+    <link href="Content/Denuncia.css" rel="stylesheet" />
+    <link href="Content/Stepper.css" rel="stylesheet" />
+    <link href="Content/css/responsive.css" rel="stylesheet" />
+    <link href="Content/css/owl.carousel.min.css" rel="stylesheet" />
+    <link href="Content/Fontawesome/css/all.css" rel="stylesheet" />
+    <link href="Content/Fontawesome/css/fontawesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <script src="Content/Denuncia.js"></script>
+    <script src="Content/Consulta.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
         .required-asterisk::after {
             content: ' *';
             color: red;
         }
-        </style>
-
-       <script type="text/javascript">
-
-
-           //function Terminos(s, e) {
-
-           //    if (s.GetChecked()) {
-           //        if ((tbNombre.SetText() == '' || tbNombre.SetText() == null)
-           //            || (tbApellido.SetText() == '' || tbApellido.SetText() == null)
-           //            || (tbCorreo.SetText() == '' || tbCorreo.SetText() == null)
-           //            || (tbDependencia.SetText() == '' || tbDependencia.SetText() == null)
-           //            || (tbCelular.SetText() == '' || tbCelular.SetText() == null)
-           //            || (CmbCountry.GetText() == '' || CmbCountry.GetText() == null)
-           //            || (CmbTipoDeclaracion.GetText() == '' || CmbTipoDeclaracion.GetText() == null))
-           //        {
-           //            alert("¡Alerta! Debe de llenar los datos requeridos del formulario para enviar la solicitud del Pre-registro");
-           //            //ckPolitica.SetChecked(false);
-           //            console.log(tbNombre.SetText(), tbApellido.SetText(), tbCorreo.SetText(), tbDependencia.SetText(), tbCelular.SetText(), CmbCountry.GetText(), CmbTipoDeclaracion.GetText())
-           //        }
-           //        else if (s.GetChecked()) {
-           //            ShowEnviar();
-           //            ASPxButton2.SetEnabled(true);
-           //        }
-           //        console.log(s.GetChecked())
-
-           //    }
-
-           //     else
-           //    {
-           //        ASPxButton2.SetEnabled(false);
-
-           //    }
-           //}
-           //function ClosePopupRelacionado(s, e) {
-           //    var cf = confirm("¿Esta seguro de cerrar el comprobante.? Asegurese de haberlo descargado para ");
-           //    if (cf) {
-           //        isProcessOnServer = true;
-
-           //    }
-
-           //    else {
-           //        e.processOnServer = false;
-
-           //    }
-           //}
-           //function btnEnviarCodigo_Click(s, e) {
-           //    // Enviar el token al correo
-           //    var email = tbCorreo.GetText();
-           //    if (validarFormatoCorreo(email)) {
-           //        // Llamar al servidor para enviar el token
-           //        ASPxCallback_EnviarToken.PerformCallback(email);
-           //        popupToken.Show();
-           //    } else {
-           //        alert('Por favor ingrese un correo electrónico válido.');
-           //    }
-           //}
-
-           //function btnVerificarToken_Click(s, e) {
-           //    // Verificar el token ingresado
-           //    var inputToken = tbToken.GetText();
-           //    ASPxCallback_VerificarToken.PerformCallback(inputToken);
-           //}
-           //function TokenVerificationComplete(result) {
-           //    if (result === "success") {
-           //        popupToken.Hide();
-           //        ckPolitica.SetVisible(true); // Hacer visible el checkbox después de la verificación exitosa
-           //        ckPolitica.SetChecked(false);
-           //        btnEnviarCodigo.SetVisible(false); // Ocultar el botón después de la verificación exitosa
-           //        tbToken.SetText('');
-           //    } else if (result === "incorrect") {
-           //        alert('Código de verificación incorrecto. Por favor, inténtelo de nuevo.');
-           //        tbToken.SetText('');
-           //        // No cerramos el popupToken si el código es incorrecto
-           //    } else if (result === "expired") {
-           //        alert('El código de verificación ha expirado. Por favor, solicite un nuevo código.');
-           //        popupToken.Hide(); // Cerrar el popupToken si el código ha expirado
-           //        tbToken.SetText('');
-           //    } else {
-           //        alert('Error en la verificación del código. Por favor, inténtelo de nuevo.');
-           //        popupToken.Hide(); // Cerrar el popupToken en caso de error general
-           //        tbToken.SetText('');
-           //    }
-           //}
-
-           //function Terminos(s, e) {
-           //    if (!s.GetChecked()) {
-           //        ASPxButton2.SetEnabled(false);
-           //        btnEnviarCodigo.SetVisible(false);
-           //        return;
-           //    }
-
-           //    // Verificar los campos del formulario
-           //    var campos = [
-           //        tbNombre.GetText(),
-           //        tbApellido.GetText(),
-           //        tbCorreo.GetText(),
-           //        tbConfirmCorreo.GetText(),
-           //        tbDependencia.GetText(),
-           //        CmbCountry.GetText(),
-           //        CmbTipoDeclaracion.GetText(),
-           //        tbIdentidad.GetText(),
-           //    ];
-
-           //    var camposVacios = campos.some(function (valor) {
-           //        return valor === '' || valor === null;
-           //    });
-
-           //    if (camposVacios) {
-           //        Swal.fire({
-           //            title: "¡Alerta!",
-           //            text: "Debe llenar los datos requeridos del formulario para enviar la solicitud del Pre-Registro",
-           //            icon: "warning",
-           //            confirmButtonColor: "#1F497D",
-           //        });
-           //        s.SetChecked(false);
-           //    } else {
-           //        btnEnviarCodigo.SetVisible(true);
-           //    }
-           //}
-
-           //function Guardar_Datos_Complete(s, e) {
-           //    var respuestaJSON = e.result;
-           //    var respuesta = JSON.parse(respuestaJSON);
-           //    var Retorno = respuesta.Retorno;
-           //    var Mens = respuesta.Mensaje;
-
-           //    if (Retorno == 1) {
-           //        Enviar.Hide();
-           //        Lbl_msg.SetText(Mens);
-           //        Relacionado.Show();
-           //        ckPolitica.SetVisible(false); // Ocultar el checkbox después de mostrar el comprobante
-           //        ckPolitica.SetChecked(false);
-           //        btnEnviarCodigo.SetVisible(true); // Hacer visible el botón después de mostrar el comprobante
-           //        SetCampos();
-           //    } else {
-           //        ckPolitica.SetChecked(false);
-           //        Enviar.Hide();
-           //        Swal.fire({
-           //            text: Mens,
-           //            icon: "error",
-           //            confirmButtonColor: "#1F497D",
-           //        });
-           //    }
-           //}
-
-           //function Guardar_Datos_Complete(s, e) {
-           //    var respuestaJSON = e.result;
-           //    var respuesta = JSON.parse(respuestaJSON);
-           //    var Retorno = respuesta.Retorno;
-           //    var Mens = respuesta.Mensaje;
-
-           //    if (Retorno == 1) {
-           //        Enviar.Hide();
-           //        Lbl_msg.SetText(Mens);
-           //        Relacionado.Show();
-           //        ckPolitica.SetVisible(false); // Ocultar el checkbox después de mostrar el comprobante
-           //        ckPolitica.SetChecked(false);
-           //        btnEnviarCodigo.SetVisible(true); // Hacer visible el botón después de mostrar el comprobante
-           //        SetCampos();
-           //    } else {
-           //        ckPolitica.SetChecked(false);
-           //        Enviar.Hide();
-           //        Swal.fire({
-           //            title: "¡Alerta!",
-           //            text: Mens,
-           //            icon: "error",
-           //            confirmButtonColor: "#1F497D",
-           //        });
-           //    }
-           //}
-
-           //function Guardar_Datos_Complete(s, e) {
-           //    var respuestaJSON = e.result;
-           //    var respuesta = JSON.parse(respuestaJSON);
-           //    var Retorno = respuesta.Retorno;
-           //    var Mens = respuesta.Mensaje;
-
-           //    console.log('Respuesta:', respuesta); // Debug: Imprimir la respuesta en consola
-
-           //    if (Retorno == 1) {
-           //        Enviar.Hide();
-           //        Lbl_msg.SetText(Mens);
-           //        Relacionado.Show();
-           //        ckPolitica.SetVisible(false); // Ocultar el checkbox después de mostrar el comprobante
-           //        ckPolitica.SetChecked(false);
-           //        btnEnviarCodigo.SetVisible(true); // Hacer visible el botón después de mostrar el comprobante
-           //        SetCampos();
-           //    } else {
-           //        ckPolitica.SetChecked(false);
-           //        Enviar.Hide();
-           //        if (Mens.includes("El correo electrónico ya existe")) {
-           //            console.log('Correo electrónico ya existe.'); // Debug: Imprimir mensaje en consola
-           //            btnEnviarCodigo.SetVisible(true);
-           //            ckPolitica.SetVisible(false);
-           //        }
-           //        Swal.fire({
-           //            title: "¡Alerta!",
-           //            text: Mens,
-           //            icon: "error",
-           //            confirmButtonColor: "#1F497D",
-           //        }).then(() => {
-           //            // Acción después de cerrar la alerta
-           //            if (Mens.includes("El correo electrónico ya existe")) {
-           //                btnEnviarCodigo.SetVisible(true);
-           //                ckPolitica.SetVisible(false);
-           //            }
-           //        });
-           //    }
-           //}
-
-           //// Añade un event listener para asegurarte de que los elementos se manipulen después de que el DOM esté completamente cargado
-           //window.onload = function () {
-           //    if (btnEnviarCodigo) {
-           //        console.log('btnEnviarCodigo is loaded');
-           //    } else {
-           //        console.error('btnEnviarCodigo is not found');
-           //    }
-
-           //    if (ckPolitica) {
-           //        console.log('ckPolitica is loaded');
-           //    } else {
-           //        console.error('ckPolitica is not found');
-           //    }
-           //};
-
-           //function ClosePopupRelacionado(s, e) {
-           //     //Mostrar cuadro de diálogo de confirmación
-           //    var confirmar = confirm("¿Está seguro de cerrar el comprobante? Asegúrese de haberlo descargado primero.");
-
-           //     //Si el usuario hace clic en "OK", se permite que el evento de cierre continúe en el servidor
-           //    if (confirmar) {
-           //         //Puedes establecer alguna bandera aquí o simplemente permitir que el evento continúe
-           //        e.processOnServer = true;
-           //        Relacionado.Hide();
-           //    }
-           //     //Si el usuario hace clic en "Cancelar", se cancela el evento de cierre
-           //    else {
-           //         //Detener el procesamiento del evento de cierre
-           //        e.processOnServer = false;
-           //        Relacionado.Show();
-           //    }
-           //}
-
-
-
-
-           //function SetCampos() {
-           //        tbNombre.SetText(''),
-           //        tbApellido.SetText(''),
-           //        tbCorreo.SetText(''),
-           //        tbConfirmCorreo.SetText(''),
-           //        tbDependencia.SetText(''),
-           //        tbCelular.SetText(''),
-           //        CmbCountry.SetText(''),
-           //        CmbTipoDeclaracion.SetText(''),
-           //        tbIdentidad.SetText(''),
-           //        ckPolitica.SetChecked(false);
-               
-           //}
-
-           
-           //function validarFormatoCorreo(correo) {
-           //    // Expresión regular para validar el formato del correo electrónico
-           //    //var regex = /\w + ([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
-           //    var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-           //    //var regex = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
-           //    return regex.test(correo);
-           //}
-
-
-
-           //function validarFormatoIDN(valor) {
-           //    // Expresión regular para validar el formato del valor
-           //    var regex = /^\d{13}$/;
-           //    return regex.test(valor);
-           //}
-
-
-
-           //function Terminos(s, e) {
-           //    // Desactivar el botón si el checkbox no está marcado
-           //    if (!s.GetChecked()) {
-           //        ASPxButton2.SetEnabled(false);
-           //        return; // Detener la ejecución adicional de la función
-           //    }
-
-           //    // Lista de campos a validar
-           //    var campos = [
-           //        tbNombre.GetText(),
-           //        tbApellido.GetText(),
-           //        tbCorreo.GetText(),
-           //        tbDependencia.GetText(),
-           //        CmbCountry.GetText(),
-           //        CmbTipoDeclaracion.GetText(),
-           //        tbIdentidad.GetText(),
-           //    ];
-
-           //    // Revisa si alguno de los campos está vacío o es null
-           //    var camposVacios = campos.some(function (valor) {
-           //        return valor === '' || valor === null;
-           //    });
-
-           //    if (camposVacios) {
-           //        Swal.fire({
-           //            title: "¡Alerta!",
-           //            text: "Debe de llenar los datos requeridos del formulario para enviar la solicitud del Pre-Registro",
-           //            icon: "warning",
-           //            //showCancelButton: true,
-           //            confirmButtonColor: "#1F497D",
-           //            /*cancelButtonColor: "#d33",*/
-
-           //        });
-           //        ckPolitica.SetChecked(false);
-           //        //alert("¡Alerta! Debe de llenar los datos requeridos del formulario para enviar la solicitud del Pre-registro");
-           //        console.log(campos); // Esto imprimirá los valores de los campos, podrías quitarlo si no es necesario
-           //    }
-           //    else
-           //    {
-
-           //        if (tbIdentidad.GetText() === '') {
-           //            tbIdentidad.SetFocus();
-           //            ckPolitica.SetChecked(false);
-           //            return;
-           //        }
-                  
-           //        var valor = tbIdentidad.GetText(); // Suponiendo que tbIdentidad.GetText() obtiene el valor del campo de entrada de texto
-
-           //        ////// Validar el formato del valor
-           //        if (!validarFormatoIDN(valor)) {
-           //            tbIdentidad.SetFocus();
-           //            ckPolitica.SetChecked(false);
-           //            return;
-           //        }
-
-
-           //        var correo = tbCorreo.GetText();
-           //        if (!validarFormatoCorreo(correo)) {
-           //            tbCorreo.SetFocus();// Enfocar el campo de correo electrónico
-           //            ckPolitica.SetChecked(false);
-           //            return;
-           //        }
-
-
-           //            ShowEnviar(); // Función para mostrar la opción de enviar o algo relacionado
-           //            ASPxButton2.SetEnabled(true);
-           //            console.log(campos);
-           //    }
-               
-           //}
-           
-           //function BtnGuardar_Click(s, e) {
-
-           //        ASPxCallback_Guardar_Datos.PerformCallback();
-               
-           //}
-
-
-           //function popup_Shown_comprobante(s, e) {
-           //    callbackPane_comprobante.PerformCallback();
-           //}
-
-           //function Guardar_Datos_Complete(s, e) {
-           //    var respuestaJSON = e.result;
-           //    var respuesta = JSON.parse(respuestaJSON);
-
-           //    // Acceder a los valores Retorno y Mensaje
-           //    var Retorno = respuesta.Retorno;
-           //    var Mens = respuesta.Mensaje;
-
-           //   /* console.log(Retorno);*/
-           //    //console.log(Mens);
-           //    if (Retorno == 1) {
-           //        Enviar.Hide();
-           //        Lbl_msg.SetText(Mens);
-           //       /* console.log(Retorno);*/
-           //        Relacionado.Show();
-           //        SetCampos();
-           //    }
-           //    else {
-           //        ckPolitica.SetChecked(false);
-           //        Enviar.Hide();
-           //        Swal.fire({
-           //            text: Mens,
-           //            icon: "error",
-           //            confirmButtonColor: "#1F497D",
-                     
-           //        });
-           //    }
-           //}
-
-        //para guardar los docuementos
-        //function Click_Add_Dtos(s, e) {
-        //    ASPxCallback_Guardar_Dctos.PerformCallback();
-        //    ASPxGridView1.PerformCallback();
-
-        //   }
-
-         
-        //function Guardar_Dctos_Complete(s, e) {
-        //    ASPxGridView1.PerformCallback();
-        //    /*   alert(e.result);*/
-
-        //    fileNameLabel.SetText(null);
-        //    deleteFileButton.SetVisible(false);
-        //    AddFileButton.SetVisible(false);
-
-        //    return;
-        //}
-
-        //    function onClick(s, e) {
-        //        callback.PerformCallback(fileNameLabel.GetText());
-        //    }
-        //    function onCallbackComplete(s, e) {
-        //        if (e.result == "OK") {
-        //            fileNameLabel.SetText(null);
-        //            //deleteFileButton.SetVisible(false);
-        //            //AddFileButton.SetVisible(false);
-        //        }
-        //    }
-
-        //    function onFileUploadComplete(s, e) {
-        //        if (e.callbackData) {
-        //            // Parsea la información almacenada en el sessionStorage
-        //            var fileList = e.callbackData.split("|");
-
-        //            // Construye la tabla HTML
-        //            var tableHTML = '<table border="1" class="table table-striped" style="width:100%"><tr style="background-color: #156ab3; color: white;"><th>Nombre de archivo</th></tr>';
-
-        //            for (var i = 0; i < fileList.length; i++) {
-        //                // Utiliza un atributo de datos para almacenar el fileId en el ícono de eliminar
-        //                tableHTML += '<tr><td>' + fileList[i] + '</td></tr>';
-        //            }
-
-        //            tableHTML += '</table>';
-
-        //            // Inserta la tabla en un contenedor HTML, por ejemplo, un div con el id "fileListContainer"
-        //            document.getElementById("fileListContainer").innerHTML = tableHTML;
-
-        //            // Almacena la información en el sessionStorage para que persista durante la sesión actual
-        //            sessionStorage.setItem("fileList", e.callbackData);
-        //        }
-        //    }
-
-        //    // Recupera la información almacenada al cargar la página
-        //    window.onload = function () {
-        //        var storedFileList = sessionStorage.getItem("fileList");
-
-        //        if (storedFileList) {
-        //            // Realiza el mismo proceso de construcción de la tabla al cargar la página
-        //            onFileUploadComplete(null, { callbackData: storedFileList });
-
-        //            // Elimina la información del sessionStorage después de cargar la página
-        //            sessionStorage.removeItem("fileList");
-        //        }
-        //    }
-
-
-        //    function solonumeros(e) {
-
-        //        var key;
-
-        //        if (window.event) // IE
-        //        {
-        //            key = e.keyCode;
-        //        }
-        //        else if (e.which) // Netscape/Firefox/Opera
-        //        {
-        //            key = e.which;
-        //        }
-
-        //        if (key < 48 || key > 57) {
-        //            return false;
-        //        }
-
-        //        return true;
-        //    }
-
-       </script>
-   </head>
-   <!-- body -->
-   <body class="main-layout">
-       <div id="list"></div>
-        <header class="header-area">
-            <div class="container">
-               <div class="row d_flex">
-                  <div class=" col-md-3">
-                     <div class="logo">
-                        <a href="https://www.tsc.gob.hn/index.php/denuncia-ciudadana/"> <img src="Content/Images/TSCLogo.png"  alt="#"/>T<span>SC</span></a>
-                     </div>
-                  </div>
-                  <div class="col-md-9 col-sm-12">
-                    <div class="navbar-area">
-                      <nav class="site-navbar">
-                        <ul>
-                            <li><a href="https://www.tsc.gob.hn/index.php/sistema-para-la-declaracion-jurada-en-linea/" target="_blank"><i class="fa fa-home"></i> Inicio</a></li>
-                             <%--<li><a href="Content/Manuales/Manual de Usuario Ciudadano.pdf" target="_blank"><i class="fa fa-book"></i> Manual de Usuario</a></li>--%>
-                        </ul>
-                        <button class="nav-toggler">
-                          <span></span>
-                        </button>
-                      </nav>
+    </style>
+        <!-- Cargar jQuery primero -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <!-- Cargar otros scripts que dependen de jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="Content/js/bootstrap.min.js"></script>
+    <script src="Content/Denuncia.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="Content/js/jquery-3.0.0.min.js"></script>
+    <script src="Content/js/bootstrap.min.js"></script>
+<%--    <script type="text/javascript">
+        // Incrustar valores en el JavaScript
+        
+    </script>--%>
+
+</head>
+
+<body class="main-layout">
+    <header class="header-area">
+        <div class="container">
+            <div class="row d_flex">
+                <div class="col-md-3">
+                    <div class="logo">
+                        <a href="https://www.tsc.gob.hn/index.php/denuncia-ciudadana/">
+                            <img src="Content/Images/TSCLogo.png" alt="TSC Logo" /> T<span>SC</span>
+                        </a>
                     </div>
-                  </div>
+                </div>
+                <div class="col-md-9 col-sm-12">
+                    <div class="navbar-area">
+                        <nav class="site-navbar">
+                            <ul>
+                                <li>
+                                    <a href="Default.aspx" target="_blank">
+                                        <i class="fa fa-home"></i> Inicio
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="Content/Manuales/Manual de Usuario.pdf" target="_blank">
+                                        <i class="fa fa-book"></i> Manual de Usuario
+                                    </a>
+                                </li>
+                            </ul>
+                            <button class="nav-toggler">
+                                <span></span>
+                            </button>
+                        </nav>
+                    </div>
                 </div>
             </div>
-         </header>
-   
-   <form id="form1" runat="server" enctype="multipart/form-data">
-    
-           <div class="services">
+        </div>
+    </header>
 
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="titlepage text_align_left">
-                <h2 style="text-align:center">FORMULARIO SOLICITUD DE CONSTANCIA</h2>
-                  <h3 style="text-align:center">SISTEMA DE CONSULTAS SECRETARIA GENERAL TSC</h3>
-              </div>
-            </div>
-          </div>
-     <%--       <dx:ASPxCallback ID="callbackcontent1" runat="server" OnCallback="Callbackcontent1_Callback">
-        </dx:ASPxCallback>--%>
+    <form id="form1" runat="server" enctype="multipart/form-data">
             <asp:scriptmanager id="ScriptManager1" runat="server" />
-            
-        <asp:PlaceHolder ID="phDenunciado" runat="server">
-        <dx:ASPxFormLayout runat="server" ID="formDenuncia" CssClass="formLayout">
-              <SettingsAdaptivity AdaptivityMode="SingleColumnWindowLimit" SwitchToSingleColumnAtWindowInnerWidth="700" />
-            <Items>
-                   <dx:LayoutItem ShowCaption="False" HorizontalAlign="Left">
+        <div class="services">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="titlepage text_align_left">
+                            <h2 class="text-center">FORMULARIO SOLICITUD DE CONSTANCIA</h2>
+                            <h3 class="text-center">SISTEMA DE CONSULTAS SECRETARIA GENERAL TSC</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ol class="stepper">
+                <li class="active" id="step1-tab">Datos del Solicitante</li>
+                <li id="step2-tab">Información Adicional</li>
+                <li id="step3-tab">Carga de Archivos</li>
+                <li id="step4-tab">Confirmación</li>
+            </ol>
+
+            <div class="tab-content" id="stepper-content">
+                <!-- Step 1 -->
+                <div class="tab-pane fade show active step-content" id="step1">
+                    <h4>Step 1: Datos del Solicitante</h4>
+                    <dx:ASPxFormLayout runat="server" ID="formDenuncia1" CssClass="formLayout">
+                        <Items>
+                            <dx:LayoutItem Caption="Identidad del Solicitante">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+                                        <dx:ASPxTextBox ID="tbIdentidad" runat="server" NullText="Número de identificación" ClientInstanceName="tbIdentidad" 
+                                            MaskSettings-Mask="0000000000000" MaskSettings-ErrorText="El Documento Nacional de Identificación es Requerido."
+                                            ToolTip="Ingesar el número de identificación nacional, numero de pasaporte o carnet de residencia según aplique">
+                                                <MaskSettings Mask="0000000000000" ErrorText="El Número de identificación incorrecto" />
+                                                <ValidationSettings ErrorDisplayMode="ImageWithTooltip" />
+                                            <ValidationSettings RequiredField-IsRequired="true" Display="Dynamic" ErrorTextPosition="Bottom" SetFocusOnError="True" EnableCustomValidation="True" 
+                                                            ErrorDisplayMode="Text" CausesValidation="True">
+                                                  <RequiredField ErrorText="El Número de identificación es requerida" IsRequired="true"/>
+                                            </ValidationSettings>
+                                        </dx:ASPxTextBox>
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+                            <dx:LayoutItem Caption="Nombres del Solicitante">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+                                        <dx:ASPxTextBox ID="tbNombre" runat="server" NullText="Nombres del Solicitante" ToolTip="Ingrese sus Nombres" ClientInstanceName="tbNombre" CaptionSettings-RequiredMarkDisplayMode="Hidden">
+                                            <ValidationSettings RequiredField-IsRequired="true" Display="Dynamic" ErrorTextPosition="Bottom" SetFocusOnError="True">
+                                                <RequiredField ErrorText="Los Nombres son requerido." IsRequired="true" />
+                                            </ValidationSettings>
+                                        </dx:ASPxTextBox>
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+                            <dx:LayoutItem Caption="Apellidos del Solicitante">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+                                        <dx:ASPxTextBox ID="tbApellido" runat="server" NullText="Apellidos del Solicitante" ToolTip="Ingrese sus Apellidos" ClientInstanceName="tbApellido">
+                                            <ValidationSettings RequiredField-IsRequired="true" Display="Dynamic" ErrorTextPosition="Bottom" SetFocusOnError="True">
+                                                <RequiredField ErrorText="Los Apellidos son requeridos." IsRequired="true" />
+                                            </ValidationSettings>
+                                        </dx:ASPxTextBox>
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+                            <dx:LayoutItem Caption="Correo Electrónico">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+                                        <dx:ASPxTextBox ID="tbCorreo" runat="server" NullText="Correo Electrónico Personal" ClientInstanceName="tbCorreo" ToolTip="Ingresar su correo electrónico.">
+                                            <ValidationSettings Display="Dynamic" ErrorTextPosition="Bottom" SetFocusOnError="True" EnableCustomValidation="True" ErrorDisplayMode="ImageWithText" CausesValidation="True">
+                                                <RegularExpression ErrorText="El Correo Electrónico no es válido" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
+                                                <RequiredField ErrorText="El Correo Electrónico es requerida" IsRequired="true" />
+                                            </ValidationSettings>
+<%--                                            <ClientSideEvents KeyUp="function(s, e) { toUpperCase(s.GetInputElement().id); }" />
+                                            <ClientSideEvents />--%>
+                                        </dx:ASPxTextBox>
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+                            <dx:LayoutItem Caption="Confirmar Correo Electrónico Personal" ColSpan="1">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+                                        <dx:ASPxTextBox ID="tbConfirmCorreo" runat="server" NullText="Confirmar Correo Electrónico Personal" ClientInstanceName="tbConfirmCorreo" ToolTip="Confirmar su correo electrónico.">
+                                            <ValidationSettings Display="Dynamic" ErrorTextPosition="Bottom" SetFocusOnError="True" EnableCustomValidation="True" ErrorDisplayMode="Text" CausesValidation="True">
+                                                <RegularExpression ErrorText="El Correo Electrónico no es válido" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
+                                                <RequiredField ErrorText="Se requiere confirmación Correo Electrónico Personal" IsRequired="true" />
+                                            </ValidationSettings>
+                                            <ClientSideEvents Validation="function(s, e) {
+                                                var originalCorreo = tbCorreo.GetText();
+                                                var confirmCorreo = s.GetText();
+                                                e.isValid = (originalCorreo == confirmCorreo);
+                                                e.errorText = 'Correo Electrónico Personal deben coincidir.';
+                                            }" />
+                                        </dx:ASPxTextBox>
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+                        </Items>
+                    </dx:ASPxFormLayout>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="tab-pane fade step-content" id="step2">
+                    <h4>Step 2: Información Adicional</h4>
+                    <dx:ASPxFormLayout runat="server" ID="formDenuncia2" CssClass="formLayout">
+                        <Items>
+                            <dx:LayoutItem Caption="Teléfono">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+                                        <dx:ASPxTextBox ID="tbTelefono" runat="server" NullText="Teléfono" ToolTip="Ingrese su Teléfono" ClientInstanceName="tbTelefono">
+                                            <ValidationSettings RequiredField-IsRequired="true" Display="Dynamic" ErrorTextPosition="Bottom" SetFocusOnError="True">
+                                                <RequiredField ErrorText="El Teléfono es requerido." IsRequired="true" />
+                                            </ValidationSettings>
+                                        </dx:ASPxTextBox>
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+                            <dx:LayoutItem Caption="Dirección">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+                                        <dx:ASPxTextBox ID="tbDireccion" runat="server" NullText="Dirección" ToolTip="Ingrese su Dirección" ClientInstanceName="tbDireccion">
+                                            <ValidationSettings RequiredField-IsRequired="true" Display="Dynamic" ErrorTextPosition="Bottom" SetFocusOnError="True">
+                                                <RequiredField ErrorText="La Dirección es requerida." IsRequired="true" />
+                                            </ValidationSettings>
+                                        </dx:ASPxTextBox>
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+                        </Items>
+                    </dx:ASPxFormLayout>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="tab-pane fade step-content text-center" id="pills-step3" role="tabpanel" aria-labelledby="pills-step3-tab">
+                <h4 style="font-size: 1.5em;">Step 3: Carga de Archivos</h4>
+                <dx:ASPxFormLayout runat="server" ID="ASPxFormLayout1" CssClass="formLayout">
+                    <Items>
+                        <dx:LayoutItem ShowCaption="False" HorizontalAlign="Right">
                             <LayoutItemNestedControlCollection>
                                 <dx:LayoutItemNestedControlContainer>
-                                    <table>
+                                    <table class="table table-centered" style="width: 80%; margin: 0 auto;">
                                         <tr>
-                                           <td >
-                                              Bienvenido al Sistema de Solicitud de Constacias en Linea, favor llenar los siguientes campos para la solicitud de usuario.
-                                             <br />
-                                             <br />
-                                              Los campos marcados con * son obligatorios.
-                                           </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label for="fileUpload" class="required-asterisk">Seleccione los archivos de su solicitud</label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <asp:FileUpload ID="fileUpload" runat="server" ClientIDMode="Static" accept=".jpeg" onchange="Filevalidation()"      />
+                                                    <asp:Label ID="lblUploadStatus" runat="server" Text=""></asp:Label>
+                                                    <hr />
+                                                    <asp:Label ID="lblError" runat="server" ForeColor="Red" />
+                                                    <hr />
+                                                    <asp:Label ID="lblSelected" runat="server" ForeColor="Green" />
+                                                    <br />
+                                                    <asp:Label ID="lblSize" runat="server" ForeColor="Green" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label for="fileUpload1" class="required-asterisk">Seleccione el Archivo de su Identidad</label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <asp:FileUpload ID="fileUpload1" runat="server" ClientIDMode="Static"  accept=".pdf" onchange="Filevalidation2()" />
+                                                    <asp:Label ID="lblUploadStatus1" runat="server" Text=""></asp:Label>
+                                                    <hr />
+                                                    <asp:Label ID="lblError1" runat="server" ForeColor="Red" />
+                                                    <hr />
+                                                    <asp:Label ID="lblSelected1" runat="server" ForeColor="Green" />
+                                                    <br />
+                                                    <asp:Label ID="lblSize1" runat="server" ForeColor="Green" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label for="fileUpload2" class="required-asterisk">Seleccione el Archivo de su Recibo</label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <asp:FileUpload ID="fileUpload2" runat="server" ClientIDMode="Static"  accept=".jpeg"  onchange="Filevalidation1()" />
+                                                    <asp:Label ID="lblUploadStatus2" runat="server" Text=""></asp:Label>
+                                                    <hr />
+                                                    <asp:Label ID="lblError2" runat="server" ForeColor="Red" />
+                                                    <hr />
+                                                    <asp:Label ID="lblSelected2" runat="server" ForeColor="Green" />
+                                                    <br />
+                                                    <asp:Label ID="lblSize2" runat="server" ForeColor="Green" />
+                                                </div>
+                                            </td>
                                         </tr>
                                     </table>
-                                </dx:LayoutItemNestedControlContainer>
-                            </LayoutItemNestedControlCollection>
-                  </dx:LayoutItem>
-                <dx:LayoutGroup Caption="1. DATOS DEL SOLICITABTE *" ColCount="1" GroupBoxDecoration="HeadingLine" UseDefaultPaddings="false" Paddings-PaddingTop="10">
-                   <GroupBoxStyle>
-                        <Caption Font-Bold="true" Font-Size="15" />
-                    </GroupBoxStyle>
-                     <Items>
-                        <dx:LayoutItem Caption="Nombres del Solicitante" ColSpan="1" >
-                            <LayoutItemNestedControlCollection>
-                                <dx:LayoutItemNestedControlContainer runat="server">
-                                    <dx:ASPxTextBox ID="tbNombre" runat="server" NullText="Nombres del Solicitante" ToolTip="Ingrese sus Nombres" ClientInstanceName="tbNombre" CaptionSettings-RequiredMarkDisplayMode="Hidden">
-                                        <ValidationSettings RequiredField-IsRequired="true" Display="Dynamic" ErrorTextPosition="Bottom" SetFocusOnError="True">
-                                            <RequiredField ErrorText="Los Nombres son requerido." IsRequired="true" />
-                                        </ValidationSettings>
-                                    </dx:ASPxTextBox>
-                                </dx:LayoutItemNestedControlContainer>
-                            </LayoutItemNestedControlCollection>
-                        </dx:LayoutItem>
-                        <dx:LayoutItem ColSpan="1" Caption="Apellidos del Solicitante">
-                            <LayoutItemNestedControlCollection>
-                                <dx:LayoutItemNestedControlContainer runat="server">
-                                    <dx:ASPxTextBox ID="tbApellido" runat="server" NullText="Apellidos del Solicitante" ToolTip="Ingrese sus Apellidos" ClientInstanceName="tbApellido">
-                                        
-                                         <ValidationSettings RequiredField-IsRequired="true" Display="Dynamic" ErrorTextPosition="Bottom" SetFocusOnError="True">
-                                             <RequiredField ErrorText="Los Apellidos son requerido." IsRequired="true" />
-                                        
-                                        </ValidationSettings>
-                                    </dx:ASPxTextBox>
-                                </dx:LayoutItemNestedControlContainer>
-                            </LayoutItemNestedControlCollection>
-                        </dx:LayoutItem>
- <%--                       <dx:LayoutItem ColSpan="1" Caption="Documento Nacional de Identificación">
-                            <LayoutItemNestedControlCollection>
-                                <dx:LayoutItemNestedControlContainer runat="server">
-                                    <dx:ASPxTextBox ID="tbDNI" runat="server" NullText="Documento Nacional de Identificación" ClientInstanceName="tbIdentidad" 
-                                        MaskSettings-Mask="0000000000000" MaskSettings-ErrorText="El Documento Nacional de Identificación es Requerido."
-                                        ToolTip="Ingresar su Identificación">
-                                            <MaskSettings Mask="0000000000000" ErrorText="El Documento Nacional de Identificación incorrecto" />
-                                            <ValidationSettings ErrorDisplayMode="ImageWithTooltip" />
-                                        <ValidationSettings RequiredField-IsRequired="true" Display="Dynamic" ErrorTextPosition="Bottom" SetFocusOnError="True" EnableCustomValidation="True" 
-                                                        ErrorDisplayMode="Text" CausesValidation="True">
-                                              <RequiredField ErrorText="Documento Nacional de Identificación es requerida" IsRequired="true"/>
-                                        </ValidationSettings>
-                                    </dx:ASPxTextBox>
-                                </dx:LayoutItemNestedControlContainer>
-                            </LayoutItemNestedControlCollection>
-                        </dx:LayoutItem>--%>
-                    <dx:LayoutItem Caption="Correo Electrónico Personal" ColSpan="1">
-                        <LayoutItemNestedControlCollection>
-                            <dx:LayoutItemNestedControlContainer runat="server">
-                                <dx:ASPxTextBox ID="tbCorreo" runat="server" NullText="Correo Electrónico Personal" ClientInstanceName="tbCorreo" ToolTip="Ingresar su correo electrónico.">
-                                    <ValidationSettings Display="Dynamic" ErrorTextPosition="Bottom" SetFocusOnError="True" EnableCustomValidation="True" ErrorDisplayMode="Text" CausesValidation="True">
-                                        <RegularExpression ErrorText="El Correo Electrónico no es válido" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
-                                        <RequiredField ErrorText="El Correo Electrónico es requerida" IsRequired="true" />
-                                    </ValidationSettings>
-                                    <ClientSideEvents />
-                                </dx:ASPxTextBox>
-                            </dx:LayoutItemNestedControlContainer>
-                        </LayoutItemNestedControlCollection>
-                    </dx:LayoutItem>
-
-                    <dx:LayoutItem Caption="Confirmar Correo Electrónico Personal" ColSpan="1">
-                        <LayoutItemNestedControlCollection>
-                            <dx:LayoutItemNestedControlContainer runat="server">
-                                <dx:ASPxTextBox ID="tbConfirmCorreo" runat="server" NullText="Confirmar Correo Electrónico Personal" ClientInstanceName="tbConfirmCorreo" ToolTip="Confirmar su correo electrónico.">
-                                    <ValidationSettings Display="Dynamic" ErrorTextPosition="Bottom" SetFocusOnError="True" EnableCustomValidation="True" ErrorDisplayMode="Text" CausesValidation="True">
-                                        <RegularExpression ErrorText="El Correo Electrónico no es válido" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
-                                        <RequiredField ErrorText="Se requiere confirmación Correo Electrónico Personal" IsRequired="true" />
-                                    </ValidationSettings>
-                                    <ClientSideEvents Validation="function(s, e) {
-                                        var originalCorreo = tbCorreo.GetText();
-                                        var confirmCorreo = s.GetText();
-                                        e.isValid = (originalCorreo == confirmCorreo);
-                                        e.errorText = 'Correo Electrónico Personal deben coincidir.';
-                                    }" />
-                                </dx:ASPxTextBox>
-                            </dx:LayoutItemNestedControlContainer>
-                        </LayoutItemNestedControlCollection>
-                    </dx:LayoutItem>
-
-                    <dx:LayoutItem Caption="Subir Identidad" ColSpan="1">
-                        <LayoutItemNestedControlCollection>
-                            <dx:LayoutItemNestedControlContainer runat="server">
-                                <h2>Upload File</h2>
-                                <asp:Label ID="lblMessage" runat="server" Text=""></asp:Label>
-                                <div>
-                                    <label for="file">Select file:</label>
-                                    <asp:FileUpload ID="fileUpload" runat="server" />
-                                </div>
-                            </dx:LayoutItemNestedControlContainer>
-                        </LayoutItemNestedControlCollection>
-                    </dx:LayoutItem>
-
-                    <dx:LayoutItem Caption="Subir Identidad" ColSpan="1">
-                        <LayoutItemNestedControlCollection>
-                            <dx:LayoutItemNestedControlContainer runat="server">
-                                <div>
-                                    <dx:ASPxButton ID="btnUpload" runat="server" Text="Subir Id" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" ClientInstanceName="btnUpload" OnClick="btnUpload_Click">
-                                    </dx:ASPxButton>
-                                </div>
-                            </dx:LayoutItemNestedControlContainer>
-                        </LayoutItemNestedControlCollection>
-                    </dx:LayoutItem>
-
-
-<%--<dx:ASPxTextBox ID="tbPassword" ClientInstanceName="Password" Caption="Nueva contraseña" NullText="Nueva contraseña" Password="true" runat="server" CssClass="Texbox"
-      Width="350px" Theme="iOS">
-    <CaptionSettings Position="Top" />
-      <ValidationSettings ValidationGroup="ChangeUserPasswordValidationGroup" Display="Dynamic" ErrorTextPosition="Bottom" ErrorDisplayMode="Text">
-          <RequiredField ErrorText="Se requiere la contraseña nueva." IsRequired="true" />
-      </ValidationSettings>
-</dx:ASPxTextBox>
-<dx:ASPxTextBox ID="tbConfirmPassword" Password="true" Caption="Confirmar la nueva contraseña" NullText="Confirmar la nueva contraseña" runat="server" Width="350px" Theme="iOS" CssClass="Texbox">
-    <CaptionSettings Position="Top" />
-      <ValidationSettings ValidationGroup="ChangeUserPasswordValidationGroup" Display="Dynamic" ErrorTextPosition="Bottom" ErrorDisplayMode="Text">
-          <RequiredField ErrorText="Se requiere confirmación de la contraseña nueva." IsRequired="true" />
-      </ValidationSettings>
-      <ClientSideEvents Validation="function(s, e) {
-        var originalPasswd = Password.GetText();
-        var currentPasswd = s.GetText();
-        e.isValid = (originalPasswd  == currentPasswd );
-        e.errorText = 'La contraseña y la contraseña de confirmación deben coincidir.';
-    }" />
-</dx:ASPxTextBox>--%>
-<%--                         <dx:LayoutItem ColSpan="1" Caption="Dependencia/Gerencia">
-                            <LayoutItemNestedControlCollection>
-                                <dx:LayoutItemNestedControlContainer runat="server">
-                                    <dx:ASPxTextBox ID="tbDependencia" runat="server" NullText="Ingrese la Dependencia/Gerencia" ToolTip="Ingrese la Dependencia/Gerencia" ClientInstanceName="tbDependencia">
-                                        
-                                         <ValidationSettings RequiredField-IsRequired="true" Display="Dynamic" ErrorTextPosition="Bottom" SetFocusOnError="True">
-                                             <RequiredField ErrorText="La Dependencia/Gerencia es requerida" IsRequired="true" />
-                                        
-                                        </ValidationSettings>
-                                    </dx:ASPxTextBox>
-                                </dx:LayoutItemNestedControlContainer>
-                            </LayoutItemNestedControlCollection>
-                        </dx:LayoutItem>--%>
-<%--                          <dx:LayoutItem Caption="Celular" ColSpan="1">
-                            <LayoutItemNestedControlCollection>
-                                <dx:LayoutItemNestedControlContainer runat="server">
-                                    <dx:ASPxTextBox ID="tbCelular" runat="server" NullText="Celular" ToolTip="Ingresar su teléfono celular" ValidationGroup="okButton" onkeypress="javascript:return solonumeros(event)" MaxLength="8" Size="8" ClientInstanceName="tbCelular">
-                                      
-                                    </dx:ASPxTextBox>
-                                </dx:LayoutItemNestedControlContainer>
-                            </LayoutItemNestedControlCollection>
-                        </dx:LayoutItem>--%>
-
-<%--                        <dx:LayoutItem ColSpan="1" Caption="Tipo de Declaración">
-                            <LayoutItemNestedControlCollection>
-                                <dx:LayoutItemNestedControlContainer runat="server">
-                                   <dx:ASPxComboBox runat="server" ID="CmbTipoDeclaracion" ClientInstanceName="CmbTipoDeclaracion" NullText="Seleccione el tipo de Declaración" ToolTip="Seleccionar el Tipo de Declaración" ClearButton-ImagePosition="Left" ClearButton-DisplayMode="Auto">
-                                       <Items>
-                                           <dx:ListEditItem Text="Ingresar al cargo o al servicio público" Value="0" ></dx:ListEditItem>
-                                           <dx:ListEditItem Text="Por llegar a la base salarial establecida" Value="1" ></dx:ListEditItem>
-                                           <dx:ListEditItem Text="A requerimiento del Tribunal Superior de Cuentas (TSC)" Value="2" ></dx:ListEditItem>
-                                           <dx:ListEditItem Text="Cesar en el cargo o servicio público" Value="3" ></dx:ListEditItem>
-                                           <dx:ListEditItem Text="Actualización Anual" Value="4" ></dx:ListEditItem>
-
-                                       </Items>
-
-                                       <ClearButton DisplayMode="OnHover"></ClearButton>
-
-                                       <ValidationSettings RequiredField-IsRequired="true" Display="Dynamic" ErrorTextPosition="Bottom" SetFocusOnError="True">
-                                             <RequiredField ErrorText="El Tipo de Declaración es requerido." IsRequired="true" />
-                                        </ValidationSettings>
-                                    </dx:ASPxComboBox>
-                                </dx:LayoutItemNestedControlContainer>
-                            </LayoutItemNestedControlCollection>
-                        </dx:LayoutItem>--%>
-                        <dx:LayoutItem ShowCaption="False" ColSpan="1" HorizontalAlign="Center">
-                            <LayoutItemNestedControlCollection>
-                                <dx:LayoutItemNestedControlContainer runat="server">
-                                    <dx:ASPxButton ID="btnEnviarCodigo" runat="server" Text="Enviar Código" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" ClientInstanceName="btnEnviarCodigo">
-               
-                                        <%--<ClientSideEvents Click="btnEnviarCodigo_Click" />--%>
-                                    </dx:ASPxButton>
-                                    <dx:ASPxCallback ID="ASPxCallback_EnviarToken" runat="server" ClientInstanceName="ASPxCallback_EnviarToken" OnCallback="ASPxCallback_EnviarToken_Callback"></dx:ASPxCallback>
-                                </dx:LayoutItemNestedControlContainer>
-                            </LayoutItemNestedControlCollection>
-                        </dx:LayoutItem>
-                        <dx:LayoutItem ColSpan="1" ShowCaption="False" HorizontalAlign="Center">
-                            <LayoutItemNestedControlCollection>
-                                <dx:LayoutItemNestedControlContainer runat="server">
-                                       <dx:ASPxCheckBox ID="ckPolitica" runat="server" EncodeHtml="false" ClientInstanceName="ckPolitica" ClientVisible="False"
-                                             Text="Acepto los términos y politicas del Tribunal Superior de Cuentas" ValidationSettings-CausesValidation="true"> 
-                                            <%--<ClientSideEvents CheckedChanged="Terminos" />--%>
-                                        </dx:ASPxCheckBox>
-
-                                </dx:LayoutItemNestedControlContainer>
-                            </LayoutItemNestedControlCollection>
-                        </dx:LayoutItem>
-                       <dx:LayoutItem ShowCaption="False" ColSpan="1" Width="70px" HorizontalAlign="Center" >
-                            <LayoutItemNestedControlCollection>
-                                <dx:LayoutItemNestedControlContainer>
-                                    <table class="dx-justification">
-                                                    <tr>
-                                                        <td style="text-align:center">                                                          
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                    <asp:HiddenField ID="hfFileUpload" runat="server" />
+                                    <asp:HiddenField ID="hfFileUpload1" runat="server" />
+                                    <asp:HiddenField ID="hfFileUpload2" runat="server" />
                                 </dx:LayoutItemNestedControlContainer>
                             </LayoutItemNestedControlCollection>
                         </dx:LayoutItem>
                     </Items>
-                </dx:LayoutGroup>
-            </Items>
-            <Items>
-      
-            </Items>
-                      
-            </dx:ASPxFormLayout>
-        </asp:PlaceHolder>
+                </dx:ASPxFormLayout>
+                </div>
 
-        <dx:ASPxPopupControl ID="popupToken" runat="server" ClientInstanceName="popupToken" HeaderText="Verificación de Código" CloseAction="CloseButton" CloseOnEscape="true" CssClass="popup"
-                    Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" MinWidth="310px" MinHeight="214px" Width="400px" Height="200px"
-                    AllowDragging="True" EnableViewState="False" AutoUpdatePosition="true">
-                    <HeaderStyle CssClass="headerpopup" />
-                    <ContentCollection>
-                        <dx:PopupControlContentControl runat="server">
-                            <table class="dx-justification">
-                                <tr>
-                                    <td style="text-align:center;">
-                                        <dx:ASPxLabel ID="lblTokenPrompt" runat="server" Text="Ingrese el código enviado a su correo:" />
-                                        <br /><br />
-                                        <dx:ASPxTextBox ID="tbToken" runat="server" NullText="Código de Verificación" ClientInstanceName="tbToken" Width="100%" />
-                                        <br /><br />
-                                        <dx:ASPxButton ID="btnVerificarToken" runat="server" Text="Verificar Código" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" ClientInstanceName="btnVerificarToken">
-                                            <%--<ClientSideEvents Click="btnVerificarToken_Click" />--%>
+                <!-- Step 4 -->
+             
+                <div class="tab-pane fade step-content d-flex align-items-center justify-content-center flex-column" id="step4" style="height: 50vh; padding: 1rem;">
+                    <h4 class="mb-4">Step 4: Confirmación</h4>
+                    <p class="mb-4">Revise los datos ingresados antes de enviar su solicitud.</p>
+                    <dx:ASPxFormLayout runat="server" ID="ASPxFormLayout2" CssClass="formLayout mb-4">
+                        <Items>
+                            <dx:LayoutItem ShowCaption="False" ColSpan="1" HorizontalAlign="Center">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+                                        <dx:ASPxButton ID="ASPxButton2" runat="server" Text="Enviar Solicitud" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" HorizontalAlign="Right" Enabled="true" ClientVisible="True" ClientInstanceName="btnEnviarCodigo">
+                                            <ClientSideEvents Click="mostrarResumen" />
                                         </dx:ASPxButton>
-                                        <dx:ASPxCallback ID="ASPxCallback_VerificarToken" runat="server" ClientInstanceName="ASPxCallback_VerificarToken" OnCallback="ASPxCallback_VerificarToken_Callback">
-                    <ClientSideEvents CallbackComplete="function(s, e) { TokenVerificationComplete(e.result); }" />
-                </dx:ASPxCallback>
-                                    </td>
-                                </tr>
-                            </table>
-                        </dx:PopupControlContentControl>
-                    </ContentCollection>
-        </dx:ASPxPopupControl>
-        <dx:ASPxPopupControl ID="Enviar" runat="server" ClientInstanceName="Enviar" HeaderText="Políticas y Términos" CloseAction="CloseButton" CloseOnEscape="true" CssClass="popup"
-           Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" MinWidth="310px" MinHeight="214px" Width="700px" Height="237px"
-           AllowDragging="True" EnableViewState="False" AutoUpdatePosition="true"  PopupAnimationType="Fade" >
-           <HeaderStyle CssClass="headerpopup" />
-        <ContentCollection>
-            <dx:PopupControlContentControl runat="server">          
-                <table class="dx-justification">
-                        <tr>
-                            <td class="dx-ac" style="text-align:justify;">
-                                <br /> 
-                                “Por medio de la presente solicito la incorporación al Sistema de Declaración Jurada de Ingresos, Activos y Pasivos en Línea, como un requisito obligatorio de conformidad con la Ley Orgánica del TSC y su Reglamento, y Declarando bajo juramento que toda la información utilizada en el Sistema de Declaraciones Juradas en Línea, será completada y aprobada por quien suscribe como responsable de la misma, la que será cierta, correcta y completa.<br /> 
+                                        <dx:ASPxCallback ID="ASPxCallback_EnviarToken" runat="server" ClientInstanceName="ASPxCallback_EnviarToken" OnCallback="ASPxCallback_EnviarToken_Callback"></dx:ASPxCallback>
+                                        <dx:ASPxCallback ID="ASPxCallback_Guardar_Datos" runat="server" OnCallback="ASPxCallback_Guardar_Datos_Callback" ClientInstanceName="ASPxCallback_Guardar_Datos">
+                                            <ClientSideEvents CallbackComplete="Guardar_Datos_Complete" />
+                                        </dx:ASPxCallback>                         
+                                    </dx:LayoutItemNestedControlContainer>      
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+                            <dx:LayoutItem ColSpan="1" ShowCaption="False" HorizontalAlign="Center">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+                                        <dx:ASPxCheckBox ID="ckPolitica" runat="server" EncodeHtml="false" ClientInstanceName="ckPolitica" ClientVisible="true"
+                                            Text="Acepto los términos y políticas del Tribunal Superior de Cuentas" ValidationSettings-CausesValidation="true">
+                                            <ClientSideEvents CheckedChanged="Terminos" />
+                                        </dx:ASPxCheckBox>
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+                         </Items>
+                     </dx:ASPxFormLayout>
+                    <!-- Popup de Resumen -->
+                    <dx:ASPxPopupControl ID="popupResumen" runat="server" ClientInstanceName="popupResumen" HeaderText="Resumen de la Solicitud" CloseAction="CloseButton" CloseOnEscape="true" CssClass="popup"
+                        Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" MinWidth="500px" MinHeight="300px" AllowDragging="True" EnableViewState="False" AutoUpdatePosition="true">
+                        <HeaderStyle CssClass="headerpopup" />
+                        <ContentCollection>
+                            <dx:PopupControlContentControl runat="server">
+                                <table class="dx-justification">
+                                    <tr>
+                                        <td id="resumenContent" class="dx-ac" style="text-align:left;">
+                                            <!-- Contenido dinámico del resumen -->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:center;">
+                                            <dx:ASPxButton ID="btnConfirmar" runat="server" Text="Confirmar y Enviar" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" ClientInstanceName="btnConfirmar">
+                                                <ClientSideEvents Click="btnEnviarCodigo_Click" />
+                                            </dx:ASPxButton>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </dx:PopupControlContentControl>
+                        </ContentCollection>
+                    </dx:ASPxPopupControl>
+                    <dx:ASPxPopupControl ID="popupToken" runat="server" ClientInstanceName="popupToken" HeaderText="Verificación de Código" CloseAction="CloseButton" CloseOnEscape="true" CssClass="popup"
+                        Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" MinWidth="310px" MinHeight="214px" Width="400px" Height="200px"
+                        AllowDragging="True" EnableViewState="False" AutoUpdatePosition="true" ClientVisible="false"  >
+                        <HeaderStyle CssClass="headerpopup" />
+                        <ContentCollection>
+                            <dx:PopupControlContentControl runat="server">
+                                <table class="dx-justification">
+                                    <tr>
+                                        <td style="text-align:center;">
+                                            <dx:ASPxLabel ID="lblTokenPrompt" runat="server" Text="Ingrese el código enviado a su correo:" />
+                                            <br /><br />
+                                            <dx:ASPxTextBox ID="tbToken" runat="server" NullText="Código de Verificación" ClientInstanceName="tbToken" Width="100%" />
+                                            <br /><br />
+                                            <dx:ASPxButton ID="btnVerificarToken" runat="server" Text="Verificar Código" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" ClientInstanceName="btnVerificarToken">
+                                                <ClientSideEvents Click="btnVerificarToken_Click" />
+                                            </dx:ASPxButton>
+                                            <dx:ASPxCallback ID="ASPxCallback_VerificarToken" runat="server" ClientInstanceName="ASPxCallback_VerificarToken" OnCallback="ASPxCallback_VerificarToken_Callback">
+                                                <ClientSideEvents CallbackComplete="function(s, e) { TokenVerificationComplete(e.result); }" />
+                                            </dx:ASPxCallback>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </dx:PopupControlContentControl>
+                        </ContentCollection>
+                    </dx:ASPxPopupControl>
+                    <dx:ASPxPopupControl ID="Enviar" runat="server" ClientInstanceName="Enviar" HeaderText="Políticas y Términos" CloseAction="CloseButton" CloseOnEscape="true" CssClass="popup"
+                        Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" MinWidth="500px" MinHeight="114px" AllowDragging="True" EnableViewState="False" AutoUpdatePosition="true" SettingsAdaptivity-Mode="OnWindowInnerWidth" CloseAnimationType="None" AllowResize="False" SettingsAdaptivity-VerticalAlign="WindowCenter"
+                        PopupAnimationType="Fade">
+                        <HeaderStyle CssClass="headerpopup" />
+                        <ContentCollection>
+                            <dx:PopupControlContentControl runat="server">
+                                <table class="dx-justification">
+                                    <tr>
+                                       
+                                        <td class="dx-ac" style="text-align:justify;">
+                                            <br />
+                                            Por medio de la presente solicito la Constancia de Activos y Pasivos , como un requisito obligatorio de conformidad con la Ley Orgánica del TSC y su Reglamento, y Declarando bajo juramento que toda la información utilizada en el Sistema de Declaraciones Juradas en Línea, será completada y aprobada por quien suscribe como responsable de la misma, la que será cierta, correcta y completa.<br />
+                                            <br />
+                                            Es mi responsabilidad como servidor público obligado, mantener en estricta confidencialidad y reserva las credenciales de ingreso al Sistema en Línea, no debiendo compartirlas ni dejarlas al acceso de ninguna otra persona.<br />
+                                            <br />
+                                            Adicionalmente, por este medio autorizo de forma expresa e irrevocable al Tribunal Superior de Cuentas para confirmar el contenido de las Declaraciones Juradas realizadas mediante el Sistema en Línea, en cualquier tiempo y lugar. Autorizando al mismo tiempo para que investigue las cuentas, depósitos bancarios, bienes, participación en sociedades situados en el país o en el extranjero y en general para que comparezcan ante quien corresponda a realizar la verificación de la Información contenida en las referidas Declaraciones. <br />
+                                            <br />
+                                            La presente solicitud se fundamenta en los artículos 56, 57, 61, 67 y demás aplicables de la Ley Orgánica del Tribunal Superior de Cuentas; 59, 60, 61 y demás aplicables del Reglamento General de la Ley Orgánica del Tribunal Superior de Cuentas. <br />
+                                            <br />
+                                            <strong>Al Honorable Tribunal Superior de Cuentas respetuosamente PIDO:</strong> Admitir el presente escrito, realizar la incorporación correspondiente al Sistema de Declaraciones Juradas en Línea, tener por autorizado al Tribunal para realizar la confirmación de los datos de las Declaraciones de Ingresos, Activos y Pasivos realizadas por medio del sistema y en general, resolver conforme con lo solicitado.”
+                                        </td>
+                                    </tr>
+                                </table>
                                 <br />
-                                Es mi responsabilidad como servidor público obligado, mantener en estricta confidencialidad y reserva las credenciales de ingreso al Sistema en Línea, no debiendo compartirlas ni dejarlas al acceso de ninguna otra persona.<br /> 
-                                <br />
-                                Adicionalmente, por este medio autorizo de forma expresa e irrevocable al Tribunal Superior de Cuentas para confirmar el contenido de las Declaraciones Juradas realizadas mediante el Sistema en Línea, en cualquier tiempo y lugar. Autorizando al mismo tiempo para que investigue las cuentas, depósitos bancarios, bienes, participación en sociedades situados en el país o en el extranjero y en general para que comparezcan ante quien corresponda a realizar la verificación de la Información contenida en las referidas Declaraciones. <br />
-                                <br />
-                                La presente solicitud se fundamenta en los artículos 56, 57, 61, 67 y demás aplicables de la Ley Orgánica del Tribunal Superior de Cuentas; 59, 60, 61 y demás aplicables del Reglamento General de la Ley Orgánica del Tribunal Superior de Cuentas. <br />
-                                <br />
-                                <strong>Al Honorable Tribunal Superior de Cuentas respetuosamente PIDO:</strong> Admitir el presente escrito, realizar la incorporación correspondiente al Sistema de Declaraciones Juradas en Línea, tener por autorizado al Tribunal para realizar la confirmación de los datos de las Declaraciones de Ingresos, Activos y Pasivos realizadas por medio del sistema y en general, resolver conforme con lo solicitado.”
-                            </td>
-                        </tr>
-                </table>
-                   <br />   
-                <table class="dx-justification">
-                    <tr>
-                        <td class="dx-ac" style="text-align:center;">
-                            <dx:ASPxButton ID="ASPxButton2" runat="server" Text="Enviar" AutoPostBack="False" UseSubmitBehavior="false" CausesValidation="true"  CssClass="btn" HorizontalAlign="Right" Enabled="True"  ClientVisible="True" ClientInstanceName="ASPxButton2" ClientEnabled="False">
-                                                        <ClientSideEvents Click="BtnGuardar_Click" />
-                                                       
-                            </dx:ASPxButton>
-                            <dx:ASPxCallback ID="ASPxCallback_Guardar_Datos" runat="server" OnCallback="ASPxCallback_Guardar_Datos_Callback" ClientInstanceName="ASPxCallback_Guardar_Datos">                                                        
-                                <%--<ClientSideEvents CallbackComplete="Guardar_Datos_Complete" />--%>
-                            </dx:ASPxCallback>
-                         
-                        </td>
-                    </tr>
-                </table>
-            </dx:PopupControlContentControl>
-        </ContentCollection>
-    </dx:ASPxPopupControl>
+                            </dx:PopupControlContentControl>
+                        </ContentCollection>
+                    </dx:ASPxPopupControl>
+                    <dx:ASPxPopupControl ID="Relacionado" runat="server" ClientInstanceName="Relacionado" CssClass="popup"
+                        AllowDragging="true" HeaderText="Registro Solicitud"
+                        Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" CloseOnEscape="true"
+                        EnableViewState="False" AutoUpdatePosition="true" SettingsAdaptivity-Mode="OnWindowInnerWidth" CloseAnimationType="None" AllowResize="False"
+                        SettingsAdaptivity-VerticalAlign="WindowCenter" PopupAnimationType="Fade" Width="900px" Height="700px">
+                        <HeaderStyle CssClass="headerpopup" />
+                        <ClientSideEvents Shown="function() { showConfirmationMessage1(); }" CloseUp="ClosePopupRelacionado" />
+                        <ContentCollection>
+                            <dx:PopupControlContentControl runat="server">
+                                <div id="popupContent" style="width: 100%; height: 100%; overflow: auto;"></div>
+                            </dx:PopupControlContentControl>
+                        </ContentCollection>
+                    </dx:ASPxPopupControl>
 
 
-              <dx:ASPxPopupControl ID="Relacionado" runat="server" ClientInstanceName="Relacionado" 
-                   AllowDragging="true" HeaderText="Pre-Registro" 
-             Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" CloseOnEscape="true" 
-                  EnableViewState="False" AutoUpdatePosition="true" MinHeight="750px" >
-                   <ClientSideEvents Shown="popup_Shown_comprobante" />
-        <ContentCollection>
-            <dx:PopupControlContentControl runat="server">
-                                      <br />
-                                        <dx:ASPxLabel ID="Lbl_msg" runat="server" ClientInstanceName="Lbl_msg" Text="">
-                                            </dx:ASPxLabel>
-                                                <br />
-                                                <br />
-                  <dx:ASPxCallbackPanel runat="server" ID="callbackPane_comprobante" ClientInstanceName="callbackPane_comprobante"
-                        OnCallback="callbackpane_comprobante_callback" RenderMode="Table" Width="85%">
-                               <PanelCollection> 
-                 <dx:PanelContent runat="server">
-                <dx:ASPxWebDocumentViewer ID="ASPxWebDocumentViewer1" runat="server" Height="750px" RightToLeft="True" 
-                     DisableHttpHandlerValidation="False"></dx:ASPxWebDocumentViewer>
-                      </dx:PanelContent>
-                    </PanelCollection>
-                                 </dx:ASPxCallbackPanel>
-            </dx:PopupControlContentControl>
-        </ContentCollection>
-        <ClientSideEvents CloseUp="ClosePopupRelacionado" />
-    </dx:ASPxPopupControl>
+                </div>
+
+            </div>
+
+            <div class="pager d-flex justify-content-center my-3">
+                <ul class="pager list-inline">
+                    <li class="list-inline-item previous">
+                        <a href="#" class="btn btn-secondary">Anterior</a>
+                    </li>
+                    <li class="list-inline-item next">
+                        <a href="#" class="btn btn-success">Siguiente</a>
+                    </li>
+                </ul>
+            </div>
+
         </div>
-        </div>
-           </form>
+    </form>
+
+          
       <!-- end innva -->
       <!-- footer -->
       <footer>
@@ -920,7 +471,7 @@
                <div class="container">
                   <div class="row">
                      <div class="col-md-12">
-                         <p> &copy; Copyright 2024 IT | Tribunal Superior de Cuentas. <%--Design by <a href="https://html.design/"> <%: DateTime.Now.Year %> Free Html Template</a>--%></p>
+                         <p> &copy; Copyright 2024 Informática | Tribunal Superior de Cuentas. <%--Design by <a href="https://html.design/"> <%: DateTime.Now.Year %> Free Html Template</a>--%></p>
                      </div>
                   </div>
                </div>
@@ -928,12 +479,273 @@
          </div>
       </footer>
 
-      <script src="Content/js/jquery.min.js"></script>
-      <script src="Content/js/bootstrap.bundle.min.js"></script>
-      <script src="Content/js/jquery-3.0.0.min.js"></script>
-      <script src="Content/js/owl.carousel.min.js"></script>
-      <script src="Content/js/custom.js"></script>
-  
+    <script type="text/javascript" >
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const steps = document.querySelectorAll('.stepper li');
+            const contents = document.querySelectorAll('.step-content');
+
+            let currentStep = 0;
+
+            // Función para actualizar la visibilidad de los botones según el paso actual
+            function updateButtonVisibility() {
+                const btnNext = document.querySelector('.pager .next a');
+                const btnPrevious = document.querySelector('.pager .previous a');
+
+                if (currentStep === 0) {
+                    // Primer paso: ocultar botón "Anterior"
+                    btnPrevious.style.display = 'none';
+                } else {
+                    btnPrevious.style.display = 'inline-block';
+                }
+
+                if (currentStep === steps.length - 1) {
+                    // Último paso: ocultar botón "Siguiente"
+                    btnNext.style.display = 'none';
+                } else {
+                    btnNext.style.display = 'inline-block';
+                }
+            }
+
+            // Evento click para los pasos
+            steps.forEach((step, index) => {
+                step.addEventListener('click', () => {
+                    steps.forEach(s => s.classList.remove('active'));
+                    contents.forEach(c => {
+                        c.classList.remove('active');
+                        c.classList.remove('show');
+                    });
+
+                    step.classList.add('active');
+                    contents[index].classList.add('active');
+                    contents[index].classList.add('show');
+
+                    currentStep = index;
+                    updateButtonVisibility();
+                });
+            });
+
+            // Configura los botones siguiente y anterior
+            const btnNext = document.querySelector('.pager .next a');
+            const btnPrevious = document.querySelector('.pager .previous a');
+
+            btnNext.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentStep < steps.length - 1) {
+                    steps[currentStep].classList.remove('active');
+                    contents[currentStep].classList.remove('active');
+                    contents[currentStep].classList.remove('show');
+                    currentStep++;
+                    steps[currentStep].classList.add('active');
+                    contents[currentStep].classList.add('active');
+                    contents[currentStep].classList.add('show');
+
+                    updateButtonVisibility();
+                }
+            });
+
+            btnPrevious.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentStep > 0) {
+                    steps[currentStep].classList.remove('active');
+                    contents[currentStep].classList.remove('active');
+                    contents[currentStep].classList.remove('show');
+                    currentStep--;
+                    steps[currentStep].classList.add('active');
+                    contents[currentStep].classList.add('active');
+                    contents[currentStep].classList.add('show');
+
+                    updateButtonVisibility();
+                }
+            });
+
+            // Configuración inicial de visibilidad
+            updateButtonVisibility();
+
+        });
+
+
+
+
+        function CustomValidateID(s, e) {
+            var id = e.value;
+            if (!isValidID(id)) {
+                e.isValid = false;
+                if (hasSpecialCharacters(id)) {
+                    e.errorText = "No debe contener caracteres especiales.";
+                } else {
+                    e.errorText = "El Número de identificación es incorrecto.";
+                }
+            }
+        }
+
+
+        function isValidID(id) {
+            // Check if id is null or undefined
+            if (!id) {
+                return false;
+            }
+
+            // Verify if it has special characters
+            if (hasSpecialCharacters(id)) {
+                return false;
+            }
+
+            // Validate ID based on its length and type
+            if (id.length === 13 && isNumeric(id)) {
+                // Validation for Documento Nacional de Identificación (DNI)
+                return true;
+            } else if (id.length >= 6 && id.length <= 9 && isAlphanumeric(id)) {
+                // Validation for passport
+                return true;
+            } else if (id.length === 8 && isAlphanumeric(id)) {
+                // Validation for residency card
+                return true;
+            }
+
+            // If none of the conditions match, return false
+            return false;
+        }
+
+        function isNumeric(value) {
+            return /^\d+$/.test(value);
+        }
+
+        function isAlphanumeric(value) {
+            return /^[a-zA-Z0-9]+$/.test(value);
+        }
+
+        function hasSpecialCharacters(value) {
+            var result = /[^a-zA-Z0-9]/.test(value);
+            return result;
+        }
+
+
+
+
+
+        function validarFormatoCorreo(correo) {
+            var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return regex.test(correo);
+        }
+
+        function validarFormatoIDN(valor) {
+            var regex = /^\d{13}$/;
+            return regex.test(valor);
+        }
+
+        var fileIdIdent = <%= UtilClass.FileId_ident %>;
+        var fileIdsolicitud = <%= UtilClass.FileId_solicitud %>;
+        var fileIdrecib = <%= UtilClass.FileId_recibo %>;
+
+        function Filevalidation() {
+            var lblFile = document.getElementById("<%=lblSelected.ClientID %>");
+            lblFile.innerHTML = "";
+            var lblError = document.getElementById("<%=lblError.ClientID %>");
+            lblError.innerHTML = "";
+            var fileUpload = document.getElementById("<%=fileUpload.ClientID %>");
+            var lblSize = document.getElementById("<%=lblSize.ClientID %>");
+            lblSize.innerHTML = "";
+            var allowedFiles = [".jpeg", ".jpg", ".png"];
+            var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
+            if (!regex.test(fileUpload.value.toLowerCase())) {
+                lblError.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
+                return false;
+            } else {
+            if (fileUpload.files.length > 0) {
+                for (var i = 0; i <= fileUpload.files.length - 1; i++) {
+                    var fsize = fileUpload.files.item(i).size;
+                    var file = Math.round((fsize / 1024));
+                    // The size of the file.
+                    if (file >= 5120) {
+                        lblError.innerHTML = "";
+                        lblSize.innerHTML = "";
+                        fileUpload.value  = "";
+                        alert("File too Big, please select a file less than 5mb");
+                    } else {
+                             document.getElementById('<%=lblSize.ClientID %>').innerHTML = '<b>' + file + '</b> KB Size File Selected ';
+                         }
+                     }
+                 }
+            lblFile.innerHTML = fileUpload.files.item(0).name;
+           /* lblError.innerHTML = "";*/
+
+             }
+         }
+
+
+        function Filevalidation1() {
+            var lblFile2 = document.getElementById("<%=lblSelected2.ClientID %>");
+            lblFile2.innerHTML = "";
+            var lblError2 = document.getElementById("<%=lblError2.ClientID %>");
+            lblError2.innerHTML = "";
+            var fileUpload2 = document.getElementById("<%=fileUpload2.ClientID %>");
+            var lblSize2 = document.getElementById("<%=lblSize2.ClientID %>");
+            lblSize2.innerHTML = "";
+            var allowedFiles = [".jpeg", ".jpg", ".png"];
+            var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
+            if (!regex.test(fileUpload2.value.toLowerCase())) {
+                lblError2.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
+                return false;
+            } else {
+            if (fileUpload2.files.length > 0) {
+             for (var i = 0; i <= fileUpload2.files.length - 1; i++) {
+                 var fsize = fileUpload2.files.item(i).size;
+                 var file = Math.round((fsize / 1024));
+                 // The size of the file.
+                 if (file >= 5120) {
+                     lblError2.innerHTML = "";
+                     lblSize2.innerHTML = "";
+                     fileUpload2.value  = "";
+                     alert("File too Big, please select a file less than 5mb");
+                 } else {
+                                 document.getElementById('<%=lblSize2.ClientID %>').innerHTML = '<b>' + file + '</b> KB Size File Selected ';
+                             }
+                         }
+                     }
+                     lblFile2.innerHTML = fileUpload2.files.item(0).name;
+                     /* lblError.innerHTML = "";*/
+
+                 }
+        }
+
+        function Filevalidation2() {
+            var lblFile1 = document.getElementById("<%=lblSelected1.ClientID %>");
+            lblFile1.innerHTML = "";
+            var lblError1 = document.getElementById("<%=lblError1.ClientID %>");
+            lblError1.innerHTML = "";
+            var fileUpload1 = document.getElementById("<%=fileUpload1.ClientID %>");
+            var lblSize1 = document.getElementById("<%=lblSize1.ClientID %>");
+            lblSize1.innerHTML = "";
+            var allowedFiles = [".pdf"];
+            var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
+            if (!regex.test(fileUpload1.value.toLowerCase())) {
+                lblError1.innerHTML = "Please upload files having extensions: <b>" + allowedFiles.join(', ') + "</b> only.";
+                return false;
+            } else {
+            if (fileUpload1.files.length > 0) {
+      for (var i = 0; i <= fileUpload1.files.length - 1; i++) {
+          var fsize = fileUpload1.files.item(i).size;
+          var file = Math.round((fsize / 1024));
+          // The size of the file.
+          if (file >= 5120) {
+              lblError1.innerHTML = "";
+              lblSize1.innerHTML = "";
+              fileUpload1.value  = "";
+              alert("File too Big, please select a file less than 5mb");
+          } else {
+                             document.getElementById('<%=lblSize1.ClientID %>').innerHTML = '<b>' + file + '</b> KB Size File Selected ';
+                         }
+                     }
+                 }
+                 lblFile1.innerHTML = fileUpload1.files.item(0).name;
+                 /* lblError.innerHTML = "";*/
+
+             }
+         }
+    </script>
+
+
    </body>
 </html>
 

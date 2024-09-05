@@ -95,7 +95,7 @@ function showConfirmationMessage1() {
 
     $.ajax({
         type: "POST",
-        url: "SolicitudTSC1.aspx/GetSessionValues",
+        url: "SolicitudTSC.aspx/GetSessionValues",
         data: JSON.stringify({
             email: email,
             constanciaId: globalIdConstancia,

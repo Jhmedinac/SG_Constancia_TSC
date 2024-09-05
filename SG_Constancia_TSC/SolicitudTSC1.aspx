@@ -369,9 +369,10 @@
                             <dx:PopupControlContentControl runat="server">
                                 <table class="dx-justification">
                                     <tr>
+                                       
                                         <td class="dx-ac" style="text-align:justify;">
                                             <br />
-                                            “Por medio de la presente solicito la incorporación al Sistema de Declaración Jurada de Ingresos, Activos y Pasivos en Línea, como un requisito obligatorio de conformidad con la Ley Orgánica del TSC y su Reglamento, y Declarando bajo juramento que toda la información utilizada en el Sistema de Declaraciones Juradas en Línea, será completada y aprobada por quien suscribe como responsable de la misma, la que será cierta, correcta y completa.<br />
+                                            Por medio de la presente solicito la Constancia de Activos y Pasivos , como un requisito obligatorio de conformidad con la Ley Orgánica del TSC y su Reglamento, y Declarando bajo juramento que toda la información utilizada en el Sistema de Declaraciones Juradas en Línea, será completada y aprobada por quien suscribe como responsable de la misma, la que será cierta, correcta y completa.<br />
                                             <br />
                                             Es mi responsabilidad como servidor público obligado, mantener en estricta confidencialidad y reserva las credenciales de ingreso al Sistema en Línea, no debiendo compartirlas ni dejarlas al acceso de ninguna otra persona.<br />
                                             <br />
@@ -402,7 +403,7 @@
                     </dx:ASPxPopupControl>
 
 
-            </div>
+                </div>
 
             </div>
 

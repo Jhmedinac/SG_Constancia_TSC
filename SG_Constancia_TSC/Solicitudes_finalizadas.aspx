@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Main.master" CodeBehind="Solicitudes.aspx.cs" Inherits="SG_Constancia_TSC.Solicitudes" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true"  MasterPageFile="~/Main.master" CodeBehind="Solicitudes_finalizadas.aspx.cs" Inherits="SG_Constancia_TSC.Solicitudes_finalizadas" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
 <style>
@@ -99,7 +99,7 @@
                     <EmptyImage IconID="people_usergroup_32x32">
                     </EmptyImage>
                 </dx:ASPxImage>
-&nbsp;Solicitudes en proceso </h1>
+&nbsp;Constancias Entregadas </h1>
                     </div>
           <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <ContentTemplate>
@@ -234,7 +234,7 @@
 
     </ContentTemplate>
 
-          <asp:SqlDataSource runat="server" ID="SqlDataUsers" ConnectionString='<%$ ConnectionStrings:connString %>' SelectCommand="SELECT * FROM [V_Solicitudes] where id_Estado in (1,2,3) ORDER BY Id DESC"></asp:SqlDataSource>
+          <asp:SqlDataSource runat="server" ID="SqlDataUsers" ConnectionString='<%$ ConnectionStrings:connString %>' SelectCommand="SELECT * FROM [V_Solicitudes] where id_Estado in (4) ORDER BY Id DESC"></asp:SqlDataSource>
    
 
 
@@ -322,4 +322,3 @@
       
       </asp:Panel>
 </asp:Content>
-

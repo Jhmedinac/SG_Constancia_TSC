@@ -142,7 +142,7 @@
                         "<tr><td>Número de Constancia:</td><td>" + constanciaId + "</td></tr>" +
                         "<tr><td>Estado:</td><td>" + estado + "</td></tr>" +
                         "<tr><td>Fecha de Creación:</td><td>" + fechaCreacion + "</td></tr>" +
-                        "<tr><td>Otros Datos:</td><td>" + otrosDatos + "</td></tr>" +
+                        "<tr><td>Observaciones:</td><td>" + otrosDatos + "</td></tr>" +
                         "<tr><td colspan='2'>&nbsp;</td></tr>" +
                         "<tr><td colspan='2' align='center'><a href='https://www.tsc.gob.hn/' class='Letrapagina'>Salir</a></td></tr>" +
                         "</table>";
