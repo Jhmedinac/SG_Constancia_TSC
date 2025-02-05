@@ -11,16 +11,16 @@ using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
 using DevExpress.Office.Internal;
-
 using DevExpress.XtraPrinting;
-//using Org.BouncyCastle.Bcpg;
-
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace SG_Constancia_TSC
 {
-    public partial class Solicitudes : System.Web.UI.Page
+    public partial class SolicitudesReg : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -32,6 +32,29 @@ namespace SG_Constancia_TSC
             }
 
         }
+
+        protected void hlPreviewFile_Init(object sender, EventArgs e)
+        {
+            ASPxHyperLink link = sender as ASPxHyperLink;
+            GridViewDataItemTemplateContainer container = link.NamingContainer as GridViewDataItemTemplateContainer;
+
+            if (container != null)
+            {
+                string uploadId = DataBinder.Eval(container.DataItem, "Upload_Id").ToString();
+                string fileName = DataBinder.Eval(container.DataItem, "File_Name").ToString();
+
+                // Asegurarse de que el nombre del archivo está bien escapado
+                fileName = fileName.Replace("'", "\\'");
+
+                // Definir el script correctamente
+                string script = $"function(s, e) {{ ShowPreviewPopup({uploadId}, '{fileName}'); }}";
+
+                // Asignar el evento de clic
+                link.ClientSideEvents.Click = script;
+            }
+        }
+
+
         private void LoadStatuses()
         {
             string connectionString = (ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
@@ -48,14 +71,56 @@ namespace SG_Constancia_TSC
             }
         }
 
+        protected void SqlDataDetalle_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
+        {
+            if (GV_PreUsuarios.FocusedRowIndex >= 0)
+            {
+                // Obtén el valor del campo clave de la fila seleccionada
+                object id = GV_PreUsuarios.GetRowValues(GV_PreUsuarios.FocusedRowIndex, "Id");
+                e.Command.Parameters["@Id"].Value = id ?? DBNull.Value;
+            }
+            else
+            {
+                e.Command.Parameters["@Id"].Value = DBNull.Value; // Manejo de selección nula
+            }
+        }
+        //protected void SqlDataDetalle_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
+        //{
+        //    // Asegúrate de que una fila esté seleccionada
+        //    if (GV_PreUsuarios.FocusedRowIndex >= 0)
+        //    {
+        //        // Obtén el valor de la clave de la fila seleccionada
+        //        object id = GV_PreUsuarios.GetRowValues(GV_PreUsuarios.FocusedRowIndex, "Id");
+        //        e.Command.Parameters["@Id"].Value = id ?? DBNull.Value;
+        //    }
+        //    else
+        //    {
+        //        e.Command.Parameters["@Id"].Value = DBNull.Value; // Manejo de casos sin selección
+        //    }
+        //}
+
+        protected void GV_PreUsuarios_DetailRowExpandedChanged(object sender, ASPxGridViewDetailRowEventArgs e)
+        {
+            if (e.Expanded)
+            {
+                ASPxGridView detailGrid = (ASPxGridView)GV_PreUsuarios.FindDetailRowTemplateControl(e.VisibleIndex, "GV_Detalle");
+                if (detailGrid != null)
+                {
+                    int id = (int)GV_PreUsuarios.GetRowValues(e.VisibleIndex, "Id");
+                    SqlDataDetalle.SelectParameters["Id"].DefaultValue = id.ToString();
+                    detailGrid.DataBind();
+                }
+            }
+        }
+
         protected void ASPxCallback_PopupUpdate_Callback(object source, CallbackEventArgs e)
         {
             try
             {
                 // Validar en el servidor
                 //if (string.IsNullOrEmpty(cmbStatus.Text) || string.IsNullOrEmpty(txtObs.Text))
-                if (string.IsNullOrEmpty(cmbStatus.Text) )
-                    {
+                if (string.IsNullOrEmpty(cmbStatus.Text))
+                {
                     e.Result = "Error: Complete todos los campos obligatorios.";
                     return;
                 }
@@ -123,150 +188,6 @@ namespace SG_Constancia_TSC
                 e.Result = "Error: " + ex.Message;
             }
         }
-
-        //protected void ASPxCallback_PopupUpdate_Callback(object source, CallbackEventArgs e)
-        //{
-        //    List<string> selectedIDs = new List<string>();
-        //    foreach (var key in GV_PreUsuarios.GetSelectedFieldValues("Id"))
-        //    {
-        //        selectedIDs.Add(key.ToString());
-        //    }
-
-        //    if (selectedIDs.Count != 1)
-        //    {
-        //        e.Result = "Por favor seleccione un solo usuario.";
-        //        return;
-        //    }
-
-        //    string selectedID = selectedIDs[0]; // Solo tomamos el primer (y único) ID
-        //    string estado = cmbStatus.SelectedItem.Value.ToString();
-        //    //string observacion = txtObs.Text;
-
-        //    string connectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        using (SqlCommand command = new SqlCommand("[gral].[sp_gestion_estado_user]", connection))
-        //        {
-        //            try
-        //            {
-        //                int UserID = Convert.ToInt16(Session["User_id"]);
-        //                command.CommandType = CommandType.StoredProcedure;
-        //                command.Parameters.AddWithValue("@IDUser", UserID);
-        //                command.Parameters.AddWithValue("@IDs", selectedID);
-        //                command.Parameters.AddWithValue("@Estado", estado);
-        //                //command.Parameters.AddWithValue("@Observacion", observacion);
-
-        //                SqlParameter mensParam = new SqlParameter("@MENS", SqlDbType.NVarChar, -1)
-        //                {
-        //                    Direction = ParameterDirection.Output
-        //                };
-        //                SqlParameter retornoParam = new SqlParameter("@RETORNO", SqlDbType.Int)
-        //                {
-        //                    Direction = ParameterDirection.Output
-        //                };
-
-        //                command.Parameters.Add(mensParam);
-        //                command.Parameters.Add(retornoParam);
-
-        //                connection.Open();
-        //                command.ExecuteNonQuery();
-
-        //                string mensaje = mensParam.Value.ToString();
-        //                int retorno = Convert.ToInt32(retornoParam.Value);
-
-        //                if (retorno == 1)
-        //                {
-        //                    // Éxito
-        //                    GV_PreUsuarios.DataBind();
-        //                    e.Result = "Estado actualizado correctamente.";
-        //                    ScriptManager.RegisterStartupScript(this, GetType(), "closePopup", "closePopupAndClearFields();", true);
-        //                }
-        //                else
-        //                {
-        //                    // Error
-        //                    e.Result = mensaje;
-        //                }
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                e.Result = "Error: " + ex.Message;
-        //            }
-        //            finally
-        //            {
-        //                connection.Close();
-        //            }
-        //        }
-        //    }
-        //}
-
-        //protected void ASPxCallback_PopupUpdate_Callback(object source, CallbackEventArgs e)
-        //{
-        //    List<string> selectedIDs = new List<string>();
-        //    foreach (var key in GV_PreUsuarios.GetSelectedFieldValues("Id"))
-        //    {
-        //        selectedIDs.Add(key.ToString());
-        //    }
-
-        //    if (selectedIDs.Count != 1)
-        //    {
-        //        return;
-        //    }
-
-        //    string selectedID = selectedIDs[0]; // Solo tomamos el primer (y único) ID
-        //    string estado = cmbStatus.SelectedItem.Value.ToString();
-        //    //string observacion = txtObs.Text;
-
-        //    // Ejecuta el procedimiento almacenado para actualizar el estado y la observación
-        //    string connectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        using (SqlCommand command = new SqlCommand("[gral].[sp_gestion_estado_user]", connection))
-        //        {
-        //            int UserID = Convert.ToInt16(Session["User_id"]);
-        //            command.CommandType = CommandType.StoredProcedure;
-        //            command.Parameters.AddWithValue("@IDUser", SqlDbType.Int).Value = UserID;
-        //            command.Parameters.AddWithValue("@IDs", selectedID);
-        //            command.Parameters.AddWithValue("@Estado", estado);
-        //            //command.Parameters.AddWithValue("@Observacion", observacion);
-        //            SqlParameter mensParam = new SqlParameter("@MENS", SqlDbType.NVarChar, -1)
-        //            {
-        //                Direction = ParameterDirection.Output
-        //            };
-        //            SqlParameter retornoParam = new SqlParameter("@RETORNO", SqlDbType.Int)
-        //            {
-        //                Direction = ParameterDirection.Output
-        //            };
-
-        //            command.Parameters.Add(mensParam);
-        //            command.Parameters.Add(retornoParam);
-
-        //            connection.Open();
-        //            command.ExecuteNonQuery();
-        //            connection.Close();
-
-        //            string mensaje = mensParam.Value.ToString();
-        //            int retorno = Convert.ToInt32(retornoParam.Value);
-
-        //            // Opcional: Lógica para manejar el mensaje y retorno
-        //            if (retorno == 1)
-        //            {
-        //                // Éxito
-        //                GV_PreUsuarios.DataBind();
-        //                //ScriptManager.RegisterStartupScript(this, GetType(), "closePopup", "closePopupAndClearFields();", true);
-        //            }
-        //            else
-        //            {
-        //                // Error
-        //                GV_PreUsuarios.DataBind();
-        //            }
-        //        }
-        //    }
-
-
-        //    GV_PreUsuarios.DataBind();
-        //}
-
-
 
         private DataTable GetData()
         {
@@ -450,8 +371,54 @@ namespace SG_Constancia_TSC
             GV_PreUsuarios.DataBind();
         }
 
+        protected async void hyperLink_Init(object sender, EventArgs e)
+        {
+            var hyperLink = sender as DevExpress.Web.ASPxHyperLink;
+            var container = hyperLink.NamingContainer as DevExpress.Web.GridViewDataItemTemplateContainer;
 
-        
+            string Upload_Id = container.Grid.GetRowValues(container.VisibleIndex, "Upload_Id")?.ToString();
+            string url = await DownloadFile(Upload_Id); // Ahora sí se usa await
+
+            hyperLink.Text = Upload_Id;
+            hyperLink.NavigateUrl = !string.IsNullOrEmpty(url) ? url : "#";
+            hyperLink.Enabled = !string.IsNullOrEmpty(url);
+        }
+
+        public static async Task<string> DownloadFile(string idFile)
+        {
+            try
+            {
+                using (var formContent = new MultipartFormDataContent())
+                {
+                    formContent.Add(new StringContent(idFile), "idFile");
+
+                    using (HttpClient httpClient = Util.Util.getGoFilesUtlHeaders())
+                    {
+                        // Obtener la cadena de conexión desde el archivo de configuración
+                        string connectionString = ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString;
+                        string baseUrl = Util.Util.GetFinalGoFilesUtlUrl(Util.Util.obtenerAchivos);
+                        string urlWithQuery = $"{baseUrl}?constring={Uri.EscapeDataString(connectionString)}";
+                        httpClient.Timeout = TimeSpan.FromSeconds(30);
+
+                        // Elimina el envío de la cadena de conexión por la URL
+                        HttpResponseMessage httpResponse = await httpClient.PostAsync(baseUrl, formContent);
+
+                        if (!httpResponse.IsSuccessStatusCode)
+                            return null;
+
+                        string responseContent = await httpResponse.Content.ReadAsStringAsync();
+                        var result = JsonConvert.DeserializeObject<CustomJsonResult>(responseContent);
+
+                        // Asume que CustomJsonResult tiene una propiedad 'Url'
+                        return (result?.typeResult == UtilClass.UtilClass.codigoExitoso) ? result.result?.ToString() : null;
+                    }
+                }
+            }
+            catch
+            {
+                return null; // Opcional: Loggear el error
+            }
+        }
 
 
 

@@ -1,8 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Root.master" CodeBehind="Register.aspx.cs" Inherits="SG_Constancia_TSC.Register" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
-    <link href="../Content/SignInRegister%20-%20Copia.css" rel="stylesheet" />
-    <%--<link rel="stylesheet" type="text/css" href='<%# ResolveUrl("~/Content/SignInRegister - Copia.css") %>' />--%>
+  <%--  <link href="../Content/SignInRegisterCopia.css" rel="stylesheet" />--%>
+    <link rel="stylesheet" type="text/css" href='<%# ResolveUrl("~/Content/SignInRegister - Copia.css") %>' />
     <style>
 
         .formLayout-container {
@@ -19,8 +19,8 @@
             width: 395px;
         }
     </style>
-  <%--  <script type="text/javascript" src='<%# ResolveUrl("~/Content/SignInRegister - Copia.js") %>'></script>--%>
-    <script src="../Content/SignInRegister%20-%20Copia.js"></script>
+    <script type="text/javascript" src='<%# ResolveUrl("~/Content/SignInRegister - Copia.js") %>'></script>
+   <%-- <script src="../Content/SignInRegister%20-%20Copia.js"></script>--%>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="PageContent" runat="server">
     <asp:Panel ID="Panel_Content" runat="server">
@@ -36,19 +36,19 @@
                 <SettingsAdaptivity AdaptivityMode="SingleColumnWindowLimit" />
                 <SettingsItemCaptions Location="Top" />
                 <Styles LayoutGroup-Cell-Paddings-Padding="0" LayoutItem-Paddings-PaddingBottom="8" >
-<LayoutItem>
-<Paddings PaddingBottom="8px"></Paddings>
-</LayoutItem>
+             <LayoutItem>
+        <Paddings PaddingBottom="8px"></Paddings>
+         </LayoutItem>
 
-<LayoutGroup>
-<Cell>
-<Paddings Padding="0px"></Paddings>
-</Cell>
-</LayoutGroup>
+     <LayoutGroup>
+     <Cell>
+       <Paddings Padding="0px"></Paddings>
+     </Cell>
+           </LayoutGroup>
                 </Styles>
                 <Items>
                     <dx:LayoutGroup ShowCaption="False" GroupBoxDecoration="None" Paddings-Padding="16">
-<Paddings Padding="16px"></Paddings>
+                   <Paddings Padding="16px"></Paddings>
                         <Items>
                            <dx:LayoutItem ShowCaption="False" ColSpan="1" HorizontalAlign="Center"><LayoutItemNestedControlCollection>
                             <dx:LayoutItemNestedControlContainer runat="server">
@@ -87,10 +87,6 @@
                                 </LayoutItemNestedControlCollection>
                             </dx:LayoutItem>
 
-                          
-
-                  
-
                             <dx:LayoutItem Caption="Correo Eléctronico">
                                 <LayoutItemNestedControlCollection>
                                     <dx:LayoutItemNestedControlContainer>
@@ -102,9 +98,7 @@
                                         </dx:ASPxTextBox>
                                     </dx:LayoutItemNestedControlContainer>
                                 </LayoutItemNestedControlCollection>
-                            </dx:LayoutItem>
-
-                   
+                           </dx:LayoutItem>
                         </Items>
                     </dx:LayoutGroup>
                     <dx:LayoutGroup GroupBoxDecoration="HeadingLine" ShowCaption="False">
@@ -117,8 +111,7 @@
                                        <asp:Literal runat="server" ID="ErrorMessage" />
                                     </dx:LayoutItemNestedControlContainer>
                                 </LayoutItemNestedControlCollection>
-
-<Paddings Padding="0px"></Paddings>
+                             <Paddings Padding="0px"></Paddings>
                             </dx:LayoutItem>
                         </Items>
                     </dx:LayoutGroup>
@@ -132,14 +125,12 @@
                                         <dx:ASPxButton ID="RegisterButton" runat="server" Width="200" Text="Crear Usuario" CssClass="btn" OnClick="RegisterButton_Click"></dx:ASPxButton>
                                     </dx:LayoutItemNestedControlContainer>
                                 </LayoutItemNestedControlCollection>
-
-<Paddings Padding="0px"></Paddings>
+                               <Paddings Padding="0px"></Paddings>
                             </dx:LayoutItem>
                         </Items>
                     </dx:LayoutGroup>
                 </Items>
                 <Items>
-
                 </Items>
             </dx:ASPxFormLayout>
         </div>

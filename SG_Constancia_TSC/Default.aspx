@@ -40,7 +40,7 @@
     <div class="container" style="text-align: center; padding-top: 10px;">
        <%-- <h1 style="color: #1F497D;">SISTEMA DE PRE-REGISTRO DECLARACIÓN JURADA EN LÍNEA</h1>--%>
 
-   <%--       <div class="filters">
+   <%--<div class="filters">
         <label for="startDate">Fecha Inicio:</label>
         <dx:ASPxDateEdit ID="startDate" runat="server" ClientInstanceName="startDate"></dx:ASPxDateEdit>
         
@@ -52,7 +52,19 @@
         
         <button type="button" onclick="fetchAndRenderChart()">Actualizar Gráfico</button>
     </div>--%>
+        </div>
         <div id="chartContainer" >
+
+             <div >
+     <p class="auto-style1" style="text-align: center; color: #2FA3C7">&nbsp;</p>
+     <p class="auto-style1" style="text-align: center; color: #2FA3C7">&nbsp;</p>
+    <h1 class="auto-style1" style="text-align: center; color: #2FA3C7">SISTEMA DE SOLICITUD DE CONSTANCIAS EN LÍNEA</h1>
+     <p class="auto-style1" style="text-align: center; color: #2FA3C7">&nbsp;</p>
+    <p class="auto-style1" style="text-align: center; color: #2FA3C7">
+        <img alt="LOGO" src="Content/TSC/LOGO_TSC_2024.png" style="width: 585px; height: 441px" class="img-responsive" /></p>
+
+     
+
             <canvas id="barChart"></canvas>
         </div>
     </div>

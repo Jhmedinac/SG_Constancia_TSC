@@ -54,7 +54,7 @@
     </script>--%>
 
 </head>
-
+     <!-- body -->
 <body class="main-layout">
     <header class="header-area">
         <div class="container">
@@ -62,8 +62,8 @@
                 <div class="col-md-3">
                     <div class="logo">
                         <a href="https://www.tsc.gob.hn/index.php/denuncia-ciudadana/">
-                            <img src="Content/Images/TSCLogo.png" alt="TSC Logo" /> T<span>SC</span>
-                        </a>
+                            <img src="Content/Images/LOGO_TSC_2024_Logo.png" alt="#"/>T<span>SC</span></a>
+                       
                     </div>
                 </div>
                 <div class="col-md-9 col-sm-12">
@@ -115,7 +115,7 @@
             <div class="tab-content" id="stepper-content">
                 <!-- Step 1 -->
                 <div class="tab-pane fade show active step-content" id="step1">
-                    <h4>Step 1: Datos del Solicitante</h4>
+                   <%-- <h4>Step 1: Datos del Solicitante</h4>--%>
                     <dx:ASPxFormLayout runat="server" ID="formDenuncia1" CssClass="formLayout">
                         <Items>
                             <dx:LayoutItem Caption="Identidad del Solicitante">
@@ -194,7 +194,7 @@
 
                 <!-- Step 2 -->
                 <div class="tab-pane fade step-content" id="step2">
-                    <h4>Step 2: Información Adicional</h4>
+                  <%--  <h4>Step 2: Información Adicional</h4>--%>
                     <dx:ASPxFormLayout runat="server" ID="formDenuncia2" CssClass="formLayout">
                         <Items>
                             <dx:LayoutItem Caption="Teléfono">
@@ -225,7 +225,7 @@
 
                 <!-- Step 3 -->
                 <div class="tab-pane fade step-content text-center" id="pills-step3" role="tabpanel" aria-labelledby="pills-step3-tab">
-                <h4 style="font-size: 1.5em;">Step 3: Carga de Archivos</h4>
+               <%-- <h4 style="font-size: 1.5em;">Step 3: Carga de Archivos</h4>--%>
                 <dx:ASPxFormLayout runat="server" ID="ASPxFormLayout1" CssClass="formLayout">
                     <Items>
                         <dx:LayoutItem ShowCaption="False" HorizontalAlign="Right">
@@ -303,14 +303,14 @@
                 <!-- Step 4 -->
              
                 <div class="tab-pane fade step-content d-flex align-items-center justify-content-center flex-column" id="step4" style="height: 50vh; padding: 1rem;">
-                    <h4 class="mb-4">Step 4: Confirmación</h4>
-                    <p class="mb-4">Revise los datos ingresados antes de enviar su solicitud.</p>
+                    <%--<h4 class="mb-4">Step 4: Confirmación</h4>
+                    <p class="mb-4">Revise los datos ingresados antes de enviar su solicitud.</p>--%>
                     <dx:ASPxFormLayout runat="server" ID="ASPxFormLayout2" CssClass="formLayout mb-4">
                         <Items>
                             <dx:LayoutItem ShowCaption="False" ColSpan="1" HorizontalAlign="Center">
                                 <LayoutItemNestedControlCollection>
                                     <dx:LayoutItemNestedControlContainer runat="server">
-                                        <dx:ASPxButton ID="ASPxButton2" runat="server" Text="Enviar Solicitud" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" HorizontalAlign="Right" Enabled="true" ClientVisible="True" ClientInstanceName="btnEnviarCodigo">
+                                        <dx:ASPxButton ID="ASPxButton2" runat="server" Text="Revisar Solicitud" AutoPostBack="False" UseSubmitBehavior="false" CssClass="btn" HorizontalAlign="Right" Enabled="true" ClientVisible="True" ClientInstanceName="btnEnviarCodigo">
                                             <ClientSideEvents Click="mostrarResumen" />
                                         </dx:ASPxButton>
                                         <dx:ASPxCallback ID="ASPxCallback_EnviarToken" runat="server" ClientInstanceName="ASPxCallback_EnviarToken" OnCallback="ASPxCallback_EnviarToken_Callback"></dx:ASPxCallback>
@@ -323,10 +323,10 @@
                             <dx:LayoutItem ColSpan="1" ShowCaption="False" HorizontalAlign="Center">
                                 <LayoutItemNestedControlCollection>
                                     <dx:LayoutItemNestedControlContainer runat="server">
-                                        <dx:ASPxCheckBox ID="ckPolitica" runat="server" EncodeHtml="false" ClientInstanceName="ckPolitica" ClientVisible="true"
+                                        <%--<dx:ASPxCheckBox ID="ckPolitica" runat="server" EncodeHtml="false" ClientInstanceName="ckPolitica" ClientVisible="true"
                                             Text="Acepto los términos y políticas del Tribunal Superior de Cuentas" ValidationSettings-CausesValidation="true">
                                             <ClientSideEvents CheckedChanged="Terminos" />
-                                        </dx:ASPxCheckBox>
+                                        </dx:ASPxCheckBox>--%>
                                     </dx:LayoutItemNestedControlContainer>
                                 </LayoutItemNestedControlCollection>
                             </dx:LayoutItem>
@@ -380,33 +380,6 @@
                             </dx:PopupControlContentControl>
                         </ContentCollection>
                     </dx:ASPxPopupControl>
-                    <dx:ASPxPopupControl ID="Enviar" runat="server" ClientInstanceName="Enviar" HeaderText="Políticas y Términos" CloseAction="CloseButton" CloseOnEscape="true" CssClass="popup"
-                        Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" MinWidth="500px" MinHeight="114px" AllowDragging="True" EnableViewState="False" AutoUpdatePosition="true" SettingsAdaptivity-Mode="OnWindowInnerWidth" CloseAnimationType="None" AllowResize="False" SettingsAdaptivity-VerticalAlign="WindowCenter"
-                        PopupAnimationType="Fade">
-                        <HeaderStyle CssClass="headerpopup" />
-                        <ContentCollection>
-                            <dx:PopupControlContentControl runat="server">
-                                <table class="dx-justification">
-                                    <tr>
-                                       
-                                        <td class="dx-ac" style="text-align:justify;">
-                                            <br />
-                                            Por medio de la presente solicito la Constancia de Activos y Pasivos , como un requisito obligatorio de conformidad con la Ley Orgánica del TSC y su Reglamento, y Declarando bajo juramento que toda la información utilizada en el Sistema de Declaraciones Juradas en Línea, será completada y aprobada por quien suscribe como responsable de la misma, la que será cierta, correcta y completa.<br />
-                                            <br />
-                                            Es mi responsabilidad como servidor público obligado, mantener en estricta confidencialidad y reserva las credenciales de ingreso al Sistema en Línea, no debiendo compartirlas ni dejarlas al acceso de ninguna otra persona.<br />
-                                            <br />
-                                            Adicionalmente, por este medio autorizo de forma expresa e irrevocable al Tribunal Superior de Cuentas para confirmar el contenido de las Declaraciones Juradas realizadas mediante el Sistema en Línea, en cualquier tiempo y lugar. Autorizando al mismo tiempo para que investigue las cuentas, depósitos bancarios, bienes, participación en sociedades situados en el país o en el extranjero y en general para que comparezcan ante quien corresponda a realizar la verificación de la Información contenida en las referidas Declaraciones. <br />
-                                            <br />
-                                            La presente solicitud se fundamenta en los artículos 56, 57, 61, 67 y demás aplicables de la Ley Orgánica del Tribunal Superior de Cuentas; 59, 60, 61 y demás aplicables del Reglamento General de la Ley Orgánica del Tribunal Superior de Cuentas. <br />
-                                            <br />
-                                            <strong>Al Honorable Tribunal Superior de Cuentas respetuosamente PIDO:</strong> Admitir el presente escrito, realizar la incorporación correspondiente al Sistema de Declaraciones Juradas en Línea, tener por autorizado al Tribunal para realizar la confirmación de los datos de las Declaraciones de Ingresos, Activos y Pasivos realizadas por medio del sistema y en general, resolver conforme con lo solicitado.”
-                                        </td>
-                                    </tr>
-                                </table>
-                                <br />
-                            </dx:PopupControlContentControl>
-                        </ContentCollection>
-                    </dx:ASPxPopupControl>
                     <dx:ASPxPopupControl ID="Relacionado" runat="server" ClientInstanceName="Relacionado" CssClass="popup"
                         AllowDragging="true" HeaderText="Registro Solicitud"
                         Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" CloseOnEscape="true"
@@ -440,7 +413,6 @@
         </div>
     </form>
 
-          
       <!-- end innva -->
       <!-- footer -->
       <footer>

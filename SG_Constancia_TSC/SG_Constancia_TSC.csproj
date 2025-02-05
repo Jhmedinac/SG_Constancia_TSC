@@ -208,7 +208,6 @@
     <Content Include="Account\ManageLogins.aspx" />
     <Content Include="Account\OpenAuthProviders.ascx" />
     <Content Include="Account\Register.aspx" />
-    <Content Include="Account\RegisterExternalLogin.aspx" />
     <Content Include="Account\RegisterSuccess.aspx" />
     <Content Include="Account\Registro.aspx" />
     <Content Include="Account\ResetPassword.aspx" />
@@ -296,7 +295,6 @@
     <Content Include="Content\Custom.css" />
     <Content Include="Content\Denuncia.css" />
     <Content Include="Content\Denuncia.js" />
-    <Content Include="Content\favicon.ico" />
     <Content Include="Content\Fontawesome\css\all.css" />
     <Content Include="Content\Fontawesome\css\all.min.css" />
     <Content Include="Content\Fontawesome\css\brands.css" />
@@ -383,6 +381,7 @@
     <Content Include="Content\Images\logo.svg" />
     <Content Include="Content\Images\logo1.png" />
     <Content Include="Content\Images\LogoTSC.png" />
+    <Content Include="Content\Images\LOGO_TSC_2024_Logo.png" />
     <Content Include="Content\Images\market.png" />
     <Content Include="Content\Images\menu.svg" />
     <Content Include="Content\Images\Overview\article.png" />
@@ -424,7 +423,6 @@
     <Content Include="Content\Images\test.png" />
     <Content Include="Content\Images\top_img.png" />
     <Content Include="Content\Images\TSC-Small.png" />
-    <Content Include="Content\Images\TSCLogo.png" />
     <Content Include="Content\Images\user.svg" />
     <Content Include="Content\Images\vision.png" />
     <Content Include="Content\Images\word.png" />
@@ -438,12 +436,25 @@
     <Content Include="Content\js\jquery.nice-select.min.js" />
     <Content Include="Content\js\niceCountryInput.js" />
     <Content Include="Content\js\owl.carousel.min.js" />
+    <Content Include="Content\Layout - Copia.css" />
     <Content Include="Content\Layout.css" />
+    <Content Include="Content\Scheduler.css" />
+    <Content Include="Content\Scheduler.js" />
+    <Content Include="Content\Script - Copia.js" />
     <Content Include="Content\SeguimientoExterno.css" />
+    <Content Include="Content\SignInRegister - Copia.css" />
+    <Content Include="Content\SignInRegister - Copia.js" />
+    <Content Include="Content\SignInRegister.css" />
+    <Content Include="Content\SignInRegister.js" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\Stepper.css" />
     <Content Include="Content\TSC\AD.PNG" />
     <Content Include="Content\TSC\b.jpg" />
+    <Content Include="Content\TSC\c2.jpg" />
+    <Content Include="Content\TSC\c4.jpg" />
+    <Content Include="Content\TSC\cc.jpg" />
+    <Content Include="Content\TSC\color1_logo.jpg" />
+    <Content Include="Content\TSC\color2_logo.jpg" />
     <Content Include="Content\TSC\Copia de Logo_TSC.jpg" />
     <Content Include="Content\TSC\fondo.jpg" />
     <Content Include="Content\TSC\fondo1.jpg" />
@@ -452,6 +463,10 @@
     <Content Include="Content\TSC\Logo TSC Transparente.png" />
     <Content Include="Content\TSC\logo_TSC transparente.png" />
     <Content Include="Content\TSC\Logo_TSC.jpg" />
+    <Content Include="Content\TSC\LOGO_TSC_2024 - copia.png" />
+    <Content Include="Content\TSC\LOGO_TSC_2024.png" />
+    <Content Include="Content\TSC\LOGO_TSC_2024V1.png" />
+    <Content Include="Content\TSC\LOGO_TSC_2024_small.png" />
     <Content Include="Content\TSC\Mesa_trabajo.jpg" />
     <Content Include="Content\TSC\Plantilla_Simbolo.jpg" />
     <Content Include="Content\TSC\QRTSC.png" />
@@ -460,6 +475,7 @@
     <Content Include="Content\TSC\TSC-Small.png" />
     <Content Include="Content\TSC\TSC_Partesuperior.jpg" />
     <Content Include="Default.aspx" />
+    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
   </ItemGroup>
   <ItemGroup>
@@ -473,12 +489,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Mantenimiento\Usuarios.aspx" />
+    <Content Include="Mensaje.html" />
+    <Content Include="Mensaje_Registro.html" />
     <Content Include="Root.master" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Seguimiento.aspx" />
     <Content Include="Solicitud.aspx" />
     <Content Include="Solicitudes.aspx" />
+    <Content Include="SolicitudesReg.aspx" />
     <Content Include="Solicitudes_finalizadas.aspx" />
     <Content Include="TimeoutControl.ascx" />
     <Content Include="Upload.aspx" />
@@ -541,6 +560,7 @@
     <Content Include="Content\Fontawesome\webfonts\fa-v4compatibility.woff2" />
     <Content Include="bin\SG_Constancia_TSC.dll.config" />
     <Content Include="CreateSolicitudHandler.ashx" />
+    <Content Include="FileDownload.ashx" />
     <None Include="packages.config" />
     <Content Include="UploadFilesHandler.ashx" />
     <None Include="Web.Debug.config">
@@ -628,13 +648,6 @@
     <Compile Include="Account\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Account\RegisterExternalLogin.aspx.cs">
-      <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Account\RegisterExternalLogin.aspx.designer.cs">
-      <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Account\RegisterSuccess.aspx.cs">
       <DependentUpon>RegisterSuccess.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -696,6 +709,9 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="FileDownload.ashx.cs">
+      <DependentUpon>FileDownload.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -752,6 +768,13 @@
     <Compile Include="Solicitudes.aspx.designer.cs">
       <DependentUpon>Solicitudes.aspx</DependentUpon>
     </Compile>
+    <Compile Include="SolicitudesReg.aspx.cs">
+      <DependentUpon>SolicitudesReg.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SolicitudesReg.aspx.designer.cs">
+      <DependentUpon>SolicitudesReg.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Solicitudes_finalizadas.aspx.cs">
       <DependentUpon>Solicitudes_finalizadas.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -806,7 +829,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>59458</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:59459/</IISUrl>
+          <IISUrl>http://localhost:59455/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -1,10 +1,8 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Light.master" CodeBehind="Lockout.aspx.cs" Inherits="SG_Constancia_TSC.Lockout" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Light.master" CodeBehind="Lockout.aspx.cs" Inherits="SG_Constancia_TSC.Account.Lockout" %>
 
-<asp:content id="ClientArea" contentplaceholderid="MainContent" runat="server">
-
-    
-<div class="accountHeader">
-  <h2>Locked out</h2>
-  <p>This account has been locked out, please try again later.</p>
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <div class="accountHeader">
+  <h2>Bloqueado</h2>
+  <p>Esta cuenta ha sido bloqueada, inténtelo de nuevo más tarde.</p>
 </div>
-</asp:content>
+</asp:Content>

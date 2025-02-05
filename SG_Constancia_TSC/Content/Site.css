@@ -117,13 +117,13 @@
 {
     margin-top: 4px;    
 }
-.dxsplControl_iOS .loginControl a
-{
-    color: #0160E7;
-    text-decoration: underline;
-    font-size: 20px;
-    font-weight: bold;
-}
+    .dxsplControl_iOS .loginControl a {
+        /*color: #0160E7;*/
+        color: #F3B915;
+        text-decoration: underline;
+        font-size: 20px;
+        font-weight: bold;
+    }
 .dxsplControl_iOS .headerTop
 {
     height: 33px;
@@ -304,12 +304,11 @@
 {
     background: transparent none;
 }
-.dxsplControl_Office2003Blue .templateTitle a,
-.dxsplControl_Office2003Blue .loginControl,
-.dxsplControl_Office2003Blue .loginControl a
-{
-    color: #4B4B57;
-}
+    .dxsplControl_Office2003Blue .templateTitle a,
+    .dxsplControl_Office2003Blue .loginControl,
+    .dxsplControl_Office2003Blue .loginControl a {
+        color: #F3B915;
+    }
 .dxsplControl_Office2003Blue .loginControl a 
 {
     border-bottom-color: #4B4B57;

@@ -107,6 +107,43 @@ namespace SG_Constancia_TSC.UtilClass
             return encryptedText;
         }
 
+        public static string Desencripta(string Cadena)
+        {
+            string result = string.Empty;
+            byte[] decryted = Convert.FromBase64String(Cadena);
+            result = Encoding.Unicode.GetString(decryted);
+            return result;
+        }
+
+
+        public static string ObtenerContentType(string extension)
+        {
+                    var mimeTypes = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "pdf", "application/pdf" },
+                { "png", "image/png" },
+                { "jpg", "image/jpeg" },
+                { "jpeg", "image/jpeg" },
+                { "gif", "image/gif" },
+                { "txt", "text/plain" },
+                { "doc", "application/msword" },
+                { "docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" },
+                { "xls", "application/vnd.ms-excel" },
+                { "xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" },
+                { "zip", "application/zip" },
+                { "rar", "application/x-rar-compressed" },
+                // Agrega más tipos según sea necesario
+            };
+
+                return mimeTypes.TryGetValue(extension, out string mimeType) ? mimeType : "application/octet-stream";
+        }
+
+        public static  bool EsExtensionValida(string extension)
+        {
+            var extensionesPermitidas = new[] { "pdf", "png", "jpg", "jpeg", "gif", "txt", "doc", "docx", "xls", "xlsx", "zip", "rar" };
+            return extensionesPermitidas.Contains(extension.ToLower());
+        }
+
     }
 
 }

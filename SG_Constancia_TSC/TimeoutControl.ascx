@@ -55,7 +55,7 @@
     Modal="True" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ShowCloseButton="False" ShowFooter="True" Width="250px" Font-Size="Small">
     <ContentCollection>
         <dx:PopupControlContentControl ID="PopupControlContentControl1" runat="server" SupportsDisabledAttribute="True">
-           ¡Su sesión está a punto de caducar!
+           ¡Su sesión está a punto de finalizar!
             <br />
             <br />
             <span id="CountDownHolder"></span>

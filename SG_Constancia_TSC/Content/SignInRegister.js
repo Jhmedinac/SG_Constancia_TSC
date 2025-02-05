@@ -12,6 +12,8 @@
             ASPxClientUtils.AddClassNameToElement(eyeButton, "show-password");
     }
 
+  
+
     function isPasswordSimple(password) {
         var passwordMinLength = 8;
         return password.length > 0 && password.length < passwordMinLength;

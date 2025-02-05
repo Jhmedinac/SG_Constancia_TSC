@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 
 namespace SG_Constancia_TSC
 
@@ -151,7 +152,7 @@ namespace SG_Constancia_TSC
 
             // Devolver los resultados de la subida de archivos
             //return string.Join("\n", results);
-            return JsonConvert.SerializeObject(response);;
+            return JsonConvert.SerializeObject(response);
             
           
         }
@@ -253,6 +254,12 @@ namespace SG_Constancia_TSC
             }
             return response;
         }
+
+
+        //private async Task<string> DownloadFile(List<HttpPostedFile> files, List<string> fileIdKeys, List<string> flexFieldKeys, string flexFieldValue)
+       
+
+
 
     }
 

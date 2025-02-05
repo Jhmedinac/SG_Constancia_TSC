@@ -1,8 +1,5 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/Root.master" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="SG_Constancia_TSC.MainMaster" %>
 
-
-
-
 <%@ Register Src="TimeoutControl.ascx" TagName="TimeoutControl" TagPrefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <asp:ContentPlaceHolder ID="Head" runat="server" />
@@ -44,17 +41,14 @@
                     </CollapseImage>
                     <ExpandImage IconID="businessobjects_bo_contract_svg_16x16"></ExpandImage>  
                 <Items>
-                   <%-- <dx:NavBarItem Text="Formulario Virtual de Denuncias" Name="DenunciasC" Image-IconID="tasks_newtask_16x16office2013">
-                        <Image IconID="businessobjects_bo_report_svg_16x16"></Image>   
-                     </dx:NavBarItem>--%>
                     <dx:NavBarItem NavigateUrl="Solicitud.aspx" Text="Ingreso de Solicitud de constancia" Name="Solicitudes" Image-IconID="richedit_pastespecial_16x16" >
                          <Image IconID="iconbuilder_travel_hotel_svg_gray_16x16"></Image>   
                     </dx:NavBarItem>
-                     <dx:NavBarItem NavigateUrl="Solicitudes.aspx" Text="Solicitudes en Proceso" Name="Clasificacion" Image-IconID="richedit_pastespecial_16x16">
+                     <dx:NavBarItem NavigateUrl="Solicitudesreg.aspx" Text="Solicitudes en Proceso" Name="Clasificacion" Image-IconID="richedit_pastespecial_16x16">
                         <Image IconID="businessobjects_bo_task_svg_16x16"></Image>   
                     </dx:NavBarItem>
 
-                    <dx:NavBarItem NavigateUrl="solicitudes_finalizadas.aspx" Text="Solucitudes finalizadas" Name="Usuarios_Exportados" Image-IconID="richedit_pastespecial_16x16">
+                    <dx:NavBarItem NavigateUrl="solicitudes_finalizadas.aspx" Text="Solucitudes Finalizadas" Name="Usuarios_Exportados" Image-IconID="richedit_pastespecial_16x16">
                         <Image IconID="businessobjects_bo_task_svg_16x16"></Image>   
                     </dx:NavBarItem>
                 </Items>
@@ -64,13 +58,7 @@
                     </CollapseImage>
                     <ExpandImage IconID="outlookinspired_custom_svg_16x16"></ExpandImage>
                 <Items>
-                    <%--<dx:NavBarItem NavigateUrl="Mantenimiento/Direcciones.aspx" Text="Direcciones" Name="Direcciones" Image-IconID="richedit_pastespecial_16x16">
-                         <Image IconID="iconbuilder_travel_hotel_svg_gray_16x16"></Image>     
-                    </dx:NavBarItem>--%>
-<%--                    <dx:NavBarItem NavigateUrl="Mantenimiento/Constancias.aspx" Text="Constancias" Name="Constancias" Image-IconID="richedit_pastespecial_16x16" >
-                         <Image IconID="iconbuilder_travel_hotel_svg_gray_16x16"></Image>   
-                    </dx:NavBarItem>--%>
-
+                  
                     <dx:NavBarItem NavigateUrl="Mantenimiento/Usuarios.aspx" Text="Usuarios" Name="Usuarios" Image-IconID="richedit_pastespecial_16x16" >
                          <Image IconID="outlookinspired_employees_svg_16x16"></Image>
                     </dx:NavBarItem>
