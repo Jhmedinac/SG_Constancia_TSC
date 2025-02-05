@@ -106,5 +106,12 @@ namespace SG_Constancia_TSC {
             Context.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
         }
+
+        protected void btnChangePassword_Click(object sender, EventArgs e)
+        {
+            //// Redirigir al usuario a la página de cambio de contraseña
+            //Response.Redirect("~/Account/ChangePassword.aspx");
+        }
+
     }
 }

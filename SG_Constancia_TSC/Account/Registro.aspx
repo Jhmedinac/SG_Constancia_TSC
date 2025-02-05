@@ -1,7 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="../Root.master" AutoEventWireup="true" CodeBehind="Registro.aspx.cs" Inherits="SG_Constancia_TSC.Account.Registro1" %>
-<%--<%@ Page Title="" Language="C#" MasterPageFile="~/menu.master" AutoEventWireup="true" CodeBehind="Registro.aspx.cs" Inherits="PREDJL.Account.Registro1" %>--%>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.master" AutoEventWireup="true" CodeBehind="Registro.aspx.cs" Inherits="SG_Constancia_TSC.Account.Registro1" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
-     <%--<link rel="stylesheet" type="text/css" href='<%# ResolveUrl("~/Content/SignInRegister - Copia.css") %>' />--%>
+    
     <link href="../Content/SignInRegister - Copia.css" rel="stylesheet" />
     <style>
 
@@ -19,13 +19,12 @@
             width: 395px;
         }
     </style>
-    <%--<script type="text/javascript" src='<%# ResolveUrl("~/Content/SignInRegister - Copia.js") %>'></script>--%>
+  
     <script src="../Content/SignInRegister - Copia.js"></script>
 </asp:Content>
-<%--<asp:Content ID="Content2" ContentPlaceHolderID="LeftPanelContent" runat="server">
-</asp:Content>--%>
 
-<asp:Content ID="Content5" ContentPlaceHolderID="PageContent" runat="server">
+
+<asp:Content ID="Content5" ContentPlaceHolderID="Content" runat="server">
 
    <div class="formLayout-verticalAlign">
         <div class="formLayout-container">

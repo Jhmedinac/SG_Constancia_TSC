@@ -11,7 +11,7 @@ namespace SG_Constancia_TSC
 {
 
 
-    public partial class Solicitudes
+    public partial class SolicitudesReg
     {
 
         /// <summary>
@@ -60,6 +60,33 @@ namespace SG_Constancia_TSC
         protected global::DevExpress.Web.ASPxGridView GV_PreUsuarios;
 
         /// <summary>
+        /// Control PopupArchivo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxPopupControl PopupArchivo;
+
+        /// <summary>
+        /// Control ImgPreview.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxImage ImgPreview;
+
+        /// <summary>
+        /// Control LblNoPreview.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxLabel LblNoPreview;
+
+        /// <summary>
         /// Control SqlDataUsers.
         /// </summary>
         /// <remarks>
@@ -67,6 +94,15 @@ namespace SG_Constancia_TSC
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SqlDataUsers;
+
+        /// <summary>
+        /// Control SqlDataDetalle.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataDetalle;
 
         /// <summary>
         /// Control popupUpdateStatus.

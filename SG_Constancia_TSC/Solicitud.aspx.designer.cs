@@ -321,15 +321,6 @@ namespace SG_Constancia_TSC
         protected global::DevExpress.Web.ASPxCallback ASPxCallback_Guardar_Datos;
 
         /// <summary>
-        /// Control ckPolitica.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCheckBox ckPolitica;
-
-        /// <summary>
         /// Control popupResumen.
         /// </summary>
         /// <remarks>
@@ -391,15 +382,6 @@ namespace SG_Constancia_TSC
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCallback ASPxCallback_VerificarToken;
-
-        /// <summary>
-        /// Control Enviar.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxPopupControl Enviar;
 
         /// <summary>
         /// Control Relacionado.

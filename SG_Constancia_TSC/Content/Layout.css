@@ -97,7 +97,7 @@ html {
     padding: 0 !important;
     box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.2);
     border-bottom-width: 0 !important;
-    background-color: #1F497D !important;
+    background-color: #ECAB0F !important;
 }
 
     .app-header .left-block {
@@ -168,7 +168,7 @@ html {
 
 /* Main Menu */
 .header-menu {
-    background-color: #1F497D !important;
+    background-color: #ECAB0F !important;
     border-style: none !important;
     height: 3.13rem;
 }

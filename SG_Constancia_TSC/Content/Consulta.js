@@ -9,11 +9,11 @@ function Guardar_Datos_Complete(s, e) {
     //console.log('Respuesta:', respuesta); // Debug: Imprimir la respuesta en consola
 
     if (Retorno == 0) {
-        Enviar.Hide();
+       /* Enviar.Hide();*/
         popupResumen.Hide(); 
         Relacionado.Show();
-        ckPolitica.SetVisible(false); // Ocultar el checkbox después de mostrar el comprobante
-        ckPolitica.SetChecked(false);
+        //ckPolitica.SetVisible(false); // Ocultar el checkbox después de mostrar el comprobante
+        //ckPolitica.SetChecked(false);
         btnEnviarCodigo.SetVisible(true); // Hacer visible el botón después de mostrar el comprobante
         
       /*  SetCampos();*/
@@ -31,7 +31,7 @@ function SetCampos() {
         fileUpload2.value = '';  // Corregido
         tbTelefono.SetText(''),
         tbIdentidad.SetText(''),
-        ckPolitica.SetChecked(false);
+      /*  ckPolitica.SetChecked(false);*/
     // Usando innerHTML para las etiquetas (Labels)
     
         lblUploadStatus.innerHTML = '';
@@ -59,7 +59,7 @@ function toUpperCase(id) {
 }
 
 function Terminos(s, e) {
-    var ckPolitica = ASPxClientControl.GetControlCollection().GetByName("ckPolitica");
+/*    var ckPolitica = ASPxClientControl.GetControlCollection().GetByName("ckPolitica");*/
     var btnEnviarCodigo = ASPxClientControl.GetControlCollection().GetByName("btnEnviarCodigo");
 
     if (s.GetChecked()) {
@@ -95,7 +95,7 @@ function showConfirmationMessage1() {
 
     $.ajax({
         type: "POST",
-        url: "SolicitudTSC.aspx/GetSessionValues",
+        url: "Solicitud.aspx/GetSessionValues",
         data: JSON.stringify({
             email: email,
             constanciaId: globalIdConstancia,
@@ -194,7 +194,7 @@ function btnEnviarCodigo_Click(s, e) {
 function TokenVerificationComplete(result) {
     if (result === "success") {
         popupToken.Hide();
-        ckPolitica.SetVisible(false);
+        //ckPolitica.SetVisible(false);
         btnEnviarCodigo.SetVisible(false);
         tbToken.SetText('');
 
@@ -486,3 +486,4 @@ function getFileNames(fileUpload) {
     }
     return fileNames.join(", ") || "No hay archivos seleccionados";
 }
+

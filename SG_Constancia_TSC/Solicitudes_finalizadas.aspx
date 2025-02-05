@@ -96,10 +96,10 @@
                     <br />
             <h1 style= "color: #006699; background-color: #FFFFFF; text-align:center ">
                 <dx:ASPxImage ID="ASPxImage1" runat="server" ShowLoadingImage="true">
-                    <EmptyImage IconID="people_usergroup_32x32">
+                    <EmptyImage IconID="">
                     </EmptyImage>
                 </dx:ASPxImage>
-&nbsp;Constancias Entregadas </h1>
+             &nbsp;CONSTANCIAS ENTEGADAS </h1>
                     </div>
           <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <ContentTemplate>

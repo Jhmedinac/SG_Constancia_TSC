@@ -17,7 +17,7 @@ namespace SG_Constancia_TSC.Util
     {
         #region servicios TSC FILES UTL
         public static string obtenerDataAchivos = "Data/";
-        public static string obtenerAchivos = "Download/";
+        public static string obtenerAchivos = "Download_File/";
         public static string subirAchivos = "Upload";
         #endregion
         #region métodos reutilizables para el llamado de servicios

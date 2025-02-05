@@ -260,5 +260,10 @@ namespace SG_Constancia_TSC
             SampleUtil.EnviarCorreo1("", subject, adressEmail, emailBody);
 
         }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

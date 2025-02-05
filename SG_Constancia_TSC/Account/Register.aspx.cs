@@ -17,27 +17,7 @@ namespace SG_Constancia_TSC {
     public partial class Register : System.Web.UI.Page {
         protected void Page_Load(object sender, EventArgs e)
         {
-
-            Form.Attributes.Add("autocomplete", "off");
-            if (!IsPostBack)
-            {
-                Panel_Content.Visible = true;
-            }
-            else
-            {
-                if (IsPostBack)
-                {
-                    if (Session["Name_user"] == null)
-                    {
-                        Response.RedirectLocation = "../TimeOutPage.aspx";
-                    }
-                    if (!User.Identity.IsAuthenticated)
-                    {
-                        Response.RedirectLocation = "/Account/Login.aspx";
-                        //Response.Redirect("~/Account/Login.aspx");
-                    }
-                }
-            }
+    
 
         }
 
@@ -47,16 +27,7 @@ namespace SG_Constancia_TSC {
             int año = DateTime.Now.Year;
             string Password = "SSC" + año + "*tsc";
 
-            //if (HttpContext.Current.GetOwinContext() != null)
-            //{
-            //    // Lógica relacionada con OWIN
-            //    Debug.WriteLine("OWIN disponible");
-            //}
-            //else
-            //{
-            //    Debug.WriteLine("OWIN no disponible");
-            //    // Manejo de la situación cuando OWIN no está disponible
-            //}
+            
 
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var signInManager = Context.GetOwinContext().Get<ApplicationSignInManager>();
@@ -67,6 +38,7 @@ namespace SG_Constancia_TSC {
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 string code = manager.GenerateEmailConfirmationToken(user.Id);
                 string callbackUrl = IdentityHelper.GetUserConfirmationRedirectUrl(code, user.Id, Request);
+               
 
                 try
                 {
@@ -80,11 +52,7 @@ namespace SG_Constancia_TSC {
 
                     manager.SendEmail(user.Id, "Confirmar Cuenta", plantilla.ToString());
                 }
-                catch (SmtpException smtpEx)
-                {
-                    // Problemas específicos con SMTP
-                    this.ErrorMessage.Text = $"Error SMTP: {smtpEx.Message}";
-                }
+                
                 catch (Exception ex)
                 {
                     this.ErrorMessage.Text = ex.Message;

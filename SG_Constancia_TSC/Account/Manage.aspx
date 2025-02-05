@@ -1,25 +1,30 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Light.master" CodeBehind="Manage.aspx.cs" Inherits="SG_Constancia_TSC.Manage" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Main.master" CodeBehind="Manage.aspx.cs" Inherits="SG_Constancia_TSC.Account.Manage" %>
 
-<asp:content id="ClientArea" contentplaceholderid="MainContent" runat="server">
-     
-<p><%: SuccessMessage %></p>
-<div class="accountHeader">
-    <h2>Change your account settings</h2>
+<asp:Content ID="Content2" ContentPlaceHolderID="LeftPanelContent" runat="server">
+</asp:Content>
+
+<asp:content id="Content1" contentplaceholderid="Content" runat="server">
+    <p style="color:blue; text-align:center"><%: SuccessMessage %></p>
+    <div style="text-align:center; color:darkslategray; font-family:sans-serif;">
+    <h2>Administrar cuenta</h2>
+    <h4>Cambiar la contraseña de su cuenta</h4>
+    <hr style="color:aquamarine" />
 </div>
-<ul>
-    <li>
-        Password:
+    <div class="accountHeader" style="text-align:center; color:black; font-family:sans-serif;">
+    <ul>
+    <li style="list-style:none">
+        Contraseña:
  
-        <dx:ASPxHyperLink NavigateUrl="/Account/ChangePassword.aspx" Text="[Change]" Visible="false" ID="ChangePassword" runat="server" />
-        <dx:ASPxHyperLink NavigateUrl="/Account/ChangePassword.aspx" Text="[Create]" Visible="false" ID="CreatePassword" runat="server" />
+        <dx:ASPxHyperLink NavigateUrl="~/Account/ChangePassword.aspx" Text="[Cambiar]" Visible="false" ID="ChangePassword" runat="server" />
+        <dx:ASPxHyperLink NavigateUrl="~/Account/ChangePassword.aspx" Text="[Create]" Visible="false" ID="CreatePassword" runat="server" />
  
     </li>
-    <li>
-        External Logins: <%: LoginsCount %> 
+<!-- <li>
+        Inicios de sesión externos: <%: LoginsCount %> 
  
         <dx:ASPxHyperLink NavigateUrl="/Account/ManageLogins.aspx" Text="[Manage]" runat="server" />
  
-    </li>
+    </li>-->
     <%-- 
         Phone Numbers can used as a second factor of verification in a two-factor authentication system.
         See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
@@ -39,8 +44,8 @@
     <% } %> 
  
     </li> 
-    --%> 
-    <li>
+    --%>
+<!--   <li>
         Two-Factor Authentication:
         There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
         for details on setting up this ASP.NET application to support two-factor authentication.
@@ -56,6 +61,7 @@
         <dx:ASPxButton runat="server" id="TwoFactorEnable" RenderMode="Link" Text="[Enable]" CommandArgument="true" OnClick="TwoFactorEnable_Click" />
         --%>
         <% } %> 
-    </li>
+    </li>-->
 </ul>
-</asp:content>
+        </div>
+</asp:Content>

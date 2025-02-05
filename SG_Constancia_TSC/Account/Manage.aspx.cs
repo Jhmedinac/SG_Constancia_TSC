@@ -10,9 +10,12 @@ using Microsoft.Owin.Security;
 using Owin;
 using SG_Constancia_TSC.Models;
 
-namespace SG_Constancia_TSC {
+namespace SG_Constancia_TSC.Account 
+{
     public partial class Manage : System.Web.UI.Page
     {
+
+
         protected string SuccessMessage
         {
             get;
@@ -34,12 +37,24 @@ namespace SG_Constancia_TSC {
 
         protected void Page_Load()
         {
+            if (IsPostBack)
+            {
+                if (Session["Name_user"] == null)
+                {
+                    Response.RedirectLocation = "/Account/Login.aspx";
+                }
+                if (!User.Identity.IsAuthenticated)
+                {
+                    Response.RedirectLocation = "/Account/Login.aspx";
+                    
+                }
+            }
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
             HasPhoneNumber = String.IsNullOrEmpty(manager.GetPhoneNumber(User.Identity.GetUserId()));
 
-            // Enable this after setting up two-factor authentientication
-            //PhoneNumber.Text = manager.GetPhoneNumber(User.Identity.GetUserId()) ?? String.Empty;
+            //// Enable this after setting up two-factor authentientication
+            ////PhoneNumber.Text = manager.GetPhoneNumber(User.Identity.GetUserId()) ?? String.Empty;
 
             TwoFactorEnabled = manager.GetTwoFactorEnabled(User.Identity.GetUserId());
 
@@ -68,11 +83,11 @@ namespace SG_Constancia_TSC {
                     Form.Action = ResolveUrl("~/Account/Manage.aspx");
 
                     SuccessMessage =
-                        message == "ChangePwdSuccess" ? "Your password has been changed."
-                        : message == "SetPwdSuccess" ? "Your password has been set."
-                        : message == "RemoveLoginSuccess" ? "The account was removed."
-                        : message == "AddPhoneNumberSuccess" ? "Phone number has been added"
-                        : message == "RemovePhoneNumberSuccess" ? "Phone number was removed"
+                        message == "ChangePwdSuccess" ? "Tu contraseña ha sido cambiada."
+                        : message == "SetPwdSuccess" ? "Su contraseña ha sido establecida."
+                        : message == "RemoveLoginSuccess" ? "La cuenta fue eliminada."
+                        : message == "AddPhoneNumberSuccess" ? "Se agregó el número de teléfono"
+                        : message == "RemovePhoneNumberSuccess" ? "Se quitó el número de teléfono"
                         : String.Empty;
                 }
             }
@@ -122,5 +137,7 @@ namespace SG_Constancia_TSC {
 
             Response.Redirect("/Account/Manage.aspx");
         }
+
+
     }
 }

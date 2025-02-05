@@ -122,13 +122,10 @@ namespace SG_Constancia_TSC
                                 {
                                     case SignInStatus.Success:
                                         string name_user = user.UserName;
-                                        //string name_user = User.Identity.GetUserName();
-                                        //IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                                       
 
-                                        //string constr = ConfigurationManager.ConnectionStrings["DB_PARTICIPACIONConnectionString"].ConnectionString;
                                         string constr = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
 
-                                        //string SQL = "SELECT Nombre_Usuario, CodigoId, Email, P.Nombre_Cargo FROM AspNetUsers INNER JOIN tblCargos P ON P.ID_Cargo = Puesto WHERE UserName = '" + name_user + "'";
                                         string SQL = "SELECT Nombre_Usuario, CodigoId, Email FROM AspNetUsers WHERE UserName = '" + name_user + "'";
 
                                         using (SqlConnection con = new SqlConnection(constr))
@@ -153,15 +150,7 @@ namespace SG_Constancia_TSC
 
                                         IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
                                         break;
-                                    //case SignInStatus.LockedOut:
-                                    //    Response.Redirect("~/Account/Lockout.aspx");
-                                    //    break;
-                                    //case SignInStatus.RequiresVerification:
-                                    //    Response.Redirect(String.Format("/Account/TwoFactorAuthenticationSignIn.aspx?ReturnUrl={0}&RememberMe={1}",
-                                    //                                     Request.QueryString["ReturnUrl"],
-                                    //                                     false),
-                                    //                    true);
-                                    //    break;
+                                    
                                     case SignInStatus.Failure:
                                     default:
                                         FailureText.Text = "Usuario o contraseña no válido. Inténtelo de nuevo.";

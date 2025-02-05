@@ -7,12 +7,19 @@ using Microsoft.AspNet.Identity.Owin;
 using Owin;
 using SG_Constancia_TSC.Models;
 
-namespace SG_Constancia_TSC
+namespace SG_Constancia_TSC.Account
 {
-    public partial class ResetPassword : Page
+
+    public partial class ResetPassword : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            Form.Attributes.Add("autocomplete", "off");
+        }
+        protected string StatusMessage
+        {
+            get;
+            private set;
         }
 
         protected void Reset_Click(object sender, EventArgs e)
@@ -25,7 +32,7 @@ namespace SG_Constancia_TSC
                 var user = manager.FindByEmail(Email.Text);
                 if (user == null)
                 {
-                    ErrorMessage.Text = "No user found";
+                    ErrorMessage.Text = "No se encontró ningún correo";
                     return;
                 }
                 var result = manager.ResetPassword(user.Id, code, Password.Text);
@@ -38,7 +45,12 @@ namespace SG_Constancia_TSC
                 return;
             }
 
-            ErrorMessage.Text = "An error has occurred";
+            ErrorMessage.Text = "Se produjo un error";
+        }
+
+        protected void Password_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
