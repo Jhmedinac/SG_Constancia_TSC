@@ -31,6 +31,7 @@ namespace SG_Constancia_TSC {
     
         void Session_Start(object sender, EventArgs e) {
             // Code that runs when a new session is started
+            Utili.ParametrosHelper.CargarParametrosEnSesion();
         }
     
         void Session_End(object sender, EventArgs e) {

@@ -11,10 +11,15 @@ using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using SG_Constancia_TSC.Utili;
+using DevExpress.XtraReports.UI;
+using DevExpress.XtraPrinting;
 
 using DevExpress.Office.Internal;
 
 using DevExpress.XtraPrinting;
+using DevExpress.Web.Internal.XmlProcessor;
+using DevExpress.CodeParser;
 //using Org.BouncyCastle.Bcpg;
 
 namespace SG_Constancia_TSC
@@ -28,6 +33,7 @@ namespace SG_Constancia_TSC
             if (!IsPostBack)
             {
                 LoadStatuses();
+                GV_PreUsuarios.FocusedRowIndex = -1; // Evita que se enfoque una fila al cargar la página
             }
 
         }
@@ -292,14 +298,227 @@ namespace SG_Constancia_TSC
             }
         }
 
+        private DataTable GetFilteredDataFromGridView()
+        {
+            // Crear y definir el DataTable
+            DataTable dt = new DataTable();
+            dt.Columns.Add("FirstName", typeof(string));
+            dt.Columns.Add("LastName", typeof(string));
+            dt.Columns.Add("Identidad", typeof(string));
+            dt.Columns.Add("nombre", typeof(string)); // Columna para el nombre completo
+
+            // Obtener el índice de la fila enfocada (seleccionada)
+            int selectedRowIndex = GV_PreUsuarios.FocusedRowIndex;
+            if (selectedRowIndex >= 0)
+            {
+                // Obtener los valores de la fila seleccionada
+                object[] values = GV_PreUsuarios.GetRowValues(
+                    selectedRowIndex,
+                    new string[] { "FirstName", "LastName", "Identidad" }
+                ) as object[];
+
+                if (values != null)
+                {
+                    DataRow dr = dt.NewRow();
+                    dr["FirstName"] = values[0];
+                    dr["LastName"] = values[1];
+                    dr["Identidad"] = values[2];
+                    // Combina FirstName y LastName, agregando un espacio entre ellos
+                    dr["nombre"] = values[0].ToString() + " " + values[1].ToString();
+                    dt.Rows.Add(dr);
+                }
+            }
+            // Si no hay fila seleccionada, el DataTable quedará vacío
+            return dt;
+        }
+
+
+        //protected void ASPxReportCosntancia_Click(object sender, EventArgs e)
+        //{
+        //    DataTable dt = GetFilteredDataFromGridView();
+
+        //    if (dt != null && dt.Rows.Count > 0)
+        //    {
+        //        var parametros = HttpContext.Current.Session["Parametros"] as Dictionary<string, Parametro>;
+
+        //        if (parametros == null)
+        //        {
+        //            throw new InvalidOperationException("Los parámetros no están disponibles en la sesión.");
+        //        }
+
+        //        // Función local para crear y abrir el reporte
+        //        void OpenReport(string nombreParametro)
+        //        {
+        //            if (parametros.TryGetValue(nombreParametro, out Parametro parametro))
+        //            {
+        //                string valor = parametro.Valor;
+        //                string descripcion = parametro.Descripcion;
+
+        //                if (string.IsNullOrEmpty(valor) || string.IsNullOrEmpty(descripcion))
+        //                {
+        //                    valor = "Valor por defecto";
+        //                    descripcion = "Descripción por defecto";
+        //                }
+        //                // CORRECCIÓN: Acceder a la fila 0 del DataTable
+        //                string nombre = dt.Rows[0]["nombre"].ToString();
+        //                string documento = dt.Rows[0]["Identidad"].ToString();
+
+
+        //                if descripcion == "Firma_Secretario_adjunto")
+        //                {
+        //                    string textoFormateado =
+        //                    "Por este medio<b>HACE CONSTAR:</b>: Que, de acuerdo a revisión efectuada en los  <b>" +
+        //                    "<archivos de esta Secretaría, así como en el Sistema de Pliegos enviados, archivo  " +
+        //                    "de Pliegos de Responsabilidad Notificados 2008-2024 y Carpeta de Resoluciones, " +
+        //                    "la ciudadana <b> " + nombre + "</b> , con Documento Nacional de <br><br>" +
+        //                    "Identificación N°<b>" + documento + "</b> , no tiene a la fecha ningún tipo de "  +
+        //                    "responsabilidad firme, ni existe ninguna intervención por presunción de " +
+        //                    "enriquecimiento ilícito.";
+        //                }
+        //                else if (descripcion == "Firma_Secretaria_general")
+        //                {
+        //                    string textoFormateado =
+        //                    "El Infrascrito Secretario General Adjunto del Tribunal Superior de Cuentas, <b>HACE CONSTAR:</b> Que la ciudadana <b>" +
+        //                    nombre + "</b>, con Documento Nacional de Identificación N°<b>" + documento + "</b>, no tiene a la fecha ningún tipo de " +
+        //                    "responsabilidad firme, ni existe ninguna intervención por presunción de enriquecimiento ilícito en igual situación que le impida el desempeño de un cargo público.<br><br>" +
+        //                    "La presente constancia no constituye Solvencia con el Estado de Honduras, ni finiquito a favor del solicitante, quedando sujeto a investigaciones futuras.<br><br>" +
+        //                    "La presente constancia tiene validez por el término de seis meses.";
+        //                }
+
+
+
+        //                var report = new Reportes.Constancia(textoFormateado);
+        //                report.Parameters["Firma"].Value = valor;
+        //                report.Parameters["Descripcion"].Value = descripcion;
+
+        //                ASPxWebDocumentViewer1.OpenReport(report);
+        //                ASPxWebDocumentViewer1.Visible = true;
+        //            }
+        //            else
+        //            {
+        //                throw new InvalidOperationException($"El parámetro '{nombreParametro}' no se encontró.");
+        //            }
+        //        }
+
+        //        bool isAdjunto = false;
+        //        if (ASPxChkAdjunto.Value != null)
+        //        {
+        //            isAdjunto = true;
+        //        }
+
+        //        if (isAdjunto) // Si se marca "adjunto"
+        //        {
+        //            OpenReport("Firma_Secretario_adjunto");
+        //        }
+        //        else
+        //        {
+        //            OpenReport("Firma_Secretaria_general");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('No hay datos para imprimir.');", true);
+        //    }
+        //}
+
+        protected void ASPxReportCosntancia_Click(object sender, EventArgs e)
+        {
+            DataTable dt = GetFilteredDataFromGridView();
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                var parametros = HttpContext.Current.Session["Parametros"] as Dictionary<string, Parametro>;
+
+                if (parametros == null)
+                {
+                    throw new InvalidOperationException("Los parámetros no están disponibles en la sesión.");
+                }
+
+                // Obtener datos de la primera fila
+                string nombre = dt.Columns.Contains("nombre") ? dt.Rows[0]["nombre"].ToString() : "Desconocido";
+                string documento = dt.Columns.Contains("Identidad") ? dt.Rows[0]["Identidad"].ToString() : "N/A";
+
+                // Función local para generar el reporte
+                void OpenReport(string nombreParametro)
+                {
+                    if (parametros.TryGetValue(nombreParametro, out Parametro parametro))
+                    {
+                        string valor = parametro.Valor ?? "Valor por defecto";
+                        string descripcion = parametro.Descripcion ?? "Descripción por defecto";
+
+                        string textoFormateado = string.Empty;
+
+                        if (nombreParametro == "Firma_Secretario_adjunto" && nombreParametro == "Firma_Secretaria_general")
+                        {
+                            textoFormateado =
+                                 "El Infrascrito Secretario General Adjunto del Tribunal Superior de Cuentas, <b>HACE CONSTAR:</b> Que la ciudadana <b>" +
+                                 nombre + "</b>, con Documento Nacional de Identificación N°<b>" + documento + "</b>, no tiene a la fecha ningún tipo de " +
+                                 "responsabilidad firme, ni existe ninguna intervención por presunción de enriquecimiento ilícito en igual situación que le impida el desempeño de un cargo público.<br><br>" +
+                                 "La presente constancia no constituye Solvencia con el Estado de Honduras, ni finiquito a favor del solicitante, quedando sujeto a investigaciones futuras.<br><br>" +
+                                 "La presente constancia tiene validez por el término de seis meses.";
+                        }
+                        else 
+                        {
+                            textoFormateado =
+                               "Por este medio <b>HACE CONSTAR:</b> Que, de acuerdo a revisión efectuada en los " +
+                               "<b>archivos de esta Secretaría</b>, así como en el Sistema de Pliegos enviados, archivo " +
+                               "de Pliegos de Responsabilidad Notificados 2008-2024 y Carpeta de Resoluciones, " +
+                               "la ciudadana <b>" + nombre + "</b>, con Documento Nacional de " +
+                               "Identificación N°<b>" + documento + "</b>, no tiene a la fecha ningún tipo de " +
+                               "responsabilidad firme, ni existe ninguna intervención por presunción de " +
+                               "enriquecimiento ilícito.";
+
+                            
+                        }
+
+                        var report = new Reportes.Constancia(textoFormateado);
+                        report.Parameters["Firma"].Value = valor;
+                        report.Parameters["Descripcion"].Value = descripcion;
+
+                        ASPxWebDocumentViewer1.OpenReport(report);
+                        ASPxWebDocumentViewer1.Visible = true;
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException($"El parámetro '{nombreParametro}' no se encontró.");
+                    }
+                }
+                //bool isAdjunto = false;
+                if (ASPxChkAdjunto.Value == null)
+                {
+                    ASPxChkAdjunto.Value = "Firma_Secretaria_general";
+                }
+
+                string valorAdjunto = ASPxChkAdjunto.Value?.ToString(); // Convertir a string de forma segura
+
+                if (valorAdjunto == "Firma Secretario(a) Adjunto")
+                {
+                    OpenReport("Firma_Secretario_adjunto");
+                }
+                else if (valorAdjunto == "Firma_Secretaria_general")
+                {
+                    OpenReport("Firma_Secretaria_general");
+                }
+                else if (valorAdjunto == "Firma Encargado de estadística")
+                {
+                    OpenReport("Firma_Encargado_de_estadistica");
+                }
+                else
+                {
+                    OpenReport("Firma_Secretaria_general"); // Valor por defecto
+                }
+
+            }
+            else
+            {
+                // Si hay un UpdatePanel, usar ScriptManager en lugar de ClientScript
+                ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('No hay datos para imprimir.');", true);
+            }
+        }
+
         protected void GV_PreUsuarios_CustomCallback(object sender, ASPxGridViewCustomCallbackEventArgs e)
         {
             GV_PreUsuarios.DataBind();
         }
-
-
-
-
-
     }
 }

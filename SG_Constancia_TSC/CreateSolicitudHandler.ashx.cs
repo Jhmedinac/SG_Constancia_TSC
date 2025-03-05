@@ -18,7 +18,8 @@ namespace SG_Constancia_TSC
                 string lastName = context.Request.Form["tbApellido"];
                 string email = context.Request.Form["tbCorreo"];
                 string phone = context.Request.Form["tbTelefono"];
-                string address = context.Request.Form["tbDireccion"];
+                //string address = context.Request.Form["tbDireccion"];
+                string address = "";
 
                 // Verificar que los valores se han obtenido
                 if (string.IsNullOrEmpty(dni) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) ||

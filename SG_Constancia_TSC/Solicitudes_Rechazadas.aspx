@@ -1,7 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true"  MasterPageFile="~/Main.master" CodeBehind="Solicitudes_finalizadas.aspx.cs" Inherits="SG_Constancia_TSC.Solicitudes_finalizadas" %>
-
-
-<%@ Register Assembly="DevExpress.XtraReports.v21.2.Web.WebForms, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.XtraReports.Web" TagPrefix="dx" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true"  MasterPageFile="~/Main.master" CodeBehind="Solicitudes_Rechazadas.aspx.cs" Inherits="SG_Constancia_TSC.Solicitudes_Rechazadas" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
 <style>
@@ -14,14 +11,7 @@
       }
 </style>
       <script>
-          function OnRowFocused(s, e) {
-              var rowIndex = s.GetFocusedRowIndex();
-              if (rowIndex !== -1) {
-                  var key = s.GetRowKey(rowIndex);
-                 /* console.log("ID seleccionado:", key);*/
-                  // Aquí puedes realizar acciones adicionales, como actualizar otro control
-              }
-          }
+  
           function btnPopupUpdate_Click(s, e) {
               //e.preventDefault();  // Prevenir el comportamiento por defecto del botón
 
@@ -90,11 +80,15 @@
       <asp:Panel ID="Panel_Content" runat="server">
           <link href="Content/css/sweetalert2.min.css" rel="stylesheet" />
            <script src="Content/js/sweetalert2.all.min.js"></script>
+  <%--        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>--%>
           <script type="text/javascript">
             if (window.history.replaceState) {
                 window.history.replaceState(null, null, window.location.href);
               }
 
+              //function ShowPopup() {
+              //    popupUpdateStatus.Show();
+              //}
 
 
           </script>
@@ -105,31 +99,10 @@
                     <EmptyImage IconID="">
                     </EmptyImage>
                 </dx:ASPxImage>
-             &nbsp;CONSTANCIAS ENTEGADAS </h1>
+             &nbsp;CONSTANCIAS RECHAZADAS </h1>
                     </div>
           <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <ContentTemplate>
-
-<%--    <dx:ASPxGridView ID="GV_PreUsuarios" runat="server" AutoGenerateColumns="False" Style="margin-left: auto; margin-right: auto;"
-    KeyFieldName="Id" DataSourceID="SqlDataUsers" OnBeforeExport="GV_PreUsuarios_BeforeExport" ClientInstanceName="GV_PreUsuarios" 
-        OnCustomCallback="GV_PreUsuarios_CustomCallback" 
-    Width="100%" CssClass="responsive-grid">
-    <SettingsAdaptivity AdaptivityMode="HideDataCells" AllowOnlyOneAdaptiveDetailExpanded="true" />
-          <SettingsPager AlwaysShowPager="True" PageSize="10">
-     <PageSizeItemSettings Items="10, 30, 50" ShowAllItem="True" Visible="True">
-         </PageSizeItemSettings>
-</SettingsPager>
-    <Settings ShowFilterRow="false" ShowHeaderFilterButton="True" ShowFooter="True" />
-    <SettingsExport EnableClientSideExportAPI="true" ExcelExportMode="WYSIWYG" />
-    <SettingsPopup>
-        <FilterControl AutoUpdatePosition="False"></FilterControl>
-    </SettingsPopup>
-    <SettingsSearchPanel Visible="True"></SettingsSearchPanel>
-        <SettingsBehavior AllowFocusedRow="true"  AllowSelectByRowClick="true" />
-                  
-<SettingsPopup>
-<FilterControl AutoUpdatePosition="False"></FilterControl>
-</SettingsPopup>--%>
 
     <dx:ASPxGridView ID="GV_PreUsuarios" runat="server" AutoGenerateColumns="False" Style="margin-left: auto; margin-right: auto;"
     KeyFieldName="Id" DataSourceID="SqlDataUsers" OnBeforeExport="GV_PreUsuarios_BeforeExport" ClientInstanceName="GV_PreUsuarios" 
@@ -146,83 +119,83 @@
         <FilterControl AutoUpdatePosition="False"></FilterControl>
     </SettingsPopup>
     <SettingsSearchPanel Visible="True"></SettingsSearchPanel>
-        <SettingsBehavior AllowFocusedRow="true" AllowSelectByRowClick="False" />
+        <SettingsBehavior AllowFocusedRow="False" AllowSelectByRowClick="False" />
                   
 <SettingsPopup>
 <FilterControl AutoUpdatePosition="False"></FilterControl>
 </SettingsPopup>
-    
-    <Toolbars>
-        <dx:GridViewToolbar>
-            <SettingsAdaptivity Enabled="true" EnableCollapseRootItemsToIcons="true" />
-            <Items>
-                <dx:GridViewToolbarItem Command="Custom">
-                    <Template>
-                        <dx:ASPxButton ID="ASPxReportCosntancia" runat="server" Text="Constancia" AutoPostBack="False" OnClick="ASPxReportCosntancia_Click" />
-                        <dx:ASPxButton ID="ASPxInforme" runat="server" Text="Informe" AutoPostBack="False">
-                            <ClientSideEvents Click="function(s, e) { Showinforme(); }" />
-                        </dx:ASPxButton>
-                    </Template>
-                </dx:GridViewToolbarItem>
-                <dx:GridViewToolbarItem Command="ExportToCsv" />
-                <dx:GridViewToolbarItem Command="Refresh" />
-            </Items>
-        </dx:GridViewToolbar>
-    </Toolbars>
-    <SettingsSearchPanel Visible="True" />
-    <Columns>
+                   <Toolbars>
+    <dx:GridViewToolbar>
+        <SettingsAdaptivity Enabled="true" EnableCollapseRootItemsToIcons="true" />
+        <Items>
+             <dx:GridViewToolbarItem Command="Custom">
+      <Template>
 
-        <dx:GridViewCommandColumn 
-            ShowSelectCheckbox="True" 
-            SelectAllCheckboxMode="None" 
-            ShowClearFilterButton="True" 
-            VisibleIndex="0">
+          <dx:ASPxButton ID="btnUpdateStatus" runat="server" Text="Actualizar Estado" AutoPostBack="False">
+       
+               <ClientSideEvents Click="function(s, e) { ShowPopup(); }" />
+
+         </dx:ASPxButton>
+
+         </Template>
+    
+            </dx:GridViewToolbarItem>
+
+            <dx:GridViewToolbarItem Command="ExportToCsv"  />
+            <dx:GridViewToolbarItem Command="Refresh"></dx:GridViewToolbarItem>
+        </Items>
+    </dx:GridViewToolbar>
+</Toolbars>
+        <SettingsSearchPanel Visible="True"></SettingsSearchPanel>
+    <Columns>
+        <dx:GridViewCommandColumn ShowSelectCheckbox="True" SelectAllCheckboxMode="AllPages" ShowClearFilterButton="True" VisibleIndex="0">
             <HeaderStyle HorizontalAlign="Center" Font-Bold="True" />
             <CellStyle HorizontalAlign="Center" Font-Size="Small" />
         </dx:GridViewCommandColumn>
+              <dx:GridViewDataTextColumn FieldName="FirstName" ShowInCustomizationForm="True" VisibleIndex="3" Caption="NOMBRE">
+           <PropertiesTextEdit>
+                   <Style Font-Size="Small"></Style>
+               </PropertiesTextEdit>
+               <HeaderStyle HorizontalAlign="Center" BackColor="#1F497D" Font-Bold="True" ForeColor="White" Font-Size="Small"></HeaderStyle>
+               <CellStyle HorizontalAlign="Center" Font-Size="Small"></CellStyle>
+       </dx:GridViewDataTextColumn>
+       <dx:GridViewDataTextColumn FieldName="LastName" ShowInCustomizationForm="True" VisibleIndex="4" Caption="APELLIDO">
+                <PropertiesTextEdit>
+                   <Style Font-Size="Small"></Style>
+               </PropertiesTextEdit>
+               <HeaderStyle HorizontalAlign="Center" BackColor="#1F497D" Font-Bold="True" ForeColor="White" Font-Size="Small"></HeaderStyle>
+               <CellStyle HorizontalAlign="Center" Font-Size="Small"></CellStyle>
+       </dx:GridViewDataTextColumn>
+       <dx:GridViewDataTextColumn FieldName="Identidad" ShowInCustomizationForm="True" VisibleIndex="2" Caption="DNI">
+           <PropertiesTextEdit>
+                   <Style Font-Size="Small"></Style>
+               </PropertiesTextEdit>
+               <HeaderStyle HorizontalAlign="Center" BackColor="#1F497D" Font-Bold="True" ForeColor="White" Font-Size="Small"></HeaderStyle>
+               <CellStyle HorizontalAlign="Center" Font-Size="Small"></CellStyle>
+       </dx:GridViewDataTextColumn>
 
-
-        <dx:GridViewDataTextColumn FieldName="FirstName" ShowInCustomizationForm="True" VisibleIndex="3" Caption="NOMBRE">
-            <PropertiesTextEdit>
-                <Style Font-Size="Small" />
-            </PropertiesTextEdit>
-            <HeaderStyle HorizontalAlign="Center" BackColor="#1F497D" Font-Bold="True" ForeColor="White" Font-Size="Small" />
-            <CellStyle HorizontalAlign="Center" Font-Size="Small" />
-        </dx:GridViewDataTextColumn>
-        <dx:GridViewDataTextColumn FieldName="LastName" ShowInCustomizationForm="True" VisibleIndex="4" Caption="APELLIDO">
-            <PropertiesTextEdit>
-                <Style Font-Size="Small" />
-            </PropertiesTextEdit>
-            <HeaderStyle HorizontalAlign="Center" BackColor="#1F497D" Font-Bold="True" ForeColor="White" Font-Size="Small" />
-            <CellStyle HorizontalAlign="Center" Font-Size="Small" />
-        </dx:GridViewDataTextColumn>
-        <dx:GridViewDataTextColumn FieldName="Identidad" ShowInCustomizationForm="True" VisibleIndex="2" Caption="DNI">
-            <PropertiesTextEdit>
-                <Style Font-Size="Small" />
-            </PropertiesTextEdit>
-            <HeaderStyle HorizontalAlign="Center" BackColor="#1F497D" Font-Bold="True" ForeColor="White" Font-Size="Small" />
-            <CellStyle HorizontalAlign="Center" Font-Size="Small" />
-        </dx:GridViewDataTextColumn>
-        <dx:GridViewDataTextColumn FieldName="IdRole" VisibleIndex="1" Visible="False" />
-        <dx:GridViewDataTextColumn FieldName="Id" VisibleIndex="14" Visible="False" />
-        <dx:GridViewDataTextColumn FieldName="Descripcion_Estado" Caption="ESTADO" VisibleIndex="12">
-            <PropertiesTextEdit>
-                <Style Font-Size="Small" />
-            </PropertiesTextEdit>
-            <HeaderStyle HorizontalAlign="Center" BackColor="#1F497D" Font-Bold="True" ForeColor="White" Font-Size="Small" />
-            <CellStyle HorizontalAlign="Center" Font-Size="Small" />
-        </dx:GridViewDataTextColumn>
-        <dx:GridViewDataDateColumn FieldName="FechaIngreso" Caption="FECHA TERMINO" VisibleIndex="15">
-            <PropertiesDateEdit>
-                <Style Font-Size="Small" />
-            </PropertiesDateEdit>
-            <HeaderStyle HorizontalAlign="Center" BackColor="#1F497D" Font-Bold="True" ForeColor="White" Font-Size="Small" />
-            <CellStyle HorizontalAlign="Center" Font-Size="Small" />
-        </dx:GridViewDataDateColumn>
+       <dx:GridViewDataTextColumn FieldName="IdRole" VisibleIndex="1" Visible="False"></dx:GridViewDataTextColumn>
+       <dx:GridViewDataTextColumn FieldName="Id" VisibleIndex="14" Visible="False"></dx:GridViewDataTextColumn>
+       <dx:GridViewDataTextColumn FieldName="Descripcion_Estado" Caption="ESTADO" VisibleIndex="12">
+           <PropertiesTextEdit>
+               <Style Font-Size="Small"></Style>
+           </PropertiesTextEdit>
+           <HeaderStyle HorizontalAlign="Center" BackColor="#1F497D" Font-Bold="True" ForeColor="White" Font-Size="Small"></HeaderStyle>
+           <CellStyle HorizontalAlign="Center" Font-Size="Small"></CellStyle>
+       </dx:GridViewDataTextColumn>
+       <dx:GridViewDataDateColumn FieldName="FechaIngreso" Caption="FECHA TERMINO" VisibleIndex="15">
+               <PropertiesDateEdit>
+    <Style Font-Size="Small">
+        </Style>
+</PropertiesDateEdit>
+<HeaderStyle HorizontalAlign="Center" BackColor="#1F497D" Font-Bold="True" ForeColor="White" Font-Size="Small"></HeaderStyle>
+<CellStyle HorizontalAlign="Center" Font-Size="Small"></CellStyle>
+           
+       </dx:GridViewDataDateColumn>
     </Columns>
     <Styles>
         <SelectedRow BackColor="#CCCCCC" ForeColor="#1F497D" Font-Bold="True" />
-        <%--<FocusedRow BackColor="" />--%>
+        <FocusedRow BackColor="White" />
     </Styles>
 </dx:ASPxGridView>
 
@@ -232,7 +205,7 @@
 
           <asp:SqlDataSource runat="server" ID="SqlDataUsers" ConnectionString='<%$ ConnectionStrings:connString %>' SelectCommand="SELECT DISTINCT Id, Identidad, FirstName, LastName, email, [Descripcion_Estado], 
                                     [FechaIngreso], [Id_Estado], [IdRole] FROM [dbo].[V_Solicitudes] 
-                                    WHERE Id_Estado IN (4) ORDER BY Id DESC"></asp:SqlDataSource>
+                                    WHERE Id_Estado IN (5) ORDER BY Id DESC"></asp:SqlDataSource>
    
 
 
@@ -271,26 +244,7 @@
     </ContentCollection>
 </dx:ASPxPopupControl>
 
-    <fieldset>
-        <legend style="margin-left: 30px;">FIRMAS ADJUNTAS</legend>
-        <dx:ASPxCheckBoxList ID="ASPxChkAdjunto" runat="server" CssClass="margen-izquierda" ValueType="System.String">
-        <Items>
-        <dx:ListEditItem Text="Firma Secretario(a) Adjunto " Value="Firma Secretario(a) Adjunto" />
-        <dx:ListEditItem Text="Firma Encargado de estadística" Value="Firma Encargado de estadística" />
-        </Items>
-        </dx:ASPxCheckBoxList>
-    </fieldset>
 
- <dx:PanelContent runat="server">
-     <dx:ASPxWebDocumentViewer
-         ID="ASPxWebDocumentViewer1"
-         runat="server"
-         ClientInstanceName="ASPxWebDocumentViewer1"
-         Height="750px"
-         RightToLeft="false"
-         DisableHttpHandlerValidation="False">
-     </dx:ASPxWebDocumentViewer>
- </dx:PanelContent>
 
 <script type="text/javascript">
     //function ShowPopup() {

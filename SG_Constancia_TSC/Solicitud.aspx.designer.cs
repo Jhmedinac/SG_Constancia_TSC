@@ -87,15 +87,6 @@ namespace SG_Constancia_TSC
         protected global::DevExpress.Web.ASPxTextBox tbConfirmCorreo;
 
         /// <summary>
-        /// Control formDenuncia2.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxFormLayout formDenuncia2;
-
-        /// <summary>
         /// Control tbTelefono.
         /// </summary>
         /// <remarks>
@@ -103,15 +94,6 @@ namespace SG_Constancia_TSC
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::DevExpress.Web.ASPxTextBox tbTelefono;
-
-        /// <summary>
-        /// Control tbDireccion.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxTextBox tbDireccion;
 
         /// <summary>
         /// Control ASPxFormLayout1.

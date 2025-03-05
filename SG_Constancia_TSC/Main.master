@@ -51,6 +51,14 @@
                     <dx:NavBarItem NavigateUrl="solicitudes_finalizadas.aspx" Text="Solucitudes Finalizadas" Name="Usuarios_Exportados" Image-IconID="richedit_pastespecial_16x16">
                         <Image IconID="businessobjects_bo_task_svg_16x16"></Image>   
                     </dx:NavBarItem>
+
+                    
+                    <dx:NavBarItem NavigateUrl="Solicitudes_Rechazadas.aspx" Text="Solucitudes Rechazadas" Name="Usuarios_Exportados" Image-IconID="richedit_pastespecial_16x16">
+                        <Image IconID="businessobjects_bo_task_svg_16x16"></Image>   
+                    </dx:NavBarItem>
+                    <dx:NavBarItem NavigateUrl="VerificarConstancia.aspx" Text="Verificar Solucitudes" Name="Usuarios_Exportados" Image-IconID="richedit_pastespecial_16x16">
+                        <Image IconID="businessobjects_bo_task_svg_16x16"></Image>   
+                    </dx:NavBarItem>
                 </Items>
           </dx:NavBarGroup>
             <dx:NavBarGroup Text="Mantenimiento" Expanded="False" ItemImagePosition="Left" Name="Mantenimiento" >
@@ -67,6 +75,20 @@
                     </dx:NavBarItem>
                 </Items>
             </dx:NavBarGroup>
+            <%--<dx:NavBarGroup Text="Reportes" Expanded="False" ItemImagePosition="Left" Name="Reportes" >
+                    <CollapseImage IconID="outlookinspired_customizegrid_svg_16x16">
+                    </CollapseImage>
+                    <ExpandImage IconID="outlookinspired_custom_svg_16x16"></ExpandImage>
+                <Items>
+                  
+                    <dx:NavBarItem NavigateUrl="Reportes/Usuarios.aspx" Text="diario" Name="Usuarios" Image-IconID="richedit_pastespecial_16x16" >
+                         <Image IconID="outlookinspired_employees_svg_16x16"></Image>
+                    </dx:NavBarItem>
+                    <dx:NavBarItem NavigateUrl="Account/Registro.aspx" Text="Registrar Usuarios" Name="RegistrarU" Image-IconID="people_user_16x16">
+                         <Image IconID="outlookinspired_newemployee_svg_16x16"></Image>
+                    </dx:NavBarItem>
+                </Items>
+            </dx:NavBarGroup>--%>
         </Groups>
     </dx:ASPxNavBar>
 

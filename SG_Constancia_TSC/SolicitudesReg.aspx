@@ -73,7 +73,25 @@
                 popup.Show();
             }
 
-
+            function ShowPopup() {
+                var grid = ASPxClientControl.GetControlCollection().GetByName('GV_PreUsuarios');
+                if (grid) {
+                    var selectedRowKeys = grid.GetSelectedKeysOnPage();
+                    if (selectedRowKeys.length > 0) {
+                        popupUpdateStatus.Show();
+                    } else {
+                        Swal.fire({
+                            title: "¡Alerta!",
+                            text: "Por favor seleccione una fila para Actualizar el Estado.",
+                            icon: "warning",
+                            confirmButtonColor: "#1F497D"
+                        });
+                        //alert('Please select a row to update the status.');
+                    }
+                } else {
+                    alert('Grid not found.');
+                }
+            }
             function btnPopupUpdate_Click() {
                 var campos = [cmbStatus.GetText(), txtObs.GetText()];
                 var camposVacios = campos.some(function (valor) {
@@ -91,6 +109,7 @@
                     });
                 } else {
                     ASPxCallback_PopupUpdate.PerformCallback(); // Llamada al servidor
+                    popupUpdateStatus.Hide();
                 }
             }
         </script>
@@ -105,13 +124,34 @@
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
-                <dx:ASPxGridView ID="GV_PreUsuarios" runat="server" AutoGenerateColumns="False" KeyFieldName="Id"
+                <dx:ASPxGridView ID="GV_PreUsuarios" runat="server" AutoGenerateColumns="False" KeyFieldName="Id" ClientInstanceName="GV_PreUsuarios"
                     DataSourceID="SqlDataUsers" Width="100%" CssClass="responsive-grid"  OnDetailRowExpandedChanged="GV_PreUsuarios_DetailRowExpandedChanged">
             
        
                     <SettingsBehavior AllowSelectByRowClick="true" AllowFocusedRow="true" />
                     <ClientSideEvents FocusedRowChanged="OnRowFocused" />
+                    <Toolbars>
+                        <dx:GridViewToolbar>
+                            <SettingsAdaptivity Enabled="true" EnableCollapseRootItemsToIcons="true" />
+                            <Items>
+                                 <dx:GridViewToolbarItem Command="Custom">
+                          <Template>
 
+                              <dx:ASPxButton ID="btnUpdateStatus" runat="server" Text="Actualizar Estado" AutoPostBack="False">
+       
+                                   <ClientSideEvents Click="function(s, e) { ShowPopup(); }" />
+
+                             </dx:ASPxButton>
+
+                             </Template>
+    
+                                </dx:GridViewToolbarItem>
+
+                                <dx:GridViewToolbarItem Command="ExportToCsv"  />
+                                <dx:GridViewToolbarItem Command="Refresh"></dx:GridViewToolbarItem>
+                            </Items>
+                        </dx:GridViewToolbar>
+                    </Toolbars>
                  
                     <SettingsDetail ShowDetailRow="true" />
                     <Templates>
@@ -230,6 +270,13 @@
                          </ValidationSettings>
                      </dx:ASPxComboBox>
                      <br />
+                     <dx:ASPxMemo ID="txtObs" runat="server" Width="100%" Height="100px" NullText="Ingrese una Observación" 
+                        ClientInstanceName="txtObs" Caption="Ingrese una Observación" CaptionSettings-Position="Top">
+                        <ValidationSettings Display="Dynamic" ErrorTextPosition="Bottom" RequiredField-IsRequired="true" 
+                            SetFocusOnError="True">
+                            <RequiredField ErrorText="La Observación es requerida." IsRequired="true" />
+                        </ValidationSettings>
+                    </dx:ASPxMemo>
                      <br />
                      <dx:ASPxButton ID="btnPopupUpdate" runat="server" Text="Actualizar" AutoPostBack="False" UseSubmitBehavior="false" ClientInstanceName="btnPopupUpdate">
                          <ClientSideEvents Click="btnPopupUpdate_Click" />

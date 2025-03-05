@@ -477,14 +477,16 @@ preloader area
 .services {
     padding: 30px 0;
     /*margin-top: 90px;*/
-
-   /* background: #1F497D;
+    /* background: #1F497D;
     background: -webkit-linear-gradient(to right, #cc5333, #1F497D);
     background: linear-gradient(to right, #cc5333, #1F497D);*/
-    background-image: url('TSC/c2.jpg');
-    background-repeat: no-repeat;
+    /*background: linear-gradient(135deg, #ffffff 30%, #4b6cb7 100%);*/
+    /*background: linear-gradient(90deg, rgba(0,36,34,1) 0%, rgba(172,190,47,1) 22%, rgba(0,212,255,1) 100%);*/
+   /* background: linear-gradient(90deg, rgba(137,214,251,1) 0%, rgba(2,169,247,1) 19%, rgba(2,87,122,1) 97%, rgba(0,0,0,1) 100%);*/
+    /*background-image: url('TSC/c2d.png');*/
+    /*background-repeat: no-repeat;
     background-position: center;
-    background-size: cover;
+    background-size: cover;*/
 }
 
 
