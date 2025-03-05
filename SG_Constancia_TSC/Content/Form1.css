@@ -1,0 +1,75 @@
+﻿:root {
+    --color-fondo: #ffffff; /* Blanco */
+    --color-titulo: #026b98; /* Azul vibrante */
+    --color-texto: #333333; /* Gris oscuro para el texto general */
+    --color-acento: #ffb833; /* Naranja suave para elementos destacados */
+}
+
+body {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.8;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-titulo);
+    margin: 0 0 10px;
+    font-weight: normal;
+}
+
+a {
+    color: var(--color-titulo);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    a:hover {
+        color: var(--color-acento);
+    }
+
+.btn {
+    background-color: var(--color-acento);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .btn:hover {
+        background-color: hsl(var(--color-acento-h), var(--color-acento-s), calc(var(--color-acento-l) - 10%));
+    }
+
+.footer {
+    background-color: var(--color-titulo);
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+    .footer a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+
+/* Aplica al formulario principal */
+form#form1 {
+    width: 100%; /* Ocupa el 100% del contenedor */
+    max-width: 1200px; /* Máximo de ancho, lo puedes ajustar */
+    margin: 0 auto; /* Centrado horizontal */
+    padding: 20px; /* Espacio interno, opcional */
+}
+
+/* Si deseas que los controles ASPxFormLayout se ajusten, asegúrate de que su clase tenga ancho relativo */
+.formLayout {
+    width: 100%;
+}

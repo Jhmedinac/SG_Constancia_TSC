@@ -1,8 +1,8 @@
 ﻿ol.stepper {
     --default-b: lightgrey;
     --default-c: black;
-    --active-b: #4CAF50;
-    --active-c: white;
+    --active-b: #00537a ;/*#4CAF50;*/
+    --active-c: black;
     --circle: 3.5em; /* size of circle */
     --b: 5px; /* line thickness */
 
@@ -58,6 +58,21 @@
             background: var(--active-b);
         }
 
+
+        /* Para el botón "Anterior" (btn-secondary) */
+.btn-secondary {
+    background-color: #ffba42; /* Ejemplo: #ff5733 */
+    border-color: #edf2f4;
+    color: #df0a0a; /* Asegúrate de que el texto tenga buena legibilidad */
+}
+
+        /* Para el botón "Siguiente" (btn-success) */
+.btn-success {
+    background-color: #ffba42; /* Ejemplo: #009688 */
+    border-color: #edf2f4;
+    color: #cb6e6e;
+}
+
 @media (max-width: 600px) {
     ol.stepper {
         display: grid;
@@ -80,4 +95,10 @@
                 height: 100vw;
                 background: var(--active-b);
             }
+}
+
+.step-content {
+    min-height: 40vh;
+    max-height: 50vh;
+    height: auto;
 }

@@ -138,6 +138,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.1\lib\netstandard2.0\System.Memory.dll</HintPath>
     </Reference>
@@ -150,6 +151,8 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Security" />
     <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.4.5.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
@@ -173,6 +176,7 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -293,6 +297,7 @@
     <Content Include="Content\css\responsive.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="Content\Custom.css" />
+    <Content Include="Content\CustomStyles.css" />
     <Content Include="Content\Denuncia.css" />
     <Content Include="Content\Denuncia.js" />
     <Content Include="Content\Fontawesome\css\all.css" />
@@ -332,6 +337,7 @@
     <Content Include="Content\Fontawesome\sprites\regular.svg" />
     <Content Include="Content\Fontawesome\sprites\solid.svg" />
     <Content Include="Content\Form.css" />
+    <Content Include="Content\Form1.css" />
     <Content Include="Content\Grid.css" />
     <Content Include="Content\Grid.js" />
     <Content Include="Content\GridView.css" />
@@ -451,6 +457,11 @@
     <Content Include="Content\TSC\AD.PNG" />
     <Content Include="Content\TSC\b.jpg" />
     <Content Include="Content\TSC\c2.jpg" />
+    <Content Include="Content\TSC\c2a.JPG" />
+    <Content Include="Content\TSC\c2b.png" />
+    <Content Include="Content\TSC\c2c.png" />
+    <Content Include="Content\TSC\c2d.PNG" />
+    <Content Include="Content\TSC\c2e.png" />
     <Content Include="Content\TSC\c4.jpg" />
     <Content Include="Content\TSC\cc.jpg" />
     <Content Include="Content\TSC\color1_logo.jpg" />
@@ -499,8 +510,10 @@
     <Content Include="Solicitudes.aspx" />
     <Content Include="SolicitudesReg.aspx" />
     <Content Include="Solicitudes_finalizadas.aspx" />
+    <Content Include="Solicitudes_Rechazadas.aspx" />
     <Content Include="TimeoutControl.ascx" />
     <Content Include="Upload.aspx" />
+    <Content Include="VerificarConstancia.aspx" />
     <Content Include="Web.config" />
     <Content Include="App_Data\ApplicationMenuDataSource.sitemap" />
     <Content Include="Content\js\.DS_Store" />
@@ -739,6 +752,12 @@
     <Compile Include="Models\CustomJsonResult.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reportes\Constancia.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reportes\Constancia.Designer.cs">
+      <DependentUpon>Constancia.cs</DependentUpon>
+    </Compile>
     <Compile Include="Root.master.cs">
       <DependentUpon>Root.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -782,6 +801,13 @@
     <Compile Include="Solicitudes_finalizadas.aspx.designer.cs">
       <DependentUpon>Solicitudes_finalizadas.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Solicitudes_Rechazadas.aspx.cs">
+      <DependentUpon>Solicitudes_Rechazadas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Solicitudes_Rechazadas.aspx.designer.cs">
+      <DependentUpon>Solicitudes_Rechazadas.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="TimeoutControl.ascx.cs">
       <DependentUpon>TimeoutControl.ascx</DependentUpon>
@@ -800,19 +826,29 @@
     <Compile Include="UploadFilesHandler.ashx.cs">
       <DependentUpon>UploadFilesHandler.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Utili\CargarParametrosEnSesion.cs" />
     <Compile Include="Utili\Util.cs" />
     <Compile Include="Utili\Utila.cs" />
     <Compile Include="Utili\UtilClass.cs" />
+    <Compile Include="VerificarConstancia.aspx.cs">
+      <DependentUpon>VerificarConstancia.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VerificarConstancia.aspx.designer.cs">
+      <DependentUpon>VerificarConstancia.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Reportes\Constancia.resx">
+      <DependentUpon>Constancia.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\de\" />
     <Folder Include="bin\es\" />
     <Folder Include="bin\ja\" />
     <Folder Include="bin\ru\" />
-    <Folder Include="Reportes\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

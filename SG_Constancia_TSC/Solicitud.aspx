@@ -1,6 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Solicitud.aspx.cs" Inherits="SG_Constancia_TSC.Solicitud"  Async="true" %>
 
 <%@ Import Namespace="SG_Constancia_TSC.UtilClass" %>
+
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -19,39 +21,48 @@
     <meta name="author" content=""/>
 
     <title>Solicitud de Constancias TSC</title>
+
+
+    <!-- jQuery (versión completa y recomendada) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+<!-- SweetAlert2 (una sola vez) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Popper.js (necesario para Bootstrap) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS (una sola vez) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
     <link rel="icon" href="Content/favicon.ico" type="image/x-icon" />
-    <link href="Content/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="Content/Form.css" rel="stylesheet" />
+    <link href="Content/Site.css" rel="stylesheet" />
+    <link href="Content/CustomStyles.css" rel="stylesheet" />
+
+    <link href="Content/Form1.css" rel="stylesheet" />
     <link href="Content/Denuncia.css" rel="stylesheet" />
-    <link href="Content/Stepper.css" rel="stylesheet" />
-    <link href="Content/css/responsive.css" rel="stylesheet" />
-    <link href="Content/css/owl.carousel.min.css" rel="stylesheet" />
+   <link href="Content/Stepper.css" rel="stylesheet" />
+<%--    <link href="Content/css/responsive.css" rel="stylesheet" />--%>
+<%--    <link href="Content/css/owl.carousel.min.css" rel="stylesheet" />
     <link href="Content/Fontawesome/css/all.css" rel="stylesheet" />
-    <link href="Content/Fontawesome/css/fontawesome.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link href="Content/Fontawesome/css/fontawesome.css" rel="stylesheet" />--%>
+
     <script src="Content/Denuncia.js"></script>
     <script src="Content/Consulta.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         .required-asterisk::after {
             content: ' *';
             color: red;
         }
     </style>
-        <!-- Cargar jQuery primero -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-    <!-- Cargar otros scripts que dependen de jQuery -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="Content/js/bootstrap.min.js"></script>
-    <script src="Content/Denuncia.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-    <script src="Content/js/jquery-3.0.0.min.js"></script>
-    <script src="Content/js/bootstrap.min.js"></script>
-<%--    <script type="text/javascript">
-        // Incrustar valores en el JavaScript
-        
-    </script>--%>
 
 </head>
      <!-- body -->
@@ -70,20 +81,21 @@
                     <div class="navbar-area">
                         <nav class="site-navbar">
                             <ul>
-                                <li>
+                                <%--<li>--%>
                                     <a href="Default.aspx" target="_blank">
                                         <i class="fa fa-home"></i> Inicio
                                     </a>
-                                </li>
-                                <li>
+                                <%--</li>--%>
+                                <br />
+                                <%--<li>--%>
                                     <a href="Content/Manuales/Manual de Usuario.pdf" target="_blank">
                                         <i class="fa fa-book"></i> Manual de Usuario
                                     </a>
-                                </li>
+                                <%--</li>--%>
                             </ul>
-                            <button class="nav-toggler">
+<%--                            <button class="nav-toggler">
                                 <span></span>
-                            </button>
+                            </button>--%>
                         </nav>
                     </div>
                 </div>
@@ -98,7 +110,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="titlepage text_align_left">
-                            <h2 class="text-center">FORMULARIO SOLICITUD DE CONSTANCIA</h2>
+                            <h2 class="text-center">FORMULARIO SOLICITUD DE CONSTANCIA de no tener cuentas pendientes con el estado</h2>
                             <h3 class="text-center">SISTEMA DE CONSULTAS SECRETARIA GENERAL TSC</h3>
                         </div>
                     </div>
@@ -107,14 +119,14 @@
 
             <ol class="stepper">
                 <li class="active" id="step1-tab">Datos del Solicitante</li>
-                <li id="step2-tab">Información Adicional</li>
-                <li id="step3-tab">Carga de Archivos</li>
-                <li id="step4-tab">Confirmación</li>
+<%--                <li id="step2-tab">Información Adicional</li>--%>
+                <li id="step2-tab">Carga de Archivos</li>
+                <li id="step3-tab">Confirmación</li>
             </ol>
 
             <div class="tab-content" id="stepper-content">
                 <!-- Step 1 -->
-                <div class="tab-pane fade show active step-content" id="step1">
+                <div class="tab-pane fade show active step-content dynamic-height-step1" id="step1" style="padding: 1rem;">
                    <%-- <h4>Step 1: Datos del Solicitante</h4>--%>
                     <dx:ASPxFormLayout runat="server" ID="formDenuncia1" CssClass="formLayout">
                         <Items>
@@ -188,15 +200,7 @@
                                     </dx:LayoutItemNestedControlContainer>
                                 </LayoutItemNestedControlCollection>
                             </dx:LayoutItem>
-                        </Items>
-                    </dx:ASPxFormLayout>
-                </div>
 
-                <!-- Step 2 -->
-                <div class="tab-pane fade step-content" id="step2">
-                  <%--  <h4>Step 2: Información Adicional</h4>--%>
-                    <dx:ASPxFormLayout runat="server" ID="formDenuncia2" CssClass="formLayout">
-                        <Items>
                             <dx:LayoutItem Caption="Teléfono">
                                 <LayoutItemNestedControlCollection>
                                     <dx:LayoutItemNestedControlContainer runat="server">
@@ -208,7 +212,18 @@
                                     </dx:LayoutItemNestedControlContainer>
                                 </LayoutItemNestedControlCollection>
                             </dx:LayoutItem>
-                            <dx:LayoutItem Caption="Dirección">
+                        </Items>
+                    </dx:ASPxFormLayout>
+                </div>
+
+                <!-- Step 2 -->
+                <%--<div class="tab-pane fade step-content text-center" id="step2" role="tabpanel" aria-labelledby="pills-step2-tab" style="min-height: 30vh; max-height: 40vh; height: auto; padding: 1rem;">--%>
+                    <%--<h4>Step 2: Información Adicional</h4>--%>
+                <%--<div class="tab-pane fade step-content text-center" id="step2" role="tabpanel">
+                    <dx:ASPxFormLayout runat="server" ID="formDenuncia2" CssClass="formLayout">
+                        <Items>--%>
+
+<%--                            <dx:LayoutItem Caption="Dirección">
                                 <LayoutItemNestedControlCollection>
                                     <dx:LayoutItemNestedControlContainer runat="server">
                                         <dx:ASPxTextBox ID="tbDireccion" runat="server" NullText="Dirección" ToolTip="Ingrese su Dirección" ClientInstanceName="tbDireccion">
@@ -218,15 +233,14 @@
                                         </dx:ASPxTextBox>
                                     </dx:LayoutItemNestedControlContainer>
                                 </LayoutItemNestedControlCollection>
-                            </dx:LayoutItem>
-                        </Items>
+                            </dx:LayoutItem>--%>
+<%--                        </Items>
                     </dx:ASPxFormLayout>
-                </div>
+                </div>--%>
 
                 <!-- Step 3 -->
-                <div class="tab-pane fade step-content text-center" id="pills-step3" role="tabpanel" aria-labelledby="pills-step3-tab">
-               <%-- <h4 style="font-size: 1.5em;">Step 3: Carga de Archivos</h4>--%>
-                <dx:ASPxFormLayout runat="server" ID="ASPxFormLayout1" CssClass="formLayout">
+                <div class="tab-pane fade step-content text-center" id="pills-step3" role="tabpanel" aria-labelledby="pills-step3-tab" style="min-height: 30vh; max-height: 40vh; height: auto; padding: 1rem;">
+                    <dx:ASPxFormLayout runat="server" ID="ASPxFormLayout1" CssClass="formLayout">
                     <Items>
                         <dx:LayoutItem ShowCaption="False" HorizontalAlign="Right">
                             <LayoutItemNestedControlCollection>
@@ -302,9 +316,8 @@
 
                 <!-- Step 4 -->
              
-                <div class="tab-pane fade step-content d-flex align-items-center justify-content-center flex-column" id="step4" style="height: 50vh; padding: 1rem;">
-                    <%--<h4 class="mb-4">Step 4: Confirmación</h4>
-                    <p class="mb-4">Revise los datos ingresados antes de enviar su solicitud.</p>--%>
+                <%--<div class="tab-pane fade step-content d-flex align-items-center justify-content-center flex-column" id="step4" style="height: 50vh; padding: 1rem;">--%>
+                <div class="tab-pane fade step-content d-flex align-items-center justify-content-center flex-column" id="step4" style="min-height: 30vh; max-height: 50vh; height: auto; padding: 1rem;">
                     <dx:ASPxFormLayout runat="server" ID="ASPxFormLayout2" CssClass="formLayout mb-4">
                         <Items>
                             <dx:LayoutItem ShowCaption="False" ColSpan="1" HorizontalAlign="Center">
@@ -323,10 +336,7 @@
                             <dx:LayoutItem ColSpan="1" ShowCaption="False" HorizontalAlign="Center">
                                 <LayoutItemNestedControlCollection>
                                     <dx:LayoutItemNestedControlContainer runat="server">
-                                        <%--<dx:ASPxCheckBox ID="ckPolitica" runat="server" EncodeHtml="false" ClientInstanceName="ckPolitica" ClientVisible="true"
-                                            Text="Acepto los términos y políticas del Tribunal Superior de Cuentas" ValidationSettings-CausesValidation="true">
-                                            <ClientSideEvents CheckedChanged="Terminos" />
-                                        </dx:ASPxCheckBox>--%>
+
                                     </dx:LayoutItemNestedControlContainer>
                                 </LayoutItemNestedControlCollection>
                             </dx:LayoutItem>
@@ -396,19 +406,19 @@
 
 
                 </div>
-
+                <div class="pager d-flex justify-content-center my-1">
+                    <ul class="pager list-inline">
+                        <li class="list-inline-item previous">
+                            <a href="#" class="btn btn-secondary">Anterior</a>
+                        </li>
+                        <li class="list-inline-item next">
+                            <a href="#" class="btn btn-success">Siguiente</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="pager d-flex justify-content-center my-3">
-                <ul class="pager list-inline">
-                    <li class="list-inline-item previous">
-                        <a href="#" class="btn btn-secondary">Anterior</a>
-                    </li>
-                    <li class="list-inline-item next">
-                        <a href="#" class="btn btn-success">Siguiente</a>
-                    </li>
-                </ul>
-            </div>
+            
 
         </div>
     </form>
@@ -443,7 +453,7 @@
                <div class="container">
                   <div class="row">
                      <div class="col-md-12">
-                         <p> &copy; Copyright 2024 Informática | Tribunal Superior de Cuentas. <%--Design by <a href="https://html.design/"> <%: DateTime.Now.Year %> Free Html Template</a>--%></p>
+                         <p> &copy; Copyright 2025 Informática | Tribunal Superior de Cuentas. <%--Design by <a href="https://html.design/"> <%: DateTime.Now.Year %> Free Html Template</a>--%></p>
                      </div>
                   </div>
                </div>

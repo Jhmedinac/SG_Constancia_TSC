@@ -1,0 +1,64 @@
+﻿/* CustomStyles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+.custom-grid {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.custom-grid-header {
+    background-color: #006699;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+.custom-grid-row {
+    background-color: #f9f9f9;
+}
+
+    .custom-grid-row:hover {
+        background-color: #e0e0e0;
+    }
+
+.custom-grid-selected-row {
+    background-color: #d0d0d0;
+}
+
+.conta, .Informa li {
+    list-style-type: none;
+}
+
+#ASPxFormLayout2 table {
+    border: none !important;
+    background: transparent !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+    #ASPxFormLayout2 table td,
+    #ASPxFormLayout2 table th {
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+    }
+
+/* Aplica a la tabla generada dentro del ASPxFormLayout con la clase "formLayout" */
+/*.formLayout table {
+    border: none;
+    border-collapse: collapse;
+    background: none;
+}*/
+
+    /* Opcional: Si deseas ocultar cualquier borde en celdas de la tabla */
+    /*.formLayout table td,
+    .formLayout table th {
+        border: none;
+    }*/
+

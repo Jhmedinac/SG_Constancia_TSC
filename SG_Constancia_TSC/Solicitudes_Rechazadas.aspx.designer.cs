@@ -11,7 +11,7 @@ namespace SG_Constancia_TSC
 {
 
 
-    public partial class SolicitudesReg
+    public partial class Solicitudes_Rechazadas
     {
 
         /// <summary>
@@ -42,15 +42,6 @@ namespace SG_Constancia_TSC
         protected global::System.Web.UI.ScriptManager ScriptManager1;
 
         /// <summary>
-        /// Control UpdatePanel1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-
-        /// <summary>
         /// Control GV_PreUsuarios.
         /// </summary>
         /// <remarks>
@@ -60,33 +51,6 @@ namespace SG_Constancia_TSC
         protected global::DevExpress.Web.ASPxGridView GV_PreUsuarios;
 
         /// <summary>
-        /// Control PopupArchivo.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxPopupControl PopupArchivo;
-
-        /// <summary>
-        /// Control ImgPreview.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxImage ImgPreview;
-
-        /// <summary>
-        /// Control LblNoPreview.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxLabel LblNoPreview;
-
-        /// <summary>
         /// Control SqlDataUsers.
         /// </summary>
         /// <remarks>
@@ -94,15 +58,6 @@ namespace SG_Constancia_TSC
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SqlDataUsers;
-
-        /// <summary>
-        /// Control SqlDataDetalle.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataDetalle;
 
         /// <summary>
         /// Control popupUpdateStatus.
@@ -121,15 +76,6 @@ namespace SG_Constancia_TSC
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::DevExpress.Web.ASPxComboBox cmbStatus;
-
-        /// <summary>
-        /// Control txtObs.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxMemo txtObs;
 
         /// <summary>
         /// Control btnPopupUpdate.

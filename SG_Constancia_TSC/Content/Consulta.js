@@ -203,9 +203,10 @@ function TokenVerificationComplete(result) {
         var tbApellido = ASPxClientControl.GetControlCollection().GetByName("tbApellido");
         var tbCorreo = ASPxClientControl.GetControlCollection().GetByName("tbCorreo");
         var tbTelefono = ASPxClientControl.GetControlCollection().GetByName("tbTelefono");
-        var tbDireccion = ASPxClientControl.GetControlCollection().GetByName("tbDireccion");
+        /*var tbDireccion = ASPxClientControl.GetControlCollection().GetByName("tbDireccion");*/
+        var tbDireccion = "";
 
-        if (tbIdentidad && tbNombre && tbApellido && tbCorreo && tbTelefono && tbDireccion) {
+        if (tbIdentidad && tbNombre && tbApellido && tbCorreo && tbTelefono ) {
             $.ajax({
                 type: "POST",
                 url: "CreateSolicitudHandler.ashx",
@@ -215,7 +216,8 @@ function TokenVerificationComplete(result) {
                     tbApellido: tbApellido.GetValue(),
                     tbCorreo: tbCorreo.GetValue(),
                     tbTelefono: tbTelefono.GetValue(),
-                    tbDireccion: tbDireccion.GetValue()
+                    /*tbDireccion: tbDireccion.GetValue()*/
+                      tbDireccion: ""
                 },
                 dataType: "json",
                 success: function (response) {
@@ -487,3 +489,45 @@ function getFileNames(fileUpload) {
     return fileNames.join(", ") || "No hay archivos seleccionados";
 }
 
+function showConfirmationMessage2() {
+    var constanciaId = '<%= txtConstanciaId.Text %>';
+
+    $.ajax({
+        type: "POST",
+        url: "Seguimiento.aspx/GetSessionValues",
+        data: JSON.stringify({ constanciaId: constanciaId }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            var values = response.d.split("|");
+            var constanciaId = values[0];
+            var estado = values[1];
+            var fechaCreacion = values[2];
+            var otrosDatos = values[3];
+            var enlaceDescarga = values[4];
+
+            var tableHtml = "<table border='0' width='100%'>" +
+                "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                "<tr><td colspan='2' align='center'><strong><font size='+2'>Estado de la Constancia</font></strong></td></tr>" +
+                "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                "<tr><td>Número de Constancia:</td><td>" + constanciaId + "</td></tr>" +
+                "<tr><td>Estado:</td><td>" + estado + "</td></tr>" +
+                "<tr><td>Fecha de Creación:</td><td>" + fechaCreacion + "</td></tr>" +
+                "<tr><td>Observaciones:</td><td>" + otrosDatos + "</td></tr>" +
+                "<tr><td colspan='2'>&nbsp;</td></tr>";
+
+            // Agregar botón de descarga solo si la constancia está lista
+            if (estado.toLowerCase() === "lista") {
+                tableHtml += "<tr><td colspan='2' align='center'><a href='" + enlaceDescarga + "' class='btn btn-success' download>Descargar Constancia</a></td></tr>";
+            }
+
+            tableHtml += "<tr><td colspan='2' align='center'><a href='https://www.tsc.gob.hn/' class='Letrapagina'>Salir</a></td></tr>";
+            tableHtml += "</table>";
+
+            document.getElementById("popupContent").innerHTML = tableHtml;
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log("Error al obtener valores de la constancia: " + thrownError);
+        }
+    });
+}
