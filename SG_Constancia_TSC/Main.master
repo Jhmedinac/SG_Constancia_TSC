@@ -48,14 +48,17 @@
                         <Image IconID="businessobjects_bo_task_svg_16x16"></Image>   
                     </dx:NavBarItem>
 
-                    <dx:NavBarItem NavigateUrl="solicitudes_finalizadas.aspx" Text="Solucitudes Finalizadas" Name="Usuarios_Exportados" Image-IconID="richedit_pastespecial_16x16">
+                    <dx:NavBarItem NavigateUrl="Solicitudes_Rechazadas.aspx" Text="Solucitudes Rechazadas" Name="Usuarios_Exportados" Image-IconID="richedit_pastespecial_16x16">
+                        <Image IconID="businessobjects_bo_task_svg_16x16"></Image>   
+                    </dx:NavBarItem>
+
+
+                    <dx:NavBarItem NavigateUrl="solicitudes_finalizadas.aspx" Text="Solucitudes Aprobadas" Name="Usuarios_Exportados" Image-IconID="richedit_pastespecial_16x16">
                         <Image IconID="businessobjects_bo_task_svg_16x16"></Image>   
                     </dx:NavBarItem>
 
                     
-                    <dx:NavBarItem NavigateUrl="Solicitudes_Rechazadas.aspx" Text="Solucitudes Rechazadas" Name="Usuarios_Exportados" Image-IconID="richedit_pastespecial_16x16">
-                        <Image IconID="businessobjects_bo_task_svg_16x16"></Image>   
-                    </dx:NavBarItem>
+
                     <dx:NavBarItem NavigateUrl="VerificarConstancia.aspx" Text="Verificar Solucitudes" Name="Usuarios_Exportados" Image-IconID="richedit_pastespecial_16x16">
                         <Image IconID="businessobjects_bo_task_svg_16x16"></Image>   
                     </dx:NavBarItem>

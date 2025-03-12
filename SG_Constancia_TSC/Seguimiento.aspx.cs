@@ -146,7 +146,7 @@ namespace SG_Constancia_TSC
             if (isValid)
             {
                 // Mostrar el popup con la información si la constancia es válida
-                string script = "setTimeout(function() { Relacionado1.Show(); }, 500);";
+                string script = "setTimeout(function() {popupSeguimiento.Show(); }, 500);";
                 ClientScript.RegisterStartupScript(this.GetType(), "ShowPopup", script, true);
             }
             else
