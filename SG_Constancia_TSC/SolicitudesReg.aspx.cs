@@ -58,7 +58,7 @@ namespace SG_Constancia_TSC
         private void LoadStatuses()
         {
             string connectionString = (ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
-            string query = "SELECT Id_Estado, Descripcion_Estado FROM Estados WHERE Id_Estado IN (2, 3,4,6)";
+            string query = "SELECT Id_Estado, Descripcion_Estado FROM Estados WHERE Id_Estado IN (2,5,6)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

@@ -19,17 +19,20 @@ namespace SG_Constancia_TSC
                 string email = context.Request.Form["tbCorreo"];
                 string phone = context.Request.Form["tbTelefono"];
                 //string address = context.Request.Form["tbDireccion"];
-                string address = "";
+                
 
                 // Verificar que los valores se han obtenido
                 if (string.IsNullOrEmpty(dni) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) ||
-                    string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(address))
+                    string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phone))
+
+                    //if (string.IsNullOrEmpty(dni) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) ||
+                    //string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(address))
                 {
                     throw new Exception("Uno o más parámetros están vacíos o no se han enviado.");
                 }
 
                 // Crear y ejecutar la solicitud
-                string result = CrearSolicitud(dni, firstName, lastName, email, phone, address);
+                string result = CrearSolicitud(dni, firstName, lastName, email, phone);
 
                 // Configurar la respuesta
                 context.Response.ContentType = "application/json";
@@ -42,7 +45,7 @@ namespace SG_Constancia_TSC
             }
         }
 
-        private string CrearSolicitud(string dni, string firstName, string lastName, string email, string phone, string address)
+        private string CrearSolicitud(string dni, string firstName, string lastName, string email, string phone)
         {
             using (var conexBD = new ConexionBD())
             {
@@ -50,7 +53,7 @@ namespace SG_Constancia_TSC
 
                 using (var cmd = SetupCommand(conex))
                 {
-                    PersonParameters(cmd, dni, firstName, lastName, email, phone, address);
+                    PersonParameters(cmd, dni, firstName, lastName, email, phone);
 
                     try
                     {
@@ -78,13 +81,12 @@ namespace SG_Constancia_TSC
             return cmd;
         }
 
-        private void PersonParameters(SqlCommand cmd, string dni, string firstName, string lastName, string email, string phone, string address)
+        private void PersonParameters(SqlCommand cmd, string dni, string firstName, string lastName, string email, string phone)
         {
             cmd.Parameters.Add("@pcEmail", SqlDbType.NVarChar, 500).Value = email;
             cmd.Parameters.Add("@pnDNI", SqlDbType.NVarChar, 500).Value = dni;
             cmd.Parameters.Add("@pcFirstName", SqlDbType.NVarChar, 500).Value = firstName;
             cmd.Parameters.Add("@pcLastName", SqlDbType.NVarChar, 500).Value = lastName;
-            cmd.Parameters.Add("@pnAddress", SqlDbType.NVarChar, 500).Value = address;
             cmd.Parameters.Add("@pnPhone", SqlDbType.NVarChar, 500).Value = phone;
             cmd.Parameters.Add("@MENSAGE", SqlDbType.NVarChar, -1).Direction = ParameterDirection.Output;
             cmd.Parameters.Add("@RETORNO", SqlDbType.Int).Direction = ParameterDirection.Output;

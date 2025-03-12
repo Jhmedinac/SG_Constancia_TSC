@@ -232,7 +232,7 @@
 
           <asp:SqlDataSource runat="server" ID="SqlDataUsers" ConnectionString='<%$ ConnectionStrings:connString %>' SelectCommand="SELECT DISTINCT Id, Identidad, FirstName, LastName, email, [Descripcion_Estado], 
                                     [FechaIngreso], [Id_Estado], [IdRole] FROM [dbo].[V_Solicitudes] 
-                                    WHERE Id_Estado IN (4) ORDER BY Id DESC"></asp:SqlDataSource>
+                                    WHERE Id_Estado IN (6) ORDER BY Id DESC"></asp:SqlDataSource>
    
 
 

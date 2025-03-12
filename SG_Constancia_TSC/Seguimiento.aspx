@@ -89,8 +89,8 @@
                         <asp:Label ID="lblFechaCreacion" runat="server" />
                         <asp:Label ID="lblObservaciones" runat="server" />
 
-                        <asp:Button ID="btnDescargar" runat="server" Text="Descargar Constancia"
-                            CssClass="btn btn-success" Visible="false" OnClick="btnDescargar_Click" />
+<%--                        <asp:Button ID="btnDescargar" runat="server" Text="Descargar Constancia"
+                            CssClass="btn btn-success" Visible="false" OnClick="btnDescargar_Click" />--%>
                     </div>
                 </dx:PopupControlContentControl>
             </ContentCollection>
