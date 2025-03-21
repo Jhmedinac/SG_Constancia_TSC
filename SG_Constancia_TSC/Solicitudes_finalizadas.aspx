@@ -90,6 +90,7 @@
       <asp:Panel ID="Panel_Content" runat="server">
           <link href="Content/css/sweetalert2.min.css" rel="stylesheet" />
            <script src="Content/js/sweetalert2.all.min.js"></script>
+              <script src="Content/Seguimiento.js"></script>
           <script type="text/javascript">
             if (window.history.replaceState) {
                 window.history.replaceState(null, null, window.location.href);
@@ -107,7 +108,7 @@
                 </dx:ASPxImage>
              &nbsp;CONSTANCIAS ENTEGADAS </h1>
                     </div>
-          <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+          <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
     <ContentTemplate>
 
 <%--    <dx:ASPxGridView ID="GV_PreUsuarios" runat="server" AutoGenerateColumns="False" Style="margin-left: auto; margin-right: auto;"
@@ -159,8 +160,11 @@
                 <dx:GridViewToolbarItem Command="Custom">
                     <Template>
                         <dx:ASPxButton ID="ASPxReportCosntancia" runat="server" Text="Constancia" AutoPostBack="False" OnClick="ASPxReportCosntancia_Click" />
-                        <dx:ASPxButton ID="ASPxInforme" runat="server" Text="Informe" AutoPostBack="False">
+<%--                        <dx:ASPxButton ID="ASPxInforme" runat="server" Text="Informe" AutoPostBack="False">
                             <ClientSideEvents Click="function(s, e) { Showinforme(); }" />
+                        </dx:ASPxButton>--%>
+                        <dx:ASPxButton ID="btnGuardarConstancia" runat="server" Text="Guardar Constancia" AutoPostBack="False">
+                            <ClientSideEvents Click="function(s, e) { GuardarConstancia(); }" />
                         </dx:ASPxButton>
                     </Template>
                 </dx:GridViewToolbarItem>
@@ -232,7 +236,7 @@
 
           <asp:SqlDataSource runat="server" ID="SqlDataUsers" ConnectionString='<%$ ConnectionStrings:connString %>' SelectCommand="SELECT DISTINCT Id, Identidad, FirstName, LastName, email, [Descripcion_Estado], 
                                     [FechaIngreso], [Id_Estado], [IdRole] FROM [dbo].[V_Solicitudes] 
-                                    WHERE Id_Estado IN (6) ORDER BY Id DESC"></asp:SqlDataSource>
+                                    WHERE Id_Estado IN (6,7) ORDER BY Id DESC"></asp:SqlDataSource>
    
 
 
