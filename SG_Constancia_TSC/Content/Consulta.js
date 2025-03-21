@@ -316,109 +316,7 @@ function TokenVerificationComplete(result) {
     }
 }
 
-//function TokenVerificationComplete(result) {
-//    if (result === "success") {
-//        popupToken.Hide();
-//        ckPolitica.SetVisible(false);
-//        btnEnviarCodigo.SetVisible(false);
-//        tbToken.SetText('');
 
-//        var tbIdentidad = ASPxClientControl.GetControlCollection().GetByName("tbIdentidad");
-//        var tbNombre = ASPxClientControl.GetControlCollection().GetByName("tbNombre");
-//        var tbApellido = ASPxClientControl.GetControlCollection().GetByName("tbApellido");
-//        var tbCorreo = ASPxClientControl.GetControlCollection().GetByName("tbCorreo");
-//        var tbTelefono = ASPxClientControl.GetControlCollection().GetByName("tbTelefono");
-//        var tbDireccion = ASPxClientControl.GetControlCollection().GetByName("tbDireccion");
-
-//        if (tbIdentidad && tbNombre && tbApellido && tbCorreo && tbTelefono && tbDireccion) {
-//            $.ajax({
-//                type: "POST",
-//                url: "CreateSolicitudHandler.ashx",
-//                data: {
-//                    tbIdentidad: tbIdentidad.GetValue(),
-//                    tbNombre: tbNombre.GetValue(),
-//                    tbApellido: tbApellido.GetValue(),
-//                    tbCorreo: tbCorreo.GetValue(),
-//                    tbTelefono: tbTelefono.GetValue(),
-//                    tbDireccion: tbDireccion.GetValue()
-//                },
-//                dataType: "json",
-//                success: function (response) {
-//                    try {
-//                        var idConstancia = response.Idconstancia;
-//                        globalIdConstancia = idConstancia;
-//                        var clave = response.Clave;
-//                        globalIdClave = clave;
-
-//                        // Crear un solo objeto FormData para todos los archivos
-//                        var formData = new FormData();
-
-//                        var fileUpload = document.getElementById('fileUpload');
-//                        var fileUpload1 = document.getElementById('fileUpload1');
-//                        var fileUpload2 = document.getElementById('fileUpload2');
-
-//                        // Añadir archivos y sus respectivos metadatos
-//                        if (fileUpload.files.length > 0) {
-//                            formData.append("fileIdentidad", fileUpload.files[0]);
-//                            formData.append("flexFieldKey", "CODIGO_IDENTIDAD");
-//                            formData.append("fileIdKey", fileIdIdent);
-//                        }
-//                        if (fileUpload1.files.length > 0) {
-//                            formData.append("fileSolicitud", fileUpload1.files[0]);
-//                            formData.append("flexFieldKey", "CODIGO_SOLICITUD");
-//                            formData.append("fileIdKey", fileIdsolicitud);
-//                        }
-//                        if (fileUpload2.files.length > 0) {
-//                            formData.append("fileRecibo", fileUpload2.files[0]);
-//                            formData.append("flexFieldKey", "CODIGO_RECIBO");
-//                            formData.append("fileIdKey", fileIdrecib);
-//                        }
-
-//                        // Incluir el idConstancia en el formData
-//                        formData.append("flexFieldValue", idConstancia);
-
-//                        // Realizar la solicitud AJAX para subir los archivos
-//                        $.ajax({
-//                            url: "UploadFilesHandler.ashx",
-//                            type: "POST",
-//                            data: formData,
-//                            processData: false,
-//                            contentType: false,
-//                            success: function (uploadResponse) {
-//                                alert("Archivos subidos con éxito.");
-//                                ASPxCallback_Guardar_Datos.PerformCallback(JSON.stringify(uploadResponse));
-//                            },
-//                            error: function (jqXHR, textStatus, errorThrown) {
-//                                console.error("Error al subir los archivos: ", errorThrown);
-//                                alert("Error al subir los archivos.");
-//                            }
-//                        });
-//                    } catch (e) {
-//                        console.error("Error parsing JSON response: ", e);
-//                        console.error("Response received: ", response);
-//                        alert("Error en la respuesta del servidor.");
-//                    }
-//                },
-//                error: function () {
-//                    alert("Error al crear la solicitud.");
-//                }
-//            });
-//        } else {
-//            alert("Uno o más elementos del formulario no se encontraron.");
-//        }
-//    } else if (result === "incorrect") {
-//        alert('Código de verificación incorrecto. Por favor, inténtelo de nuevo.');
-//        tbToken.SetText('');
-//    } else if (result === "expired") {
-//        alert('El código de verificación ha expirado. Por favor, solicite un nuevo código.');
-//        popupToken.Hide();
-//        tbToken.SetText('');
-//    } else {
-//        alert('Error en la verificación del código. Por favor, inténtelo de nuevo.');
-//        popupToken.Hide();
-//        tbToken.SetText('');
-//    }
-//}
 
 
 
@@ -489,7 +387,7 @@ function getFileNames(fileUpload) {
     return fileNames.join(", ") || "No hay archivos seleccionados";
 }
 
-function showConfirmationMessage2() {
+function showConfirmationMessage3() {
     var constanciaId = '<%= txtConstanciaId.Text %>';
 
     $.ajax({
@@ -531,3 +429,65 @@ function showConfirmationMessage2() {
         }
     });
 }
+
+
+function showConfirmationMessage2() {
+    /*var constanciaId = '<%= txtConstanciaId.Text %>';*/
+    var constanciaId = document.getElementById("txtConstanciaId.ClientID").value;
+   
+
+    $.ajax({
+        type: "POST",
+        url: "Seguimiento.aspx/GetSessionValues",
+        data: JSON.stringify({ constanciaId: constanciaId }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            var values = response.d.split("|");
+            var constanciaId = values[0];
+            var estado = values[1];
+            var fechaCreacion = values[2];
+            var otrosDatos = values[3];
+            var enlaceDescarga = values[4];
+
+            var tableHtml = "<table border='0' width='100%'>" +
+                "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                "<tr><td colspan='2' align='center'><strong><font size='+2'>Estado de la Constancia</font></strong></td></tr>" +
+                "<tr><td colspan='2'>&nbsp;</td></tr>" +
+                "<tr><td>Número de Constancia:</td><td>" + constanciaId + "</td></tr>" +
+                "<tr><td>Estado:</td><td>" + estado + "</td></tr>" +
+                "<tr><td>Fecha de Creación:</td><td>" + fechaCreacion + "</td></tr>" +
+                "<tr><td>Observaciones:</td><td>" + otrosDatos + "</td></tr>" +
+                "<tr><td colspan='2'>&nbsp;</td></tr>";
+
+            if (estado.toLowerCase() === "lista") {
+                tableHtml += "<tr><td colspan='2' align='center'><a href='" + enlaceDescarga + "' class='btn btn-success' download>Descargar Constancia</a></td></tr>";
+            }
+
+            tableHtml += "<tr><td colspan='2' align='center'><a href='https://www.tsc.gob.hn/' class='Letrapagina'>Salir</a></td></tr>";
+            tableHtml += "</table>";
+
+            // Verificar si el popup existe
+            var popupElement = document.getElementById("popupSeguimiento");
+            if (!popupElement) {
+                console.error("Error: No se encontró el elemento 'popupSeguimiento'.");
+                return;
+            }
+
+            // Insertar contenido en el popup
+            popupElement.innerHTML = tableHtml;
+
+            // Mostrar el popup si es un DevExpress ASPxPopupControl
+            if (typeof popupSeguimiento !== "undefined" && popupSeguimiento.Show) {
+                popupSeguimiento.Show();
+            } else {
+                console.warn("popupSeguimiento no está definido como un control DevExpress.");
+                popupElement.style.display = "block"; // Alternativa si es un div normal
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log("Error al obtener valores de la constancia: " + thrownError);
+        }
+    });
+}
+

@@ -20,6 +20,7 @@ using DevExpress.Office.Internal;
 using DevExpress.XtraPrinting;
 using DevExpress.Web.Internal.XmlProcessor;
 using DevExpress.CodeParser;
+using System.Web.Services;
 //using Org.BouncyCastle.Bcpg;
 
 namespace SG_Constancia_TSC
@@ -306,6 +307,7 @@ namespace SG_Constancia_TSC
             dt.Columns.Add("LastName", typeof(string));
             dt.Columns.Add("Identidad", typeof(string));
             dt.Columns.Add("nombre", typeof(string)); // Columna para el nombre completo
+            dt.Columns.Add("Id", typeof(string)); // Columna para el nombre completo
 
             // Obtener el índice de la fila enfocada (seleccionada)
             int selectedRowIndex = GV_PreUsuarios.FocusedRowIndex;
@@ -314,7 +316,7 @@ namespace SG_Constancia_TSC
                 // Obtener los valores de la fila seleccionada
                 object[] values = GV_PreUsuarios.GetRowValues(
                     selectedRowIndex,
-                    new string[] { "FirstName", "LastName", "Identidad" }
+                    new string[] { "FirstName", "LastName", "Identidad","Id" }
                 ) as object[];
 
                 if (values != null)
@@ -325,6 +327,7 @@ namespace SG_Constancia_TSC
                     dr["Identidad"] = values[2];
                     // Combina FirstName y LastName, agregando un espacio entre ellos
                     dr["nombre"] = values[0].ToString() + " " + values[1].ToString();
+                    dr["Id"] = values[3];
                     dt.Rows.Add(dr);
                 }
             }
@@ -332,94 +335,6 @@ namespace SG_Constancia_TSC
             return dt;
         }
 
-
-        //protected void ASPxReportCosntancia_Click(object sender, EventArgs e)
-        //{
-        //    DataTable dt = GetFilteredDataFromGridView();
-
-        //    if (dt != null && dt.Rows.Count > 0)
-        //    {
-        //        var parametros = HttpContext.Current.Session["Parametros"] as Dictionary<string, Parametro>;
-
-        //        if (parametros == null)
-        //        {
-        //            throw new InvalidOperationException("Los parámetros no están disponibles en la sesión.");
-        //        }
-
-        //        // Función local para crear y abrir el reporte
-        //        void OpenReport(string nombreParametro)
-        //        {
-        //            if (parametros.TryGetValue(nombreParametro, out Parametro parametro))
-        //            {
-        //                string valor = parametro.Valor;
-        //                string descripcion = parametro.Descripcion;
-
-        //                if (string.IsNullOrEmpty(valor) || string.IsNullOrEmpty(descripcion))
-        //                {
-        //                    valor = "Valor por defecto";
-        //                    descripcion = "Descripción por defecto";
-        //                }
-        //                // CORRECCIÓN: Acceder a la fila 0 del DataTable
-        //                string nombre = dt.Rows[0]["nombre"].ToString();
-        //                string documento = dt.Rows[0]["Identidad"].ToString();
-
-
-        //                if descripcion == "Firma_Secretario_adjunto")
-        //                {
-        //                    string textoFormateado =
-        //                    "Por este medio<b>HACE CONSTAR:</b>: Que, de acuerdo a revisión efectuada en los  <b>" +
-        //                    "<archivos de esta Secretaría, así como en el Sistema de Pliegos enviados, archivo  " +
-        //                    "de Pliegos de Responsabilidad Notificados 2008-2024 y Carpeta de Resoluciones, " +
-        //                    "la ciudadana <b> " + nombre + "</b> , con Documento Nacional de <br><br>" +
-        //                    "Identificación N°<b>" + documento + "</b> , no tiene a la fecha ningún tipo de "  +
-        //                    "responsabilidad firme, ni existe ninguna intervención por presunción de " +
-        //                    "enriquecimiento ilícito.";
-        //                }
-        //                else if (descripcion == "Firma_Secretaria_general")
-        //                {
-        //                    string textoFormateado =
-        //                    "El Infrascrito Secretario General Adjunto del Tribunal Superior de Cuentas, <b>HACE CONSTAR:</b> Que la ciudadana <b>" +
-        //                    nombre + "</b>, con Documento Nacional de Identificación N°<b>" + documento + "</b>, no tiene a la fecha ningún tipo de " +
-        //                    "responsabilidad firme, ni existe ninguna intervención por presunción de enriquecimiento ilícito en igual situación que le impida el desempeño de un cargo público.<br><br>" +
-        //                    "La presente constancia no constituye Solvencia con el Estado de Honduras, ni finiquito a favor del solicitante, quedando sujeto a investigaciones futuras.<br><br>" +
-        //                    "La presente constancia tiene validez por el término de seis meses.";
-        //                }
-
-
-
-        //                var report = new Reportes.Constancia(textoFormateado);
-        //                report.Parameters["Firma"].Value = valor;
-        //                report.Parameters["Descripcion"].Value = descripcion;
-
-        //                ASPxWebDocumentViewer1.OpenReport(report);
-        //                ASPxWebDocumentViewer1.Visible = true;
-        //            }
-        //            else
-        //            {
-        //                throw new InvalidOperationException($"El parámetro '{nombreParametro}' no se encontró.");
-        //            }
-        //        }
-
-        //        bool isAdjunto = false;
-        //        if (ASPxChkAdjunto.Value != null)
-        //        {
-        //            isAdjunto = true;
-        //        }
-
-        //        if (isAdjunto) // Si se marca "adjunto"
-        //        {
-        //            OpenReport("Firma_Secretario_adjunto");
-        //        }
-        //        else
-        //        {
-        //            OpenReport("Firma_Secretaria_general");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('No hay datos para imprimir.');", true);
-        //    }
-        //}
 
         protected void ASPxReportCosntancia_Click(object sender, EventArgs e)
         {
@@ -434,11 +349,9 @@ namespace SG_Constancia_TSC
                     throw new InvalidOperationException("Los parámetros no están disponibles en la sesión.");
                 }
 
-                // Obtener datos de la primera fila
                 string nombre = dt.Columns.Contains("nombre") ? dt.Rows[0]["nombre"].ToString() : "Desconocido";
                 string documento = dt.Columns.Contains("Identidad") ? dt.Rows[0]["Identidad"].ToString() : "N/A";
 
-                // Función local para generar el reporte
                 void OpenReport(string nombreParametro)
                 {
                     if (parametros.TryGetValue(nombreParametro, out Parametro parametro))
@@ -457,7 +370,7 @@ namespace SG_Constancia_TSC
                                  "La presente constancia no constituye Solvencia con el Estado de Honduras, ni finiquito a favor del solicitante, quedando sujeto a investigaciones futuras.<br><br>" +
                                  "La presente constancia tiene validez por el término de seis meses.";
                         }
-                        else 
+                        else
                         {
                             textoFormateado =
                                "Por este medio <b>HACE CONSTAR:</b> Que, de acuerdo a revisión efectuada en los " +
@@ -467,14 +380,24 @@ namespace SG_Constancia_TSC
                                "Identificación N°<b>" + documento + "</b>, no tiene a la fecha ningún tipo de " +
                                "responsabilidad firme, ni existe ninguna intervención por presunción de " +
                                "enriquecimiento ilícito.";
-
-                            
                         }
 
                         var report = new Reportes.Constancia(textoFormateado);
                         report.Parameters["Firma"].Value = valor;
                         report.Parameters["Descripcion"].Value = descripcion;
 
+                        // Convertir el reporte a un arreglo de bytes (PDF)
+                        byte[] pdfBytes;
+                        using (MemoryStream memoryStream = new MemoryStream())
+                        {
+                            report.ExportToPdf(memoryStream);
+                            pdfBytes = memoryStream.ToArray();
+                        }
+
+                        // Guardar la constancia en la base de datos
+                        GuardarConstanciaEnBD(dt.Rows[0]["Id"].ToString(), pdfBytes);
+
+                        // Mostrar el reporte en el visor
                         ASPxWebDocumentViewer1.OpenReport(report);
                         ASPxWebDocumentViewer1.Visible = true;
                     }
@@ -483,13 +406,8 @@ namespace SG_Constancia_TSC
                         throw new InvalidOperationException($"El parámetro '{nombreParametro}' no se encontró.");
                     }
                 }
-                //bool isAdjunto = false;
-                if (ASPxChkAdjunto.Value == null)
-                {
-                    ASPxChkAdjunto.Value = "Firma_Secretaria_general";
-                }
 
-                string valorAdjunto = ASPxChkAdjunto.Value?.ToString(); // Convertir a string de forma segura
+                string valorAdjunto = ASPxChkAdjunto.Value?.ToString();
 
                 if (valorAdjunto == "Firma Secretario(a) Adjunto")
                 {
@@ -505,20 +423,264 @@ namespace SG_Constancia_TSC
                 }
                 else
                 {
-                    OpenReport("Firma_Secretaria_general"); // Valor por defecto
+                    OpenReport("Firma_Secretaria_general");
                 }
-
             }
             else
             {
-                // Si hay un UpdatePanel, usar ScriptManager en lugar de ClientScript
                 ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('No hay datos para imprimir.');", true);
             }
         }
 
+        private void GuardarConstanciaEnBD(string solicitudId, byte[] archivoConstancia)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
+
+            // Query para insertar en ConstanciasGeneradas
+            string insertQuery = @"
+        INSERT INTO ConstanciasGeneradas (
+            Clave, 
+            Estado, 
+            FechaCreacion, 
+            Observaciones, 
+            SolicitudId, 
+            CodigoVerificacion, 
+            FechaAprobacion, 
+            Archivoconstancia
+        ) VALUES (
+            @Clave, 
+            @Estado, 
+            @FechaCreacion, 
+            @Observaciones, 
+            @SolicitudId, 
+            @CodigoVerificacion, 
+            @FechaAprobacion, 
+            @Archivoconstancia
+        )";
+
+            // Query para actualizar el campo Archivoconstancia en Constancias
+            string updateQuery = @"
+        UPDATE Constancias
+        SET 
+            Archivoconstancia = @Archivoconstancia,
+            Estado = 7,  Observaciones = 'Constancia fue generada'
+        WHERE SolicitudId = @SolicitudId";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    // Insertar en ConstanciasGeneradas
+                    using (SqlCommand insertCommand = new SqlCommand(insertQuery, connection))
+                    {
+                        insertCommand.Parameters.AddWithValue("@Clave", Guid.NewGuid().ToString()); // Clave única
+                        insertCommand.Parameters.AddWithValue("@Estado", "Generada"); // Estado inicial
+                        insertCommand.Parameters.AddWithValue("@FechaCreacion", DateTime.Now); // Fecha actual
+                        insertCommand.Parameters.AddWithValue("@Observaciones", "Constancia generada automáticamente");
+                        insertCommand.Parameters.AddWithValue("@SolicitudId", solicitudId);
+                        insertCommand.Parameters.AddWithValue("@CodigoVerificacion", Guid.NewGuid().ToString()); // Código único
+                        insertCommand.Parameters.AddWithValue("@FechaAprobacion", DBNull.Value); // Fecha de aprobación nula
+                        insertCommand.Parameters.AddWithValue("@Archivoconstancia", archivoConstancia);
+
+                        int rowsInserted = insertCommand.ExecuteNonQuery();
+
+                        if (rowsInserted > 0)
+                        {
+                            Console.WriteLine("Constancia generada insertada correctamente en ConstanciasGeneradas.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Error: No se pudo insertar la constancia generada.");
+                            return; // Salir si no se insertó correctamente
+                        }
+                    }
+
+                    // Actualizar el campo Archivoconstancia en Constancias
+                    using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
+                    {
+                        updateCommand.Parameters.AddWithValue("@Archivoconstancia", archivoConstancia);
+                        updateCommand.Parameters.AddWithValue("@SolicitudId", solicitudId);
+
+                        int rowsUpdated = updateCommand.ExecuteNonQuery();
+
+                        if (rowsUpdated > 0)
+                        {
+                            Console.WriteLine("Archivoconstancia actualizado correctamente en Constancias.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Error: No se encontró el registro en Constancias para actualizar.");
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    // Manejar errores de SQL
+                    Console.WriteLine("Error de SQL: " + ex.Message);
+                    throw; // Relanzar la excepción para manejo adicional si es necesario
+                }
+                catch (Exception ex)
+                {
+                    // Manejar otros errores
+                    Console.WriteLine("Error: " + ex.Message);
+                    throw; // Relanzar la excepción para manejo adicional si es necesario
+                }
+            }
+        }
+        //protected void ASPxReportCosntancia_Click(object sender, EventArgs e)
+        //{
+        //    DataTable dt = GetFilteredDataFromGridView();
+
+        //    if (dt != null && dt.Rows.Count > 0)
+        //    {
+        //        var parametros = HttpContext.Current.Session["Parametros"] as Dictionary<string, Parametro>;
+
+        //        if (parametros == null)
+        //        {
+        //            throw new InvalidOperationException("Los parámetros no están disponibles en la sesión.");
+        //        }
+
+        //        // Obtener datos de la primera fila
+        //        string nombre = dt.Columns.Contains("nombre") ? dt.Rows[0]["nombre"].ToString() : "Desconocido";
+        //        string documento = dt.Columns.Contains("Identidad") ? dt.Rows[0]["Identidad"].ToString() : "N/A";
+
+        //        // Función local para generar el reporte
+        //        void OpenReport(string nombreParametro)
+        //        {
+        //            if (parametros.TryGetValue(nombreParametro, out Parametro parametro))
+        //            {
+        //                string valor = parametro.Valor ?? "Valor por defecto";
+        //                string descripcion = parametro.Descripcion ?? "Descripción por defecto";
+
+        //                string textoFormateado = string.Empty;
+
+        //                if (nombreParametro == "Firma_Secretario_adjunto" && nombreParametro == "Firma_Secretaria_general")
+        //                {
+        //                    textoFormateado =
+        //                         "El Infrascrito Secretario General Adjunto del Tribunal Superior de Cuentas, <b>HACE CONSTAR:</b> Que la ciudadana <b>" +
+        //                         nombre + "</b>, con Documento Nacional de Identificación N°<b>" + documento + "</b>, no tiene a la fecha ningún tipo de " +
+        //                         "responsabilidad firme, ni existe ninguna intervención por presunción de enriquecimiento ilícito en igual situación que le impida el desempeño de un cargo público.<br><br>" +
+        //                         "La presente constancia no constituye Solvencia con el Estado de Honduras, ni finiquito a favor del solicitante, quedando sujeto a investigaciones futuras.<br><br>" +
+        //                         "La presente constancia tiene validez por el término de seis meses.";
+        //                }
+        //                else 
+        //                {
+        //                    textoFormateado =
+        //                       "Por este medio <b>HACE CONSTAR:</b> Que, de acuerdo a revisión efectuada en los " +
+        //                       "<b>archivos de esta Secretaría</b>, así como en el Sistema de Pliegos enviados, archivo " +
+        //                       "de Pliegos de Responsabilidad Notificados 2008-2024 y Carpeta de Resoluciones, " +
+        //                       "la ciudadana <b>" + nombre + "</b>, con Documento Nacional de " +
+        //                       "Identificación N°<b>" + documento + "</b>, no tiene a la fecha ningún tipo de " +
+        //                       "responsabilidad firme, ni existe ninguna intervención por presunción de " +
+        //                       "enriquecimiento ilícito.";
+
+
+        //                }
+
+        //                var report = new Reportes.Constancia(textoFormateado);
+        //                report.Parameters["Firma"].Value = valor;
+        //                report.Parameters["Descripcion"].Value = descripcion;
+
+        //                ASPxWebDocumentViewer1.OpenReport(report);
+        //                ASPxWebDocumentViewer1.Visible = true;
+        //            }
+        //            else
+        //            {
+        //                throw new InvalidOperationException($"El parámetro '{nombreParametro}' no se encontró.");
+        //            }
+        //        }
+        //        //bool isAdjunto = false;
+        //        if (ASPxChkAdjunto.Value == null)
+        //        {
+        //            ASPxChkAdjunto.Value = "Firma_Secretaria_general";
+        //        }
+
+        //        string valorAdjunto = ASPxChkAdjunto.Value?.ToString(); // Convertir a string de forma segura
+
+        //        if (valorAdjunto == "Firma Secretario(a) Adjunto")
+        //        {
+        //            OpenReport("Firma_Secretario_adjunto");
+        //        }
+        //        else if (valorAdjunto == "Firma_Secretaria_general")
+        //        {
+        //            OpenReport("Firma_Secretaria_general");
+        //        }
+        //        else if (valorAdjunto == "Firma Encargado de estadística")
+        //        {
+        //            OpenReport("Firma_Encargado_de_estadistica");
+        //        }
+        //        else
+        //        {
+        //            OpenReport("Firma_Secretaria_general"); // Valor por defecto
+        //        }
+
+        //    }
+        //    else
+        //    {
+        //        // Si hay un UpdatePanel, usar ScriptManager en lugar de ClientScript
+        //        ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('No hay datos para imprimir.');", true);
+        //    }
+        //}
+
         protected void GV_PreUsuarios_CustomCallback(object sender, ASPxGridViewCustomCallbackEventArgs e)
         {
             GV_PreUsuarios.DataBind();
+        }
+
+        //protected void DescargarConstancia_Click(object sender, EventArgs e)
+        //{
+        //    string constanciaId = Request.QueryString["constanciaId"];
+        //    string connectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
+        //    string query = "SELECT Archivoconstancia FROM Constancias WHERE ConstanciaId = @ConstanciaId";
+
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        SqlCommand command = new SqlCommand(query, connection);
+        //        command.Parameters.AddWithValue("@ConstanciaId", constanciaId);
+
+        //        connection.Open();
+        //        SqlDataReader reader = command.ExecuteReader();
+
+        //        if (reader.Read())
+        //        {
+        //            byte[] archivoConstancia = (byte[])reader["Archivoconstancia"];
+
+        //            Response.Clear();
+        //            Response.ContentType = "application/pdf";
+        //            Response.AppendHeader("Content-Disposition", "attachment; filename=Constancia.pdf");
+        //            Response.BinaryWrite(archivoConstancia);
+        //            Response.End();
+        //        }
+        //    }
+        //}
+
+        [WebMethod]
+        public static bool GuardarConstancia(string constanciaId)
+        {
+            try
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
+                string query = "UPDATE Constancias SET EnlaceArchivo = @EnlaceArchivo WHERE SolicitudId = @ConstanciaId";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@ConstanciaId", constanciaId);
+                    command.Parameters.AddWithValue("@EnlaceArchivo", "ruta/a/la/constancia.pdf"); // Aquí debes proporcionar la ruta correcta
+
+                    connection.Open();
+                    int result = command.ExecuteNonQuery();
+
+                    return result > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (ex)
+                return false;
+            }
         }
     }
 }
