@@ -39,6 +39,20 @@
             <hr />
 
             <div class="form-group">
+                <label for="txtCorreo"><i class="fa-solid fa-envelope"></i> Correo Electrónico:</label>
+                <asp:TextBox ID="txtCorreo" runat="server" CssClass="form-control" placeholder="Ingrese su correo" />
+            </div>
+            <div class="form-group">
+                <label for="txtVerficacion"><i class="fa-solid fa-envelope"></i> Codigo Verificacion:</label>
+                <asp:TextBox ID="txtVerficacion" runat="server" CssClass="form-control" placeholder="Codigo Verificacion" />
+            </div>
+
+            <div class="text-center">
+                <asp:Button ID="btnEnviarCodigo" runat="server" Text="Enviar Código" OnClick="btnEnviarCodigo_Click" CssClass="btn btn-secondary btn-block" />
+            </div>
+        </div>
+        <div class="container">
+            <div class="form-group">
                 <label for="txtConstanciaId"><i class="fa-solid fa-file-alt"></i> Número de Constancia:</label>
                 <asp:TextBox ID="txtConstanciaId" runat="server" CssClass="form-control" placeholder="Ingrese el número" />
             </div>
@@ -59,19 +73,6 @@
                 <asp:Button ID="btnBuscar" runat="server" Text="Buscar"
                 CssClass="btn btn-primary btn-block" Enabled="true"
                 OnClick="btnBuscar_Click" />
-            </div>
-
-            <div class="form-group">
-                <label for="txtCorreo"><i class="fa-solid fa-envelope"></i> Correo Electrónico:</label>
-                <asp:TextBox ID="txtCorreo" runat="server" CssClass="form-control" placeholder="Ingrese su correo" />
-            </div>
-            <div class="form-group">
-                <label for="txtVerficacion"><i class="fa-solid fa-envelope"></i> Codigo Verificacion:</label>
-                <asp:TextBox ID="txtVerficacion" runat="server" CssClass="form-control" placeholder="Codigo Verificacion" />
-            </div>
-
-            <div class="text-center">
-                <asp:Button ID="btnEnviarCodigo" runat="server" Text="Enviar Código" OnClick="btnEnviarCodigo_Click" CssClass="btn btn-secondary btn-block" />
             </div>
 
 

@@ -54,10 +54,44 @@
             font-weight: bold;
         }
 
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+        }
+
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
+        <div class="container">
+            <h3 class="text-center text-primary"><i class="fa-solid fa-magnifying-glass"></i> Seguimiento de Constancia</h3>
+            <hr />
+
+            <div class="form-group">
+                <label for="txtCorreo"><i class="fa-solid fa-envelope"></i> Correo Electrónico:</label>
+                <asp:TextBox ID="txtCorreo" runat="server" CssClass="form-control" placeholder="Ingrese su correo" />
+            </div>
+            <div class="form-group">
+                <label for="txtVerficacion"><i class="fa-solid fa-envelope"></i> Codigo Verificacion:</label>
+                <asp:TextBox ID="txtVerficacion" runat="server" CssClass="form-control" placeholder="Codigo Verificacion" />
+            </div>
+
+            <div class="text-center">
+                <asp:Button ID="btnEnviarCodigo" runat="server" Text="Enviar Código" OnClick="btnEnviarCodigo_Click" CssClass="btn btn-secondary btn-block" />
+            </div>
+        </div>
         <div class="container">
             <h2 class="text-center">Verificación de Constancia</h2>
             <div class="card">
@@ -75,6 +109,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="text-center">
+                <asp:Label ID="lblMensaje" runat="server" Text="" CssClass="form-text text-danger" />
         </div>
     </form>
 

@@ -25,7 +25,7 @@ function SetCampos() {
         tbApellido.SetText(''),
         tbCorreo.SetText(''),
         tbConfirmCorreo.SetText(''),
-        tbDireccion.SetText(''),
+        tb/*Direccion.SetText(''),*/
         fileUpload.value = '';   // Corregido
         fileUpload1.value = '';  // Corregido
         fileUpload2.value = '';  // Corregido
@@ -204,7 +204,7 @@ function TokenVerificationComplete(result) {
         var tbCorreo = ASPxClientControl.GetControlCollection().GetByName("tbCorreo");
         var tbTelefono = ASPxClientControl.GetControlCollection().GetByName("tbTelefono");
         /*var tbDireccion = ASPxClientControl.GetControlCollection().GetByName("tbDireccion");*/
-        var tbDireccion = "";
+        /*var tbDireccion = "";*/
 
         if (tbIdentidad && tbNombre && tbApellido && tbCorreo && tbTelefono ) {
             $.ajax({
@@ -217,7 +217,7 @@ function TokenVerificationComplete(result) {
                     tbCorreo: tbCorreo.GetValue(),
                     tbTelefono: tbTelefono.GetValue(),
                     /*tbDireccion: tbDireccion.GetValue()*/
-                      tbDireccion: ""
+                    /*  tbDireccion: ""*/
                 },
                 dataType: "json",
                 success: function (response) {

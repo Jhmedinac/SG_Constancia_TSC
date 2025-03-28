@@ -36,11 +36,11 @@ namespace SG_Constancia_TSC
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(numeroConstancia) || string.IsNullOrWhiteSpace(clave))
-                {
-                    lblMensaje.Text = "Debe ingresar el número de constancia y la clave.";
-                    return;
-                }
+                //if (string.IsNullOrWhiteSpace(numeroConstancia) || string.IsNullOrWhiteSpace(clave))
+                //{
+                //    lblMensaje.Text = "Debe ingresar el número de constancia y la clave.";
+                //    return;
+                //}
 
                 // Generar código aleatorio
                 string token = GenerateToken();
