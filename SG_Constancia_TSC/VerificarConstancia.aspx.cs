@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace SG_Constancia_TSC
 {
+    using SG_Constancia_TSC.App_Start;
     // Página ASP.NET para verificar constancias
     using System;
     using System.Data.SqlClient;
@@ -17,8 +18,63 @@ namespace SG_Constancia_TSC
         protected void Page_Load(object sender, EventArgs e)
         {
         }
+        private string GenerateToken()
+        {
+            return new Random().Next(100000, 999999).ToString();
+        }
+        private bool SendVerificationEmail(string email, string token)
+        {
+            try
+            {
+                SampleUtil.SendToken(email, token);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        protected void btnEnviarCodigo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //string numeroConstancia = HttpUtility.HtmlEncode(txtConstanciaId.Text.Trim());
+                //string clave = HttpUtility.HtmlEncode(txtClave.Text.Trim());
+                string email = HttpUtility.HtmlEncode(txtCorreo.Text.Trim());
 
-        protected void btnVerificar_Click(object sender, EventArgs e)
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    lblMensaje.Text = "Por favor, ingrese un correo electrónico válido.";
+                    return;
+                }
+
+                //if (string.IsNullOrWhiteSpace(numeroConstancia) || string.IsNullOrWhiteSpace(clave))
+                //{
+                //    lblMensaje.Text = "Debe ingresar el número de constancia y la clave.";
+                //    return;
+                //}
+
+                // Generar código aleatorio
+                string token = GenerateToken();
+                Session["CodigoVerificacion"] = token;
+                Session.Timeout = 10; // Expira en 10 minutos
+
+                if (SendVerificationEmail(email, token))
+                {
+                    lblMensaje.Text = "Código de verificación enviado correctamente a su correo.";
+                    //divVerificacion.Style["display"] = "block"; // Mostrar la caja de verificación
+                }
+                else
+                {
+                    lblMensaje.Text = "Error al enviar el código. Intente de nuevo.";
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMensaje.Text = "Error inesperado: " + ex.Message;
+            }
+        }
+            protected void btnVerificar_Click(object sender, EventArgs e)
         {
             string codigo = txtCodigo.Text.Trim();
             string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["connString"]?.ConnectionString;
