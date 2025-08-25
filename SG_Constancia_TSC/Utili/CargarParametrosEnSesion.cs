@@ -9,6 +9,8 @@ namespace SG_Constancia_TSC.Utili
     {
         public string Valor { get; set; }
         public string Descripcion { get; set; }
+
+        public string UserID { get; set; }
     }
 
     public static class ParametrosHelper
@@ -31,7 +33,10 @@ namespace SG_Constancia_TSC.Utili
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT nombre_parametro, valor, descripcion FROM [gral].[Parametros]";
+                    
+                    
+                    string query = "SELECT nombre_parametro, valor, descripcion , userid FROM [gral].[Parametros]";
+                    
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
@@ -43,11 +48,13 @@ namespace SG_Constancia_TSC.Utili
                                 string nombreParametro = reader["nombre_parametro"].ToString();
                                 string valor = reader["valor"].ToString();
                                 string descripcion = reader["descripcion"].ToString();
+                                string userid = reader["userid"].ToString();
 
-                                parametros[nombreParametro] = new Parametro
+                                parametros[userid] = new Parametro
                                 {
                                     Valor = valor,
-                                    Descripcion = descripcion
+                                    Descripcion = descripcion,
+                                    UserID = userid
                                 };
                             }
                         }

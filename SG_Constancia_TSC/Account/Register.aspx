@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Root.master" CodeBehind="Register.aspx.cs" Inherits="SG_Constancia_TSC.Register" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
-  <%--  <link href="../Content/SignInRegisterCopia.css" rel="stylesheet" />--%>
+ 
     <link rel="stylesheet" type="text/css" href='<%# ResolveUrl("~/Content/SignInRegister - Copia.css") %>' />
     <style>
 
@@ -16,11 +16,11 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 395px;
+           
         }
     </style>
     <script type="text/javascript" src='<%# ResolveUrl("~/Content/SignInRegister - Copia.js") %>'></script>
-   <%-- <script src="../Content/SignInRegister%20-%20Copia.js"></script>--%>
+   
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="PageContent" runat="server">
     <asp:Panel ID="Panel_Content" runat="server">

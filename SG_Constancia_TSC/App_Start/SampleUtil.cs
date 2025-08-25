@@ -172,7 +172,7 @@ namespace SG_Constancia_TSC.App_Start
             SmtpClient Smtp = new SmtpClient();
             System.Net.NetworkCredential SmtpUser = new System.Net.NetworkCredential();
 
-            Message.From = new MailAddress(from, "SG_Constancia_TSC");
+            Message.From = new MailAddress(from, "Tribunal Superior de Cuentas");
             Message.To.Add(new MailAddress(tto));
             Message.IsBodyHtml = true;
 
@@ -212,7 +212,7 @@ namespace SG_Constancia_TSC.App_Start
             SmtpClient Smtp = new SmtpClient();
             System.Net.NetworkCredential SmtpUser = new System.Net.NetworkCredential();
 
-            Message.From = new MailAddress(from, "SG_Constancia_TSC");
+            Message.From = new MailAddress(from, "Tribunal Superior de Cuentas");
             Message.To.Add(new MailAddress(tto));
             Message.IsBodyHtml = true;
             Message.Attachments.Add(attachedDoc);

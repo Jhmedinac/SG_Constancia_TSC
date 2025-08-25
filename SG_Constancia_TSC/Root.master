@@ -72,10 +72,7 @@
                                         <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" LogoutText="SALIR"
                                             LogoutPageUrl="~/Account/Login.aspx" OnLoggingOut="HeadLoginStatus_LoggingOut" style="color:white; text-decoration:none;" />
                                         ]
-                                               <!-- Botón para cambiar contraseña -->
-                                             <dx:ASPxButton ID="btnChangePassword" runat="server" Text="CAMBIAR CONTRASEÑA"
-                                                    CssClass="custom-button" AutoPostBack="true" OnClick="btnChangePassword_Click"
-                                                         class="bold"  Visible="true" style="color:white; text-decoration:none; " />
+                                               
                                             </strong>
                                     </LoggedInTemplate>
                                 </asp:LoginView>

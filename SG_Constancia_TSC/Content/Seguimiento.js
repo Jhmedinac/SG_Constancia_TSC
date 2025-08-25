@@ -1,5 +1,5 @@
 ﻿function showConfirmationMessage3() {
-   /* var constanciaId = '<%= txtConstanciaId.Text %>';*/
+    /* var constanciaId = '<%= txtConstanciaId.Text %>';*/
     var constanciaId = document.getElementById("txtConstanciaId.ClientID").value;
 
     $.ajax({
@@ -9,24 +9,47 @@
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
+            function toggleClave() {
+                var textbox = ASPxClientControl.GetControlCollection().GetByName("txtClave");
+                var input = textbox.GetInputElement();
+
+                if (input.type === "password") {
+                    input.type = "text";
+                } else {
+                    input.type = "password";
+                }
+            }
             var values = response.d.split("|");
             var constanciaId = values[0];
             var estado = values[1];
             var fechaCreacion = values[2];
             var otrosDatos = values[3];
 
-            var tableHtml = "<table border='0' width='100%'>" +
-                "<tr><td colspan='2'>&nbsp;</td></tr>" +
-                "<tr><td colspan='2' align='center'><strong><font size='+2'>Estado de la Constancia</font></strong></td></tr>" +
-                "<tr><td colspan='2'>&nbsp;</td></tr>" +
-                "<tr><td>Número de Constancia:</td><td>" + constanciaId + "</td></tr>" +
-                "<tr><td>Estado:</td><td>" + estado + "</td></tr>" +
-                "<tr><td>Fecha de Creación:</td><td>" + fechaCreacion + "</td></tr>" +
-                "<tr><td>Otros Datos:</td><td>" + otrosDatos + "</td></tr>" +
-                "<tr><td colspan='2'>&nbsp;</td></tr>" +
-                "<tr><td colspan='2' align='center'><a href='https://www.tsc.gob.hn/' class='Letrapagina'>Salir</a></td></tr>" +
-                "</table>";
-
+            var tableHtml = `
+<div style="background:#fff; padding:24px; max-width:600px; margin:0 auto; font-family:'Segoe UI', sans-serif; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1); color:#333;">
+    <h3 style="text-align:center; color:#1F497D; margin-bottom:20px;">📄 Estado de la Constancia</h3>
+    <table style="width:100%; border-collapse:collapse;">
+        <tr>
+            <td style="padding:8px; font-weight:bold;">Número de Constancia:</td>
+            <td style="padding:8px;">${constanciaId}</td>
+        </tr>
+        <tr>
+            <td style="padding:8px; font-weight:bold;">Estado:</td>
+            <td style="padding:8px; color:${estado === 'Aprobada' ? '#28a745' : '#d62d20'}; font-weight:bold;">${estado}</td>
+        </tr>
+        <tr>
+            <td style="padding:8px; font-weight:bold;">Fecha de Creación:</td>
+            <td style="padding:8px;">${fechaCreacion}</td>
+        </tr>
+        <tr>
+            <td style="padding:8px; font-weight:bold;">Otros Datos:</td>
+            <td style="padding:8px;">${otrosDatos}</td>
+        </tr>
+    </table>
+    <div style="text-align:center; margin-top:30px;">
+        <a href="https://www.tsc.gob.hn/" style="background:#1F497D; color:#fff; padding:10px 20px; border-radius:6px; text-decoration:none; display:inline-block;">Salir</a>
+    </div>
+</div>`;
             document.getElementById("popupContent").innerHTML = tableHtml;
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -35,6 +58,8 @@
     });
 }
 
+
+/*Función para el formulario de seguimiento */
 function showConfirmationMessage2(constanciaId) {
     $.ajax({
         type: "POST",
@@ -63,31 +88,53 @@ function showConfirmationMessage2(constanciaId) {
             var otrosDatos = values[3];
             var archivoconstanciaBase64 = values[4];
 
-            var tableHtml = "<table border='0' width='100%'>" +
-                "<tr><td colspan='2'>&nbsp;</td></tr>" +
-                "<tr><td colspan='2' align='center'><strong><font size='+2'>Estado de la Constancia</font></strong></td></tr>" +
-                "<tr><td colspan='2'>&nbsp;</td></tr>" +
-                "<tr><td>Número de Constancia:</td><td>" + constanciaId + "</td></tr>" +
-                "<tr><td>Estado:</td><td>" + estado + "</td></tr>" +
-                "<tr><td>Fecha de Creación:</td><td>" + fechaCreacion + "</td></tr>" +
-                "<tr><td>Observaciones:</td><td>" + otrosDatos + "</td></tr>" +
-                "<tr><td colspan='2'>&nbsp;</td></tr>";
+            var tableHtml = `
+<div style="background:#fff; padding:24px; max-width:600px; margin:0 auto; font-family:'Segoe UI', sans-serif; border-radius:12px; box-shadow:0 5px 20px rgba(0,0,0,0.1); color:#333;">
+    <h4 style="text-align:center; color:#1F497D; margin-bottom:24px;">📄 Estado de la Constancia</h4>
+
+    <table style="width:100%; border-collapse:collapse; margin-bottom:20px;">
+        <tr>
+            <td style="padding:10px; font-weight:bold; width:40%;">Número de Constancia:</td>
+            <td style="padding:10px;">${constanciaId}</td>
+        </tr>
+        <tr>
+            <td style="padding:10px; font-weight:bold;">Estado:</td>
+            <td style="padding:10px; color:${estado.toLowerCase() === 'aprobada' || estado.toLowerCase() === 'finalizada' ? '#28a745' : '#292929'}; font-weight:bold;">${estado}</td>
+        </tr>
+        <tr>
+            <td style="padding:10px; font-weight:bold;">Fecha de Creación:</td>
+            <td style="padding:10px;">${fechaCreacion}</td>
+        </tr>
+        <tr>
+            <td style="padding:10px; font-weight:bold;">Observación:</td>
+            <td style="padding:10px;">${otrosDatos}</td>
+        </tr>
+    </table>`;
 
             if (estado.toLowerCase() === "finalizada" && archivoconstanciaBase64) {
-                tableHtml += "<tr><td colspan='2' align='center'>" +
-                    "<button id='btnDescargarConstancia' class='btn btn-success'>Descargar Constancia</button>" +
-                    "</td></tr>";
+                tableHtml += `
+    <div style="text-align:center; margin-bottom:20px;">
+        <button id="btnDescargarConstancia" class="btn btn-success" style="background-color:#28a745; border:none; padding:10px 20px; border-radius:6px; color:#fff; font-weight:500; cursor:pointer;">
+            📥 Descargar Constancia
+        </button>
+    </div>`;
+            }
 
-                // Agregar un manejador de eventos para el botón de descarga
+            // Manejador para el botón de descarga
+            if (estado.toLowerCase() === "finalizada" && archivoconstanciaBase64) {
                 setTimeout(function () {
-                    document.getElementById("btnDescargarConstancia").addEventListener("click", function () {
+                    //document.getElementById("btnDescargarConstancia").addEventListener("click", function () {
+                    //    downloadBase64File(archivoconstanciaBase64, "Constancia_" + constanciaId + ".pdf");
+                    //});
+                    document.getElementById("btnDescargarConstancia").addEventListener("click", function (e) {
+                        e.preventDefault(); // <--- Previene recarga o cierre del popup
+                        e.stopPropagation(); // <--- Evita que eventos se propaguen y afecten al popup
+
                         downloadBase64File(archivoconstanciaBase64, "Constancia_" + constanciaId + ".pdf");
                     });
                 }, 100);
             }
 
-            tableHtml += "<tr><td colspan='2' align='center'><a href='https://www.tsc.gob.hn/' class='Letrapagina'>Salir</a></td></tr>";
-            tableHtml += "</table>";
 
             document.getElementById("popupContent").innerHTML = tableHtml;
 
@@ -99,33 +146,12 @@ function showConfirmationMessage2(constanciaId) {
         }
     });
 }
-            // Verificar si el popup existe
-            //var popupElement = document.getElementById("popupSeguimiento");
-            //if (!popupElement) {
-            //    console.error("Error: No se encontró el elemento 'popupSeguimiento'.");
-            //    return;
-            //}
-
-            // Insertar contenido en el popup
-//            popupElement.innerHTML = tableHtml;
-
-//            // Mostrar el popup si es un DevExpress ASPxPopupControl
-//            if (typeof popupSeguimiento !== "undefined" && popupSeguimiento.Show) {
-//                popupSeguimiento.Show();
-//            } else {
-//                console.warn("popupSeguimiento no está definido como un control DevExpress.");
-//                popupElement.style.display = "block"; // Alternativa si es un div normal
-//            }
-//        },
-//        error: function (xhr, ajaxOptions, thrownError) {
-//            console.error("Error en la solicitud AJAX: " + thrownError);
-//            alert("Ocurrió un error al obtener los datos de la constancia.");
-//        }
-//    });
-//}
 
 
-
+setTimeout(function () {
+    var lbl = document.getElementById('<%= lblMensaje.ClientID %>');
+    if (lbl) lbl.innerText = '';
+}, 7000); // Oculta después de 7 segundos
 function isValidBase64(str) {
     try {
         atob(str);
@@ -170,95 +196,6 @@ function ClosePopupRelacionado1(s, e) {
 }
 
 
-//$(document).ready(function () {
-//    $("#<%= txtCodigoVerificacion.ClientID %>").on("keyup", function () {
-//        var codigoIngresado = $(this).val();
-
-//        $.ajax({
-//            type: "POST",
-//            url: "Seguimiento.aspx/VerificarCodigo",
-//            data: JSON.stringify({ codigoIngresado: codigoIngresado }),
-//            contentType: "application/json; charset=utf-8",
-//            dataType: "json",
-//            success: function (response) {
-//                if (response.d) {
-//                    $("#<%= btnBuscar.ClientID %>").prop("disabled", false);
-//                    $("#<%= lblMensaje.ClientID %>").text("Código verificado correctamente.").css("color", "green");
-//                } else {
-//                    $("#<%= btnBuscar.ClientID %>").prop("disabled", true);
-//                    $("#<%= lblMensaje.ClientID %>").text("Código incorrecto. Intente nuevamente.").css("color", "red");
-//                }
-//            },
-//            error: function () {
-//                console.error("Error en la verificación.");
-//            }
-//        });
-//    });
-//});
-
-//function showConfirmationMessage22(constanciaId) {
-//    $.ajax({
-//        type: "POST",
-//        url: "Seguimiento.aspx/GetSessionValues",
-//        data: JSON.stringify({ constanciaId: constanciaId }),
-//        contentType: "application/json; charset=utf-8",
-//        dataType: "json",
-//        success: function (response) {
-//            var values = response.d.split("|");
-//            var constanciaId = values[0];
-//            var estado = values[1];
-//            var fechaCreacion = values[2];
-//            var otrosDatos = values[3];
-//            var enlaceDescarga = values[4];
-
-//            var tableHtml = "<table border='0' width='100%'>" +
-//                "<tr><td colspan='2'>&nbsp;</td></tr>" +
-//                "<tr><td colspan='2' align='center'><strong><font size='+2'>Estado de la Constancia</font></strong></td></tr>" +
-//                "<tr><td colspan='2'>&nbsp;</td></tr>" +
-//                "<tr><td>Número de Constancia:</td><td>" + constanciaId + "</td></tr>" +
-//                "<tr><td>Estado:</td><td>" + estado + "</td></tr>" +
-//                "<tr><td>Fecha de Creación:</td><td>" + fechaCreacion + "</td></tr>" +
-//                "<tr><td>Observaciones:</td><td>" + otrosDatos + "</td></tr>" +
-//                "<tr><td colspan='2'>&nbsp;</td></tr>";
-
-//            if (estado.toLowerCase() === "lista") {
-//                tableHtml += "<tr><td colspan='2' align='center'><a href='" + enlaceDescarga + "' class='btn btn-success' download>Descargar Constancia</a></td></tr>";
-//            }
-
-//            tableHtml += "<tr><td colspan='2' align='center'><a href='https://www.tsc.gob.hn/' class='Letrapagina'>Salir</a></td></tr>";
-//            tableHtml += "</table>";
-
-//            // Verificar si el popup existe
-//            var popupElement = document.getElementById("popupSeguimiento");
-//            if (!popupElement) {
-//                console.error("Error: No se encontró el elemento 'popupSeguimiento'.");
-//                return;
-//            }
-
-//            // Insertar contenido en el popup
-//            popupElement.innerHTML = tableHtml;
-
-//            // Mostrar el popup si es un DevExpress ASPxPopupControl
-//            if (typeof popupSeguimiento !== "undefined" && popupSeguimiento.Show) {
-//                popupSeguimiento.Show();
-//            } else {
-//                console.warn("popupSeguimiento no está definido como un control DevExpress.");
-//                popupElement.style.display = "block"; // Alternativa si es un div normal
-//            }
-//        },
-//        error: function (xhr, ajaxOptions, thrownError) {
-//            console.log("Error al obtener valores de la constancia: " + thrownError);
-//        }
-//    });
-//}
-//function ClosePopupRelacionado1(s, e) {
-//    //var ckPolitica = ASPxClientControl.GetControlCollection().GetByName("ckPolitica");
-//    //var btnEnviarCodigo = ASPxClientControl.GetControlCollection().GetByName("btnEnviarCodigo");
-//    Relacionado1.Hide();
-//    //if (!ckPolitica.GetChecked()) {
-//    //    btnEnviarCodigo.SetEnabled(false);
-//    //}
-//}
 
 function GuardarConstancia() {
     var grid = ASPxClientControl.GetControlCollection().GetByName('GV_PreUsuarios');
@@ -301,7 +238,7 @@ function GuardarConstancia() {
         } else {
             Swal.fire({
                 title: "¡Alerta!",
-                text: "Por favor seleccione una fila para guardar la constancia.",
+                text: "Por favor seleccione una fila para generar la constancia.",
                 icon: "warning",
                 confirmButtonColor: "#1F497D"
             });

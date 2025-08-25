@@ -24,13 +24,22 @@ namespace SG_Constancia_TSC
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// Control formVerificacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxFormLayout formVerificacion;
+
+        /// <summary>
         /// Control txtCorreo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCorreo;
+        protected global::DevExpress.Web.ASPxTextBox txtCorreo;
 
         /// <summary>
         /// Control txtVerficacion.
@@ -39,7 +48,7 @@ namespace SG_Constancia_TSC
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtVerficacion;
+        protected global::DevExpress.Web.ASPxTextBox txtVerficacion;
 
         /// <summary>
         /// Control btnEnviarCodigo.
@@ -48,7 +57,7 @@ namespace SG_Constancia_TSC
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnEnviarCodigo;
+        protected global::DevExpress.Web.ASPxButton btnEnviarCodigo;
 
         /// <summary>
         /// Control txtConstanciaId.
@@ -57,7 +66,7 @@ namespace SG_Constancia_TSC
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtConstanciaId;
+        protected global::DevExpress.Web.ASPxTextBox txtConstanciaId;
 
         /// <summary>
         /// Control txtClave.
@@ -66,7 +75,7 @@ namespace SG_Constancia_TSC
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtClave;
+        protected global::DevExpress.Web.ASPxTextBox txtClave;
 
         /// <summary>
         /// Control btnBuscar.
@@ -75,7 +84,7 @@ namespace SG_Constancia_TSC
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBuscar;
+        protected global::DevExpress.Web.ASPxButton btnBuscar;
 
         /// <summary>
         /// Control lblMensaje.
@@ -84,7 +93,7 @@ namespace SG_Constancia_TSC
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMensaje;
+        protected global::DevExpress.Web.ASPxLabel lblMensaje;
 
         /// <summary>
         /// Control popupSeguimiento.

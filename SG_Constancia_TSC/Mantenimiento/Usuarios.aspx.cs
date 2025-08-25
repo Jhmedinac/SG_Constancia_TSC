@@ -15,11 +15,29 @@ namespace SG_Constancia_TSC.Mantenimiento
         protected void Page_Load(object sender, EventArgs e)
         {
             Form.Attributes.Add("autocomplete", "off");
-           
+
+            if (!IsPostBack)
+            {
+                bool isSuperAdmin = Context.User.IsInRole("SuperAdmin");
+
+                // Si NO es SuperAdmin, ocultar el rol SuperAdmin del combo
+                if (!isSuperAdmin)
+                {
+                    SqlDataSource_Rol_Usuario.SelectCommand = @"
+                SELECT Id, Name 
+                FROM dbo.AspNetRoles 
+                WHERE Name <> 'SuperAdmin'
+                ORDER BY Name";
+                }
+
+                // (Opcional) Si usas un ASPxComboBox:
+                // cbRoles.DataSourceID = "SqlRoles"; cbRoles.DataBind();
+            }
+
+
 
         }
 
-       
 
         protected void btnGuarda_Rol_Usuario_Click(object sender, EventArgs e)
         {
@@ -54,7 +72,7 @@ namespace SG_Constancia_TSC.Mantenimiento
         {
             if (Usuario.GetRowValuesByKeyValue(e.EditingKeyValue, "RoleId").ToString() == "")
             {
-                //Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "<script type=\"text/javascript\">alert('Debe de agregar un perfil al usuario, para actualizar los datos.');</script>");
+                
                 ((ASPxGridView)sender).JSProperties["cpUpdateMessageUser"] = "Debe de agregar un perfil al usuario, para actualizar los datos.";
                 e.Cancel = true;
             }

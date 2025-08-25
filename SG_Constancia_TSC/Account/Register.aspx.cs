@@ -17,9 +17,42 @@ namespace SG_Constancia_TSC {
     public partial class Register : System.Web.UI.Page {
         protected void Page_Load(object sender, EventArgs e)
         {
-    
+           Form.Attributes.Add("autocomplete", "off");
+            if (!IsPostBack)
+            {
+
+                if (HttpContext.Current.User.IsInRole("Admin") )              
+                {
+                    Panel_Content.Visible = true;
+
+                }
+                else
+                {
+                    Response.Redirect("~/Account/Login.aspx");
+                    Panel_Content.Visible = false;
+
+                }
+
+            }
+            else
+            {
+                if (IsPostBack)
+                {
+                    if (Session["Name_user"] == null)
+                    {
+                        Response.RedirectLocation = "../TimeOutPage.aspx";
+                    }
+                    if (!User.Identity.IsAuthenticated)
+                    {
+                        Response.RedirectLocation = "/Account/Login.aspx";
+                        
+                    }
+                }
+            }
 
         }
+
+       
 
         protected void RegisterButton_Click(object sender, EventArgs e)
         {

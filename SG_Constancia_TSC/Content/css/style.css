@@ -31,6 +31,124 @@ import Files
 basic 
 ---------------------------------------------------------------------*/
 
+.titulo-proceso {
+    color: #006699;
+    text-align: center;
+    font-size: 30px; /* más pequeño */
+    margin-bottom: 5px; /* casi sin espacio hacia abajo */
+}
+
+#GridSolicitudes .dxgvToolbar {
+    margin-top: 0 !important; /* elimina espacio hacia arriba */
+    padding-top: 0 !important;
+}
+
+
+/*Combobox Tipo de solicitud*/
+
+.toolbar-filter {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    background: #ffffff;
+    border-radius: 6px;
+   
+    margin-bottom: 16px;
+    justify-content: flex-end;
+}
+
+    .toolbar-filter .filter-label {
+        font-weight: 600;
+        color: #1F497D;
+        margin-right: 8px;
+    }
+
+/************************************/
+
+.btn-update-status {
+    background-color: #1F497D;
+    color: white;
+    font-size: 13px; /* Texto más grande */
+    font-weight: bold;
+    padding: 10px 10px; /* Más espacio interno*/
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    /*width: 50px;*/ /*Ancho fijo */
+    /*height: 20px;*/ /*Alto fijo */
+    transition: background-color 0.3s ease-in-out;
+    margin-right: 100px;
+}
+
+    .btn-update-status:hover {
+        background-color: #218838;  /*Cambio de color al pasar el mouse */
+    }
+
+
+
+/************************************************************/
+/* Estilos para los botones de la barra de herramientas */
+.toolbar-button {
+    margin-right: 15px; /* Espacio a la derecha de cada botón */
+}
+
+.btn-update-status {
+    margin-right: 15px;  
+}
+
+    /* Opcional: Estilo de los botones cuando se pasa el cursor */
+    .toolbar-button:hover, .btn-update-status:hover {
+        background-color: #5bc0de; /* Cambiar el color al pasar el mouse */
+        color: white; /* Aseguramos que el texto sea blanco */
+    }
+
+ /************************************************/
+/* Botón para "Actualizar Estado" */
+.btn-accion {
+    background-color: #28a745; 
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s ease-in-out;
+}
+
+    .btn-accion:hover {
+        background-color: #218838;
+    }
+
+/* Botón para "Actualizar" */
+.btn-neutro {
+    background-color: #6c757d; 
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s ease-in-out;
+}
+
+    .btn-neutro:hover {
+        background-color: #5a6268;
+    }
+
+/* Botón para "Exportar" */
+.rtbtn-expoar {
+    background-color: #1F497D; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s ease-in-out;
+}
+/*******************************************************************/
+    .btn-exportar:hover {
+        background-color: #138496;
+    }
+
+
 * {
     box-sizing: border-box !important;
 }

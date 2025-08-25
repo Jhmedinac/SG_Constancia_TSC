@@ -133,74 +133,6 @@ namespace SG_Constancia_TSC
 
 
 
-        //public async Task ProcessRequestAsync(HttpContext context)
-        //{
-        //    string uploadId = context.Request.QueryString["Upload_Id"];
-        //    if (string.IsNullOrEmpty(uploadId))
-        //    {
-        //        context.Response.StatusCode = 400;
-        //        context.Response.Write("El parámetro 'Upload_Id' es obligatorio.");
-        //        return;
-        //    }
-
-        //    try
-        //    {
-        //        // Convertir uploadId a código de archivo (asegúrate de declarar 'idf')
-        //        int codigoArchivo = Convert.ToInt32(uploadId);
-
-        //        // Obtener archivo desde la API
-        //        FileResultWithExtension response = await ObtenerArchivo(codigoArchivo);
-
-        //        // Verificar si la respuesta fue exitosa
-        //        if (response.FileResult.typeResult != UtilClass.UtilClass.codigoExitoso)
-        //        {
-        //            context.Response.StatusCode = 500;
-        //            context.Response.Write("Error al obtener el archivo desde la API.");
-        //            return;
-        //        }
-
-        //        // Convertir base64 a bytes
-        //        string base64 = response.FileResult.result?.ToString();
-        //        byte[] fileBytes = Convert.FromBase64String(base64);
-
-        //        // Validar archivo descargado
-        //        if (fileBytes == null || fileBytes.Length == 0)
-        //        {
-        //            context.Response.StatusCode = 404;
-        //            context.Response.Write("El archivo solicitado no se encontró o está vacío.");
-        //            return;
-        //        }
-
-        //        // Validar extensión y MIME
-        //        string extension = response.Extension;
-        //        string mimeType = UtilClass.UtilClass.ObtenerContentType(extension);
-
-        //        if (!UtilClass.UtilClass.EsExtensionValida(extension))
-        //        {
-        //            context.Response.StatusCode = 400;
-        //            context.Response.Write($"La extensión '{extension}' no está permitida.");
-        //            return;
-        //        }
-
-        //        // Configurar respuesta
-        //        context.Response.Clear();
-        //        context.Response.ContentType = mimeType;
-        //        context.Response.AddHeader("Content-Disposition", $"attachment; filename=archivo_{uploadId}.{extension}");
-        //        context.Response.BinaryWrite(fileBytes);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Manejo de errores
-        //        Console.WriteLine($"Error interno: {ex.Message}");
-        //        context.Response.StatusCode = 500;
-        //        context.Response.Write("Ocurrió un error interno al procesar la solicitud.");
-        //    }
-        //    finally
-        //    {
-        //        context.Response.End();
-        //    }
-        //}
-
 
 
         public async Task<byte[]> GetFileBytesAsync(string idf)
@@ -228,8 +160,6 @@ namespace SG_Constancia_TSC
             }
         }
 
-     
-        
 
 
         public static async Task<FileResultWithExtension> ObtenerArchivo(int idFile)

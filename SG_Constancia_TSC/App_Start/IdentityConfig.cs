@@ -24,7 +24,7 @@ namespace SG_Constancia_TSC
             var mensaje = new MailMessage();
 
             mensaje.To.Add(message.Destination);
-            mensaje.From = new MailAddress(ConfigurationManager.AppSettings["emailServiceUserName"], "SCOL");
+            mensaje.From = new MailAddress(ConfigurationManager.AppSettings["emailServiceUserName"], "Tribunal Superior de Cuentas");
 
             mensaje.Subject = message.Subject;
             mensaje.Body = message.Body;
