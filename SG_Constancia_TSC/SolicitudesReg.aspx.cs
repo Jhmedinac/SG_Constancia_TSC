@@ -24,13 +24,25 @@ namespace SG_Constancia_TSC
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Form.Attributes.Add("autocomplete", "off");
-
             if (!IsPostBack)
             {
                 LoadStatuses();
-            }
+                // 1) Pone el combo en Natural
+                cmbTipoFiltro.Value = "0";
 
+                // 2) Ajusta el parámetro del SqlDataSource
+                SqlDataUsers.SelectParameters["TipoSolicitud"].DefaultValue = "false";
+
+                // 3) Rellena el grid
+                GV_PreUsuarios.DataBind();
+
+                // 4) Ajusta visibilidad de columnas
+                GV_PreUsuarios.Columns["Identidad"].Visible = true;
+                GV_PreUsuarios.Columns["FirstName"].Visible = true;
+                GV_PreUsuarios.Columns["LastName"].Visible = true;
+                GV_PreUsuarios.Columns["NumRtn"].Visible = false;
+                GV_PreUsuarios.Columns["NomInstitucion"].Visible = false;
+            }
         }
 
         protected void hlPreviewFile_Init(object sender, EventArgs e)
@@ -58,7 +70,7 @@ namespace SG_Constancia_TSC
         private void LoadStatuses()
         {
             string connectionString = (ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
-            string query = "SELECT Id_Estado, Descripcion_Estado FROM Estados WHERE Id_Estado IN (2,5,6)";
+            string query = "SELECT Id_Estado, Descripcion_Estado FROM Estados WHERE Id_Estado IN (2,3,5)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -84,7 +96,7 @@ namespace SG_Constancia_TSC
                 e.Command.Parameters["@Id"].Value = DBNull.Value; // Manejo de selección nula
             }
         }
-       
+
 
         protected void GV_PreUsuarios_DetailRowExpandedChanged(object sender, ASPxGridViewDetailRowEventArgs e)
         {
@@ -100,258 +112,154 @@ namespace SG_Constancia_TSC
             }
         }
 
+
+
         protected void ASPxCallback_PopupUpdate_Callback(object source, CallbackEventArgs e)
         {
             try
             {
-                // Validar en el servidor
-                //if (string.IsNullOrEmpty(cmbStatus.Text) || string.IsNullOrEmpty(txtObs.Text))
+                int userID = Convert.ToInt32(Session["User_id"]);
+
+              
+                object postedEstadoValue = null;
+                try { postedEstadoValue = cmbStatus.Value; } catch { postedEstadoValue = null; }
+
+                LoadStatuses();
+
+                if (cmbStatus != null) cmbStatus.DataBind();
+
+                if (postedEstadoValue != null)
+                {
+                    try { cmbStatus.Value = postedEstadoValue; } catch { /* defensiva */ }
+                }
+
+                // Valida que el usuario haya seleccionado un estado
                 if (string.IsNullOrEmpty(cmbStatus.Text))
                 {
                     e.Result = "Error: Complete todos los campos obligatorios.";
                     return;
                 }
 
-                // Lógica de actualización
-                List<string> selectedIDs = new List<string>();
-                foreach (var key in GV_PreUsuarios.GetSelectedFieldValues("Id"))
+                // Validación: debe haber un SelectedItem (ya garantizado por el Text)
+                if (cmbStatus.SelectedItem == null)
                 {
-                    selectedIDs.Add(key.ToString());
-                }
-
-                if (selectedIDs.Count != 1)
-                {
-                    e.Result = "Error: Seleccione un solo usuario.";
+                    e.Result = "Error: Debe seleccionar un Estado.";
                     return;
                 }
 
-                string selectedID = selectedIDs[0];
-                string estado = cmbStatus.SelectedItem.Value.ToString();
-                string observacion = txtObs.Text;
-
-                // Conexión y ejecución
-                string connectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                //  Recoge el ID de la fila seleccionada
+                var selectedIDs = GV_PreUsuarios.GetSelectedFieldValues("Id")
+                                                .Cast<object>()
+                                                .Select(x => x.ToString())
+                                                .ToList();
+                if (selectedIDs.Count != 1)
                 {
-                    using (SqlCommand command = new SqlCommand("[gral].[sp_gestion_estado]", connection))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@IDUser", Convert.ToInt32(Session["User_id"]));
-                        command.Parameters.AddWithValue("@IDs", selectedID);
-                        command.Parameters.AddWithValue("@Estado", estado);
-                        command.Parameters.AddWithValue("@Obs", observacion);
-
-                        SqlParameter mensParam = new SqlParameter("@MENS", SqlDbType.NVarChar, -1)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        SqlParameter retornoParam = new SqlParameter("@RETORNO", SqlDbType.Int)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-
-                        command.Parameters.Add(mensParam);
-                        command.Parameters.Add(retornoParam);
-
-                        connection.Open();
-                        command.ExecuteNonQuery();
-
-                        string mensaje = mensParam.Value.ToString();
-                        int retorno = Convert.ToInt32(retornoParam.Value);
-
-                        if (retorno == 1)
-                        {
-                            e.Result = "Estado actualizado correctamente.";
-                        }
-                        else
-                        {
-                            e.Result = mensaje;
-                        }
-                    }
+                    e.Result = "Error: Seleccione un solo registro.";
+                    return;
                 }
+                string selectedID = selectedIDs[0];
+
+                //  Lee estado y observación con seguridad
+                string estado = cmbStatus.SelectedItem.Value.ToString();
+                string observacion = txtObs.Text.Trim();
+                string Desc_estado = cmbStatus.SelectedItem?.Text?.ToString();
+                //  Llama al SP para actualizar estado y observación
+                string cs = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
+                using (var conn = new SqlConnection(cs))
+                using (var cmd = new SqlCommand("[gral].[sp_gestion_estado]", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@IDUser", Convert.ToInt32(Session["User_id"]));
+                    cmd.Parameters.AddWithValue("@IDs", Convert.ToInt32(selectedID));
+                    cmd.Parameters.AddWithValue("@Estado", Convert.ToInt32(estado));
+                    cmd.Parameters.AddWithValue("@Obs", observacion);
+                    cmd.Parameters.AddWithValue("@pcUsuarioModificaId", userID);
+
+                    var mensParam = new SqlParameter("@MENS", SqlDbType.NVarChar, -1) { Direction = ParameterDirection.Output };
+                    var retornoParam = new SqlParameter("@RETORNO", SqlDbType.Int) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(mensParam);
+                    cmd.Parameters.Add(retornoParam);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    int retorno = Convert.ToInt32(retornoParam.Value);
+                    e.Result = (retorno == 1)
+                        ? "Estado actualizado correctamente."
+                        : mensParam.Value.ToString();
+                    string adressEmail = SampleUtil.GetEmail(selectedID);
+                    string subject = "Actualización del estado de su solicitud de constancia";
+
+                    string emailBody = @"
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>Estado de solicitud</title>
+  </head>
+  <body style='margin:0;padding:0;background-color:#f5f5f5; font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333; line-height:1.6;'>
+    <div style='max-width:600px; margin:0 auto; padding:20px;'>
+      <div style='border:1px solid #ddd; border-radius:8px; background-color:#fafafa; padding:20px;'>
+        
+        <div style='text-align:center; margin-bottom:20px;'>
+          <img src='https://dcioxh.stripocdn.email/content/guids/CABINET_b93ec2a38389d475174431c45f61c597b12b8d21784bda70816c8c0373b4ae6a/images/logo_tsc_2024_n0C.png'
+               alt='Logo TSC' width='150' style='display:block; margin:0 auto;' />
+        </div>
+
+        <p style='text-align:center; margin:0 0 12px 0;'>Estimado(a) Usuario,</p>
+
+        <p style='text-align:center; margin:0 0 12px 0;'>
+          Le informamos que el estado de su solicitud de
+          <b>Constancia de no tener cuentas pendientes con el Estado de Honduras</b>
+          ha sido actualizado a: <b>" + Desc_estado + @"</b>.
+        </p>
+
+       <p style=""text-align:center; margin:0 0 12px 0;"">
+  Para más detalles, por favor ingrese al siguiente enlace:  
+  <a href=""https://consta-sec-dev.tsc.gob.hn:8011/Seguimiento.aspx""
+     target=""_blank"" 
+     style=""color:#1F497D; font-weight:bold; text-decoration:underline;"">
+     Seguimiento de Solicitud
+  </a>  
+  </b>.
+</p>
+
+        <p style='margin-top:20px; text-align:center;'>
+          <b>Atentamente,</b><br/>
+          Tribunal Superior de Cuentas<br/>
+          Secretaría General
+        </p>
+
+        <hr style='margin:24px 0; border:none; border-top:1px solid #ccc;' />
+
+        <p style='font-size:12px; color:#666; text-align:center; margin:0;'>
+          Este mensaje fue generado automáticamente por el Sistema de Solicitudes de Constancias en Línea.<br/>
+          Por favor, no responda este mensaje.
+        </p>
+
+      </div>
+    </div>
+  </body>
+</html>";
+
+                    SampleUtil.EnviarCorreo1("", subject, adressEmail, emailBody);
+                }
+
+                // 5) Vuelve a aplicar el filtro de TipoSolicitud
+                bool isNatural = (cmbTipoFiltro.Value as string) == "0";
+                SqlDataUsers.SelectParameters["TipoSolicitud"].DefaultValue = isNatural ? "false" : "true";
+
+                // 6) Re-bind del grid
+                GV_PreUsuarios.DataBind();
             }
             catch (Exception ex)
             {
-                e.Result = "Error: " + ex.Message;
+                e.Result = "Error inesperado: " + ex.Message;
             }
         }
 
-        private DataTable GetData()
-        {
-            DataTable dataTable = new DataTable();
 
-
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["connString"].ConnectionString))
-            {
-                try
-                {
-                    con.Open();
-                    string query = "SELECT * FROM solicitudes "; // Ajusta esta consulta a tus necesidades
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
-                        {
-                            adapter.Fill(dataTable);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Manejo de errores
-                    Console.WriteLine("Error obteniendo datos: " + ex.Message);
-                }
-            }
-
-            return dataTable;
-        }
-
-        private void ExportToCSV(List<string> selectedIDs)
-        {
-            StringBuilder csvContent = new StringBuilder();
-            DataTable updatedData = new DataTable();
-
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["connString"].ConnectionString))
-            {
-                string query = "SELECT * FROM Users WHERE Id IN ({0})";
-                var parameters = new List<string>();
-                var commandParameters = new List<SqlParameter>();
-                for (int i = 0; i < selectedIDs.Count; i++)
-                {
-                    string parameterName = "@id" + i;
-                    parameters.Add(parameterName);
-                    commandParameters.Add(new SqlParameter(parameterName, selectedIDs[i]));
-                }
-                query = string.Format(query, string.Join(",", parameters));
-
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    cmd.Parameters.AddRange(commandParameters.ToArray());
-                    con.Open();
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
-                    {
-                        adapter.Fill(updatedData);
-                    }
-                }
-            }
-
-            // Columns to export
-            List<string> selectedColumns = new List<string> { "FirstName", "LastName", "Email", "EmployeeId", "UserId", "Address" };
-
-            // Filter columns
-            var filteredData = new DataTable();
-            foreach (var col in selectedColumns)
-            {
-                filteredData.Columns.Add(col, updatedData.Columns[col].DataType);
-            }
-
-            foreach (DataRow row in updatedData.Rows)
-            {
-                var newRow = filteredData.NewRow();
-                foreach (var col in selectedColumns)
-                {
-                    newRow[col] = row[col];
-                }
-                filteredData.Rows.Add(newRow);
-            }
-
-            csvContent.AppendLine(string.Join(",", filteredData.Columns.Cast<DataColumn>().Select(col => "\"" + col.ColumnName.Replace("\"", "\"\"") + "\"")));
-
-            foreach (DataRow row in filteredData.Rows)
-            {
-                List<string> fields = new List<string>();
-                foreach (var item in row.ItemArray)
-                {
-                    fields.Add("\"" + item.ToString().Replace("\"", "\"\"") + "\"");
-                }
-                csvContent.AppendLine(string.Join(",", fields));
-            }
-
-            Response.Clear();
-            Response.ContentType = "text/csv";
-            Response.AddHeader("Content-Disposition", "attachment;filename=DatosActualizados.csv");
-            Response.ContentEncoding = Encoding.UTF8;
-
-            byte[] byteArray = Encoding.UTF8.GetBytes(csvContent.ToString());
-            using (MemoryStream memoryStream = new MemoryStream(byteArray))
-            {
-                memoryStream.WriteTo(Response.OutputStream);
-            }
-
-            Response.End();
-        }
-
-
-        //GV_PreUsuarios_BeforeExport
-        protected void GV_PreUsuarios_BeforeExport(object sender, ASPxGridBeforeExportEventArgs e)
-        {
-            List<string> selectedIDs = new List<string>();
-            foreach (var key in GV_PreUsuarios.GetSelectedFieldValues("Id"))
-            {
-                selectedIDs.Add(key.ToString());
-            }
-
-            if (!(GV_PreUsuarios.Selection.Count > 0))
-            {
-                ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "alertMessage", "alert('Por favor, seleccione las filas a exportar.');", true);
-                return;
-            }
-
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["connString"].ConnectionString))
-            {
-                try
-                {
-                    int UserID = Convert.ToInt16(Session["User_id"]);
-                    using (SqlCommand cmd = new SqlCommand("[gral].[sp_gestion_exportado_user]", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@IDUser", UserID));
-                        cmd.Parameters.Add(new SqlParameter("@IDs", string.Join(",", selectedIDs)));
-
-                        SqlParameter correoParam = new SqlParameter("@CorreoElectronico", SqlDbType.NVarChar, -1); // Use -1 for NVARCHAR(MAX)
-                        correoParam.Direction = ParameterDirection.Output;
-                        cmd.Parameters.Add(correoParam);
-
-                        SqlParameter retornoParam = new SqlParameter("@RETORNO", SqlDbType.Int);
-                        retornoParam.Direction = ParameterDirection.Output;
-                        cmd.Parameters.Add(retornoParam);
-
-                        SqlParameter mensajeEstadoParam = new SqlParameter("@MENS", SqlDbType.NVarChar, 255);
-                        mensajeEstadoParam.Direction = ParameterDirection.Output;
-                        cmd.Parameters.Add(mensajeEstadoParam);
-
-                        con.Open();
-                        cmd.ExecuteNonQuery();
-
-                        string emailList = correoParam.Value != DBNull.Value ? correoParam.Value.ToString() : string.Empty;
-                        string mensajeEstado = mensajeEstadoParam.Value != DBNull.Value ? mensajeEstadoParam.Value.ToString() : string.Empty;
-                        int retorno = retornoParam.Value != DBNull.Value ? (int)retornoParam.Value : 0;
-
-                        if (retorno == 1)
-                        {
-                            SampleUtil.SendEmails(emailList);
-                            ExportToCSV(selectedIDs);
-
-                        }
-                        else
-                        {
-                            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Error: " + mensajeEstado + "');", true);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ErrorLogger.LogError(ex);
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Error al ejecutar el procedimiento almacenado: " + ex.Message + "');", true);
-                    GV_PreUsuarios.Selection.UnselectAll();
-                    GV_PreUsuarios.DataBind();
-                }
-                finally
-                {
-                    con.Close();
-                    GV_PreUsuarios.DataBind();
-                }
-            }
-        }
 
         protected void GV_PreUsuarios_CustomCallback(object sender, ASPxGridViewCustomCallbackEventArgs e)
         {
@@ -364,7 +272,7 @@ namespace SG_Constancia_TSC
             var container = hyperLink.NamingContainer as DevExpress.Web.GridViewDataItemTemplateContainer;
 
             string Upload_Id = container.Grid.GetRowValues(container.VisibleIndex, "Upload_Id")?.ToString();
-            string url = await DownloadFile(Upload_Id); // Ahora sí se usa await
+            string url = await DownloadFile(Upload_Id);
 
             hyperLink.Text = Upload_Id;
             hyperLink.NavigateUrl = !string.IsNullOrEmpty(url) ? url : "#";
@@ -409,6 +317,35 @@ namespace SG_Constancia_TSC
 
 
 
+        protected void cmbTipoFiltro_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
+            bool isNatural = (cmbTipoFiltro.Value as string) == "0";
+
+            // 1) Ajusto el parámetro del SqlDataSource
+            SqlDataUsers.SelectParameters["TipoSolicitud"].DefaultValue = isNatural
+                ? "false"
+                : "true";
+
+            // 2) Re-bindeo el grid
+            GV_PreUsuarios.DataBind();
+
+            // 3) Muestro/oculto columnas
+            GV_PreUsuarios.Columns["Identidad"].Visible = isNatural;
+            GV_PreUsuarios.Columns["FirstName"].Visible = isNatural;
+            GV_PreUsuarios.Columns["LastName"].Visible = isNatural;
+            GV_PreUsuarios.Columns["NumRtn"].Visible = !isNatural;
+            GV_PreUsuarios.Columns["NomInstitucion"].Visible = !isNatural;
+
+        }
     }
+
+
 }
+
+
+
+
+
+
+

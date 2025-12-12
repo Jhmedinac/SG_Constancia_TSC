@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Main.master" CodeBehind="Manage.aspx.cs" Inherits="SG_Constancia_TSC.Account.Manage" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="LeftPanelContent" runat="server">
+    <script src="/Content/Sweetalert/js/sweetalert2@11.js"></script>
 </asp:Content>
 
 <asp:content id="Content1" contentplaceholderid="Content" runat="server">

@@ -36,11 +36,7 @@ namespace SG_Constancia_TSC.Model {
 
             return new ApplicationUser
             {
-                ////UserName = HttpContext.Current.Session["Name_user"].ToString(),
-                ////FirstName = "Julia",
-                ////LastName = "Bell",
-                ////Email = "julia.bell@example.com",
-                ////AvatarUrl = "~/Content/Photo/Julia_Bell.jpg"
+                
             };
 
 

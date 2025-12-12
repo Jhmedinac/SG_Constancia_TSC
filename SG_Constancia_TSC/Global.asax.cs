@@ -10,6 +10,13 @@ namespace SG_Constancia_TSC {
                 DevExpress.Security.Resources.UrlAccessRule.Allow()
             );
             DevExpress.XtraReports.Web.ASPxWebDocumentViewer.StaticInitialize();
+            DevExpress.XtraReports.Web.ASPxWebDocumentViewer.StaticInitialize();
+            DevExpress.XtraReports.Web.ASPxWebDocumentViewer.StaticInitialize();
+            DevExpress.XtraReports.Web.ASPxWebDocumentViewer.StaticInitialize();
+            DevExpress.XtraReports.Web.ASPxWebDocumentViewer.StaticInitialize();
+            DevExpress.XtraReports.Web.ASPxWebDocumentViewer.StaticInitialize();
+            DevExpress.XtraReports.Web.ASPxWebDocumentViewer.StaticInitialize();
+            DevExpress.XtraReports.Web.ASPxWebDocumentViewer.StaticInitialize();
         }
 
         void Application_End(object sender, EventArgs e) {

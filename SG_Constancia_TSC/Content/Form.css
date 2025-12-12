@@ -31,6 +31,82 @@ import Files
 basic 
 ---------------------------------------------------------------------*/
 
+
+/* Centrar el título y mantener botón cerrar a la derecha */
+.custom-modal-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+    .custom-modal-header .modal-title {
+        margin: 0;
+        flex: 1;
+        text-align: center;
+        font-weight: 600;
+    }
+
+.custom-close-btn {
+    position: absolute;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #333; /* color fijo */
+    cursor: pointer;
+    padding: 0;
+}
+
+    .custom-close-btn:hover,
+    .custom-close-btn:focus {
+        color: #333; /* que no cambie al pasar el cursor */
+        background: transparent;
+        outline: none;
+    }
+
+/* Ajustes extra si quieres forzar apariencia */
+.btn-neutro {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    color: #333;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background .2s;
+}
+
+    .btn-neutro:hover {
+        background: #e2e2e2;
+    }
+
+/*******Botón Revisar Solicitud*********/
+.btn-revisar {
+    background-color: #1F497D;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+    .btn-revisar:hover {
+        background-color: #FF9800;
+        transform: translateY(-2px);
+    }
+
+    .btn-revisar:active {
+        background-color: #122b48;
+        transform: translateY(0);
+    }
+
+
+/**************/
 .container {
     max-width: 1170px;
 }
@@ -40,14 +116,217 @@ html {
     overflow-x: hidden;
 }
 
+.titulo-formulario {
+    font-size: 1px; /* Letra más pequeña */
+    margin-top: 1px; /* Menos espacio arriba */
+    margin-bottom: 1px; /* Menos espacio abajo */
+    line-height: 1.2; /* Espacio entre líneas más compacto */
+}
+
+header, .navbar {
+    margin-bottom: 10px; /* Reducí si hay demasiado espacio entre header y container */
+}
+/*****************Diseño del resumen de la solicitud****************************/
+
+
+.resumen-popup {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    max-width: 600px;
+    margin: auto;
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.popup-title {
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #1a73e8;
+}
+
+.resumen-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+}
+
+    .resumen-info div {
+        display: flex;
+        justify-content: space-between;
+        font-size: 15px;
+    }
+
+    .resumen-info span:first-child {
+        font-weight: 600;
+        color: #555;
+        width: 45%;
+    }
+
+.resumen-archivos {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f5f8fe;
+    border: 1px solid #c3dafe;
+    border-radius: 8px;
+}
+
+    .resumen-archivos h5 {
+        margin-bottom: 15px;
+        font-size: 18px;
+        color: #1a3e74;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+.archivo-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 6px;
+}
+
+.archivo-label {
+    font-weight: 600;
+    color: #333;
+}
+
+.archivo-nombre {
+    color: #1a73e8;
+    font-style: italic;
+    word-break: break-all;
+}
+
+@media (max-width: 600px) {
+    .resumen-popup {
+        padding: 15px;
+    }
+
+    .resumen-info div, .archivo-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .resumen-info span:first-child,
+    .archivo-label {
+        width: 100%;
+        margin-bottom: 4px;
+    }
+}
+
+.dxpc-closeBtn {
+    position: absolute !important;
+    right: 10px !important;
+    top: 10px !important;
+    z-index: 9999;
+}*/
+
+
+/* Estilos base para el popup */
+
+.popup-responsive .dxpcLite {
+    z-index: 9999 !important;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+
+@media (max-width: 480px) {
+    .popup-responsive .dxpcLite {
+        width: 95% !important;
+        max-width: 95% !important;
+        height: auto !important;
+        overflow: auto !important;
+    }
+
+    .popup-responsive .dxpc-content {
+        padding: 10px !important;
+    }
+
+    .headerpopup {
+        font-size: 16px !important;
+        text-align: center !important;
+    }
+
+    .dxpc-closeButton {
+        position: absolute !important;
+        top: 8px !important;
+        right: 8px !important;
+        z-index: 10001 !important;
+    }
+}
+
+.swal2-container {
+    z-index: 20000 !important;
+}
+
+    /*****************************/
+
+/*formulario de seguimiento */
+.error-message {
+    color: #d9534f;
+    margin-top: 5px;
+    display: block;
+}
+
+.headerpopup {
+    background-color: #f8f9fa;
+    padding: 10px;
+    font-weight: bold;
+}
+
+
+
+
+/* Contenedor principal */
+.password-field .dxflNestedControlContainer {
+    position: relative;
+}
+
+.password-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.eye-toggle-btn {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 0 8px;
+    z-index: 2; /* Asegura que esté sobre el input */
+}
+
+
+.password-wrapper input.dxeEditArea_DevEx {
+    padding-right: 30px !important; /* Espacio para el ícono */
+}
+
+
+/*color del formulario*/
 body {
-    color: #666666;
+    color: #026B98;
     font-size: 14px;
     font-family: 'Poppins', sans-serif;
     line-height: 1.80857;
     font-weight: normal;
     overflow-x: hidden;
-    background: #F6F4F1;
+    background: #026B98 !important; /*Azul*/
 }
 
 a {
@@ -60,6 +339,31 @@ a {
     -o-transition: all .3s ease-in-out;
     transition: all .3s ease-in-out;
 }
+
+   
+    
+/* Contenedor para centrar el formulario */
+
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    width: 100%;
+    background-color: #f4f4f4; /* Fondo opcional */
+}
+
+/* Estilos del formulario */
+.form {
+    width: 90%; /* Se adapta a pantallas pequeñas */
+    max-width: 400px; /* Tamaño máximo del formulario */
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
 
 h1,
 h2,
@@ -220,7 +524,8 @@ button {
 }
 
 .titlepage {
-    padding-bottom: 60px;
+    margin-bottom: 10px; /* o 0 si es necesario */
+    padding-bottom: 0;
 }
 
     .titlepage h2 {
@@ -235,7 +540,7 @@ button {
     .titlepage h3 {
         font-size: 25px;
         color: white;
-        line-height: 40px;
+        line-height: 30px;
         font-weight: bold;
         padding: 0;
         display: block;
@@ -336,7 +641,7 @@ preloader area
 .logo a {
     font-family: 'Poppins', sans-serif;
     /* color: #2ba3d7;*/
-    color: #cc5333;
+    color: #0072C6;
     font-weight: bold;
     font-size: 40px;
     display: block;
@@ -349,15 +654,7 @@ preloader area
         padding-right: 50px;
         margin-top: -15px; /* Ajusta este valor según sea necesario */
     }
-    /*.logo a img {
-        padding-right: 50px;*/
-        
-      /*  height: auto;
-        max-width: 100%;
-        border: none;
-        border-radius: 0;
-        box-shadow: none;*/
-    /*}*/
+   
 
     .logo a span {
         color: #313131;
@@ -475,18 +772,12 @@ preloader area
 
 /* services section */
 .services {
-    padding: 30px 0;
-    /*margin-top: 90px;*/
-    /* background: #1F497D;
-    background: -webkit-linear-gradient(to right, #cc5333, #1F497D);
-    background: linear-gradient(to right, #cc5333, #1F497D);*/
-    /*background: linear-gradient(135deg, #ffffff 30%, #4b6cb7 100%);*/
-    /*background: linear-gradient(90deg, rgba(0,36,34,1) 0%, rgba(172,190,47,1) 22%, rgba(0,212,255,1) 100%);*/
-   /* background: linear-gradient(90deg, rgba(137,214,251,1) 0%, rgba(2,169,247,1) 19%, rgba(2,87,122,1) 97%, rgba(0,0,0,1) 100%);*/
-    /*background-image: url('TSC/c2d.png');*/
-    /*background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;*/
+    padding: 1px 0;
+    background: #026B98; /*color azul del formulario*/
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 50px; /* o el alto exacto de tu footer */
 }
 
 
@@ -542,7 +833,7 @@ preloader area
     width: 96px;
     height: 90px;
     background-color: #ffffff !important;
-    color: #000000 !important;
+    color: #026B98 !important;
     font-size: 60px !important;
     line-height: 30px !important;
     opacity: 1;
@@ -568,19 +859,30 @@ preloader area
 }
 
 
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+
 /** end services section **/
 
 /** footer **/
 
 
 .footer {
-    background: #F6F4F1;
-    /*background: #363636;*/
-
-    padding-top: 50px;
-    /* margin-top: 135px;*/
+    background: #F6F4F1 !important;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
+.copyright {
+    background-color: #026B98 !important;  
+    padding: 50px 0;
+    text-align: center;
+    width: 100%;
+}
 ul.conta {
     display: flex;
     justify-content: space-between;
@@ -684,14 +986,12 @@ ul.social_icon {
             }
 
 .copyright {
-    /*background: #363636;*/
-    /*background: #156ab3;*/
-    /*background: #2ba3d7;*/
+    
     padding: 20px 0px;
     margin-top: 30px;
     background: #1F497D; /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #cc5333, #1F497D); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #cc5333, #1F497D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+   
 }
 
     .copyright p {
@@ -772,8 +1072,8 @@ ul.social_icon {
 }
 
 .form-group label {
-    font-weight: bold;
-    color: #1F497D;
+  /*  font-weight: bold;*/
+    color:black;
 }
 /** end blog section **/
 

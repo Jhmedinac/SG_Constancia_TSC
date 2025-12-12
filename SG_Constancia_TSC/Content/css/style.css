@@ -31,6 +31,122 @@ import Files
 basic 
 ---------------------------------------------------------------------*/
 
+.titulo-proceso {
+    color: #006699;
+    text-align: center;
+    font-size: 30px; /* más pequeño */
+    margin-bottom: 5px; /* casi sin espacio hacia abajo */
+}
+
+#GridSolicitudes .dxgvToolbar {
+    margin-top: 0 !important; /* elimina espacio hacia arriba */
+    padding-top: 0 !important;
+}
+
+
+/*Combobox Tipo de solicitud*/
+
+.toolbar-filter {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    background: #ffffff;
+    border-radius: 6px;
+   
+    margin-bottom: 16px;
+    justify-content: flex-end;
+}
+
+    .toolbar-filter .filter-label {
+        font-weight: 600;
+        color: #1F497D;
+        margin-right: 8px;
+    }
+
+/************************************/
+
+.btn-update-status {
+    background-color: #1F497D;
+    color: white;
+    font-size: 13px; /* Texto más grande */
+    font-weight: bold;
+    padding: 10px 10px; /* Más espacio interno*/
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    margin-right: 100px;
+}
+
+    .btn-update-status:hover {
+        background-color: #218838;  /*Cambio de color al pasar el mouse */
+    }
+
+
+
+/************************************************************/
+/* Estilos para los botones de la barra de herramientas */
+.toolbar-button {
+    margin-right: 15px; /* Espacio a la derecha de cada botón */
+}
+
+.btn-update-status {
+    margin-right: 15px;  
+}
+
+    /* Opcional: Estilo de los botones cuando se pasa el cursor */
+    .toolbar-button:hover, .btn-update-status:hover {
+        background-color: #5bc0de; /* Cambiar el color al pasar el mouse */
+        color: white; /* Aseguramos que el texto sea blanco */
+    }
+
+ /************************************************/
+/* Botón para "Actualizar Estado" */
+.btn-accion {
+    background-color: #28a745; 
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s ease-in-out;
+}
+
+    .btn-accion:hover {
+        background-color: #218838;
+    }
+
+/* Botón para "Actualizar" */
+.btn-neutro {
+    background-color: #6c757d; 
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s ease-in-out;
+}
+
+    .btn-neutro:hover {
+        background-color: #5a6268;
+    }
+
+/* Botón para "Exportar" */
+.rtbtn-expoar {
+    background-color: #1F497D; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s ease-in-out;
+}
+/*******************************************************************/
+    .btn-exportar:hover {
+        background-color: #138496;
+    }
+
+
 * {
     box-sizing: border-box !important;
 }
@@ -370,10 +486,6 @@ preloader area
     transition: ease-in all 0.5s;
 }
 
-/* navbar regular css end */
-
-
-/* nav-toggler css start */
 
 .nav-toggler {
     /*border: 3px solid #2ba3d7;*/
@@ -420,10 +532,7 @@ preloader area
 }
 
 
-/* nav-toggler css start */
 
-
-/* intro-area css start */
 
 .intro-area {
     height: calc(100vh - 61px);
@@ -433,13 +542,7 @@ preloader area
     color: #fff;
 }
 
-/* intro-area css end */
 
-
-/** end header **/
-
-
-/** banner section **/
 .full_bg {
     background:#fafbfd;
     height: 100vh;
@@ -615,7 +718,6 @@ display: none;
 .services {
     padding: 90px 0;
     margin-top: 90px;
-    /*background: #2ba3d7;*/
     background: #156ab3;
 }
 .services .titlepage h2 {
@@ -755,7 +857,7 @@ display: none;
     bottom: 0;
 }
 .custom {
-    /*background: #2ba3d7;*/
+   
     background: #156ab3;
     text-align: center;
     padding: 20px 20px 25px 20px;
@@ -803,7 +905,7 @@ display: none;
     .top_middile h3 {
         padding-top: 20px;
         padding-bottom: 15px;
-        /*color: #2ba3d7;*/
+       
         color: #156ab3;
     }
 .top_middile p {
@@ -823,7 +925,6 @@ display: none;
         height: 21px;
         border-radius: 50px;
         background: #156ab3;
-        /*background: #2ba3d7;*/
         cursor: pointer;
     }
 #myCarousel .carousel-indicators .active {
@@ -874,7 +975,6 @@ display: none;
         font-size: 24px;
         transition: ease-in all 0.5s;
         background-color: #156ab3;
-        /*background-color: #2ba3d7;*/
         color: #fff;
         max-width: 224px;
         width: 100%;
@@ -946,7 +1046,6 @@ ul.conta li span {
     max-width: 80px;
     display: inline-block;
     background: #156ab3;
-    /*background: #2ba3d7;*/
     color: #fff;
     height: 62px;
     font-size: 13px;
@@ -960,7 +1059,6 @@ ul.conta li span {
     .subs_btn:hover {
         background: #fff;
         color: #156ab3;
-        /*color: #2ba3d7;*/
         transition: ease-in all 0.5s;
     }
 
@@ -991,14 +1089,14 @@ ul.social_icon li a {
 }
 
     ul.social_icon li a:hover {
-        /*background: #2ba3d7;*/
+       
         background: #156ab3;
         color: #fff;
         transition: ease-in all 0.7s;
     }
 
 .copyright {
-    /*background:#2ba3d7;*/
+    
     background: #156ab3;
     padding: 20px 0px;
     margin-top: 90px;
@@ -1026,7 +1124,7 @@ ul.social_icon li a {
 .blog {
     padding: 90px 0;
     margin-top: 90px;
-    /*background: #2ba3d7;*/
+   
     background: #156ab3;
 }
 .blog .titlepage h2 {

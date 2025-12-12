@@ -14,14 +14,19 @@ using System.Web.UI.WebControls;
 using SG_Constancia_TSC.Utili;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraPrinting;
-
 using DevExpress.Office.Internal;
-
-//using DevExpress.XtraPrinting;
 using DevExpress.Web.Internal.XmlProcessor;
 using DevExpress.CodeParser;
 using System.Web.Services;
-//using Org.BouncyCastle.Bcpg;
+using DevExpress.Pdf.Native;
+using System.Drawing.Imaging;
+using System.Drawing;
+using ZXing.QrCode;
+using ZXing;
+using DevExpress.XtraPrinting.BarCode;
+using SG_Constancia_TSC.Reportes;
+using DevExpress.Utils;
+using SG_Constancia_TSC.Mantenimiento;
 
 namespace SG_Constancia_TSC
 {
@@ -34,14 +39,38 @@ namespace SG_Constancia_TSC
             if (!IsPostBack)
             {
                 LoadStatuses();
-                GV_PreUsuarios.FocusedRowIndex = -1; // Evita que se enfoque una fila al cargar la página
+                GV_PreUsuarios.FocusedRowIndex = -1;
+
+                cmbTipoFiltro.Value = "0";
+
+                // 2) Ajusta el parámetro del SqlDataSource
+                SqlDataUsers.SelectParameters["TipoSolicitud"].DefaultValue = "false";
+
+                // 3) Rellena el grid
+                GV_PreUsuarios.DataBind();
+
+                // 4) Ajusta visibilidad de columnas
+                GV_PreUsuarios.Columns["Identidad"].Visible = true;
+                GV_PreUsuarios.Columns["FirstName"].Visible = true;
+                GV_PreUsuarios.Columns["LastName"].Visible = true;
+                GV_PreUsuarios.Columns["NumRtn"].Visible = false;
+                GV_PreUsuarios.Columns["NomInstitucion"].Visible = false;
+
+                string userId = Session["Name_user"]?.ToString();
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    string base64UserId = Convert.ToBase64String(Encoding.UTF8.GetBytes(userId));
+                    ASPxRblAdjunto.Items.Add(userId, userId);
+                }
             }
 
         }
+
+
         private void LoadStatuses()
         {
             string connectionString = (ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
-            string query = "SELECT Id_Estado, Descripcion_Estado FROM Estados WHERE Id_Estado IN (2, 3)";
+            string query = "SELECT Id_Estado, Descripcion_Estado FROM Estados WHERE Id_Estado IN (4)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -53,44 +82,57 @@ namespace SG_Constancia_TSC
                 cmbStatus.DataBind();
             }
         }
-        protected void ASPxCallback_PopupUpdate_Callback(object source, CallbackEventArgs e)
+
+
+
+        protected void ASPxCallback_PopupUpdate_Callback(object source, DevExpress.Web.CallbackEventArgs e)
         {
-            List<string> selectedIDs = new List<string>();
-            foreach (var key in GV_PreUsuarios.GetSelectedFieldValues("Id"))
+            try
             {
-                selectedIDs.Add(key.ToString());
-            }
+                int userID = Convert.ToInt32(Session["User_id"] ?? "0");
 
-            if (selectedIDs.Count != 1)
-            {
-                return;
-            }
+                // 1) Id de la fila seleccionada
+                int index = GV_PreUsuarios.FocusedRowIndex;
+                if (index < 0) { e.Result = "ERROR|Por favor seleccione una fila antes de actualizar el estado.|"; return; }
 
-            string selectedID = selectedIDs[0]; // Solo tomamos el primer (y único) ID
-            string estado = cmbStatus.SelectedItem.Value.ToString();
-            //string observacion = txtObs.Text;
+                object idObj = GV_PreUsuarios.GetRowValues(index, "Id");
+                if (idObj == null) { e.Result = "ERROR|No se pudo obtener el Id de la solicitud.|"; return; }
+                string selectedID = idObj.ToString();
 
-            // Ejecuta el procedimiento almacenado para actualizar el estado y la observación
-            string connectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                using (SqlCommand command = new SqlCommand("[gral].[sp_gestion_estado_user]", connection))
+                // 2) Estado y observación
+                var sel = cmbStatus.SelectedItem;
+                if (sel == null) { e.Result = "ERROR|Seleccione el estado.|"; return; }
+
+                if (!int.TryParse(Convert.ToString(sel.Value), out int estadoInt))
                 {
-                    int UserID = Convert.ToInt16(Session["User_id"]);
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@IDUser", SqlDbType.Int).Value = UserID;
-                    command.Parameters.AddWithValue("@IDs", selectedID);
-                    command.Parameters.AddWithValue("@Estado", estado);
-                    //command.Parameters.AddWithValue("@Observacion", observacion);
-                    SqlParameter mensParam = new SqlParameter("@MENS", SqlDbType.NVarChar, -1)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    SqlParameter retornoParam = new SqlParameter("@RETORNO", SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
+                    e.Result = "ERROR|Seleccione un estado válido.|"; return;
+                }
+                string Desc_estado = sel.Text ?? "";
+                string observacion = txtObs.Text ?? "";
 
+                // 3) Existir constancia previa en la BD
+                if (!ConstanciaYaGenerada(selectedID))
+                {
+                    e.Result = "ERROR|Debe generar la constancia previa antes de actualizar el estado.|";
+                    return;
+                }
+
+                // 4) Ejecutar SP
+                string cs = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
+                using (SqlConnection connection = new SqlConnection(cs))
+                using (SqlCommand command = new SqlCommand("[gral].[sp_gestion_estado]", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                  
+                    command.Parameters.Add("@IDUser", SqlDbType.Int).Value = userID;
+                    command.Parameters.Add("@IDs", SqlDbType.NVarChar, 50).Value = selectedID; 
+                    command.Parameters.Add("@Estado", SqlDbType.Int).Value = estadoInt;
+                    command.Parameters.Add("@Obs", SqlDbType.NVarChar, -1).Value = (object)observacion ?? DBNull.Value;
+                    command.Parameters.Add("@pcUsuarioModificaId", SqlDbType.Int).Value = userID;
+
+                    var mensParam = new SqlParameter("@MENS", SqlDbType.NVarChar, -1) { Direction = ParameterDirection.Output };
+                    var retornoParam = new SqlParameter("@RETORNO", SqlDbType.Int) { Direction = ParameterDirection.Output };
                     command.Parameters.Add(mensParam);
                     command.Parameters.Add(retornoParam);
 
@@ -98,26 +140,54 @@ namespace SG_Constancia_TSC
                     command.ExecuteNonQuery();
                     connection.Close();
 
-                    string mensaje = mensParam.Value.ToString();
+                    string mensaje = Convert.ToString(mensParam.Value);
                     int retorno = Convert.ToInt32(retornoParam.Value);
 
-                    // Opcional: Lógica para manejar el mensaje y retorno
                     if (retorno == 1)
                     {
-                        // Éxito
                         GV_PreUsuarios.DataBind();
-                        //ScriptManager.RegisterStartupScript(this, GetType(), "closePopup", "closePopupAndClearFields();", true);
+                        e.Result = "OK|La solicitud se ha enviado a la bandeja de Autorizar Constancias.|CLEAR";
+
+                        string adressEmail = SampleUtil.GetEmail(selectedID);
+                        string subject = "Actualización del estado de su solicitud de constancia";
+                        string emailBody = @"
+                                <!doctype html>
+                                  <html><head><meta charset='utf-8'><title>Estado de solicitud</title></head>
+                                  <body style='margin:0;padding:0;background-color:#f5f5f5; font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#333; line-height:1.6;'>
+                                  <div style='max-width:600px; margin:0 auto; padding:20px;'>
+                                  <div style='border:1px solid #ddd; border-radius:8px; background-color:#fafafa; padding:20px;'>
+                                  <div style='text-align:center; margin-bottom:20px;'>
+                                  <img src='https://dcioxh.stripocdn.email/content/guids/CABINET_b93ec2a38389d475174431c45f61c597b12b8d21784bda70816c8c0373b4ae6a/images/logo_tsc_2024_n0C.png' alt='Logo TSC' width='150' style='display:block; margin:0 auto;' />
+                                  </div>
+                                  <p style='text-align:center; margin:0 0 12px 0;'>Estimado(a) Usuario,</p>
+                                  <p style='text-align:center; margin:0 0 12px 0;'>
+                                  Le informamos que el estado de su solicitud de
+                                  <b>Constancia de no tener cuentas pendientes con el Estado de Honduras</b>
+                                  ha sido actualizado a: <b>" + Desc_estado + @"</b>.
+                                  </p>
+                                  <p style='text-align:center; margin:0 0 12px 0;'>
+                                  Para más detalles, por favor ingrese al siguiente enlace:
+                                  <a href='https://consta-sec-dev.tsc.gob.hn:8011/Seguimiento.aspx' target='_blank' style='color:#1F497D; font-weight:bold; text-decoration:underline;'>Seguimiento de Solicitud</a>.
+                                  </p>
+                                  <p style='margin-top:20px; text-align:center;'><b>Atentamente,</b><br/>Tribunal Superior de Cuentas<br/>Secretaría General</p>
+                                  <hr style='margin:24px 0; border:none; border-top:1px solid #ccc;' />
+                                  <p style='font-size:12px; color:#666; text-align:center; margin:0;'>
+                                  Este mensaje fue generado automáticamente por el Sistema de Solicitudes de Constancias en Línea.<br/>Por favor, no responda este mensaje.
+                                  </p>
+                                </div></div></body></html>";
+                        SampleUtil.EnviarCorreo1("", subject, adressEmail, emailBody);
                     }
                     else
                     {
-                        // Error
                         GV_PreUsuarios.DataBind();
+                        e.Result = $"ERROR|{mensaje}";
                     }
                 }
             }
-
-
-            GV_PreUsuarios.DataBind();
+            catch (Exception)
+            {
+                e.Result = "ERROR|No se pudo actualizar el estado. Inténtelo de nuevo.|";
+            }
         }
 
 
@@ -132,7 +202,7 @@ namespace SG_Constancia_TSC
                 try
                 {
                     con.Open();
-                    string query = "SELECT * FROM solicitudes "; // Ajusta esta consulta a tus necesidades
+                    string query = "SELECT * FROM solicitudes ";
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
@@ -151,510 +221,573 @@ namespace SG_Constancia_TSC
             return dataTable;
         }
 
-        private void ExportToCSV(List<string> selectedIDs)
+
+
+        private DataTable GetFilteredDataFromGridView(int tipo)
         {
-            StringBuilder csvContent = new StringBuilder();
-            DataTable updatedData = new DataTable();
-
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["connString"].ConnectionString))
+            if (tipo == 0) // Natural
             {
-                string query = "SELECT * FROM Users WHERE Id IN ({0})";
-                var parameters = new List<string>();
-                var commandParameters = new List<SqlParameter>();
-                for (int i = 0; i < selectedIDs.Count; i++)
-                {
-                    string parameterName = "@id" + i;
-                    parameters.Add(parameterName);
-                    commandParameters.Add(new SqlParameter(parameterName, selectedIDs[i]));
-                }
-                query = string.Format(query, string.Join(",", parameters));
 
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                // Crear y definir el DataTable
+                DataTable dt = new DataTable();
+                dt.Columns.Add("FirstName", typeof(string));
+                dt.Columns.Add("LastName", typeof(string));
+                dt.Columns.Add("Identidad", typeof(string));
+                dt.Columns.Add("nombre", typeof(string)); // Columna para el nombre completo
+                dt.Columns.Add("Id", typeof(string)); // Columna para el nombre completo
+
+                // Obtener el índice de la fila enfocada (seleccionada)
+                int selectedRowIndex = GV_PreUsuarios.FocusedRowIndex;
+                if (selectedRowIndex >= 0)
                 {
-                    cmd.Parameters.AddRange(commandParameters.ToArray());
-                    con.Open();
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                    // Obtener los valores de la fila seleccionada
+                    object[] values = GV_PreUsuarios.GetRowValues(
+                        selectedRowIndex,
+                        new string[] { "FirstName", "LastName", "Identidad", "Id" }
+                    ) as object[];
+
+                    if (values != null)
                     {
-                        adapter.Fill(updatedData);
+                        DataRow dr = dt.NewRow();
+                        dr["FirstName"] = values[0];
+                        dr["LastName"] = values[1];
+                        dr["Identidad"] = values[2];
+                        // Combina FirstName y LastName, agregando un espacio entre ellos
+                        dr["nombre"] = values[0].ToString() + " " + values[1].ToString();
+                        dr["Id"] = values[3];
+                        dt.Rows.Add(dr);
                     }
                 }
+                // Si no hay fila seleccionada, el DataTable quedará vacío
+                return dt;
+
+
             }
-
-            // Columns to export
-            List<string> selectedColumns = new List<string> { "FirstName", "LastName", "Email", "EmployeeId", "UserId", "Address" };
-
-            // Filter columns
-            var filteredData = new DataTable();
-            foreach (var col in selectedColumns)
+            else if (tipo == 1) // Jurídica
             {
-                filteredData.Columns.Add(col, updatedData.Columns[col].DataType);
-            }
+                // Crear y definir el DataTable
+                DataTable dt = new DataTable();
+                dt.Columns.Add("FirstName", typeof(string));
+                dt.Columns.Add("LastName", typeof(string));
+                dt.Columns.Add("NumRtn", typeof(string));
+                dt.Columns.Add("NomInstitucion", typeof(string)); // Columna para el nombre completo
+                dt.Columns.Add("Id", typeof(string)); // Columna para el nombre completo
 
-            foreach (DataRow row in updatedData.Rows)
-            {
-                var newRow = filteredData.NewRow();
-                foreach (var col in selectedColumns)
+                // Obtener el índice de la fila enfocada (seleccionada)
+                int selectedRowIndex = GV_PreUsuarios.FocusedRowIndex;
+                if (selectedRowIndex >= 0)
                 {
-                    newRow[col] = row[col];
+                    // Obtener los valores de la fila seleccionada
+                    object[] values = GV_PreUsuarios.GetRowValues(
+                        selectedRowIndex,
+                        new string[] { "FirstName", "LastName", "NumRtn", "Id", "NomInstitucion" }
+                    ) as object[];
+
+                    if (values != null)
+                    {
+                        DataRow dr = dt.NewRow();
+                        dr["FirstName"] = values[0];
+                        dr["LastName"] = values[1];
+                        dr["NumRtn"] = values[2];
+                        // Combina FirstName y LastName, agregando un espacio entre ellos
+                        dr["NomInstitucion"] = values[4].ToString();
+                        dr["Id"] = values[3];
+                        dt.Rows.Add(dr);
+                    }
                 }
-                filteredData.Rows.Add(newRow);
+                // Si no hay fila seleccionada, el DataTable quedará vacío
+                return dt;
             }
-
-            csvContent.AppendLine(string.Join(",", filteredData.Columns.Cast<DataColumn>().Select(col => "\"" + col.ColumnName.Replace("\"", "\"\"") + "\"")));
-
-            foreach (DataRow row in filteredData.Rows)
+            else
             {
-                List<string> fields = new List<string>();
-                foreach (var item in row.ItemArray)
-                {
-                    fields.Add("\"" + item.ToString().Replace("\"", "\"\"") + "\"");
-                }
-                csvContent.AppendLine(string.Join(",", fields));
+                throw new ArgumentException("Tipo de filtro no válido");
             }
-
-            Response.Clear();
-            Response.ContentType = "text/csv";
-            Response.AddHeader("Content-Disposition", "attachment;filename=DatosActualizados.csv");
-            Response.ContentEncoding = Encoding.UTF8;
-
-            byte[] byteArray = Encoding.UTF8.GetBytes(csvContent.ToString());
-            using (MemoryStream memoryStream = new MemoryStream(byteArray))
-            {
-                memoryStream.WriteTo(Response.OutputStream);
-            }
-
-            Response.End();
         }
-
-
-        //GV_PreUsuarios_BeforeExport
-        protected void GV_PreUsuarios_BeforeExport(object sender, ASPxGridBeforeExportEventArgs e)
+        private byte[] ObtenerFirma(int parametroId)
         {
-            List<string> selectedIDs = new List<string>();
-            foreach (var key in GV_PreUsuarios.GetSelectedFieldValues("Id"))
-            {
-                selectedIDs.Add(key.ToString());
-            }
-
-            if (!(GV_PreUsuarios.Selection.Count > 0))
-            {
-                ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "alertMessage", "alert('Por favor, seleccione las filas a exportar.');", true);
-                return;
-            }
+            byte[] firmaBytes = null;
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["connString"].ConnectionString))
             {
                 try
                 {
-                    int UserID = Convert.ToInt16(Session["User_id"]);
-                    using (SqlCommand cmd = new SqlCommand("[gral].[sp_gestion_exportado_user]", con))
+                    using (SqlCommand cmd = new SqlCommand(
+                        "SELECT firma FROM gral.Parametros WHERE UserId = @id", con))
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@IDUser", UserID));
-                        cmd.Parameters.Add(new SqlParameter("@IDs", string.Join(",", selectedIDs)));
-
-                        SqlParameter correoParam = new SqlParameter("@CorreoElectronico", SqlDbType.NVarChar, -1); // Use -1 for NVARCHAR(MAX)
-                        correoParam.Direction = ParameterDirection.Output;
-                        cmd.Parameters.Add(correoParam);
-
-                        SqlParameter retornoParam = new SqlParameter("@RETORNO", SqlDbType.Int);
-                        retornoParam.Direction = ParameterDirection.Output;
-                        cmd.Parameters.Add(retornoParam);
-
-                        SqlParameter mensajeEstadoParam = new SqlParameter("@MENS", SqlDbType.NVarChar, 255);
-                        mensajeEstadoParam.Direction = ParameterDirection.Output;
-                        cmd.Parameters.Add(mensajeEstadoParam);
-
+                        cmd.Parameters.AddWithValue("@id", parametroId);
                         con.Open();
-                        cmd.ExecuteNonQuery();
 
-                        string emailList = correoParam.Value != DBNull.Value ? correoParam.Value.ToString() : string.Empty;
-                        string mensajeEstado = mensajeEstadoParam.Value != DBNull.Value ? mensajeEstadoParam.Value.ToString() : string.Empty;
-                        int retorno = retornoParam.Value != DBNull.Value ? (int)retornoParam.Value : 0;
-
-                        if (retorno == 1)
+                        object result = cmd.ExecuteScalar();
+                        if (result != DBNull.Value && result != null)
                         {
-                            SampleUtil.SendEmails(emailList);
-                            ExportToCSV(selectedIDs);
-
-                        }
-                        else
-                        {
-                            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Error: " + mensajeEstado + "');", true);
+                            firmaBytes = (byte[])result;
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    ErrorLogger.LogError(ex);
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Error al ejecutar el procedimiento almacenado: " + ex.Message + "');", true);
-                    GV_PreUsuarios.Selection.UnselectAll();
-                    GV_PreUsuarios.DataBind();
-                }
-                finally
-                {
-                    con.Close();
-                    GV_PreUsuarios.DataBind();
+                    // Aquí puedes registrar el error o mostrarlo
+                    throw new ApplicationException("Error al obtener la firma desde la base de datos", ex);
                 }
             }
+
+            return firmaBytes;
         }
 
-        private DataTable GetFilteredDataFromGridView()
+        protected void AgregarCodigoQRAlReporte(Reportes.Constancia report, string encryptedId)
         {
-            // Crear y definir el DataTable
-            DataTable dt = new DataTable();
-            dt.Columns.Add("FirstName", typeof(string));
-            dt.Columns.Add("LastName", typeof(string));
-            dt.Columns.Add("Identidad", typeof(string));
-            dt.Columns.Add("nombre", typeof(string)); // Columna para el nombre completo
-            dt.Columns.Add("Id", typeof(string)); // Columna para el nombre completo
-
-            // Obtener el índice de la fila enfocada (seleccionada)
-            int selectedRowIndex = GV_PreUsuarios.FocusedRowIndex;
-            if (selectedRowIndex >= 0)
+            XRBarCode xrBarCode = new XRBarCode
             {
-                // Obtener los valores de la fila seleccionada
-                object[] values = GV_PreUsuarios.GetRowValues(
-                    selectedRowIndex,
-                    new string[] { "FirstName", "LastName", "Identidad","Id" }
-                ) as object[];
-
-                if (values != null)
+                Symbology = new QRCodeGenerator
                 {
-                    DataRow dr = dt.NewRow();
-                    dr["FirstName"] = values[0];
-                    dr["LastName"] = values[1];
-                    dr["Identidad"] = values[2];
-                    // Combina FirstName y LastName, agregando un espacio entre ellos
-                    dr["nombre"] = values[0].ToString() + " " + values[1].ToString();
-                    dr["Id"] = values[3];
-                    dt.Rows.Add(dr);
-                }
-            }
-            // Si no hay fila seleccionada, el DataTable quedará vacío
-            return dt;
+                    CompactionMode = QRCodeCompactionMode.Byte,
+                    ErrorCorrectionLevel = QRCodeErrorCorrectionLevel.H,
+                    Version = QRCodeVersion.Version4
+                },
+                Text = "https://constancia.tsc.gob.hn/SolicitudUsuario.aspx?id=" + encryptedId,
+                ShowText = false,
+                AutoModule = true,
+                WidthF = 176.46f,
+                HeightF = 179.58f,
+                LocationF = new PointF(235.42f, 19.79f),
+                Module = 2,
+                Padding = new PaddingInfo(10, 10, 10, 10)
+            };
+            report.Bands["GroupFooter1"].Controls.Add(xrBarCode);
         }
 
 
         protected void ASPxReportCosntancia_Click(object sender, EventArgs e)
         {
-            DataTable dt = GetFilteredDataFromGridView();
 
-            if (dt != null && dt.Rows.Count > 0)
+
+            //natural
+            int tipo = Convert.ToInt32(cmbTipoFiltro.Value);
+            if (cmbTipoFiltro.Value == null || cmbTipoFiltro.Value.ToString() == "0")
             {
-                var parametros = HttpContext.Current.Session["Parametros"] as Dictionary<string, Parametro>;
-
-                if (parametros == null)
+                DataTable dt = GetFilteredDataFromGridView(tipo);
+                if (dt != null && dt.Rows.Count > 0)
                 {
-                    throw new InvalidOperationException("Los parámetros no están disponibles en la sesión.");
-                }
 
-                string nombre = dt.Columns.Contains("nombre") ? dt.Rows[0]["nombre"].ToString() : "Desconocido";
-                string documento = dt.Columns.Contains("Identidad") ? dt.Rows[0]["Identidad"].ToString() : "N/A";
-
-                void OpenReport(string nombreParametro)
-                {
-                    if (parametros.TryGetValue(nombreParametro, out Parametro parametro))
+                    var firmaSeleccion = ASPxRblAdjunto.Value as string;
+                    if (string.IsNullOrWhiteSpace(firmaSeleccion))
                     {
-                        string valor = parametro.Valor ?? "Valor por defecto";
-                        string descripcion = parametro.Descripcion ?? "Descripción por defecto";
+                        ScriptManager.RegisterStartupScript(
+                            this, this.GetType(), "swalFirmaRequeridaGen_N",
+                            @"Swal.fire({
+                        icon: 'warning',
+                        title: 'Firma Adjunta Requerida',
+                        text: 'Debe seleccionar la opción de firma adjunta antes de generar la constancia previa.',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar'
+                    });",
+                            true
+                        );
+                        return;
+                    }
 
-                        string textoFormateado = string.Empty;
+                    var parametros = HttpContext.Current.Session["Parametros"] as Dictionary<string, Parametro>;
 
-                        if (nombreParametro == "Firma_Secretario_adjunto" && nombreParametro == "Firma_Secretaria_general")
+                    if (parametros == null)
+                    {
+                        throw new InvalidOperationException("Los parámetros no están disponibles en la sesión.");
+                    }
+
+                    string nombre = dt.Columns.Contains("nombre") ? dt.Rows[0]["nombre"].ToString() : "Desconocido";
+                    string documento = dt.Columns.Contains("Identidad") ? dt.Rows[0]["Identidad"].ToString() : "N/A";
+                    string solicitudId = dt.Rows[0]["Id"].ToString();
+
+                    void OpenReport(string nombreParametro)
+                    {
+                        if (parametros.TryGetValue(nombreParametro, out Parametro parametro))
                         {
-                            textoFormateado =
-                                 "El Infrascrito Secretario General Adjunto del Tribunal Superior de Cuentas, <b>HACE CONSTAR:</b> Que la ciudadana <b>" +
-                                 nombre + "</b>, con Documento Nacional de Identificación N°<b>" + documento + "</b>, no tiene a la fecha ningún tipo de " +
-                                 "responsabilidad firme, ni existe ninguna intervención por presunción de enriquecimiento ilícito en igual situación que le impida el desempeño de un cargo público.<br><br>" +
-                                 "La presente constancia no constituye Solvencia con el Estado de Honduras, ni finiquito a favor del solicitante, quedando sujeto a investigaciones futuras.<br><br>" +
-                                 "La presente constancia tiene validez por el término de seis meses.";
+                            string valor = parametro.Valor ?? "Valor por defecto";
+                            string descripcion = parametro.Descripcion ?? "Descripción por defecto";
+
+
+                            string textoFormateado = $@"
+                            <div style='font-family:Arial, Helvetica, sans-serif; font-size:12pt;line-height:1.5;'>
+                             <p style='margin:0 0 12pt 0; text-align:justify;'>
+                             El Tribunal Superior de Cuentas a través de la Sección Constancias de no tener cuentas 
+                             pendientes con el Estado, adscrita a la Secretaria General, por este medio <b>HACE
+                             CONSTAR:</b> Que <b>{nombre}</b>, con Documento Nacional de Identificación <b>N°{documento}</b>, 
+                             no tiene a la fecha ningún tipo de responsabilidad firme, ni existe ninguna intervención por presunción
+                             de enriquecimiento ilícito en igual situación que le impida el desempeño de un cargo público.
+                             </p>
+
+                             <p style='margin:6pt 0 10pt 0; text-align:justify;'>
+                             La presente constancia no constituye Solvencia con el Estado de Honduras, ni finiquito a favor del solicitante,
+                             quedando sujeto a investigaciones futuras.
+                             </p>
+
+                              <p style='margin:0; text-align:center;'>
+                              --La presente constancia tiene validez por el término de seis meses.--
+                               </p>
+                              </div>";
+
+                            // 1. Obtener firma desde BD
+                            int UserID = Convert.ToInt16(Session["User_id"]);
+                            byte[] firmaBytes = ObtenerFirma(UserID); // parametro.Id = código_parametro en tu tabla
+
+                            var report = new Reportes.Constancia(textoFormateado, solicitudId, firmaBytes);
+                            report.Parameters["id"].Value = solicitudId;
+                            report.Parameters["Firma"].Value = valor;
+                            report.Parameters["Descripcion"].Value = descripcion;
+
+                            string verificacionCode = GetCodigo_Verificacion(solicitudId);
+                            report.Parameters["verificacion"].Value = verificacionCode ?? "Sin código";
+                            report.Parameters["verificacion"].Visible = true;
+
+
+
+
+                            byte[] pdfBytes;
+                            using (MemoryStream memoryStream = new MemoryStream())
+                            {
+                                report.ExportToPdf(memoryStream);
+                                pdfBytes = memoryStream.ToArray();
+                            }
+
+                            GuardarConstanciaEnBD(solicitudId, pdfBytes, verificacionCode);
+
+                            // Agregar el código QR al reporte
+                            AgregarCodigoQRAlReporte(report, solicitudId);
+
+                            ASPxWebDocumentViewer1.OpenReport(report);
+
+
+                            ASPxWebDocumentViewer1.Visible = true;
                         }
                         else
                         {
-                            textoFormateado =
-                               "Por este medio <b>HACE CONSTAR:</b> Que, de acuerdo a revisión efectuada en los " +
-                               "<b>archivos de esta Secretaría</b>, así como en el Sistema de Pliegos enviados, archivo " +
-                               "de Pliegos de Responsabilidad Notificados 2008-2024 y Carpeta de Resoluciones, " +
-                               "la ciudadana <b>" + nombre + "</b>, con Documento Nacional de " +
-                               "Identificación N°<b>" + documento + "</b>, no tiene a la fecha ningún tipo de " +
-                               "responsabilidad firme, ni existe ninguna intervención por presunción de " +
-                               "enriquecimiento ilícito.";
+                            throw new InvalidOperationException($"El parámetro '{nombreParametro}' no se encontró.");
                         }
-
-                        var report = new Reportes.Constancia(textoFormateado);
-                        report.Parameters["Firma"].Value = valor;
-                        report.Parameters["Descripcion"].Value = descripcion;
-
-                        // Convertir el reporte a un arreglo de bytes (PDF)
-                        byte[] pdfBytes;
-                        using (MemoryStream memoryStream = new MemoryStream())
-                        {
-                            report.ExportToPdf(memoryStream);
-                            pdfBytes = memoryStream.ToArray();
-                        }
-
-                        // Guardar la constancia en la base de datos
-                        GuardarConstanciaEnBD(dt.Rows[0]["Id"].ToString(), pdfBytes);
-
-                        // Mostrar el reporte en el visor
-                        ASPxWebDocumentViewer1.OpenReport(report);
-                        ASPxWebDocumentViewer1.Visible = true;
                     }
-                    else
-                    {
-                        throw new InvalidOperationException($"El parámetro '{nombreParametro}' no se encontró.");
-                    }
-                }
 
-                string valorAdjunto = ASPxChkAdjunto.Value?.ToString();
 
-                if (valorAdjunto == "Firma Secretario(a) Adjunto")
-                {
-                    OpenReport("Firma_Secretario_adjunto");
-                }
-                else if (valorAdjunto == "Firma_Secretaria_general")
-                {
-                    OpenReport("Firma_Secretaria_general");
-                }
-                else if (valorAdjunto == "Firma Encargado de estadística")
-                {
-                    OpenReport("Firma_Encargado_de_estadistica");
+                    string Userid = Session["User_id"]?.ToString();
+                    OpenReport(Userid);
+                    string valorAdjunto = ASPxRblAdjunto.Value?.ToString();
+
+
                 }
                 else
                 {
-                    OpenReport("Firma_Secretaria_general");
+                    string script = @"
+                Swal.fire({
+                    title: '¡Alerta!',
+                    text: 'Por favor seleccione una fila para generar la constancia previa.',
+                    icon: 'warning',
+                    confirmButtonColor: '#1F497D'
+                });";
+
+                    ScriptManager.RegisterStartupScript(this, GetType(), "alertaSwal", script, true);
                 }
             }
-            else
+            else if (cmbTipoFiltro.Value.ToString() == "1") // Jurídica
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('No hay datos para imprimir.');", true);
+                DataTable dt = GetFilteredDataFromGridView(tipo);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+
+                    var firmaSeleccion = ASPxRblAdjunto.Value as string;
+                    if (string.IsNullOrWhiteSpace(firmaSeleccion))
+                    {
+                        ScriptManager.RegisterStartupScript(
+                            this, this.GetType(), "swalFirmaRequeridaGen_J",
+                            @"Swal.fire({
+                        icon: 'warning',
+                        title: 'Firma Adjunta Requerida',
+                        text: 'Debe seleccionar la opción de firma adjunta antes de generar la constancia previa.',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar'
+                    });",
+                            true
+                        );
+                        return;
+                    }
+
+                    var parametros = HttpContext.Current.Session["Parametros"] as Dictionary<string, Parametro>;
+
+                    if (parametros == null)
+                    {
+                        throw new InvalidOperationException("Los parámetros no están disponibles en la sesión.");
+                    }
+
+                    string nombre = dt.Columns.Contains("NomInstitucion") ? dt.Rows[0]["NomInstitucion"].ToString() : "Desconocido";
+                    string documento = dt.Columns.Contains("NumRtn") ? dt.Rows[0]["NumRtn"].ToString() : "N/A";
+                    string solicitudId = dt.Rows[0]["Id"].ToString();
+
+                    void OpenReport(string nombreParametro)
+                    {
+                        if (parametros.TryGetValue(nombreParametro, out Parametro parametro))
+                        {
+                            string valor = parametro.Valor ?? "Valor por defecto";
+                            string descripcion = parametro.Descripcion ?? "Descripción por defecto";
+
+                            // Solo declaramos una vez la variable
+                            string textoFormateado = $@"
+                           <div style='font-family:Arial, Helvetica, sans-serif; font-size:12pt;line-height:1.5;'>
+                            <p style='margin:0 0 12pt 0; text-align:justify;'>
+                            El Tribunal Superior de Cuentas a través de la Sección Constancias de no tener cuentas 
+                            pendientes con el Estado, adscrita a la Secretaria General, por este medio <b>HACE
+                            CONSTAR:</b> Que <b>{nombre}</b>, con RTN <b>N°{documento}</b>, no tiene a la 
+                            fecha ningún tipo de responsabilidad civil o administrativa en carácter de firme, ante esta
+                            institución.</p>
+                           
+                          <p style='margin:6pt 0 10pt 0; text-align:justify;'>
+                          La presente constancia no constituye Solvencia con el Estado de Honduras, ni finiquito a favor del solicitante,
+                          quedando sujeto a investigaciones futuras.
+                          </p>
+
+                          <p style='margin:0; text-align:center;'>
+                                --La presente constancia tiene validez por el término de seis meses.--
+                              </p>
+                              </div>";
+
+                            // 1. Obtener firma desde BD
+
+                            int UserID = Convert.ToInt16(Session["User_id"]);
+                            byte[] firmaBytes = ObtenerFirma(UserID); // parametro.Id = código_parametro en tu tabla
+
+                            var report = new Reportes.Constancia(textoFormateado, solicitudId, firmaBytes);
+                            report.Parameters["id"].Value = solicitudId;
+                            report.Parameters["Firma"].Value = valor;
+                            report.Parameters["Descripcion"].Value = descripcion;
+
+                            string verificacionCode = GetCodigo_Verificacion(solicitudId);
+                            report.Parameters["verificacion"].Value = verificacionCode ?? "Sin código";
+                            report.Parameters["verificacion"].Visible = true;
+
+                            byte[] pdfBytes;
+                            using (MemoryStream memoryStream = new MemoryStream())
+                            {
+                                report.ExportToPdf(memoryStream);
+                                pdfBytes = memoryStream.ToArray();
+                            }
+
+                            GuardarConstanciaEnBD(solicitudId, pdfBytes, verificacionCode);
+
+                            // Agregar el código QR al reporte
+                            AgregarCodigoQRAlReporte(report, solicitudId);
+
+                            ASPxWebDocumentViewer1.OpenReport(report);
+                            ASPxWebDocumentViewer1.Visible = true;
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"El parámetro '{nombreParametro}' no se encontró.");
+                        }
+                    }
+
+                    string Userid = Session["User_id"]?.ToString();
+                    OpenReport(Userid);
+                    string valorAdjunto = ASPxRblAdjunto.Value?.ToString();
+
+
+                }
+                else
+                {
+                    string script = @"
+                Swal.fire({
+                    title: '¡Alerta!',
+                    text: 'Por favor seleccione una fila para generar la constancia previa.',
+                    icon: 'warning',
+                    confirmButtonColor: '#1F497D'
+                });";
+
+                    ScriptManager.RegisterStartupScript(this, GetType(), "alertaSwal", script, true);
+                }
             }
         }
 
-        private void GuardarConstanciaEnBD(string solicitudId, byte[] archivoConstancia)
+        private string GetCodigo_Verificacion(string solicitudId)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
-
-            // Query para insertar en ConstanciasGeneradas
-            string insertQuery = @"
-        INSERT INTO ConstanciasGeneradas (
-            Clave, 
-            Estado, 
-            FechaCreacion, 
-            Observaciones, 
-            SolicitudId, 
-            CodigoVerificacion, 
-            FechaAprobacion, 
-            Archivoconstancia
-        ) VALUES (
-            @Clave, 
-            @Estado, 
-            @FechaCreacion, 
-            @Observaciones, 
-            @SolicitudId, 
-            @CodigoVerificacion, 
-            @FechaAprobacion, 
-            @Archivoconstancia
-        )";
-
-            // Query para actualizar el campo Archivoconstancia en Constancias
-            string updateQuery = @"
-        UPDATE Constancias
-        SET 
-            Archivoconstancia = @Archivoconstancia,
-            Estado = 7,  Observaciones = 'Constancia fue generada'
-        WHERE SolicitudId = @SolicitudId";
+            string getCodeQuery = "SELECT TOP 1 CodigoVerificacion FROM Constancias WHERE SolicitudId = @SolicitudId";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlCommand command = new SqlCommand(getCodeQuery, connection))
             {
-                try
+                command.Parameters.AddWithValue("@SolicitudId", solicitudId);
+                connection.Open();
+                object result = command.ExecuteScalar();
+                return result?.ToString();
+            }
+        }
+
+        
+
+        private bool ConstanciaYaGenerada(string solicitudId)
+        {
+            string cs = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
+            using (SqlConnection conn = new SqlConnection(cs))
+            using (SqlCommand cmd = new SqlCommand(@"
+        IF EXISTS (
+            SELECT 1
+            FROM dbo.ConstanciasGeneradas WITH (NOLOCK)
+            WHERE SolicitudId = @SolicitudId
+              AND Archivoconstancia IS NOT NULL
+        ) SELECT 1 ELSE SELECT 0;", conn))
+            {
+                cmd.Parameters.Add("@SolicitudId", SqlDbType.NVarChar).Value = solicitudId;
+                conn.Open();
+                var r = cmd.ExecuteScalar();
+                return r != null && Convert.ToInt32(r) == 1;
+            }
+        }
+
+        private void GuardarConstanciaEnBD(string solicitudId, byte[] archivoConstancia, string codigoVerificacion)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
+            int userID = Convert.ToInt32(Session["User_id"]);
+
+            if (string.IsNullOrEmpty(solicitudId))
+                throw new ArgumentException("El parámetro solicitudId no puede ser nulo o vacío.");
+
+            if (archivoConstancia == null || archivoConstancia.Length == 0)
+                throw new ArgumentException("El archivoConstancia no puede estar vacío.");
+
+            if (ConstanciaYaGenerada(solicitudId))
+                return;
+
+            string insertQuery = @"
+        INSERT INTO ConstanciasGeneradas (
+            Clave, Estado, FechaCreacion, Observaciones, SolicitudId, CodigoVerificacion, Archivoconstancia
+        ) VALUES (
+            @Clave, @Estado, @FechaCreacion, @Observaciones, @SolicitudId, @CodigoVerificacion, @Archivoconstancia
+        )";
+
+            string updateQuery = @"
+        UPDATE Constancias
+        SET Archivoconstancia = @Archivoconstancia, 
+            Estado = 4, 
+            Observaciones = 'Constancia fue generada',
+            UsuarioModificacionId = @UsuarioModificacionId, 
+            fechaModificacion = @fechaModificacion
+        WHERE SolicitudId = @SolicitudId";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
 
                     // Insertar en ConstanciasGeneradas
                     using (SqlCommand insertCommand = new SqlCommand(insertQuery, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@Clave", Guid.NewGuid().ToString()); // Clave única
-                        insertCommand.Parameters.AddWithValue("@Estado", "Generada"); // Estado inicial
-                        insertCommand.Parameters.AddWithValue("@FechaCreacion", DateTime.Now); // Fecha actual
-                        insertCommand.Parameters.AddWithValue("@Observaciones", "Constancia generada automáticamente");
-                        insertCommand.Parameters.AddWithValue("@SolicitudId", solicitudId);
-                        insertCommand.Parameters.AddWithValue("@CodigoVerificacion", Guid.NewGuid().ToString()); // Código único
-                        insertCommand.Parameters.AddWithValue("@FechaAprobacion", DBNull.Value); // Fecha de aprobación nula
-                        insertCommand.Parameters.AddWithValue("@Archivoconstancia", archivoConstancia);
+                        insertCommand.Parameters.Add("@Clave", SqlDbType.UniqueIdentifier).Value = Guid.NewGuid();
+                        insertCommand.Parameters.Add("@Estado", SqlDbType.NVarChar).Value = "Generada";
+                        insertCommand.Parameters.Add("@FechaCreacion", SqlDbType.DateTime).Value = DateTime.Now;
+                        insertCommand.Parameters.Add("@Observaciones", SqlDbType.NVarChar).Value = "Constancia previa generada automáticamente";
+                        insertCommand.Parameters.Add("@SolicitudId", SqlDbType.NVarChar).Value = solicitudId;
+                        insertCommand.Parameters.Add("@CodigoVerificacion", SqlDbType.NVarChar).Value = codigoVerificacion ?? "N/A";
+                        insertCommand.Parameters.Add("@Archivoconstancia", SqlDbType.VarBinary).Value = archivoConstancia;
 
-                        int rowsInserted = insertCommand.ExecuteNonQuery();
-
-                        if (rowsInserted > 0)
-                        {
-                            Console.WriteLine("Constancia generada insertada correctamente en ConstanciasGeneradas.");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Error: No se pudo insertar la constancia generada.");
-                            return; // Salir si no se insertó correctamente
-                        }
+                        insertCommand.ExecuteNonQuery();
                     }
 
-                    // Actualizar el campo Archivoconstancia en Constancias
+                    // Actualizar Constancias
                     using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
                     {
-                        updateCommand.Parameters.AddWithValue("@Archivoconstancia", archivoConstancia);
-                        updateCommand.Parameters.AddWithValue("@SolicitudId", solicitudId);
+                        updateCommand.Parameters.Add("@Archivoconstancia", SqlDbType.VarBinary).Value = archivoConstancia;
+                        updateCommand.Parameters.Add("@SolicitudId", SqlDbType.NVarChar).Value = solicitudId;
+                        updateCommand.Parameters.Add("@UsuarioModificacionId", SqlDbType.Int).Value = userID;
+                        updateCommand.Parameters.Add("@fechaModificacion", SqlDbType.DateTime).Value = DateTime.Now;
 
-                        int rowsUpdated = updateCommand.ExecuteNonQuery();
-
-                        if (rowsUpdated > 0)
-                        {
-                            Console.WriteLine("Archivoconstancia actualizado correctamente en Constancias.");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Error: No se encontró el registro en Constancias para actualizar.");
-                        }
+                        updateCommand.ExecuteNonQuery();
                     }
                 }
-                catch (SqlException ex)
-                {
-                    // Manejar errores de SQL
-                    Console.WriteLine("Error de SQL: " + ex.Message);
-                    throw; // Relanzar la excepción para manejo adicional si es necesario
-                }
-                catch (Exception ex)
-                {
-                    // Manejar otros errores
-                    Console.WriteLine("Error: " + ex.Message);
-                    throw; // Relanzar la excepción para manejo adicional si es necesario
-                }
+            }
+            catch (SqlException sqlEx)
+            {
+                RegistrarErrorEnBitacora(userID, "GuardarConstanciaEnBD", $"Error SQL: {sqlEx.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                RegistrarErrorEnBitacora(userID, "GuardarConstanciaEnBD", $"Error general: {ex.Message}");
+                throw;
             }
         }
-        //protected void ASPxReportCosntancia_Click(object sender, EventArgs e)
-        //{
-        //    DataTable dt = GetFilteredDataFromGridView();
+        private void RegistrarErrorEnBitacora(int userId, string componente, string descripcion)
+        {
+            try
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
 
-        //    if (dt != null && dt.Rows.Count > 0)
-        //    {
-        //        var parametros = HttpContext.Current.Session["Parametros"] as Dictionary<string, Parametro>;
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
 
-        //        if (parametros == null)
-        //        {
-        //            throw new InvalidOperationException("Los parámetros no están disponibles en la sesión.");
-        //        }
+                    string query = @"
+                INSERT INTO [gral].[Bitacora_Errores] 
+                (codigo_usuario, fecha_hora, componente, descripcion)
+                VALUES (@codigo_usuario, @fecha_hora, @componente, @descripcion)";
 
-        //        // Obtener datos de la primera fila
-        //        string nombre = dt.Columns.Contains("nombre") ? dt.Rows[0]["nombre"].ToString() : "Desconocido";
-        //        string documento = dt.Columns.Contains("Identidad") ? dt.Rows[0]["Identidad"].ToString() : "N/A";
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
+                    {
+                        cmd.Parameters.Add("@codigo_usuario", SqlDbType.Int).Value = userId;
+                        cmd.Parameters.Add("@fecha_hora", SqlDbType.DateTime).Value = DateTime.Now;
+                        cmd.Parameters.Add("@componente", SqlDbType.VarChar, 250).Value = componente;
+                        cmd.Parameters.Add("@descripcion", SqlDbType.VarChar).Value = descripcion;
 
-        //        // Función local para generar el reporte
-        //        void OpenReport(string nombreParametro)
-        //        {
-        //            if (parametros.TryGetValue(nombreParametro, out Parametro parametro))
-        //            {
-        //                string valor = parametro.Valor ?? "Valor por defecto";
-        //                string descripcion = parametro.Descripcion ?? "Descripción por defecto";
-
-        //                string textoFormateado = string.Empty;
-
-        //                if (nombreParametro == "Firma_Secretario_adjunto" && nombreParametro == "Firma_Secretaria_general")
-        //                {
-        //                    textoFormateado =
-        //                         "El Infrascrito Secretario General Adjunto del Tribunal Superior de Cuentas, <b>HACE CONSTAR:</b> Que la ciudadana <b>" +
-        //                         nombre + "</b>, con Documento Nacional de Identificación N°<b>" + documento + "</b>, no tiene a la fecha ningún tipo de " +
-        //                         "responsabilidad firme, ni existe ninguna intervención por presunción de enriquecimiento ilícito en igual situación que le impida el desempeño de un cargo público.<br><br>" +
-        //                         "La presente constancia no constituye Solvencia con el Estado de Honduras, ni finiquito a favor del solicitante, quedando sujeto a investigaciones futuras.<br><br>" +
-        //                         "La presente constancia tiene validez por el término de seis meses.";
-        //                }
-        //                else 
-        //                {
-        //                    textoFormateado =
-        //                       "Por este medio <b>HACE CONSTAR:</b> Que, de acuerdo a revisión efectuada en los " +
-        //                       "<b>archivos de esta Secretaría</b>, así como en el Sistema de Pliegos enviados, archivo " +
-        //                       "de Pliegos de Responsabilidad Notificados 2008-2024 y Carpeta de Resoluciones, " +
-        //                       "la ciudadana <b>" + nombre + "</b>, con Documento Nacional de " +
-        //                       "Identificación N°<b>" + documento + "</b>, no tiene a la fecha ningún tipo de " +
-        //                       "responsabilidad firme, ni existe ninguna intervención por presunción de " +
-        //                       "enriquecimiento ilícito.";
-
-
-        //                }
-
-        //                var report = new Reportes.Constancia(textoFormateado);
-        //                report.Parameters["Firma"].Value = valor;
-        //                report.Parameters["Descripcion"].Value = descripcion;
-
-        //                ASPxWebDocumentViewer1.OpenReport(report);
-        //                ASPxWebDocumentViewer1.Visible = true;
-        //            }
-        //            else
-        //            {
-        //                throw new InvalidOperationException($"El parámetro '{nombreParametro}' no se encontró.");
-        //            }
-        //        }
-        //        //bool isAdjunto = false;
-        //        if (ASPxChkAdjunto.Value == null)
-        //        {
-        //            ASPxChkAdjunto.Value = "Firma_Secretaria_general";
-        //        }
-
-        //        string valorAdjunto = ASPxChkAdjunto.Value?.ToString(); // Convertir a string de forma segura
-
-        //        if (valorAdjunto == "Firma Secretario(a) Adjunto")
-        //        {
-        //            OpenReport("Firma_Secretario_adjunto");
-        //        }
-        //        else if (valorAdjunto == "Firma_Secretaria_general")
-        //        {
-        //            OpenReport("Firma_Secretaria_general");
-        //        }
-        //        else if (valorAdjunto == "Firma Encargado de estadística")
-        //        {
-        //            OpenReport("Firma_Encargado_de_estadistica");
-        //        }
-        //        else
-        //        {
-        //            OpenReport("Firma_Secretaria_general"); // Valor por defecto
-        //        }
-
-        //    }
-        //    else
-        //    {
-        //        // Si hay un UpdatePanel, usar ScriptManager en lugar de ClientScript
-        //        ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('No hay datos para imprimir.');", true);
-        //    }
-        //}
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch
+            {
+                // ⚠️ Importante: nunca relanzar aquí para evitar bucles de error
+                // Si falla el registro en bitácora, lo ignoramos
+            }
+        }
 
         protected void GV_PreUsuarios_CustomCallback(object sender, ASPxGridViewCustomCallbackEventArgs e)
         {
             GV_PreUsuarios.DataBind();
         }
 
-        //protected void DescargarConstancia_Click(object sender, EventArgs e)
-        //{
-        //    string constanciaId = Request.QueryString["constanciaId"];
-        //    string connectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
-        //    string query = "SELECT Archivoconstancia FROM Constancias WHERE ConstanciaId = @ConstanciaId";
 
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        SqlCommand command = new SqlCommand(query, connection);
-        //        command.Parameters.AddWithValue("@ConstanciaId", constanciaId);
+        public static string GenerateQRCode(string encryptedConstanciaId)
+        {
+            var qrWriter = new BarcodeWriterPixelData
+            {
+                Format = BarcodeFormat.QR_CODE,
+                Options = new QrCodeEncodingOptions
+                {
+                    Height = 180,
+                    Width = 180,
+                    Margin = 1
+                }
+            };
 
-        //        connection.Open();
-        //        SqlDataReader reader = command.ExecuteReader();
+            //var pixelData = qrWriter.Write("https://xxxxx/Solicitud.aspx?constanciaid=" + encryptedConstanciaId);
+            var pixelData = qrWriter.Write("http://localhost:59458/Solicitud.aspx?constanciaid=" + encryptedConstanciaId);
 
-        //        if (reader.Read())
-        //        {
-        //            byte[] archivoConstancia = (byte[])reader["Archivoconstancia"];
+            using (var bitmap = new Bitmap(pixelData.Width, pixelData.Height, PixelFormat.Format32bppArgb))
+            using (var ms = new MemoryStream())
+            {
+                var bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                                                 ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+                try
+                {
+                    // Transfer the image data to the bitmap
+                    System.Runtime.InteropServices.Marshal.Copy(pixelData.Pixels, 0, bitmapData.Scan0, pixelData.Pixels.Length);
+                }
+                finally
+                {
+                    bitmap.UnlockBits(bitmapData);
+                }
 
-        //            Response.Clear();
-        //            Response.ContentType = "application/pdf";
-        //            Response.AppendHeader("Content-Disposition", "attachment; filename=Constancia.pdf");
-        //            Response.BinaryWrite(archivoConstancia);
-        //            Response.End();
-        //        }
-        //    }
-        //}
+                // Save to memory stream as PNG
+                bitmap.Save(ms, ImageFormat.Png);
+                byte[] imageBytes = ms.ToArray();
+                string base64String = Convert.ToBase64String(imageBytes);
+                return "data:image/png;base64," + base64String;
+            }
+        }
+
 
         [WebMethod]
         public static bool GuardarConstancia(string constanciaId)
@@ -682,5 +815,73 @@ namespace SG_Constancia_TSC
                 return false;
             }
         }
+
+        protected void btnGuardaConstancia_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int tipo = Convert.ToInt32(cmbTipoFiltro.Value);
+                DataTable dt = GetFilteredDataFromGridView(tipo);
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+
+                    string solicitudId = dt.Rows[0]["Id"].ToString();
+
+
+                    string connectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
+                    string query = "UPDATE Constancias SET EnlaceArchivo = @EnlaceArchivo WHERE SolicitudId = @solicitudId";
+
+
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        SqlCommand command = new SqlCommand(query, connection);
+                        command.Parameters.AddWithValue("@solicitudId", solicitudId);
+                        command.Parameters.AddWithValue("@EnlaceArchivo", "ruta/a/la/constancia.pdf");
+
+                        connection.Open();
+                        int result = command.ExecuteNonQuery();
+
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        protected void cmbTipoFiltro_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            bool isNatural = (cmbTipoFiltro.Value as string) == "0";
+
+            // 1) Ajusto el parámetro del SqlDataSource
+            SqlDataUsers.SelectParameters["TipoSolicitud"].DefaultValue = isNatural
+                ? "false"
+                : "true";
+
+            // 2) Re-bindeo el grid
+            GV_PreUsuarios.DataBind();
+
+            // 3) Muestro/oculto columnas
+            GV_PreUsuarios.Columns["Identidad"].Visible = isNatural;
+            GV_PreUsuarios.Columns["FirstName"].Visible = isNatural;
+            GV_PreUsuarios.Columns["LastName"].Visible = isNatural;
+            GV_PreUsuarios.Columns["NumRtn"].Visible = !isNatural;
+            GV_PreUsuarios.Columns["NomInstitucion"].Visible = !isNatural;
+
+        }
+    }
+}
+
+public static class VerificacionHelper
+{
+    private static string _verificacionCode = Guid.NewGuid().ToString();
+
+    public static string GetVerificacionCode()
+    {
+        return _verificacionCode;
     }
 }

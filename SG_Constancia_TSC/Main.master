@@ -12,23 +12,23 @@
         }
     </style>
     <script type="text/javascript" src='<%# ResolveUrl("~/Content/Script%20-%20Copia.js") %>'></script>
-     <script>
+    <script>
         function OnItemClick(s, e) {
             if (e.item.name == "DenunciasC")
                 Presentacion_Denuncia.Show();
         }
-     </script>
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="LeftPanelContent" runat="server">
 
     <asp:ContentPlaceHolder ID="LeftPanelContent" runat="server" />
     <h3 class="leftpanel-section section-caption">Menú Principal</h3>
-    <dx:ASPxNavBar ID="nbMain" runat="server" AllowSelectItem="True" EnableAnimation="True" CssClass="custom-nav-bar" 
-        Width="100%"  SyncSelectionMode="None">
+    <dx:ASPxNavBar ID="nbMain" runat="server" AllowSelectItem="True" EnableAnimation="True" CssClass="custom-nav-bar"
+        Width="100%" SyncSelectionMode="None">
         <ItemStyle CssClass="item" />
         <ClientSideEvents ItemClick="OnItemClick" />
         <Groups>
-            <dx:NavBarGroup Text="Inicio" Expanded="False" ItemImagePosition="Left" Name="Inicio" NavigateUrl="Default.aspx" >
+            <dx:NavBarGroup Text="Inicio" Expanded="False" ItemImagePosition="Left" Name="Inicio" NavigateUrl="Default.aspx">
 
                 <HeaderImage IconID="businessobjects_bo_address_svg_16x16">
                 </HeaderImage>
@@ -36,62 +36,70 @@
                 </HeaderImageCollapsed>
 
             </dx:NavBarGroup>
-            <dx:NavBarGroup Text="Solicitudes de Constancias" Expanded="False" ItemImagePosition="Left" Name="Pre-Registro" >
-                    <CollapseImage IconID="businessobjects_bo_document_svg_16x16">
-                    </CollapseImage>
-                    <ExpandImage IconID="businessobjects_bo_contract_svg_16x16"></ExpandImage>  
+
+            <dx:NavBarGroup Text="Guía de Usuario" Expanded="False" ItemImagePosition="Left" Name="Guia">
+                <HeaderImage IconID="actions_help_svg_16x16" />
                 <Items>
-                    <dx:NavBarItem NavigateUrl="Solicitud.aspx" Text="Ingreso de Solicitud de constancia" Name="Solicitudes" Image-IconID="richedit_pastespecial_16x16" >
-                         <Image IconID="iconbuilder_travel_hotel_svg_gray_16x16"></Image>   
+                    <dx:NavBarItem Text="Manual de Usuario" Name="Guia_Manual"
+                        NavigateUrl="~/Content/Manual/Manual_de_Usuario_Modulo_Admin.pdf"
+                        Target="_blank">
+                        <Image IconID="export_exporttopdf_svg_16x16"></Image>
                     </dx:NavBarItem>
-                     <dx:NavBarItem NavigateUrl="Solicitudesreg.aspx" Text="Solicitudes en Proceso" Name="Clasificacion" Image-IconID="richedit_pastespecial_16x16">
-                        <Image IconID="businessobjects_bo_task_svg_16x16"></Image>   
+                </Items>
+            </dx:NavBarGroup>
+
+            <dx:NavBarGroup Text="Solicitudes de Constancias" Expanded="False" ItemImagePosition="Left" Name="Pre-Registro">
+                <CollapseImage IconID="businessobjects_bo_document_svg_16x16">
+                </CollapseImage>
+                <ExpandImage IconID="businessobjects_bo_contract_svg_16x16"></ExpandImage>
+                <Items>
+
+                    <dx:NavBarItem NavigateUrl="Solicitudesreg.aspx" Text="Solicitudes en Proceso" Name="Clasificacion" Image-IconID="richedit_pastespecial_16x16">
+                        <Image IconID="richedit_updatetableofcontents_svg_16x16"></Image>
                     </dx:NavBarItem>
 
                     <dx:NavBarItem NavigateUrl="Solicitudes_Rechazadas.aspx" Text="Solucitudes Rechazadas" Name="Usuarios_Exportados" Image-IconID="richedit_pastespecial_16x16">
-                        <Image IconID="businessobjects_bo_task_svg_16x16"></Image>   
+                        <Image IconID="richedit_unprotectdocument_svg_16x16"></Image>
                     </dx:NavBarItem>
 
 
                     <dx:NavBarItem NavigateUrl="solicitudes_finalizadas.aspx" Text="Solucitudes Aprobadas" Name="Usuarios_Exportados" Image-IconID="richedit_pastespecial_16x16">
-                        <Image IconID="businessobjects_bo_task_svg_16x16"></Image>   
+                        <Image IconID="businessobjects_bo_task_svg_16x16"></Image>
                     </dx:NavBarItem>
 
-                    
+                    <dx:NavBarItem NavigateUrl="Autorizar_Constancia.aspx" Text="Autorizar Constancias" Name="Constancias_Exportados" Image-IconID="richedit_pastespecial_16x16">
+                        <Image IconID="businessobjects_bo_task_svg_16x16"></Image>
+                    </dx:NavBarItem>
 
-                    <dx:NavBarItem NavigateUrl="VerificarConstancia.aspx" Text="Verificar Solucitudes" Name="Usuarios_Exportados" Image-IconID="richedit_pastespecial_16x16">
-                        <Image IconID="businessobjects_bo_task_svg_16x16"></Image>   
+                    <dx:NavBarItem NavigateUrl="Constancias_Generadas.aspx" Text="Constancias Generadas" Name="Constancias_Exportados" Image-IconID="richedit_pastespecial_16x16">
+                        <Image IconID="businessobjects_bo_task_svg_16x16"></Image>
                     </dx:NavBarItem>
-                </Items>
-          </dx:NavBarGroup>
-            <dx:NavBarGroup Text="Mantenimiento" Expanded="False" ItemImagePosition="Left" Name="Mantenimiento" >
-                    <CollapseImage IconID="outlookinspired_customizegrid_svg_16x16">
-                    </CollapseImage>
-                    <ExpandImage IconID="outlookinspired_custom_svg_16x16"></ExpandImage>
-                <Items>
-                  
-                    <dx:NavBarItem NavigateUrl="Mantenimiento/Usuarios.aspx" Text="Usuarios" Name="Usuarios" Image-IconID="richedit_pastespecial_16x16" >
-                         <Image IconID="outlookinspired_employees_svg_16x16"></Image>
-                    </dx:NavBarItem>
-                    <dx:NavBarItem NavigateUrl="Account/Registro.aspx" Text="Registrar Usuarios" Name="RegistrarU" Image-IconID="people_user_16x16">
-                         <Image IconID="outlookinspired_newemployee_svg_16x16"></Image>
+                    <dx:NavBarItem NavigateUrl="Historico_Constancias_Generadas.aspx" Text="Historico de Constancias Generadas" Name="Constancias_Exportados" Image-IconID="richedit_pastespecial_16x16">
+                        <Image IconID="businessobjects_bo_task_svg_16x16"></Image>
                     </dx:NavBarItem>
                 </Items>
             </dx:NavBarGroup>
-            <%--<dx:NavBarGroup Text="Reportes" Expanded="False" ItemImagePosition="Left" Name="Reportes" >
-                    <CollapseImage IconID="outlookinspired_customizegrid_svg_16x16">
-                    </CollapseImage>
-                    <ExpandImage IconID="outlookinspired_custom_svg_16x16"></ExpandImage>
+            <dx:NavBarGroup Text="Mantenimiento" Expanded="False" ItemImagePosition="Left" Name="Mantenimiento">
+                <CollapseImage IconID="outlookinspired_customizegrid_svg_16x16">
+                </CollapseImage>
+                <ExpandImage IconID="outlookinspired_custom_svg_16x16"></ExpandImage>
                 <Items>
-                  
-                    <dx:NavBarItem NavigateUrl="Reportes/Usuarios.aspx" Text="diario" Name="Usuarios" Image-IconID="richedit_pastespecial_16x16" >
-                         <Image IconID="outlookinspired_employees_svg_16x16"></Image>
+
+                    <dx:NavBarItem NavigateUrl="Mantenimiento/Usuarios.aspx" Text="Usuarios" Name="Usuarios" Image-IconID="richedit_pastespecial_16x16">
+                        <Image IconID="outlookinspired_employees_svg_16x16"></Image>
                     </dx:NavBarItem>
                     <dx:NavBarItem NavigateUrl="Account/Registro.aspx" Text="Registrar Usuarios" Name="RegistrarU" Image-IconID="people_user_16x16">
-                         <Image IconID="outlookinspired_newemployee_svg_16x16"></Image>
+                        <Image IconID="outlookinspired_newemployee_svg_16x16"></Image>
+                    </dx:NavBarItem>
+                    <dx:NavBarItem NavigateUrl="Mantenimiento/Parametros.aspx" Text="Parámetros de Firmas Adjuntas" Name="Parametros" Image-IconID="people_user_16x16">
+                        <Image IconID="dashboards_parameters_svg_16x16"></Image>
+                    </dx:NavBarItem>
+                    <dx:NavBarItem NavigateUrl="Mantenimiento/Parametros_TI.aspx" Text="Administrar Parámetros del Sistema" Name="Parametros1" Image-IconID="people_user_16x16">
+                        <Image IconID="dashboards_parameters_svg_16x16"></Image>
                     </dx:NavBarItem>
                 </Items>
-            </dx:NavBarGroup>--%>
+            </dx:NavBarGroup>
+
         </Groups>
     </dx:ASPxNavBar>
 
@@ -103,6 +111,6 @@
 <asp:Content ID="Content5" ContentPlaceHolderID="PageContent" runat="server">
     <div class="content">
         <uc1:TimeoutControl ID="TimeoutControl1" runat="server" />
-<asp:ContentPlaceHolder ID="Content" runat="server" />
-</div>
+        <asp:ContentPlaceHolder ID="Content" runat="server" />
+    </div>
 </asp:Content>

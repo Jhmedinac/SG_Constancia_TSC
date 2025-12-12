@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-//using SG_Constancia_TSC
+
 
 
 namespace SG_Constancia_TSC.Account 
@@ -23,15 +23,13 @@ namespace SG_Constancia_TSC.Account
             if (!IsPostBack && !manager.HasPassword(User.Identity.GetUserId()))
             {
                 PageHeader.InnerText = "Establecer contraseña";
-                //PageDescription.InnerText = "No tiene una contraseña local para este sitio. Agregue una contraseña local para que pueda iniciar sesión sin un inicio de sesión externo.";
-                tbCurrentPassword.Visible = false;
                 btnChangePassword.Visible = false;
                 btnSetPassword.Visible = true;
             }
         }
 
         protected void btnChangePassword_Click(object sender, EventArgs e)
-        {
+        {     ErrorMessage.Text = string.Empty;
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var signInManager = Context.GetOwinContext().Get<ApplicationSignInManager>();
             IdentityResult result = manager.ChangePassword(User.Identity.GetUserId(), tbCurrentPassword.Text, tbPassword.Text);

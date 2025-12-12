@@ -3,9 +3,7 @@ using System.Net.Mail;
 using System.Configuration;
 using System;
 using System.IO;
-
-
-//using Glimpse.Core.Extensibility;
+using System.Data.SqlClient;
 
 namespace SG_Constancia_TSC.App_Start
 {
@@ -16,6 +14,21 @@ namespace SG_Constancia_TSC.App_Start
             get
             {
                 return HttpContext.Current;
+            }
+        }
+
+        public static string GetEmail(string solicitudId)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
+            string getCodeQuery = "SELECT email FROM Solicitudes WHERE Id = @SolicitudId";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlCommand command = new SqlCommand(getCodeQuery, connection))
+            {
+                command.Parameters.AddWithValue("@SolicitudId", solicitudId);
+                connection.Open();
+                object result = command.ExecuteScalar();
+                return result?.ToString();
             }
         }
 
@@ -63,7 +76,7 @@ namespace SG_Constancia_TSC.App_Start
             if (stream != null)
             {
                 stream.Seek(0, SeekOrigin.Begin);
-                Attachment attachedDoc = new Attachment(stream, "Pre_Registro.pdf", "application/pdf");
+                Attachment attachedDoc = new Attachment(stream, "Constancia.pdf", "application/pdf");
                 message.Attachments.Add(attachedDoc);
             }
 
@@ -145,10 +158,10 @@ namespace SG_Constancia_TSC.App_Start
         {
             _ = new SmtpClient("SMTPNAME", 2525)
             {
-                Credentials = new System.Net.NetworkCredential("sistemastsc@tsc.gob.hn", "515+3m@5TSC1024@"),
+                Credentials = new System.Net.NetworkCredential("constanciaenlineasg@tsc.gob.hn", "121+3m@TSC1024"),
                 DeliveryMethod = SmtpDeliveryMethod.Network
             };
-            _ = new MailMessage("sistemastsc@tsc.gob.hn", ToEmail)
+            _ = new MailMessage("constanciaenlineasg@tsc.gob.hn", ToEmail)
             {
                 Subject = Subject,
                 Body = Body
@@ -172,7 +185,7 @@ namespace SG_Constancia_TSC.App_Start
             SmtpClient Smtp = new SmtpClient();
             System.Net.NetworkCredential SmtpUser = new System.Net.NetworkCredential();
 
-            Message.From = new MailAddress(from, "SG_Constancia_TSC");
+            Message.From = new MailAddress(from, "Tribunal Superior de Cuentas");
             Message.To.Add(new MailAddress(tto));
             Message.IsBodyHtml = true;
 
@@ -207,12 +220,12 @@ namespace SG_Constancia_TSC.App_Start
             string password = ConfigurationManager.AppSettings["emailServicePassword"];
             MailMessage Message = new MailMessage();
             stream.Seek(0, System.IO.SeekOrigin.Begin);
-            Attachment attachedDoc = new Attachment(stream, "Pre-Registro.pdf", "application/pdf");
+            Attachment attachedDoc = new Attachment(stream, "Constancia.pdf", "application/pdf");
 
             SmtpClient Smtp = new SmtpClient();
             System.Net.NetworkCredential SmtpUser = new System.Net.NetworkCredential();
 
-            Message.From = new MailAddress(from, "SG_Constancia_TSC");
+            Message.From = new MailAddress(from, "Tribunal Superior de Cuentas");
             Message.To.Add(new MailAddress(tto));
             Message.IsBodyHtml = true;
             Message.Attachments.Add(attachedDoc);
@@ -266,7 +279,7 @@ namespace SG_Constancia_TSC.App_Start
                 SmtpClient smtp = ConfigureSmtpClient();
                 string body = GetEmailBody(token);
 
-                MailMessage message = CreateMailMessage(from, email, "Su token de verificación", body);
+                MailMessage message = CreateMailMessage(from, email, "Código de verificación", body);
                 smtp.Send(message);
                 return true;
             }
@@ -354,7 +367,7 @@ namespace SG_Constancia_TSC.App_Start
         {
             string templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MensajeCorreo.html");
             string body = File.ReadAllText(templatePath);
-            // Reemplaza cualquier marcador de posición en la plantilla con el mensaje real
+            
 
             return body;
         }

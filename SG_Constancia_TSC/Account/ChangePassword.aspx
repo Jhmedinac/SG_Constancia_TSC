@@ -1,10 +1,9 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Main.master" CodeBehind="ChangePassword.aspx.cs" Inherits="SG_Constancia_TSC.Account.ChangePassword" %>
 
 <asp:Content ID="Content" ContentPlaceHolderID="Head" runat="server">
-    <%--<link href="../Content/SignInRegister%20-%20Copia.css" rel="stylesheet" />--%>
     <link href="../Content/SignInRegister.css" rel="stylesheet" />
     <script src="../Content/SignInRegister.js"></script>
-   
+    <script src="/Content/Sweetalert/js/sweetalert2@11.js"></script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Content" runat="server">
@@ -12,7 +11,7 @@
     <div style="background-color: white; width: 495px; box-shadow: 0 0 15px 10px #E1E1E1; border: 2px solid #E1E1E1; border-radius: 20px; padding: 15px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white;">
 
         <div style="text-align: center">
-            <dx:ASPxImage ID="ASPxImage1" runat="server" ShowLoadingImage="true" ImageUrl="~/Content/TSC/LOGO_TSC_2024V1.png"></dx:ASPxImage>
+            <dx:ASPxImage ID="ASPxImage1" runat="server" ShowLoadingImage="true" ImageUrl="~/Content/TSC/LOGO_TSC_2025.png"></dx:ASPxImage>
         </div>
         <div class="accountHeader" style="text-align: center; color: darkslategray; font-family: sans-serif;">
             <br />
@@ -38,32 +37,32 @@
                     <div></div>
                 </ButtonTemplate>
                 <Buttons>
-               <dx:EditButton>
-                </dx:EditButton>
-                 </Buttons>
+                    <dx:EditButton>
+                    </dx:EditButton>
+                </Buttons>
                 <ValidationSettings ValidationGroup="ChangeUserPasswordValidationGroup" Display="Dynamic" ErrorTextPosition="Bottom" ErrorDisplayMode="Text">
                     <RequiredField ErrorText="Se requiere la contraseña actual." IsRequired="true" />
                 </ValidationSettings>
                 <ClientSideEvents ButtonClick="onPasswordButtonEditButtonClick" />
             </dx:ASPxButtonEdit>
 
-            <dx:ASPxButtonEdit ID="tbPassword" ClientInstanceName="Password" Caption="Nueva contraseña" NullText="Nueva contraseña" Password="true" ClearButton-DisplayMode="Never" 
+            <dx:ASPxButtonEdit ID="tbPassword" ClientInstanceName="Password" Caption="Nueva contraseña" NullText="Nueva contraseña" Password="true" ClearButton-DisplayMode="Never"
                 runat="server" CssClass="Texbox"
                 Width="350px" OnTextChanged="Password_TextChanged" Theme="iOS">
                 <CaptionSettings Position="Top" />
-                 <ClearButton DisplayMode="Never"></ClearButton>
+                <ClearButton DisplayMode="Never"></ClearButton>
                 <ButtonStyle Border-BorderWidth="0" Width="6" CssClass="eye-button" HoverStyle-BackColor="Transparent" PressedStyle-BackColor="Transparent">
-                   <PressedStyle BackColor="Transparent"></PressedStyle>
-                   <HoverStyle BackColor="Transparent"></HoverStyle>
-                   <Border BorderWidth="0px"></Border>
-               </ButtonStyle>
-               <ButtonTemplate>
-                   <div></div>
-               </ButtonTemplate>
-               <Buttons>
-            <dx:EditButton>
-            </dx:EditButton>
-               </Buttons>
+                    <PressedStyle BackColor="Transparent"></PressedStyle>
+                    <HoverStyle BackColor="Transparent"></HoverStyle>
+                    <Border BorderWidth="0px"></Border>
+                </ButtonStyle>
+                <ButtonTemplate>
+                    <div></div>
+                </ButtonTemplate>
+                <Buttons>
+                    <dx:EditButton>
+                    </dx:EditButton>
+                </Buttons>
                 <ValidationSettings ValidationGroup="ChangeUserPasswordValidationGroup" Display="Dynamic" ErrorTextPosition="Bottom" ErrorDisplayMode="Text">
                     <RequiredField ErrorText="Se requiere la contraseña nueva." IsRequired="true" />
                 </ValidationSettings>
@@ -73,23 +72,23 @@
             <dx:ASPxButtonEdit ID="tbConfirmPassword" Password="true" Caption="Confirmar la nueva contraseña" NullText="Confirmar la nueva contraseña" runat="server" ClearButton-DisplayMode="Never"
                 Width="350px" Theme="iOS" CssClass="Texbox">
                 <CaptionSettings Position="Top" />
-                     <ClearButton DisplayMode="Never"></ClearButton>
-         <ButtonStyle Border-BorderWidth="0" Width="6" CssClass="eye-button" HoverStyle-BackColor="Transparent" PressedStyle-BackColor="Transparent">
-              <PressedStyle BackColor="Transparent"></PressedStyle>
-              <HoverStyle BackColor="Transparent"></HoverStyle>
-              <Border BorderWidth="0px"></Border>
-             </ButtonStyle>
-            <ButtonTemplate>
-             <div></div>
-           </ButtonTemplate>
-             <Buttons>
-          <dx:EditButton>
-          </dx:EditButton>
-              </Buttons>
+                <ClearButton DisplayMode="Never"></ClearButton>
+                <ButtonStyle Border-BorderWidth="0" Width="6" CssClass="eye-button" HoverStyle-BackColor="Transparent" PressedStyle-BackColor="Transparent">
+                    <PressedStyle BackColor="Transparent"></PressedStyle>
+                    <HoverStyle BackColor="Transparent"></HoverStyle>
+                    <Border BorderWidth="0px"></Border>
+                </ButtonStyle>
+                <ButtonTemplate>
+                    <div></div>
+                </ButtonTemplate>
+                <Buttons>
+                    <dx:EditButton>
+                    </dx:EditButton>
+                </Buttons>
                 <ValidationSettings ValidationGroup="ChangeUserPasswordValidationGroup" Display="Dynamic" ErrorTextPosition="Bottom" ErrorDisplayMode="Text">
                     <RequiredField ErrorText="Se requiere confirmación de la contraseña nueva." IsRequired="true" />
                 </ValidationSettings>
-                 <ClientSideEvents ButtonClick="onPasswordButtonEditButtonClick" />
+                <ClientSideEvents ButtonClick="onPasswordButtonEditButtonClick" />
                 <ClientSideEvents Validation="function(s, e) {
         var originalPasswd = Password.GetText();
         var currentPasswd = s.GetText();

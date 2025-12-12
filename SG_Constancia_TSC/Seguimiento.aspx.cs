@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Net.Mail;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Services;
 using System.Web.UI;
 
@@ -15,6 +16,19 @@ namespace SG_Constancia_TSC
         protected void Page_Load(object sender, EventArgs e)
         {
 
+            if (!IsPostBack)
+            {
+                LimpiarCampos();
+            }
+
+        }
+
+        private void LimpiarCampos()
+        {
+            txtCorreo.Text = string.Empty;
+            txtVerficacion.Text = string.Empty;
+            txtConstanciaId.Text = string.Empty;
+            txtClave.Text = string.Empty;
         }
 
         private string GenerateToken()
@@ -22,25 +36,28 @@ namespace SG_Constancia_TSC
             return new Random().Next(100000, 999999).ToString();
         }
 
+
+
+
         protected void btnEnviarCodigo_Click(object sender, EventArgs e)
         {
+            lblMensaje.Text = ""; // Limpiar mensaje por si viene de otro botón
+
             try
             {
+
                 string numeroConstancia = HttpUtility.HtmlEncode(txtConstanciaId.Text.Trim());
                 string clave = HttpUtility.HtmlEncode(txtClave.Text.Trim());
                 string email = HttpUtility.HtmlEncode(txtCorreo.Text.Trim());
 
+                // Validar si el campo está vacío
                 if (string.IsNullOrWhiteSpace(email))
                 {
-                    lblMensaje.Text = "Por favor, ingrese un correo electrónico válido.";
+                    MostrarAlertaSwal("¡Alerta!", "Por favor,ingrese un correo electrónico antes de enviar el código.", "warning");
                     return;
                 }
 
-                //if (string.IsNullOrWhiteSpace(numeroConstancia) || string.IsNullOrWhiteSpace(clave))
-                //{
-                //    lblMensaje.Text = "Debe ingresar el número de constancia y la clave.";
-                //    return;
-                //}
+
 
                 // Generar código aleatorio
                 string token = GenerateToken();
@@ -49,17 +66,62 @@ namespace SG_Constancia_TSC
 
                 if (SendVerificationEmail(email, token))
                 {
-                    lblMensaje.Text = "Código de verificación enviado correctamente a su correo.";
-                    //divVerificacion.Style["display"] = "block"; // Mostrar la caja de verificación
+                    MostrarAlertaSwal("¡Éxito!", "Por favor ingrese el Código de verificación enviado a su correo electrónico.", "success");
                 }
                 else
                 {
-                    lblMensaje.Text = "Error al enviar el código. Intente de nuevo.";
+                    MostrarAlertaSwal("Error", "No se pudo enviar el código. Intente nuevamente.", "error");
                 }
+
+
+
             }
             catch (Exception ex)
             {
-                lblMensaje.Text = "Error inesperado: " + ex.Message;
+                MostrarAlertaSwal("Error inesperado", ex.Message, "error");
+            }
+        }
+
+        private void MostrarAlertaSwal(string titulo, string mensaje, string icono)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "SwalMensaje", $@"
+        Swal.fire({{
+            title: '{titulo}',
+            text: '{mensaje}',
+            icon: '{icono}',
+            confirmButtonColor: '#1F497D'
+        }});
+    ", true);
+        }
+
+
+
+
+        private void RegistrarScriptOcultarMensaje()
+        {
+            string script = @"
+        setTimeout(function () {
+            var label = document.getElementById('" + lblMensaje.ClientID + @"');
+            if (label) { label.innerText = ''; }
+        }, 20000);";
+
+            ScriptManager.RegisterStartupScript(this, GetType(), "ocultarLblMensaje", script, true);
+        }
+
+
+        private bool CorreoExisteEnBD(string correo)
+        {
+            string connStr = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                string query = "SELECT COUNT(1) FROM Solicitudes WHERE Email = @Correo";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Correo", correo);
+                    conn.Open();
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
             }
         }
 
@@ -77,43 +139,61 @@ namespace SG_Constancia_TSC
             }
         }
 
+
+        
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
-            //string codigoIngresado1 = HttpUtility.HtmlEncode(txtCodigoVerificacion.Text.Trim());
-            string codigoIngresado = HttpUtility.HtmlEncode(txtVerficacion.Text.Trim());
-            string constanciaId = HttpUtility.HtmlEncode(txtConstanciaId.Text.Trim());
-            string clave = HttpUtility.HtmlEncode(txtClave.Text.Trim());
-            //string codigoIngresado = txtCodigoVerificacion.Text.Trim();
-            string codigoGuardado = Session["CodigoVerificacion"] as string;
+            lblMensaje.Text = ""; // Limpieza inicial
 
-            //codigoIngresado == codigoGuardado;
+            string solicitud = txtConstanciaId.Text.Trim();
+            string Sclave = txtClave.Text.Trim();
 
-            if (string.IsNullOrEmpty(codigoGuardado) || codigoIngresado != codigoGuardado)
+            // Validar si los campos están vacíos
+            if (string.IsNullOrWhiteSpace(solicitud) || string.IsNullOrWhiteSpace(Sclave))
             {
-                lblMensaje.Text = "Código de verificación incorrecto.";
+                MostrarAlertaSwal("¡Alerta!", " Debe completar el paso 1 y luego ingresar el número de solicitud y la clave.", "warning");
                 return;
             }
 
-            // Aquí se agregará la lógica para consultar la constancia en la base de datos.
+            string codigoIngresado = HttpUtility.HtmlEncode(txtVerficacion.Text.Trim());
+            string constanciaId = HttpUtility.HtmlEncode(txtConstanciaId.Text.Trim());
+            string clave = HttpUtility.HtmlEncode(txtClave.Text.Trim());
+
+            string codigoGuardado = Session["CodigoVerificacion"] as string;
+
+            if (string.IsNullOrEmpty(codigoGuardado) || !string.Equals(codigoIngresado, codigoGuardado, StringComparison.Ordinal))
+            {
+                MostrarAlertaSwal("¡Error!", "Código de verificación incorrecto. Por favor, inténtelo de nuevo.", "error");
+                RegistrarScriptOcultarMensaje();
+                return; 
+            }
+
             bool isValid = ValidateConstancia(constanciaId, clave, out string estado);
 
             if (isValid)
             {
-                // Mostrar el popup con la información si la constancia es válida
-                //string script = "setTimeout(function() {popupSeguimiento.Show(); }, 500);";
-                //ClientScript.RegisterStartupScript(this.GetType(), "ShowPopup", script, true);
-                // Llama a la función JavaScript para mostrar los datos en el popup
-                string script = $"setTimeout(function() {{ showConfirmationMessage2('{constanciaId}'); }}, 500);";
+                string script = $@"
+            setTimeout(function() {{
+                showConfirmationMessage2('{constanciaId}');
+                txtConstanciaId.SetText('');
+                txtClave.SetText('');
+                txtVerficacion.SetText('');
+                txtCorreo.SetText('');
+            }}, 500);";
+
                 ClientScript.RegisterStartupScript(this.GetType(), "ShowPopup", script, true);
+
+                // Remover solo en éxito
+                Session.Remove("CodigoVerificacion");
             }
             else
             {
-                lblMensaje.Text = "Número de constancia o clave incorrectos.";
+                MostrarAlertaSwal("¡Error!", "Número de solicitud o clave de seguimiento incorrectos.", "error");
+                RegistrarScriptOcultarMensaje();
+               
             }
-
-            //lblMensaje.Text = "Consulta realizada correctamente.";
-            Session.Remove("CodigoVerificacion"); // Eliminar código tras su uso
         }
+
 
         protected void txtCodigoVerificacion_TextChanged(object sender, EventArgs e)
         {
@@ -122,15 +202,15 @@ namespace SG_Constancia_TSC
 
             if (!string.IsNullOrEmpty(codigoGuardado) && codigoIngresado == codigoGuardado)
             {
-                lblMensaje.Text = "Código verificado correctamente.";
-                lblMensaje.CssClass = "text-success";
+                MostrarAlertaSwal("¡Éxito!", "Código verificado correctamente.", "success");
+
 
                 // Habilitar el botón de búsqueda
                 btnBuscar.Enabled = true;
             }
             else
             {
-                lblMensaje.Text = "Código incorrecto. Intente nuevamente.";
+                MostrarAlertaSwal("¡Error!", "Código incorrecto. Intente nuevamente.", "error");
                 lblMensaje.CssClass = "text-danger";
                 btnBuscar.Enabled = false;
             }
@@ -193,7 +273,8 @@ namespace SG_Constancia_TSC
             SELECT c.FechaCreacion, 
                    c.Observaciones, 
                    e.Descripcion_Estado,
-                   c.Archivoconstancia
+                   c.Archivoconstancia,
+                   c.ArchivoConstanciaSecretaria
             FROM Constancias c
             INNER JOIN Estados e ON c.Estado = e.Id_Estado
             WHERE c.SolicitudId = @ConstanciaId";
@@ -212,9 +293,9 @@ namespace SG_Constancia_TSC
                         otrosDatos = reader["Observaciones"].ToString();
 
                         // Si hay un archivo de constancia, convertirlo a Base64
-                        if (reader["Archivoconstancia"] != DBNull.Value)
+                        if (reader["ArchivoConstanciaSecretaria"] != DBNull.Value)
                         {
-                            byte[] archivoconstancia = (byte[])reader["Archivoconstancia"];
+                            byte[] archivoconstancia = (byte[])reader["ArchivoConstanciaSecretaria"];
                             archivoconstanciaBase64 = Convert.ToBase64String(archivoconstancia);
                         }
                     }
@@ -227,53 +308,8 @@ namespace SG_Constancia_TSC
                 return $"Error: {ex.Message}";
             }
         }
-        //public static string GetSessionValues(string constanciaId)
-        //{
-        //    try
-        //    {
-        //        string estado = string.Empty;
-        //        string fechaCreacion = string.Empty;
-        //        string otrosDatos = string.Empty;
-        //        string enlaceDescarga = "#"; // Por defecto, no se muestra enlace de descarga
 
-        //        string connectionString = ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString;
-        //        string query = @"
-        //                SELECT c.FechaCreacion, 
-        //                       c.Observaciones, 
-        //                       e.Descripcion_Estado, 
-        //                       c.Archivoconstancia
-        //                FROM Constancias c
-        //                INNER JOIN Estados e ON c.Estado = e.Id_Estado
-        //                WHERE c.SolicitudId = @ConstanciaId";
 
-        //        using (SqlConnection connection = new SqlConnection(connectionString))
-        //        {
-        //            SqlCommand command = new SqlCommand(query, connection);
-        //            command.Parameters.AddWithValue("@ConstanciaId", constanciaId);
-
-        //            connection.Open();
-        //            SqlDataReader reader = command.ExecuteReader();
-        //            if (reader.Read())
-        //            {
-        //                estado = reader["Descripcion_Estado"].ToString();
-        //                fechaCreacion = reader["FechaCreacion"].ToString();
-        //                otrosDatos = reader["Observaciones"].ToString();
-
-        //                // Si la constancia está lista, se agrega el enlace de descarga
-        //                if (estado.ToLower() == "finalizada")
-        //                {
-        //                    enlaceDescarga = reader["Archivoconstancia"].ToString();
-        //                }
-        //            }
-        //        }
-
-        //        return $"{constanciaId}|{estado}|{fechaCreacion}|{otrosDatos}|{enlaceDescarga}";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return $"Error: {ex.Message}";
-        //    }
-        //}
     }
 
 }

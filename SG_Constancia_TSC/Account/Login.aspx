@@ -5,12 +5,28 @@
     <link rel="stylesheet" href="../Content/css/responsive.css"/>
     <link href="../Content/SignInRegister.css" rel="stylesheet" />
      <style type="text/css">
-        @media(max-width:824px) {
-            .control-area {
-                max-width:824px !important;
-            }
-        }
-    </style>
+         @media(max-width:824px) {
+             .control-area {
+                 max-width: 824px !important;
+             }
+         }
+
+         .logo-container {
+             text-align: center;
+             margin-top: 10px;
+             margin-bottom: 10px; /* <-- Asegura poco espacio debajo del logo */
+         }
+
+             .logo-container img {
+                 max-width: 100%;
+                 height: auto;
+                 width: 500px; /* o el tamaño deseado */
+             }
+
+         .formLayout-container {
+             padding-top: 10px !important; /* <-- Reduce espacio vertical */
+         }
+     </style>
      <%--<script src='https://www.google.com/recaptcha/api.js'></script> 
      <script src="https://www.google.com/recaptcha/api.js?onload=renderRecaptcha&render=explicit"></script>
      <script  src="https://code.jquery.com/jquery-3.2.1.min.js"></script> --%>
@@ -27,9 +43,11 @@
 <asp:Content ID="Content" ContentPlaceHolderID="PageContent" runat="server">
     <div class="formLayout-verticalAlign">
         <div class="formLayout-container">
-            <br />
-            <div style="text-align:center" >
-            <dx:ASPxImage ID="ASPxImage1"  runat="server" ShowLoadingImage="true"  ImageUrl="~/Content/TSC/LOGO_TSC_2024V1.png" ></dx:ASPxImage>    
+           
+            <div class="logo-container" style="margin-bottom:10px;" >
+            <dx:ASPxImage ID="ASPxImage1"  runat="server" ShowLoadingImage="true"  ImageUrl="~/Content/TSC/LogoCons_transparente1.png"
+                
+              ></dx:ASPxImage>    
          </div>
             <div style="text-align:center" >
          </div> 
@@ -50,10 +68,10 @@
                             <dx:LayoutItem ShowCaption="False" ColSpan="1" HorizontalAlign="Center">
                               <LayoutItemNestedControlCollection>
                                 <dx:LayoutItemNestedControlContainer runat="server">
-                                  <table style="width: 100%; text-align: center;">
+                                  <table  text-align: center;">
                                     <tr>
-                                      <td style="font-size:18px;">
-                                        <strong>Sistema de Solicitud de Constancias en Línea</strong>
+                                      <td >
+                                        <strong></strong>
                                       </td>
                                     </tr>
                                   </table>

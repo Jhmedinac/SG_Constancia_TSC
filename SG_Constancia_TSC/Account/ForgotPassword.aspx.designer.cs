@@ -15,6 +15,15 @@ namespace SG_Constancia_TSC
     {
 
         /// <summary>
+        /// Control ASPxImage1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxImage ASPxImage1;
+
+        /// <summary>
         /// Control loginForm.
         /// </summary>
         /// <remarks>

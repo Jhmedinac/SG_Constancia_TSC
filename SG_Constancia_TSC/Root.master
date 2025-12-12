@@ -1,9 +1,8 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Root.master.cs" Inherits="SG_Constancia_TSC.Root" %>
-<%--<%@ Register Assembly="DevExpress.Web.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" 
-    Namespace="DevExpress.Web" TagPrefix="dx" %>--%>
+
 <!DOCTYPE html>
 <html>
-<head runat="server" EnableViewState="false">
+<head runat="server" enableviewstate="false">
     <meta charset="UTF-8" />
     <title></title>
     <meta name="viewport" content="width=device-width, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0" />
@@ -11,8 +10,8 @@
     <link href="Content/Layout.css" rel="stylesheet" />
     <link href="Content/css/bootstrap.css" rel="stylesheet" />
     <link href="Content/css/bootstrap.min.css" rel="stylesheet" />
-<asp:ContentPlaceHolder ID="Head" runat="server">
-</asp:ContentPlaceHolder>
+    <asp:ContentPlaceHolder ID="Head" runat="server">
+    </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server" class="form">
@@ -28,8 +27,8 @@
                                 <ItemStyle VerticalAlign="Middle" CssClass="item" />
                                 <Items>
                                     <dx:MenuItem Text="" Name="ToggleLeftPanel" GroupName="LeftPanel">
-                                        <ItemStyle CssClass="toggle-item vertically-aligned" CheckedStyle-CssClass="checked selected" >
-                                <CheckedStyle CssClass="checked selected"></CheckedStyle>
+                                        <ItemStyle CssClass="toggle-item vertically-aligned" CheckedStyle-CssClass="checked selected">
+                                            <CheckedStyle CssClass="checked selected"></CheckedStyle>
                                         </ItemStyle>
                                         <Image Url="~/Content/Images/TSC-Small.png" Height="35px" Width="35px" />
                                     </dx:MenuItem>
@@ -37,8 +36,8 @@
                                 <ClientSideEvents ItemClick="onLeftMenuItemClick" />
                             </dx:ASPxMenu>
                         </div>
-                    
-                        <div class="right-block" >
+
+                        <div class="right-block">
                             <dx:ASPxMenu runat="server" ID="RightAreaMenu" ClientInstanceName="rightAreaMenu"
                                 ItemAutoWidth="false" ItemWrap="false" ShowPopOutImages="False"
                                 SeparatorWidth="0" ApplyItemStyleToTemplates="true"
@@ -49,65 +48,57 @@
                                 <Items>
                                     <dx:MenuItem Name="AccountItem" ItemStyle-CssClass="image-item">
                                         <ItemStyle CssClass="image-item"></ItemStyle>
-                                        <TextTemplate>  
-                                            <div class="loginControl" style="color:white; text-decoration:none">     
-                                <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
-                                    <AnonymousTemplate>
-                                       <strong>
-                                       <a href="~/Account/Login.aspx" runat="server" id="loginLink" style="color:white; text-decoration: none; text-decoration-color:white">INICIO DE SESIÓN</a> 
-                                       <%-- <a href="~/Account/Register.aspx" runat="server" id="registerLink" style="color:white; text-decoration:none;">REGISTRARSE</a> --%>
-                                              </strong>
-                                    </AnonymousTemplate>
-                                    <LoggedInTemplate>
-                                             <strong>
+                                        <TextTemplate>
+                                            <div class="loginControl" style="color: white; text-decoration: none">
+                                                <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
+                                                    <AnonymousTemplate>
+                                                        <strong>
+                                                            <a href="~/Account/Login.aspx" runat="server" id="loginLink" style="color: white; text-decoration: none; text-decoration-color: white">INICIO DE SESIÓN</a>
 
-                                        BIENVENIDO(A)<span class="bold">
-                                            <a runat="server" href="~/Account/Manage.aspx" title="Gestiona tu cuenta">
-                                            
-                                            <asp:LoginName ID="HeadLoginName" runat="server" style="color:white; text-decoration:none; text-decoration-color:white" />
+                                                        </strong>
+                                                    </AnonymousTemplate>
+                                                    <LoggedInTemplate>
+                                                        <strong>BIENVENIDO(A)<span class="bold">
+                                                            <a runat="server" href="~/Account/Manage.aspx" title="Gestiona tu cuenta">
 
-        
-                                            </a>                                        </span>! [
+                                                                <asp:LoginName ID="HeadLoginName" runat="server" Style="color: white; text-decoration: none; text-decoration-color: white" />
+
+
+                                                            </a></span>! [
                                  
                                         <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" LogoutText="SALIR"
-                                            LogoutPageUrl="~/Account/Login.aspx" OnLoggingOut="HeadLoginStatus_LoggingOut" style="color:white; text-decoration:none;" />
-                                        ]
-                                               <!-- Botón para cambiar contraseña -->
-                                             <dx:ASPxButton ID="btnChangePassword" runat="server" Text="CAMBIAR CONTRASEÑA"
-                                                    CssClass="custom-button" AutoPostBack="true" OnClick="btnChangePassword_Click"
-                                                         class="bold"  Visible="true" style="color:white; text-decoration:none; " />
-                                            </strong>
-                                    </LoggedInTemplate>
-                                </asp:LoginView>
-                            </div>
+                                            LogoutPageUrl="~/Account/Login.aspx" OnLoggingOut="HeadLoginStatus_LoggingOut" Style="color: white; text-decoration: none;" />
+                                                            ]
+                                               
+                                                        </strong>
+                                                    </LoggedInTemplate>
+                                                </asp:LoginView>
+                                            </div>
                                         </TextTemplate>
-                                      
 
-                                            <Items>
 
-                                                <%--<dx:MenuItem 
-                                                    Name="RegisterItem" Text="Salir " NavigateUrl="~/Account/Login.aspx "></dx:MenuItem>--%>
-                                            </Items>
+                                        <Items>
+                                        </Items>
                                     </dx:MenuItem>
                                 </Items>
-                            
+
                             </dx:ASPxMenu>
                         </div>
-                        <div class="menu-container">  
+                        <div class="menu-container">
                             <div>
-                                <dx:ASPxMenu runat="server" ID="ApplicationMenu" ClientInstanceName="applicationMenu" 
+                                <dx:ASPxMenu runat="server" ID="ApplicationMenu" ClientInstanceName="applicationMenu"
                                     DataSourceID="ApplicationMenuDataSource" ItemAutoWidth="false" EnableSubMenuScrolling="true"
                                     ShowPopOutImages="True" SeparatorWidth="0" ItemWrap="false"
                                     CssClass="header-menu application-menu" Width="100%" HorizontalAlign="Right" OnItemDataBound="ApplicationMenu_ItemDataBound">
                                     <SettingsAdaptivity Enabled="true" EnableAutoHideRootItems="true" />
-                                    <ItemStyle VerticalAlign="Middle" CssClass="item" SelectedStyle-CssClass="selected" HoverStyle-CssClass="hovered" >
+                                    <ItemStyle VerticalAlign="Middle" CssClass="item" SelectedStyle-CssClass="selected" HoverStyle-CssClass="hovered">
                                         <SelectedStyle CssClass="selected"></SelectedStyle>
-                                    <HoverStyle CssClass="hovered"></HoverStyle>
+                                        <HoverStyle CssClass="hovered"></HoverStyle>
                                     </ItemStyle>
                                     <ItemImage Width="22" Height="22" />
                                     <SubMenuStyle CssClass="header-sub-menu" />
-                                    <AdaptiveMenuImage SpriteProperties-CssClass="adaptive-image" >
-                                    <SpriteProperties CssClass="adaptive-image"></SpriteProperties>
+                                    <AdaptiveMenuImage SpriteProperties-CssClass="adaptive-image">
+                                        <SpriteProperties CssClass="adaptive-image"></SpriteProperties>
                                     </AdaptiveMenuImage>
                                 </dx:ASPxMenu>
                             </div>
@@ -139,7 +130,7 @@
                         <asp:ContentPlaceHolder ID="RightPanelContent" runat="server"></asp:ContentPlaceHolder>
                     </dx:PanelContent>
                 </PanelCollection>
-                <ClientSideEvents Collapsed="onRightPanelCollapsed"/>
+                <ClientSideEvents Collapsed="onRightPanelCollapsed" />
             </dx:ASPxPanel>
 
             <dx:ASPxPanel runat="server" ID="PageToolbarPanel" ClientInstanceName="pageToolbarPanel"
@@ -153,9 +144,9 @@
                 <ClientSideEvents Init="onPageToolbarInit" />
             </dx:ASPxPanel>
 
-        <dx:ASPxSiteMapDataSource runat="server" ID="ApplicationMenuDataSource" SiteMapFileName="~/App_Data/ApplicationMenuDataSource.sitemap" />
+            <dx:ASPxSiteMapDataSource runat="server" ID="ApplicationMenuDataSource" SiteMapFileName="~/App_Data/ApplicationMenuDataSource.sitemap" />
 
-             <div class="content" id="pageContent">
+            <div class="content" id="pageContent">
                 <asp:ContentPlaceHolder runat="server" ID="PageContent"></asp:ContentPlaceHolder>
 
             </div>

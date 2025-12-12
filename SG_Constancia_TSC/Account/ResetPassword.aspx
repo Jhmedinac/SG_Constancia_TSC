@@ -19,14 +19,14 @@
 	                    transform: translate(-50%, -50%);
                         background-color: white;"">
                   <div style="text-align:center">
-        <dx:ASPxImage ID="ASPxImage1"  runat="server" ShowLoadingImage="true" mageAlign="Bottom"  ImageUrl="~/Content/TSC/LOGO_TSC_2024V1.png"></dx:ASPxImage>
+      <dx:ASPxImage ID="ASPxImage1" runat="server" ShowLoadingImage="true" ImageUrl="~/Content/TSC/LOGO_TSC_2025.png"></dx:ASPxImage>
              </div>
     <div class="accountHeader" style="text-align:center; color:darkslategray; font-family:sans-serif;">
 
     <h3>Restablecer contraseña</h3>
 
 <h4 style="color:#FA5858"><asp:Literal runat="server" ID="ErrorMessage" /></h4>
-<%--<h6>Ingrese los datos solicitados</h6>--%>
+
         </div>
       <div style="margin-right:auto;  margin-left: 69px;" >
       <dx:ASPxTextBox runat="server" ID="Email" Caption="Correo electrónico" Width="350px" Theme="iOS" CssClass="Texbox" NullText="Ingrese su Correo Electrónico">
@@ -86,7 +86,7 @@
         e.errorText = 'Las contraseñas no coinciden,intentelo de nuevo.';
     }"   
                    />
- <%-- <ClientSideEvents ButtonClick="onConfirmPasswordButtonEditButtonClick" />--%>
+
         </dx:ASPxButtonEdit>
        </div><br />
      <div style="text-align:center"> 
@@ -99,21 +99,6 @@
    </dx:ASPxButton>
     </div>
     </div>
-
-
-    <%--<script>
-
-
-        function onPasswordButtonEditButtonClick(s, e) {
-            togglePasswordVisibility(Password);
-        }
-
-        function onConfirmPasswordButtonEditButtonClick(s, e) {
-            togglePasswordVisibility(ConfirmPassword);
-        }
-
-
-    </script>--%>
 
 
 </asp:Content>

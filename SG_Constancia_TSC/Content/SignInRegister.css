@@ -30,44 +30,8 @@ body {
     border: 2px solid #E1E1E1;
     border-radius: 20px;
     padding: 15px;
-    /* transform: translate(-50%, -50%);*/
-    /* width: 395px;
-    background-color: white;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 362px;
-    box-shadow: 0 0 15px 10px #E1E1E1;
-    box-shadow: 0px 1px 4px 0 rgba(0, 0, 0, 0.2) !important;
-    border-radius: 20px;
-    border: 2px solid #E1E1E1;
-    padding: 15px;*/
+   
 }
-
-/*.formLayout-container {*/
-/*  background-color: white;
-    width: 3px;
-    border: 1px solid #3498DB;
-    border-radius: 4px;
-    padding: 15px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);*/
-
-/*width: 395px;*/
-
-/*}*/
-
-/*.formLayout-container {
-    background-color: white;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 395px;
-    box-shadow: 0 0 10px 10px #E1E1E1;
-    border-radius: 20px;
-    border: 2px solid #E1E1E1;
-    padding: 15px;
-}*/
 
 
 .formLayout-groupBox {

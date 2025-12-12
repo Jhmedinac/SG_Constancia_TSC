@@ -42,6 +42,15 @@ namespace SG_Constancia_TSC
         protected global::System.Web.UI.ScriptManager ScriptManager1;
 
         /// <summary>
+        /// Control cmbTipoFiltro.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxComboBox cmbTipoFiltro;
+
+        /// <summary>
         /// Control GV_PreUsuarios.
         /// </summary>
         /// <remarks>
@@ -58,6 +67,24 @@ namespace SG_Constancia_TSC
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SqlDataUsers;
+
+        /// <summary>
+        /// Control ASPxRblAdjunto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxRadioButtonList ASPxRblAdjunto;
+
+        /// <summary>
+        /// Control ASPxWebDocumentViewer1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.XtraReports.Web.ASPxWebDocumentViewer ASPxWebDocumentViewer1;
 
         /// <summary>
         /// Control popupUpdateStatus.
@@ -78,6 +105,15 @@ namespace SG_Constancia_TSC
         protected global::DevExpress.Web.ASPxComboBox cmbStatus;
 
         /// <summary>
+        /// Control txtObs.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxMemo txtObs;
+
+        /// <summary>
         /// Control btnPopupUpdate.
         /// </summary>
         /// <remarks>
@@ -94,23 +130,5 @@ namespace SG_Constancia_TSC
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCallback ASPxCallback_PopupUpdate;
-
-        /// <summary>
-        /// Control ASPxChkAdjunto.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.Web.ASPxCheckBoxList ASPxChkAdjunto;
-
-        /// <summary>
-        /// Control ASPxWebDocumentViewer1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::DevExpress.XtraReports.Web.ASPxWebDocumentViewer ASPxWebDocumentViewer1;
     }
 }
