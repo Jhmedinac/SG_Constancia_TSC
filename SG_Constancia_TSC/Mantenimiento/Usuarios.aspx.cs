@@ -15,11 +15,28 @@ namespace SG_Constancia_TSC.Mantenimiento
         protected void Page_Load(object sender, EventArgs e)
         {
             Form.Attributes.Add("autocomplete", "off");
-           
+
+            if (!IsPostBack)
+            {
+                bool isSuperAdmin = Context.User.IsInRole("SuperAdmin");
+
+                // Si NO es SuperAdmin, ocultar el rol SuperAdmin del combo
+                if (!isSuperAdmin)
+                {
+                    SqlDataSource_Rol_Usuario.SelectCommand = @"
+                SELECT Id, Name 
+                FROM dbo.AspNetRoles 
+                WHERE Name <> 'SuperAdmin'
+                ORDER BY Name";
+                }
+
+
+            }
+
+
 
         }
 
-       
 
         protected void btnGuarda_Rol_Usuario_Click(object sender, EventArgs e)
         {
@@ -45,25 +62,61 @@ namespace SG_Constancia_TSC.Mantenimiento
                 if (IsPostBack)
                     Page.ClientScript.RegisterStartupScript(this.GetType(), "alert",
                            @"<script type=""text/javascript"">alert('ERROR AL AGREGAR EL ROL AL USUARIO');</script>");
-                //Roles_Usuario.ShowOnPageLoad = false;
+
             }
 
         }
 
+
+        protected void SqlDataSource_Codigo_roles_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
+        {
+            // Si el usuario No es SuperAdmin, se excluye el rol
+            if (!Context.User.IsInRole("SuperAdmin"))
+            {
+                e.Command.CommandText = "SELECT Id, Name FROM dbo.AspNetRoles WHERE Name <> 'SuperAdmin' ORDER BY Name";
+            }
+            else
+            {
+                e.Command.CommandText = "SELECT Id, Name FROM dbo.AspNetRoles ORDER BY Name";
+            }
+        }
+
         protected void Usuario_StartRowEditing(object sender, DevExpress.Web.Data.ASPxStartRowEditingEventArgs e)
         {
+            bool isSuperAdmin = Context.User.IsInRole("SuperAdmin");
+            if (!isSuperAdmin)
+            {
+                SqlDataSource_Codigo_roles.SelectCommand = @"
+            SELECT Id, Name
+            FROM dbo.AspNetRoles
+            WHERE Id IN ('1','2')
+            ORDER BY Name";
+            }
+            else
+            {
+                SqlDataSource_Codigo_roles.SelectCommand = @"
+            SELECT Id, Name
+            FROM dbo.AspNetRoles
+            ORDER BY Name";
+            }
+            SqlDataSource_Codigo_roles.DataBind();
+            Usuario.DataBind(); // forzar recarga del editor/data
+                                // Luego tu validación original:
             if (Usuario.GetRowValuesByKeyValue(e.EditingKeyValue, "RoleId").ToString() == "")
             {
-                //Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "<script type=\"text/javascript\">alert('Debe de agregar un perfil al usuario, para actualizar los datos.');</script>");
-                ((ASPxGridView)sender).JSProperties["cpUpdateMessageUser"] = "Debe de agregar un perfil al usuario, para actualizar los datos.";
+                ((ASPxGridView)sender).JSProperties["cpUpdateMessageUser"] = "Debe de agregar un rol al usuario,para actualizar los datos.";
                 e.Cancel = true;
             }
             else
             {
                 e.Cancel = false;
             }
-
         }
+
+
+
+
+
 
         protected void Usuario_RowUpdated(object sender, DevExpress.Web.Data.ASPxDataUpdatedEventArgs e)
         {

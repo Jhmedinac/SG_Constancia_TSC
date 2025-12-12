@@ -4,6 +4,7 @@ using SG_Constancia_TSC.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -25,9 +26,6 @@ namespace SG_Constancia_TSC
             {
                 // Obtener los parámetros del request
                 var files = context.Request.Files;
-                //var flexFieldValue = context.Request.Form["flexFieldValue"];
-                //var files = context.Request.Files;
-                //var file = context.Request.Files["file"]; //archivos a subir en componente de carga de archivos
                 var fileIdKey = context.Request.Form["fileIdKey"]; //id del archivo a subir
                 var flexFieldKey = context.Request.Form["flexFieldKey"]; //llave del campo flexible
                 var flexFieldValue = context.Request.Form["flexFieldValue"]; // id        
@@ -57,26 +55,14 @@ namespace SG_Constancia_TSC
                     }
 
 
-                    // Llamar al método de carga de archivos
-                    //if (files.Count > 1)
-                    //{
-                    //    //Preparar la lista de archivos
-                    //    List<HttpPostedFile> fileList = new List<HttpPostedFile>();
-                    //    for (int i = 0; i < files.Count; i++)
-                    //    {
-                    //        var nfile = files[i];
-                    //        if (nfile != null && nfile.ContentLength > 0)
-                    //        {
-                    //            fileList.Add(nfile);
-                    //        }
-                    //    }
+
                     // Llamar al método para subir archivos
                     var result = UploadFiles(fileList, fileIdKeys, flexFieldKeys, flexFieldValue).GetAwaiter().GetResult();
-                    //var result = UploadFile(file, fileIdKey, flexFieldKey, flexFieldValue).GetAwaiter().GetResult();
-            
-                // Configurar la respuesta
-                context.Response.ContentType = "application/json";
-                context.Response.Write(result);
+
+
+                    // Configurar la respuesta
+                    context.Response.ContentType = "application/json";
+                    context.Response.Write(result);
                 }
             }
 
@@ -89,13 +75,31 @@ namespace SG_Constancia_TSC
         }
         private async Task<string> UploadFiles(List<HttpPostedFile> files, List<string> fileIdKeys, List<string> flexFieldKeys, string flexFieldValue)
         {
+            // Obtener el contexto HTTP actual
+            var context = HttpContext.Current;
             var results = new List<string>();
             CustomJsonResult response = new CustomJsonResult();
+
+            // Obtener el ID de usuario actual, si existe sesión
+            int codigoUsuario = 0;
+            try
+            {
+                //codigoUsuario = Convert.ToInt32(context.Session["User_id"] ?? 0);
+                if (context.Session != null && context.Session["User_id"] != null)
+                {
+                    codigoUsuario = Convert.ToInt32(context.Session["User_id"]);
+
+                }
+            }
+            catch
+            {
+                codigoUsuario = 0;
+            }
 
             for (int i = 0; i < files.Count; i++)
             {
                 try
-                   
+
                 {
                     var file = files[i];
                     var fileIdKey = fileIdKeys[i];
@@ -126,35 +130,94 @@ namespace SG_Constancia_TSC
                     }
 
                     // Llamar al método para subir el archivo
-                    CustomJsonResult result = await SubirArchivo_m(idFile, file, flexFieldString, connectionString).ConfigureAwait(false); 
+                    CustomJsonResult result = await SubirArchivo_m(idFile, file, flexFieldString, connectionString).ConfigureAwait(false);
 
                     // Verificar el resultado de la operación de carga
                     if (result.typeResult == UtilClass.UtilClass.codigoExitoso)
                     {
-                        //results.Add($"File {file.FileName} uploaded successfully!");
-                        result.typeResult = UtilClass.UtilClass.codigoExitoso;
-                        //response.typeResult = UtilClass.UtilClass.codigoExitoso;
 
-                        //return JsonConvert.SerializeObject(result); // Retornar el JSON
+                        result.typeResult = UtilClass.UtilClass.codigoExitoso;
+
+
+
                         response = result;
                     }
                     else
                     {
                         results.Add($"File upload failed for {file.FileName}: {result.message}");
+                        string userIP = context?.Request?.ServerVariables["HTTP_X_FORWARDED_FOR"];
+                        if (string.IsNullOrEmpty(userIP))
+                            userIP = context?.Request?.ServerVariables["REMOTE_ADDR"];
+
+                        // Registrar el error
+                        using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString))
+                        {
+                            conn.Open();
+                            using (SqlCommand cmd = new SqlCommand(@"
+                        INSERT INTO [gral].[Bitacora_Errores] 
+                        (codigo_usuario, fecha_hora, componente, descripcion)
+                        VALUES (@codigo_usuario, @fecha_hora, @componente, @descripcion)", conn))
+                            {
+                                cmd.Parameters.AddWithValue("@codigo_usuario", codigoUsuario);
+                                cmd.Parameters.AddWithValue("@fecha_hora", DateTime.Now);
+                                cmd.Parameters.AddWithValue("@componente", "UploadFiles");
+                                cmd.Parameters.AddWithValue("@descripcion", $"IP: {userIP ?? "Desconocida"} | File upload failed for {file.FileName}: {result.message}");
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
                     }
                 }
-               
+
                 catch (Exception ex)
                 {
-                    results.Add($"An error occurred with file {files[i].FileName}: {ex.Message}");
+                    string fileName = files[i]?.FileName ?? "(unknown file)";
+                    string errorMsg = $"Error uploading file {fileName}: {ex.Message}";
+                    results.Add(errorMsg);
+
+                    // 🔹 Registrar el error en la tabla de Bitácora
+                    try
+                    {
+                        // Obtener IP del usuario
+                        string userIP = context?.Request?.ServerVariables["HTTP_X_FORWARDED_FOR"];
+                        if (string.IsNullOrEmpty(userIP))
+                            userIP = context?.Request?.ServerVariables["REMOTE_ADDR"];
+
+                        // Registrar el error
+                        using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["GoFilesUtlConnString"].ConnectionString))
+                        {
+                            conn.Open();
+                            using (SqlCommand cmd = new SqlCommand(@"
+                        INSERT INTO [gral].[Bitacora_Errores] 
+                        (codigo_usuario, fecha_hora, componente, descripcion)
+                        VALUES (@codigo_usuario, @fecha_hora, @componente, @descripcion)", conn))
+                            {
+                                cmd.Parameters.AddWithValue("@codigo_usuario", codigoUsuario);
+                                cmd.Parameters.AddWithValue("@fecha_hora", DateTime.Now);
+                                cmd.Parameters.AddWithValue("@componente", "UploadFiles");
+                                cmd.Parameters.AddWithValue("@descripcion", $"IP: {userIP ?? "Desconocida"} | {ex}");
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                    catch (Exception logEx)
+                    {
+                        // Evitar que un error de bitácora interrumpa el proceso
+                        results.Add($"Failed to log error: {logEx.Message}");
+                    }
                 }
             }
 
+            // Si hubo errores, incluirlos en la respuesta
+            if (results.Count > 0)
+            {
+                response.typeResult = UtilClass.UtilClass.codigoError;
+                response.message = string.Join("; ", results);
+            }
             // Devolver los resultados de la subida de archivos
-            //return string.Join("\n", results);
+
             return JsonConvert.SerializeObject(response);
-            
-          
+
+
         }
         private async Task<string> UploadFile(HttpPostedFile file, string fileIdKey, string flexFieldKey, string flexFieldValue)
         {
@@ -239,9 +302,9 @@ namespace SG_Constancia_TSC
                 string urlWithQuery = $"{baseUrl}?constring={Uri.EscapeDataString(connectionString)}";
 
                 httpClient.Timeout = TimeSpan.FromSeconds(30); // 30 segundos de timeout
-                HttpResponseMessage httpResponse = await httpClient.PostAsync(urlWithQuery, formContent).ConfigureAwait(false); 
-                //HttpResponseMessage httpResponse = await httpClient.PostAsync(Util.Util.GetFinalGoFilesUtlUrl(Util.Util.subirAchivos), formContent);
-               
+                HttpResponseMessage httpResponse = await httpClient.PostAsync(urlWithQuery, formContent).ConfigureAwait(false);
+
+
                 string responseContent = await httpResponse.Content.ReadAsStringAsync();
                 response.typeResult = UtilClass.UtilClass.codigoExitoso;
                 response = JsonConvert.DeserializeObject<CustomJsonResult>(responseContent);
@@ -254,10 +317,6 @@ namespace SG_Constancia_TSC
             }
             return response;
         }
-
-
-        //private async Task<string> DownloadFile(List<HttpPostedFile> files, List<string> fileIdKeys, List<string> flexFieldKeys, string flexFieldValue)
-       
 
 
 

@@ -13,7 +13,7 @@ namespace SG_Constancia_TSC
     public class ConexionBD : IDisposable
     {
         public string error;
-        //string cadena = (ConfigurationManager.ConnectionStrings["DB_PARTICIPACIONConnectionString"].ConnectionString);
+      
         string cadena = (ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
         public SqlConnection conexion = new SqlConnection();
 

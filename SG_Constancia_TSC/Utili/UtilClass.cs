@@ -42,27 +42,7 @@ namespace SG_Constancia_TSC.UtilClass
         public static int Idconstancia { get;  set; }
         public static string Clave { get; set; }
         
-        //public static string GetSiteName()
-        //{
-        //    string SiteName = "";
-
-        //    if (!HttpContext.Current.Request.Url.Host.Contains("localhost"))
-        //    {
-        //        SiteName = HttpContext.Current.Request.ApplicationPath;
-        //    }
-        //    return SiteName;
-        //}
-
-        //public static string GetFinalUrl(string url, int codigoUsuario)
-        //{
-        //    string urlFinal = Database.Environment.GetFinalUrl(url, codigoUsuario);
-        //    return urlFinal;
-        //}
-
-        //public static UsuarioSesion GetUsuarioSesion()
-        //{
-        //    return (UsuarioSesion)HttpContext.Current.Session["USUARIO_SESION"];
-        //}
+        
 
         public static int maximoVarchar = 32500;
         public static bool isEstadoActivo = true;
@@ -132,7 +112,7 @@ namespace SG_Constancia_TSC.UtilClass
                 { "xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" },
                 { "zip", "application/zip" },
                 { "rar", "application/x-rar-compressed" },
-                // Agrega más tipos según sea necesario
+              
             };
 
                 return mimeTypes.TryGetValue(extension, out string mimeType) ? mimeType : "application/octet-stream";

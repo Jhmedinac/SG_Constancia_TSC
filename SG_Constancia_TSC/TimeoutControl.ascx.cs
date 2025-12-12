@@ -20,6 +20,12 @@ namespace SG_Constancia_TSC
         {
             get { return '"' + ResolveClientUrl(TimeOutUrl).Replace("\"", "\\\"") + '"'; }
         }
+
+        protected void KeepAliveHelper_Callback(object sender, DevExpress.Web.CallbackEventArgs e)
+        {
+            
+           
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
 

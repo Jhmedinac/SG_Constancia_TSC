@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mail;
 using System.Web;
 using System.Web.UI;
 using Microsoft.AspNet.Identity;
@@ -35,6 +36,9 @@ namespace SG_Constancia_TSC
                 manager.SendEmail(user.Id, "Restablecer contraseña", "Para restablecer la contraseña, haga clic <a href=\"" + callbackUrl + "\">aquí</a>.");
                 loginForm.Visible = false;
                 DisplayEmail.Visible = true;
+
+
+                
             }
         }
     }

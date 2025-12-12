@@ -15,7 +15,7 @@ namespace SG_Constancia_TSC {
         {
             if (!string.IsNullOrEmpty(Page.Header.Title))
                 Page.Header.Title += " - ";
-            Page.Header.Title = Page.Header.Title + "Tribunal Superior de Cuentas | SOLCON";
+            Page.Header.Title = Page.Header.Title + "Sistema de Constancias en Línea | TSC ";
 
             Page.Header.DataBind();
             UpdateUserMenuItemsVisible();

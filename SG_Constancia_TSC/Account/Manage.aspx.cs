@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.UI;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -10,7 +11,7 @@ using Microsoft.Owin.Security;
 using Owin;
 using SG_Constancia_TSC.Models;
 
-namespace SG_Constancia_TSC.Account 
+namespace SG_Constancia_TSC.Account
 {
     public partial class Manage : System.Web.UI.Page
     {
@@ -46,7 +47,7 @@ namespace SG_Constancia_TSC.Account
                 if (!User.Identity.IsAuthenticated)
                 {
                     Response.RedirectLocation = "/Account/Login.aspx";
-                    
+
                 }
             }
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -79,16 +80,28 @@ namespace SG_Constancia_TSC.Account
                 var message = Request.QueryString["m"];
                 if (message != null)
                 {
-                    // Strip the query string from action
+                    // Limpia el querystring de la acción
                     Form.Action = ResolveUrl("~/Account/Manage.aspx");
 
-                    SuccessMessage =
+                    string texto =
                         message == "ChangePwdSuccess" ? "Tu contraseña ha sido cambiada."
                         : message == "SetPwdSuccess" ? "Su contraseña ha sido establecida."
                         : message == "RemoveLoginSuccess" ? "La cuenta fue eliminada."
-                        : message == "AddPhoneNumberSuccess" ? "Se agregó el número de teléfono"
-                        : message == "RemovePhoneNumberSuccess" ? "Se quitó el número de teléfono"
-                        : String.Empty;
+                        : message == "AddPhoneNumberSuccess" ? "Se agregó el número de teléfono."
+                        : message == "RemovePhoneNumberSuccess" ? "Se quitó el número de teléfono."
+                        : string.Empty;
+
+                    if (!string.IsNullOrEmpty(texto))
+                    {
+                        
+                        var t = System.Web.HttpUtility.JavaScriptStringEncode("¡Éxito!");
+                        var m = System.Web.HttpUtility.JavaScriptStringEncode(texto);
+                        var script = $"Swal.fire({{ icon: 'success', title: '{t}', text: '{m}' }});";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "swalManageMsg", script, true);
+                    }
+
+                    // Evita que también intente mostrar el SuccessMessage anterior
+                    SuccessMessage = string.Empty;
                 }
             }
         }

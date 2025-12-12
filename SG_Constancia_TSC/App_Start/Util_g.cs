@@ -15,9 +15,7 @@ namespace SG_Constancia_TSC.App_Start
         {
 
             int retVal = 0;
-            //string name_user = Convert.ToString(Session["Name_user"]);
-
-            //string constr = ConfigurationManager.ConnectionStrings["DB_PARTICIPACIONConnectionString"].ConnectionString;
+            
             string constr = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
 
             string obs1 = Observaciones; 
@@ -52,35 +50,14 @@ namespace SG_Constancia_TSC.App_Start
 
                     if ((retVal == 2))
                     {
-                        //lblMessage.Text = "Este Usuario ya existe!";
                     }
-                    //else
-                    //{
-                    //    Grdingreso.EditIndex = -1;
-                    //    DataBind();
-                    //    lblMessage.Text = "Registro se inserto Satisfactoriamente!";
-                    //    this.BindGrid();
-                    //}
+                    
                 }
             }
 
         }
 
-        //public static string Encrypt(string Cadena)
-        //{
-        //    string result = string.Empty;
-        //    byte[] encryted = Encoding.Unicode.GetBytes(Cadena);
-        //    result = Convert.ToBase64String(encryted);
-        //    return result;
-        //}
-
-        //public static string Decrypt(string Cadena)
-        //{
-        //    string result = string.Empty;
-        //    byte[] decryted = Convert.FromBase64String(Cadena);
-        //    result = Encoding.Unicode.GetString(decryted);
-        //    return result;
-        //}
+        
 
         public static string Encrypt(string input)
         {

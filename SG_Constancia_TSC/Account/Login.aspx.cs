@@ -27,26 +27,7 @@ namespace SG_Constancia_TSC
     public partial class SignInModule : System.Web.UI.Page 
     {
 
-        //protected void Page_Load(object sender, EventArgs e)
-        //{
-
-        //    Form.Attributes.Add("autocomplete", "off");
-        //    //UserNameTextBox.Focus();
-
-        //    if (!Page.IsPostBack)
-        //    {
-        //        Session["SignInManager"] = null;
-
-        //    }
-
-        //    //String CodDen = (string)Session["Name_user"];
-        //    //if (!IsPostBack)
-        //    //{
-        //    //    if (CodDen == "" || CodDen == null)
-        //    //        Response.Redirect("~/Account/SignIn.aspx");
-        //    //}
-
-        //}
+        
 
         const int MaxCharacterSetLength = 50;
         const string CaptchaCssPostfixSessionKey = "6aad54c0-25ef-11df-8a39-0800200c9a66";
@@ -59,26 +40,7 @@ namespace SG_Constancia_TSC
 
         protected void SignInButton_Click(object sender, EventArgs e)
         {
-            //FormLayout.FindItemOrGroupByName("GeneralError").Visible = false;
-            //if (ASPxEdit.ValidateEditorsInContainer(this))
-            //{
-            //    // DXCOMMENT: You Authentication logic
-            //    if (!AuthHelper.SignIn(UserNameTextBox.Text, PasswordButtonEdit.Text))
-            //    {
-            //        GeneralErrorDiv.InnerText = "Invalid login attempt.";
-            //        FormLayout.FindItemOrGroupByName("GeneralError").Visible = true;
-            //    }
-            //    else
-            //        Response.Redirect("~/");
-            //}
-            //if (!IsReCaptchValid())
-            //{
-            //    //ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert(' ¡VALIDACIÓN CAPTCHA INCORRECTA!'); window.location = 'LoginO.aspx';", true);
-            //    FailureText.Text = "¡Validación de Captcha Incorrecta!";
-            //    ErrorMessage.Visible = true;
-            //    //Response.Redirect("LoginO.aspx");
-            //}
-            //else
+            
      
             {
                 if (IsValid)

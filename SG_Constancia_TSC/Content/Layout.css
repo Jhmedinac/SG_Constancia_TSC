@@ -58,33 +58,6 @@ html {
     background-color: #1F497D;
 }
 
-/*.footer-link {
-    color: white;
-    border-right: 1px solid #bbbbbb;
-    margin-right: 7px;
-    padding-right: 10px;
-    white-space: nowrap;
-}
-
-    .footer-link:last-child {
-        border: none;
-        margin: 0;
-        padding: 0;
-    }
-
-.footer-left {
-    float: left;
-}
-
-.footer-right {
-    float: right;
-}
-
-.footer-left,
-.footer-right {
-    padding: 16px 24px;
-}*/
-
 @media (max-width: 599px) {
     .footer-left,
     .footer-right {

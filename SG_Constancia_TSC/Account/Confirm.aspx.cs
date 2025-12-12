@@ -10,11 +10,7 @@ namespace SG_Constancia_TSC
 {
         public partial class Confirm : Page
         {
-        //protected string StatusMessage
-        //{
-        //    get;
-        //    private set;
-        //}
+       
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -33,16 +29,16 @@ namespace SG_Constancia_TSC
                 }
                 else
                 {
-                    // Manejar el error y mostrar un mensaje de error adecuado al usuario.
+                    
                     errorPanel.Visible = true;
-                    //errorMessageLabel.Text = "Ha ocurrido un error al confirmar el correo electrónico.";
+                 
                 }
             }
             else
             {
                 successPanel.Visible = false;
                 errorPanel.Visible = true;
-                //errorMessageLabel.Text = "El código o el usuario son nulos, no se puede realizar la confirmación.";
+                
             }
         }
 

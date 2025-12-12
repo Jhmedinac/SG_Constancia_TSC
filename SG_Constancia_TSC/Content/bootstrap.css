@@ -1814,7 +1814,7 @@ pre code {
 .table-responsive > .table-bordered {
   border: 0;
 }
-
+/*
 .form-control {
   display: block;
   width: 100%;
@@ -1827,7 +1827,20 @@ pre code {
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}*/
+input[type="file"].form-control {
+    padding: -30px;
+    border: 2px dashed #ccc;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s, border-color 0.3s;
 }
+
+    input[type="file"].form-control:hover {
+        background-color: #e9ecef;
+        border-color: #999;
+    }
 
 @media screen and (prefers-reduced-motion: reduce) {
   .form-control {
@@ -2329,6 +2342,45 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
     transition: none;
   }
 }
+
+.steperletra {
+    background-color: #2FA3C7 !important;
+}
+
+/*Para seguimiento de la solicitud*/
+.btn-moderno {
+    background-color: #FF9800; 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 2px 2px;
+    font-size: 12px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/*Para formulario de solicitud*/
+.btn-primary {
+    background-color: #FF9800 !important; 
+    color: white !important; 
+    font-size: 18px !important; /* Tamaño de letra más grande */
+    padding: 10px 20px !important; /* Aumenta el tamaño del botón */
+    font-weight: bold !important; /* Texto más marcado */
+    border-radius: 6px !important; /* Bordes ligeramente redondeados */
+}
+
+.btn-secondary {
+    background-color: #D3D3D3 !important;
+    color: white !important; 
+    border: none !important;
+    font-size: 18px !important; 
+    padding: 10px 20px !important; 
+    font-weight: bold !important; 
+    border-radius: 6px !important; 
+}
+}
+
 
 .btn:hover, .btn:focus {
   text-decoration: none;
@@ -4398,8 +4450,8 @@ input[type="button"].btn-block {
 
 .card-footer {
   padding: 0.75rem 1.25rem;
-  background-color: rgba(0, 0, 0, 0.03);
-  border-top: 1px solid rgba(0, 0, 0, 0.125);
+  /*background-color: rgba(0, 0, 0, 0.03);*/
+ /* border-top: 1px solid rgba(0, 0, 0, 0.125);*/
 }
 
 .card-footer:last-child {

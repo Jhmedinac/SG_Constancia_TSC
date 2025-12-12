@@ -49,16 +49,5 @@ body {
         padding: 0 !important;
     }
 
-/* Aplica a la tabla generada dentro del ASPxFormLayout con la clase "formLayout" */
-/*.formLayout table {
-    border: none;
-    border-collapse: collapse;
-    background: none;
-}*/
 
-    /* Opcional: Si deseas ocultar cualquier borde en celdas de la tabla */
-    /*.formLayout table td,
-    .formLayout table th {
-        border: none;
-    }*/
 
