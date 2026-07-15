@@ -158,7 +158,7 @@ namespace SG_Constancia_TSC.App_Start
         {
             _ = new SmtpClient("SMTPNAME", 2525)
             {
-                Credentials = new System.Net.NetworkCredential("constanciaenlineasg@tsc.gob.hn", "***SMTP_PASSWORD_REDACTED***"),
+                Credentials = new System.Net.NetworkCredential("constanciaenlineasg@tsc.gob.hn", "***SMTP_PASSWORD_REDACTED_ROTATE_ME***"),
                 DeliveryMethod = SmtpDeliveryMethod.Network
             };
             _ = new MailMessage("constanciaenlineasg@tsc.gob.hn", ToEmail)
